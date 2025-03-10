@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useLocation } from 'wouter';
 import Sidebar from '@/components/layout/sidebar';
 import MobileNav from '@/components/layout/mobile-nav';
 import Header from '@/components/layout/header';
