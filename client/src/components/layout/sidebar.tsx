@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-16 md:w-64 bg-dark-800 h-screen border-r border-dark-600 hidden md:block">
+    <aside className="w-16 md:w-64 bg-dark-800 h-screen border-r border-dark-600 hidden md:block fixed left-0 top-0 z-30">
       <div className="h-full flex flex-col">
         {/* Logo */}
         <div className="p-4 flex items-center justify-center md:justify-start border-b border-dark-600">

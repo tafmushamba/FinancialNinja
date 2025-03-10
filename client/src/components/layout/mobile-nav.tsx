@@ -14,7 +14,7 @@ const MobileNav: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-dark-800 border-t border-dark-600 flex justify-around p-3 md:hidden z-10">
+    <div className="fixed bottom-0 left-0 right-0 bg-dark-800 border-t border-dark-600 flex justify-around p-3 md:hidden z-40">
       {navItems.map((item) => (
         <Link
           key={item.path}
