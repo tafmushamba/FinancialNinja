@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import TerminalText from '@/components/ui/terminal-text';
+import { default as TerminalText } from '@/components/ui/terminal-text';
 
 const FinancialOverview: React.FC = () => {
   const { data: financialData, isLoading } = useQuery({

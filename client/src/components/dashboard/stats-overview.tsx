@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import TerminalText from '@/components/ui/terminal-text';
-import ProgressCircle from '@/components/ui/progress-circle';
+import { default as TerminalText } from '@/components/ui/terminal-text';
+import { default as ProgressCircle } from '@/components/ui/progress-circle';
 import { Card, CardContent } from '@/components/ui/card';
 
 const StatsOverview: React.FC = () => {

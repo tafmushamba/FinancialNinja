@@ -15,8 +15,11 @@ const AiAssistant: React.FC = () => {
   
   const sendMessage = useMutation({
     mutationFn: async (text: string) => {
-      const response = await apiRequest('POST', '/api/assistant/message', { message: text });
-      return response.json();
+      return apiRequest({
+        url: '/api/assistant/message',
+        method: 'POST',
+        data: { message: text }
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/assistant/messages'] });
