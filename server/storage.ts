@@ -13,6 +13,7 @@ import {
 import { mockModules } from "./data/modules";
 import { mockAchievements } from "./data/achievements";
 import { mockUser } from "./data/users";
+import { mockLessons } from "./data/lessons";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -145,6 +146,16 @@ export class MemStorage implements IStorage {
           completedAt: null
         };
         this.userProgress.set(moduleId, progress);
+      }
+    });
+    
+    // Add mock lessons
+    mockLessons.forEach((lesson) => {
+      this.lessons.set(lesson.id, { ...lesson });
+      
+      // Update lessonCurrentId to be higher than the highest lesson ID
+      if (lesson.id >= this.lessonCurrentId) {
+        this.lessonCurrentId = lesson.id + 1;
       }
     });
     

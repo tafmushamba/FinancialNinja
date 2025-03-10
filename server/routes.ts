@@ -154,6 +154,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Get lessons for a specific module
+  app.get("/api/learning/modules/:moduleId/lessons", async (req: Request, res: Response) => {
+    try {
+      const moduleId = parseInt(req.params.moduleId, 10);
+      if (isNaN(moduleId)) {
+        return res.status(400).json({ message: "Invalid module ID" });
+      }
+      
+      const module = await storage.getLearningModule(moduleId);
+      if (!module) {
+        return res.status(404).json({ message: "Module not found" });
+      }
+      
+      const lessons = await storage.getLessons(moduleId);
+      
+      // Sort lessons by order property
+      const sortedLessons = lessons.sort((a, b) => a.order - b.order);
+      
+      // Return lessons with just the data needed for the lesson list
+      const lessonList = sortedLessons.map(lesson => ({
+        id: lesson.id,
+        moduleId: lesson.moduleId,
+        title: lesson.title,
+        order: lesson.order,
+        duration: lesson.duration
+      }));
+      
+      res.json({ 
+        moduleTitle: module.title,
+        moduleDescription: module.description,
+        accentColor: module.accentColor,
+        lessons: lessonList 
+      });
+    } catch (error) {
+      console.error("Error fetching module lessons:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
+  // Get a specific lesson
+  app.get("/api/learning/lessons/:lessonId", async (req: Request, res: Response) => {
+    try {
+      const lessonId = parseInt(req.params.lessonId, 10);
+      if (isNaN(lessonId)) {
+        return res.status(400).json({ message: "Invalid lesson ID" });
+      }
+      
+      const lesson = await storage.getLesson(lessonId);
+      if (!lesson) {
+        return res.status(404).json({ message: "Lesson not found" });
+      }
+      
+      const module = await storage.getLearningModule(lesson.moduleId);
+      if (!module) {
+        return res.status(404).json({ message: "Module not found" });
+      }
+      
+      // Get all lessons for this module to determine next/previous lessons
+      const moduleLessons = await storage.getLessons(lesson.moduleId);
+      const sortedLessons = moduleLessons.sort((a, b) => a.order - b.order);
+      
+      const currentIndex = sortedLessons.findIndex(l => l.id === lessonId);
+      const prevLesson = currentIndex > 0 ? sortedLessons[currentIndex - 1] : null;
+      const nextLesson = currentIndex < sortedLessons.length - 1 ? sortedLessons[currentIndex + 1] : null;
+      
+      res.json({
+        lesson: {
+          id: lesson.id,
+          moduleId: lesson.moduleId,
+          title: lesson.title,
+          content: lesson.content,
+          order: lesson.order,
+          duration: lesson.duration,
+          quizId: lesson.quizId
+        },
+        module: {
+          id: module.id,
+          title: module.title,
+          accentColor: module.accentColor
+        },
+        navigation: {
+          prev: prevLesson ? { id: prevLesson.id, title: prevLesson.title } : null,
+          next: nextLesson ? { id: nextLesson.id, title: nextLesson.title } : null
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching lesson:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
   // Get financial overview
   app.get("/api/finance/overview", async (req: Request, res: Response) => {
     try {
