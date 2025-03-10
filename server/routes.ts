@@ -367,9 +367,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get user achievements
-  app.get("/api/user/achievements", async (req: Request, res: Response) => {
+  app.get("/api/user/achievements", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const userAchievements = await storage.getUserAchievements(userId);
       const allAchievements = await storage.getAchievements();
       
@@ -407,9 +408,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get all user achievements
-  app.get("/api/user/all-achievements", async (req: Request, res: Response) => {
+  app.get("/api/user/all-achievements", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const userAchievements = await storage.getUserAchievements(userId);
       const allAchievements = await storage.getAchievements();
       
@@ -443,9 +445,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get assistant messages for dashboard preview
-  app.get("/api/assistant/messages", async (req: Request, res: Response) => {
+  app.get("/api/assistant/messages", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const allMessages = await storage.getAssistantMessages(userId);
       
       // Get the last 5 messages for the dashboard
@@ -465,9 +468,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get all assistant messages
-  app.get("/api/assistant/all-messages", async (req: Request, res: Response) => {
+  app.get("/api/assistant/all-messages", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const allMessages = await storage.getAssistantMessages(userId);
       
       // Format messages with timestamp
@@ -518,10 +522,11 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Send message to assistant
-  app.post("/api/assistant/message", async (req: Request, res: Response) => {
+  app.post("/api/assistant/message", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       const { message } = req.body;
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       
       if (!message || typeof message !== 'string') {
         return res.status(400).json({ message: "Message is required" });
@@ -562,7 +567,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   // Quiz routes
   
   // Get quizzes for a lesson
-  app.get("/api/quizzes/lesson/:lessonId", async (req: Request, res: Response) => {
+  app.get("/api/quizzes/lesson/:lessonId", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       const lessonId = parseInt(req.params.lessonId);
       
@@ -579,7 +584,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get a specific quiz with its questions
-  app.get("/api/quizzes/:quizId", async (req: Request, res: Response) => {
+  app.get("/api/quizzes/:quizId", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       const quizId = parseInt(req.params.quizId);
       
@@ -606,10 +611,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Submit a quiz attempt
-  app.post("/api/quizzes/:quizId/attempt", async (req: Request, res: Response) => {
+  app.post("/api/quizzes/:quizId/attempt", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      // In a real app, we'd get the userId from the session
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const quizId = parseInt(req.params.quizId);
       
       if (isNaN(quizId)) {
@@ -708,10 +713,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get quiz attempts for a user
-  app.get("/api/quizzes/:quizId/attempts", async (req: Request, res: Response) => {
+  app.get("/api/quizzes/:quizId/attempts", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      // In a real app, we'd get the userId from the session
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const quizId = parseInt(req.params.quizId);
       
       if (isNaN(quizId)) {
@@ -727,7 +732,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get details of a specific quiz attempt
-  app.get("/api/quiz-attempts/:attemptId", async (req: Request, res: Response) => {
+  app.get("/api/quiz-attempts/:attemptId", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       const attemptId = parseInt(req.params.attemptId);
       
