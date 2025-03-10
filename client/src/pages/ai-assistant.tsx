@@ -58,16 +58,22 @@ const AiAssistant: React.FC = () => {
   
   const sendMessage = useMutation({
     mutationFn: async (text: string) => {
-      const response = await apiRequest('POST', '/api/assistant/message', { message: text });
-      const data = await response.json();
-      
-      // Check if API key is needed
-      if (response.status === 403 && data.needsApiKey) {
-        setNeedsApiKey(true);
-        throw new Error("API key required");
+      try {
+        const data = await apiRequest<any>({
+          method: 'POST', 
+          url: '/api/assistant/message', 
+          data: { message: text }
+        });
+        
+        return data;
+      } catch (error: any) {
+        // Check if API key is needed (this would be in the response error)
+        if (error.message && error.message.includes('403')) {
+          setNeedsApiKey(true);
+          throw new Error("API key required");
+        }
+        throw error;
       }
-      
-      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/assistant/all-messages'] });
