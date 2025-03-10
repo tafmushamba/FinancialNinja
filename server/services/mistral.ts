@@ -1,7 +1,10 @@
 import { Mistral } from "@mistralai/mistralai";
 
-// Initialize Mistral client - we'll need an API key to make actual requests
-const client = new Mistral(process.env.MISTRAL_API_KEY || "dummy_key");
+// Initialize Mistral client with API key
+// When developing with Mistral AI, you'll need a valid API key
+const client = new Mistral({
+  apiKey: process.env.MISTRAL_API_KEY || "dummy_key"
+});
 
 // Default model - Using Mistral's most capable model
 // You can use "mistral-tiny", "mistral-small", "mistral-medium" or "mistral-large"
@@ -35,10 +38,19 @@ export async function generateFinancialInsight(userQuery: string): Promise<strin
         { role: "user", content: userQuery }
       ],
       temperature: 0.7,
-      max_tokens: 500
+      maxTokens: 500
     });
 
-    return response.choices[0].message.content || "I'm sorry, I couldn't generate a response. Please try again.";
+    // Safely extract the content from the response
+    let content = "I'm sorry, I couldn't generate a response. Please try again.";
+    if (response.choices && 
+        response.choices.length > 0 && 
+        response.choices[0].message && 
+        typeof response.choices[0].message.content === 'string') {
+      content = response.choices[0].message.content;
+    }
+    
+    return content;
   } catch (error) {
     console.error("Error generating financial insight:", error);
     return "I'm currently having trouble connecting to my knowledge base. Please try again later or ask another question.";
@@ -78,24 +90,28 @@ export async function analyzeFinancialData(
         { role: "user", content: prompt }
       ],
       temperature: 0.5,
-      response_format: { type: "json_object" }
+      responseFormat: { type: "json_object" }
     });
 
     // Extract and parse the JSON from the response
-    const responseText = response.choices[0].message.content;
-    let parsedData;
+    let parsedData = { insights: [], recommendations: [] };
     
     try {
-      parsedData = JSON.parse(responseText);
+      // Make sure we have a valid response
+      if (!response.choices || response.choices.length === 0 || !response.choices[0].message) {
+        throw new Error("Invalid response structure");
+      }
+      
+      const responseText = response.choices[0].message.content;
+      
+      // Check if responseText is a string before parsing
+      if (typeof responseText === 'string') {
+        parsedData = JSON.parse(responseText);
+      } else {
+        throw new Error("Response content is not a string");
+      }
     } catch (e) {
       console.error("Error parsing JSON response:", e);
-      // Try to extract JSON from the text if it's not pure JSON
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        parsedData = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error("Invalid JSON response");
-      }
     }
 
     return {
@@ -144,24 +160,28 @@ export async function createLearningPlan(
         { role: "user", content: prompt }
       ],
       temperature: 0.7,
-      response_format: { type: "json_object" }
+      responseFormat: { type: "json_object" }
     });
 
     // Extract and parse the JSON from the response
-    const responseText = response.choices[0].message.content;
-    let parsedData;
+    let parsedData = { topics: [], resources: [], timeframe: "4 weeks" };
     
     try {
-      parsedData = JSON.parse(responseText);
+      // Make sure we have a valid response
+      if (!response.choices || response.choices.length === 0 || !response.choices[0].message) {
+        throw new Error("Invalid response structure");
+      }
+      
+      const responseText = response.choices[0].message.content;
+      
+      // Check if responseText is a string before parsing
+      if (typeof responseText === 'string') {
+        parsedData = JSON.parse(responseText);
+      } else {
+        throw new Error("Response content is not a string");
+      }
     } catch (e) {
       console.error("Error parsing JSON response:", e);
-      // Try to extract JSON from the text if it's not pure JSON
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        parsedData = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error("Invalid JSON response");
-      }
     }
 
     return {
