@@ -400,6 +400,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Check if Mistral API is configured
+  app.get("/api/assistant/api-status", (req: Request, res: Response) => {
+    const hasApiKey = !!process.env.MISTRAL_API_KEY;
+    res.json({ 
+      configured: hasApiKey,
+      message: hasApiKey 
+        ? "Mistral AI is configured and ready to use"
+        : "Mistral AI API key is not configured. Please set the MISTRAL_API_KEY environment variable."
+    });
+  });
+  
+  // Set environment variable - ONLY for development use
+  app.post("/api/setenv", (req: Request, res: Response) => {
+    try {
+      const { key, value } = req.body;
+      
+      // Only allow setting specific keys
+      if (key !== "MISTRAL_API_KEY") {
+        return res.status(403).json({ message: "Setting this environment variable is not allowed" });
+      }
+      
+      // Set the environment variable
+      process.env[key] = value;
+      
+      res.json({ success: true, message: `Environment variable ${key} set successfully` });
+    } catch (error) {
+      console.error("Error setting environment variable:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
   // Send message to assistant
   app.post("/api/assistant/message", async (req: Request, res: Response) => {
     try {
@@ -410,6 +441,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Message is required" });
       }
       
+      // Check if API key is configured
+      if (!process.env.MISTRAL_API_KEY) {
+        return res.status(403).json({ 
+          message: "Mistral AI API key is not configured",
+          needsApiKey: true
+        });
+      }
+      
       // Store user message
       await storage.createAssistantMessage({
         userId,
@@ -417,7 +456,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         sender: "user"
       });
       
-      // Generate response using OpenAI
+      // Generate response using Mistral
       const aiResponse = await generateFinancialInsight(message);
       
       // Store AI response
