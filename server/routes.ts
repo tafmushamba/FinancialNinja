@@ -8,13 +8,8 @@ import { User } from "../shared/schema";
 
 export async function registerRoutes(app: Express, isAuthenticated?: (req: Request, res: Response, next: NextFunction) => void): Promise<Server> {
   // Get current user profile
-  app.get("/api/user/profile", async (req: Request, res: Response) => {
+  app.get("/api/user/profile", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      // Check if user is authenticated
-      if (!req.isAuthenticated()) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
-      
       const user = req.user as User;
       
       // Return only needed fields for frontend
@@ -33,13 +28,8 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get user stats for dashboard
-  app.get("/api/user/stats", async (req: Request, res: Response) => {
+  app.get("/api/user/stats", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      // Check if user is authenticated
-      if (!req.isAuthenticated()) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
-      
       const user = req.user as User;
       const userId = user.id;
       
