@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, json, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -136,6 +136,57 @@ export const budgets = pgTable("budgets", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Quiz Schema
+export const quizzes = pgTable("quizzes", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  lessonId: integer("lesson_id").references(() => lessons.id),
+  passingScore: integer("passing_score").default(70),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Quiz Question Schema
+export const quizQuestions = pgTable("quiz_questions", {
+  id: serial("id").primaryKey(),
+  quizId: integer("quiz_id").notNull().references(() => quizzes.id),
+  text: text("text").notNull(),
+  type: text("type").notNull(), // 'multiple-choice', 'true-false', 'matching'
+  points: integer("points").default(1),
+  order: integer("order").notNull(),
+  explanation: text("explanation"),
+  options: jsonb("options").$type<{
+    id: string;
+    text: string;
+    isCorrect: boolean;
+  }[]>(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Quiz Attempt Schema
+export const quizAttempts = pgTable("quiz_attempts", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  quizId: integer("quiz_id").notNull().references(() => quizzes.id),
+  score: integer("score").notNull(),
+  passed: boolean("passed").notNull(),
+  timeTaken: integer("time_taken"), // in seconds
+  startedAt: timestamp("started_at").defaultNow(),
+  completedAt: timestamp("completed_at"),
+});
+
+// Quiz Answer Schema
+export const quizAnswers = pgTable("quiz_answers", {
+  id: serial("id").primaryKey(),
+  attemptId: integer("attempt_id").notNull().references(() => quizAttempts.id),
+  questionId: integer("question_id").notNull().references(() => quizQuestions.id),
+  selectedOptions: jsonb("selected_options").$type<string[]>(), // Array of option IDs
+  isCorrect: boolean("is_correct").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // AI Assistant Message Schema
 export const assistantMessages = pgTable("assistant_messages", {
   id: serial("id").primaryKey(),
@@ -198,6 +249,29 @@ export const insertBudgetSchema = createInsertSchema(budgets).omit({
   updatedAt: true,
 });
 
+export const insertQuizSchema = createInsertSchema(quizzes).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertQuizQuestionSchema = createInsertSchema(quizQuestions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertQuizAttemptSchema = createInsertSchema(quizAttempts).omit({
+  id: true,
+  startedAt: true,
+  completedAt: true,
+});
+
+export const insertQuizAnswerSchema = createInsertSchema(quizAnswers).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertAssistantMessageSchema = createInsertSchema(assistantMessages).omit({
   id: true,
   timestamp: true,
@@ -230,6 +304,18 @@ export type Transaction = typeof transactions.$inferSelect;
 
 export type InsertBudget = z.infer<typeof insertBudgetSchema>;
 export type Budget = typeof budgets.$inferSelect;
+
+export type InsertQuiz = z.infer<typeof insertQuizSchema>;
+export type Quiz = typeof quizzes.$inferSelect;
+
+export type InsertQuizQuestion = z.infer<typeof insertQuizQuestionSchema>;
+export type QuizQuestion = typeof quizQuestions.$inferSelect;
+
+export type InsertQuizAttempt = z.infer<typeof insertQuizAttemptSchema>;
+export type QuizAttempt = typeof quizAttempts.$inferSelect;
+
+export type InsertQuizAnswer = z.infer<typeof insertQuizAnswerSchema>;
+export type QuizAnswer = typeof quizAnswers.$inferSelect;
 
 export type InsertAssistantMessage = z.infer<typeof insertAssistantMessageSchema>;
 export type AssistantMessage = typeof assistantMessages.$inferSelect;
