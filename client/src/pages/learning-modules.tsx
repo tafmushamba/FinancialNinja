@@ -10,6 +10,7 @@ import TerminalText from '@/components/ui/terminal-text';
 import { formatTimeRemaining } from '@/lib/utils';
 
 const LearningModules: React.FC = () => {
+  const [, setLocation] = useLocation();
   const { data: allModulesData, isLoading } = useQuery({
     queryKey: ['/api/learning/all-modules'],
   });
@@ -98,6 +99,11 @@ const LearningModules: React.FC = () => {
                           }`}
                           disabled={module.status === 'locked'}
                           variant={module.status === 'locked' ? 'secondary' : 'outline'}
+                          onClick={() => {
+                            if (module.status !== 'locked') {
+                              setLocation(`/learning-modules/${module.id}`);
+                            }
+                          }}
                         >
                           {module.status === 'locked' ? 'Unlock' : module.status === 'completed' ? 'Review' : 'Continue'}
                         </Button>
