@@ -123,3 +123,110 @@ const LearningModules: React.FC = () => {
 };
 
 export default LearningModules;
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchModules } from "@/lib/api";
+import { ModuleCard } from "@/components/modules/module-card";
+import { Input } from "@/components/ui/input";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+export default function LearningModulesPage() {
+  const { data, isLoading } = useQuery({ queryKey: ["modules"], queryFn: fetchModules });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [difficulty, setDifficulty] = useState("all");
+  const [category, setCategory] = useState("all");
+  
+  const modules = data?.modules || [];
+  
+  const filteredModules = modules.filter(module => {
+    const matchesSearch = module.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        module.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDifficulty = difficulty === "all" || module.difficulty.toLowerCase() === difficulty.toLowerCase();
+    // This is a placeholder for category filtering
+    return matchesSearch && matchesDifficulty;
+  });
+  
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <div className="max-w-4xl mx-auto text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4">Learning Modules</h1>
+        <p className="text-lg text-muted-foreground">
+          Explore our comprehensive financial literacy modules designed to help you
+          master personal finance and wealth-building strategies.
+        </p>
+      </div>
+      
+      <div className="mb-8 grid gap-4 md:grid-cols-3">
+        <div>
+          <Input
+            placeholder="Search modules..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="bg-dark-800 border-dark-600"
+          />
+        </div>
+        <div>
+          <Select value={difficulty} onValueChange={setDifficulty}>
+            <SelectTrigger className="bg-dark-800 border-dark-600">
+              <SelectValue placeholder="Difficulty" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Difficulties</SelectItem>
+              <SelectItem value="beginner">Beginner</SelectItem>
+              <SelectItem value="intermediate">Intermediate</SelectItem>
+              <SelectItem value="advanced">Advanced</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Tabs defaultValue="grid" className="w-full">
+            <TabsList className="bg-dark-800 border-dark-600">
+              <TabsTrigger value="grid">
+                <i className="fas fa-th-large mr-2"></i> Grid View
+              </TabsTrigger>
+              <TabsTrigger value="list">
+                <i className="fas fa-list mr-2"></i> List View
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+      
+      {isLoading ? (
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-neon-green mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading modules...</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredModules.length > 0 ? (
+            filteredModules.map(module => (
+              <ModuleCard
+                key={module.id}
+                id={module.id}
+                title={module.title}
+                description={module.description}
+                icon={module.icon}
+                accentColor={module.accentColor}
+                difficulty={module.difficulty}
+                duration={module.duration}
+                topics={module.topics}
+              />
+            ))
+          ) : (
+            <div className="col-span-3 text-center py-12">
+              <p className="text-muted-foreground">No modules found. Try adjusting your search.</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

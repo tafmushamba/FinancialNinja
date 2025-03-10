@@ -56,6 +56,40 @@
     from { opacity: 0; }
     to { opacity: 1; }
   }
+  
+  .module-card {
+    @apply relative overflow-hidden transition-all duration-300 hover:shadow-lg;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .module-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-80 z-0 transition-opacity duration-300;
+  }
+  
+  .module-card:hover::before {
+    @apply opacity-70;
+  }
+  
+  .module-card-content {
+    @apply relative z-10;
+  }
+  
+  .hero-section {
+    @apply relative overflow-hidden;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .hero-section::before {
+    content: '';
+    @apply absolute inset-0 bg-dark opacity-75 z-0;
+  }
+  
+  .image-fade-mask {
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+  }
 }
 
 :root {
