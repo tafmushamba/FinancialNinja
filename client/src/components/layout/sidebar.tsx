@@ -15,34 +15,34 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-16 md:w-64 bg-dark-800 h-screen border-r border-dark-600 hidden md:block fixed left-0 top-0 z-30">
+    <aside className="w-16 lg:w-64 bg-dark-800 h-screen hidden md:block z-30">
       <div className="h-full flex flex-col">
         {/* Logo */}
-        <div className="p-4 flex items-center justify-center md:justify-start border-b border-dark-600">
+        <div className="p-4 flex items-center justify-center lg:justify-start border-b border-dark-600">
           <div className="w-8 h-8 flex items-center justify-center rounded-md bg-neon-green bg-opacity-20">
             <i className="fas fa-chart-line text-neon-green"></i>
           </div>
-          <h1 className="hidden md:block ml-3 text-xl font-mono font-bold text-white">
+          <h1 className="hidden lg:block ml-3 text-xl font-mono font-bold text-white">
             Fin<span className="text-neon-green">Byte</span>
           </h1>
         </div>
         
         {/* Navigation */}
         <nav className="flex-1 py-4 overflow-y-auto">
-          <ul className="space-y-2 px-2">
+          <ul className="space-y-2">
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link 
                   href={item.path}
                   className={cn(
-                    "flex items-center p-2 rounded-md transition-all duration-200",
+                    "flex items-center py-2 px-4 transition-all duration-200",
                     location === item.path
-                      ? "text-neon-green bg-dark-700 shadow-neon-green"
+                      ? "text-neon-green bg-dark-700 border-l-4 border-neon-green"
                       : "text-white hover:text-neon-green hover:bg-dark-700"
                   )}
                 >
                   <i className={cn(item.icon, "w-6 text-center")}></i>
-                  <span className="ml-3 hidden md:block">{item.label}</span>
+                  <span className="ml-3 hidden lg:block">{item.label}</span>
                 </Link>
               </li>
             ))}
@@ -55,7 +55,7 @@ const Sidebar: React.FC = () => {
             <div className="w-8 h-8 rounded-full bg-neon-purple bg-opacity-30 flex items-center justify-center">
               <span className="text-neon-purple text-sm font-bold">JS</span>
             </div>
-            <div className="ml-3 hidden md:block">
+            <div className="ml-3 hidden lg:block">
               <p className="text-sm font-medium">John Smith</p>
               <p className="text-xs text-gray-400">Level 3 Investor</p>
             </div>

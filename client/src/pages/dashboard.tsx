@@ -11,10 +11,10 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header title="Dashboard" />
-      <div className="px-4">
+      <div>
         <WelcomeSection />
         <LearningModules />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 px-4">
           <StatsOverview />
           <FinancialOverview />
         </div>
