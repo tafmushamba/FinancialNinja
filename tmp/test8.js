@@ -1,0 +1,1 @@
+const { Mistral } = require('@mistralai/mistralai'); const apiKey = process.env.MISTRAL_API_KEY || 'dummy_key'; try { console.log(typeof apiKey, apiKey); const client = new Mistral(apiKey); console.log('Client created successfully'); } catch (e) { console.error('Error creating client:', e); }

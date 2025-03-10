@@ -1,0 +1,37 @@
+import { Switch, Route } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+
+import Dashboard from "@/pages/dashboard";
+import LearningModules from "@/pages/learning-modules";
+import FinanceTracker from "@/pages/finance-tracker";
+import Achievements from "@/pages/achievements";
+import AiAssistant from "@/pages/ai-assistant";
+import Settings from "@/pages/settings";
+import NotFound from "@/pages/not-found";
+
+function Router() {
+  return (
+    <Switch>
+      <Route path="/" component={Dashboard} />
+      <Route path="/learning-modules" component={LearningModules} />
+      <Route path="/finance-tracker" component={FinanceTracker} />
+      <Route path="/achievements" component={Achievements} />
+      <Route path="/ai-assistant" component={AiAssistant} />
+      <Route path="/settings" component={Settings} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router />
+      <Toaster />
+    </QueryClientProvider>
+  );
+}
+
+export default App;
