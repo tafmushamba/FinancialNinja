@@ -1,10 +1,33 @@
 import React from 'react';
+import { useAuth } from '../../App'; 
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { 
+  LogOut, 
+  User,
+  Settings, 
+  Bell, 
+  Search 
+} from 'lucide-react';
+import { Link } from 'wouter';
 
 interface HeaderProps {
   title: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <header className="bg-dark-800 border-b border-dark-600 py-3 px-4 flex justify-between items-center sticky top-0 z-10 w-full">
       <div className="md:hidden">
@@ -15,13 +38,35 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <h2 className="text-xl font-mono font-bold hidden md:block">{title}</h2>
       <div className="flex items-center space-x-4">
         <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-neon-green transition-colors duration-200">
-          <i className="fas fa-bell"></i>
+          <Bell size={18} />
         </button>
-        <div className="relative">
-          <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-neon-green transition-colors duration-200">
-            <i className="fas fa-search"></i>
-          </button>
-        </div>
+        <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-neon-green transition-colors duration-200">
+          <Search size={18} />
+        </button>
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="h-8 w-8 rounded-full bg-neon-green bg-opacity-20 flex items-center justify-center text-neon-green hover:bg-opacity-30 transition-all">
+              <User size={16} />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel>
+              {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username : 'Account'}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <Link to="/settings">
+              <DropdownMenuItem className="cursor-pointer">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

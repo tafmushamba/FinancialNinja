@@ -1,29 +1,29 @@
-import type { Express, Request, Response } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { generateFinancialInsight } from "./services/mistral";
 import { formatCurrency } from "@/lib/utils";
 import { mockFinancialInsights } from "./data/insights";
+import { User } from "../shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get current user profile
   app.get("/api/user/profile", async (req: Request, res: Response) => {
     try {
-      // In a real app, we'd get the userId from the session
-      const userId = 1; // Mock user ID
-      const user = await storage.getUser(userId);
-      
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
+      // Check if user is authenticated
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Not authenticated" });
       }
+      
+      const user = req.user as User;
       
       // Return only needed fields for frontend
       res.json({
         id: user.id,
         username: user.username,
-        firstName: user.firstName || "John",
-        lastName: user.lastName || "Smith",
-        email: user.email || "john.smith@example.com",
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
         userLevel: user.userLevel
       });
     } catch (error) {
@@ -35,12 +35,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get user stats for dashboard
   app.get("/api/user/stats", async (req: Request, res: Response) => {
     try {
-      const userId = 1; // Mock user ID
-      const user = await storage.getUser(userId);
-      
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
+      // Check if user is authenticated
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Not authenticated" });
       }
+      
+      const user = req.user as User;
+      const userId = user.id;
       
       const allModules = await storage.getLearningModules();
       const userProgress = await storage.getUserProgress(userId);
