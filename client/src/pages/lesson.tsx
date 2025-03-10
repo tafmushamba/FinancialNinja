@@ -123,7 +123,7 @@ const LessonPage: React.FC = () => {
         >
           <ChevronLeft className="mr-2 h-4 w-4" /> Back to module
         </Button>
-        
+
         <Card className="mb-4 bg-dark-800 border-dark-600">
           <CardHeader>
             <Skeleton className="h-8 w-3/4 mb-2" />
@@ -169,7 +169,7 @@ const LessonPage: React.FC = () => {
       >
         <ChevronLeft className="mr-2 h-4 w-4" /> Back to module
       </Button>
-      
+
       <Card className={`mb-6 bg-dark-800 border-${accentColor}`}>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -226,7 +226,7 @@ const LessonPage: React.FC = () => {
         ) : (
           <div></div>
         )}
-        
+
         {navigation.next ? (
           <Button 
             variant="outline"

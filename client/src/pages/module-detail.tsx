@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useLocation, Link } from 'wouter';
+import { useParams, useLocation as wouterUseLocation, Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight, Clock, BookOpen } from 'lucide-react';
 
 const ModuleDetailPage: React.FC = () => {
   const { moduleId } = useParams();
-  const [, setLocation] = useLocation();
+  const [, setLocation] = wouterUseLocation();
 
   const { data: moduleData, isLoading } = useQuery({
     queryKey: [`/api/learning/modules/${moduleId}/lessons`],
@@ -34,7 +34,7 @@ const ModuleDetailPage: React.FC = () => {
         >
           <ChevronLeft className="mr-2 h-4 w-4" /> Back to all modules
         </Button>
-        
+
         <Card className="mb-6 bg-dark-800 border-dark-600">
           <CardHeader>
             <Skeleton className="h-8 w-3/4 mb-2" />
@@ -83,7 +83,7 @@ const ModuleDetailPage: React.FC = () => {
       >
         <ChevronLeft className="mr-2 h-4 w-4" /> Back to all modules
       </Button>
-      
+
       <Card className={`mb-6 bg-dark-800 border-${accentColor}`}>
         <CardHeader>
           <CardTitle className={`text-${accentColor} text-2xl`}>{moduleTitle}</CardTitle>
@@ -125,3 +125,9 @@ const ModuleDetailPage: React.FC = () => {
 };
 
 export default ModuleDetailPage;
+
+//This file needs to be created in the client/src/lib directory
+// export const useLocation = () => {
+//   //Add your location logic here if needed.  This is a placeholder.
+//   return { pathname: "/" };
+// };

@@ -11,7 +11,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLocation } from "@/lib/location";
+import { useLocation } from "../lib/location";
 import { Button, Card, CardFooter } from "@/components/ui";
 import { MobileNav } from "@/components/navigation/mobile-nav";
 
