@@ -55,10 +55,11 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get learning modules for dashboard
-  app.get("/api/learning/modules", async (req: Request, res: Response) => {
+  app.get("/api/learning/modules", isAuthenticated!, async (req: Request, res: Response) => {
     try {
+      const user = req.user as User;
+      const userId = user.id;
       const allModules = await storage.getLearningModules();
-      const userId = 1; // Mock user ID
       
       // Get first 3 modules for dashboard
       const dashboardModules = allModules.slice(0, 3);
@@ -90,10 +91,11 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get all learning modules
-  app.get("/api/learning/all-modules", async (req: Request, res: Response) => {
+  app.get("/api/learning/all-modules", isAuthenticated!, async (req: Request, res: Response) => {
     try {
+      const user = req.user as User;
+      const userId = user.id;
       const allModules = await storage.getLearningModules();
-      const userId = 1; // Mock user ID
       
       const modules = await Promise.all(
         allModules.map(async module => {
@@ -146,7 +148,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get lessons for a specific module
-  app.get("/api/learning/modules/:moduleId/lessons", async (req: Request, res: Response) => {
+  app.get("/api/learning/modules/:moduleId/lessons", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       const moduleId = parseInt(req.params.moduleId, 10);
       if (isNaN(moduleId)) {
@@ -185,7 +187,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get a specific lesson
-  app.get("/api/learning/lessons/:lessonId", async (req: Request, res: Response) => {
+  app.get("/api/learning/lessons/:lessonId", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       const lessonId = parseInt(req.params.lessonId, 10);
       if (isNaN(lessonId)) {
@@ -237,9 +239,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get financial overview
-  app.get("/api/finance/overview", async (req: Request, res: Response) => {
+  app.get("/api/finance/overview", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const accounts = await storage.getFinancialAccounts(userId);
       
       const connected = accounts.length > 0;
@@ -263,7 +266,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get financial insights
-  app.get("/api/finance/insights", async (req: Request, res: Response) => {
+  app.get("/api/finance/insights", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       // Get insights from OpenAI
       // For now, using mock insights
@@ -275,9 +278,10 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get detailed financial data
-  app.get("/api/finance/details", async (req: Request, res: Response) => {
+  app.get("/api/finance/details", isAuthenticated!, async (req: Request, res: Response) => {
     try {
-      const userId = 1; // Mock user ID
+      const user = req.user as User;
+      const userId = user.id;
       const accounts = await storage.getFinancialAccounts(userId);
       const budgets = await storage.getBudgets(userId);
       
@@ -332,7 +336,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get learning recommendations
-  app.get("/api/learning/recommendations", async (req: Request, res: Response) => {
+  app.get("/api/learning/recommendations", isAuthenticated!, async (req: Request, res: Response) => {
     try {
       const recommendations = [
         {
