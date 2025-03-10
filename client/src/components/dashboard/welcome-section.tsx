@@ -11,8 +11,8 @@ const WelcomeSection: React.FC = () => {
   const lessonsCompleted = userData?.stats?.lessonsCompletedThisWeek || 0;
 
   return (
-    <section className="mb-8 animate-fadeIn">
-      <div className="bg-dark-800 rounded-lg p-6 border border-dark-600 shadow-lg hover:shadow-primary/10 transition-shadow">
+    <section className="mb-8 animate-fadeIn px-4">
+      <div className="bg-dark-800 p-6 border-b border-dark-600">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           <div>
             <h1 className="text-2xl font-mono font-bold text-foreground">
