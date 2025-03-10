@@ -7,9 +7,13 @@
     @apply border-border;
   }
 
-  body {
-    @apply font-mono antialiased bg-background text-foreground;
+  html, body {
+    @apply font-mono antialiased bg-black text-foreground;
+    background-color: #000000;
     color: #e0e0e0; /* Ensure text is visible on dark backgrounds */
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
   }
   
   /* Fix potential card or container backgrounds */
@@ -87,6 +91,11 @@
     color: #e0e0e0;
   }
   
+  /* Main container background fixes */
+  #root, main, .app-container, .main-content, .dashboard-container {
+    background-color: #000000;
+  }
+  
   .hero-section {
     @apply relative overflow-hidden;
     background-size: cover;
@@ -104,12 +113,12 @@
 }
 
 :root {
-  --dark: #121212;
-  --dark-900: #0f0f0f;
-  --dark-800: #171717;
-  --dark-700: #222222;
-  --dark-600: #333333;
-  --dark-500: #444444;
+  --dark: #000000;
+  --dark-900: #0a0a0a;
+  --dark-800: #121212;
+  --dark-700: #171717;
+  --dark-600: #222222;
+  --dark-500: #333333;
   
   --neon-green: #00ff41;
   --neon-cyan: #00e5ff;
