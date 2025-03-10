@@ -304,7 +304,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
               <Separator className="my-4" />
               <div className="text-sm font-medium mb-2">Explanation:</div>
               <div className="text-sm text-muted-foreground">
-                {currentQuestion.explanation}
+                {attemptResult.feedback[currentQuestion.id].explanation}
               </div>
             </div>
           )}

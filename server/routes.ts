@@ -647,7 +647,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let totalPoints = 0;
       let earnedPoints = 0;
       
-      // Process each answer
+      // Process each answer and build feedback
+      const feedback: { [questionId: number]: { correct: boolean; explanation: string } } = {};
+      
       for (const answer of answers) {
         const question = questions.find(q => q.id === answer.questionId);
         
@@ -680,20 +682,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
           selectedOptions: answer.selectedOptions || [],
           isCorrect
         });
+        
+        // Add to feedback
+        feedback[question.id] = {
+          correct: isCorrect,
+          explanation: question.explanation || 'No explanation provided.'
+        };
       }
       
       // Calculate score as a percentage
       const scorePercentage = totalPoints > 0 ? Math.round((earnedPoints / totalPoints) * 100) : 0;
+      const passed = scorePercentage >= (quiz.passingScore || 70);
       
       // Update attempt with score
       const updatedAttempt = await storage.updateQuizAttempt(attempt.id, {
         score: scorePercentage,
-        passed: scorePercentage >= (quiz.passingScore || 70)
+        passed
       });
       
       res.json({ 
-        attempt: updatedAttempt,
-        success: true
+        score: scorePercentage,
+        passed,
+        feedback,
+        attemptId: attempt.id
       });
     } catch (error) {
       console.error("Error submitting quiz attempt:", error);
