@@ -16,13 +16,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <Sidebar />
       
       {/* Main content area */}
-      <div className="md:ml-16 lg:ml-64 min-h-screen flex flex-col">
+      <div className="md:ml-16 lg:ml-64 min-h-screen flex flex-col w-full">
         {/* Mobile navigation */}
         {isMobile && <MobileNav />}
         
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto bg-dark-900 py-4 px-6">
-          <div className="container mx-auto max-w-6xl">
+        <main className="flex-1 overflow-y-auto bg-dark-900 py-4">
+          <div className="w-full">
             {children}
           </div>
         </main>
