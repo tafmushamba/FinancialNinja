@@ -42,7 +42,7 @@ export function ModuleCard({
   
   return (
     <Link
-      to={`/modules/${id}`}
+      to={`/learning-modules/${id}`}
       className={`module-card block rounded-lg p-6 h-full`}
       style={{ backgroundImage: `url(${bgImage})` }}
     >

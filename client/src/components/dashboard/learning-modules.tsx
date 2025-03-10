@@ -55,7 +55,7 @@ const LearningModules: React.FC = () => {
                       <h4 className="font-mono font-bold text-foreground">{module.title}</h4>
                       <span className="text-xs" 
                             style={{ color: `var(--${accentColor})` }}>
-                        {module.status === 'locked' ? 'LOCKED' : (module.difficulty ? module.difficulty.toUpperCase() : 'IN PROGRESS')}
+                        {module.status === 'locked' ? 'LOCKED' : (module.difficulty && typeof module.difficulty === 'string' ? module.difficulty.toUpperCase() : 'IN PROGRESS')}
                       </span>
                     </div>
                     <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{module.description}</p>
