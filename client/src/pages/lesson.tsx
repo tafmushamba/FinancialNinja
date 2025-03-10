@@ -193,6 +193,26 @@ const LessonPage: React.FC = () => {
         </CardContent>
       </Card>
 
+      {lesson.quizId && (
+        <div className="mb-6 text-center">
+          <Button 
+            onClick={() => setLocation(`/quiz/${lesson.quizId}`, { 
+              state: { 
+                returnUrl: `/lesson/${lessonId}`,
+                lessonId: lesson.id
+              }
+            })}
+            className={`border-${accentColor} bg-${accentColor} text-black hover:bg-${accentColor}/90`}
+            size="lg"
+          >
+            Take Quiz
+          </Button>
+          <p className="text-sm text-gray-400 mt-2">
+            Test your knowledge and earn achievements by completing the quiz
+          </p>
+        </div>
+      )}
+
       <div className="flex justify-between mt-6">
         {navigation.prev ? (
           <Button 

@@ -7,6 +7,7 @@ import Dashboard from "@/pages/dashboard";
 import LearningModules from "@/pages/learning-modules";
 import ModuleDetail from "@/pages/module-detail";
 import Lesson from "@/pages/lesson";
+import Quiz from "@/pages/quiz";
 import FinanceTracker from "@/pages/finance-tracker";
 import Achievements from "@/pages/achievements";
 import AiAssistant from "@/pages/ai-assistant";
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/learning-modules" component={LearningModules} />
       <Route path="/learning-modules/:moduleId" component={ModuleDetail} />
       <Route path="/lesson/:lessonId" component={Lesson} />
+      <Route path="/quiz/:id" component={Quiz} />
       <Route path="/finance-tracker" component={FinanceTracker} />
       <Route path="/achievements" component={Achievements} />
       <Route path="/ai-assistant" component={AiAssistant} />
