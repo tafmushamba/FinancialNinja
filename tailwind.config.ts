@@ -12,7 +12,7 @@ export default {
       },
       colors: {
         background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        foreground: "#e0e0e0", /* Explicitly set foreground to light color */
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
