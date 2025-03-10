@@ -8,6 +8,10 @@ import {
   financialAccounts, type FinancialAccount, type InsertFinancialAccount,
   transactions, type Transaction, type InsertTransaction,
   budgets, type Budget, type InsertBudget,
+  quizzes, type Quiz, type InsertQuiz,
+  quizQuestions, type QuizQuestion, type InsertQuizQuestion,
+  quizAttempts, type QuizAttempt, type InsertQuizAttempt,
+  quizAnswers, type QuizAnswer, type InsertQuizAnswer,
   assistantMessages, type AssistantMessage, type InsertAssistantMessage
 } from "@shared/schema";
 import { mockModules } from "./data/modules";
@@ -68,6 +72,30 @@ export interface IStorage {
   createBudget(budget: InsertBudget): Promise<Budget>;
   updateBudget(id: number, budget: Partial<Budget>): Promise<Budget | undefined>;
   
+  // Quiz methods
+  getQuizzes(): Promise<Quiz[]>;
+  getQuizzesByLesson(lessonId: number): Promise<Quiz[]>;
+  getQuiz(id: number): Promise<Quiz | undefined>;
+  createQuiz(quiz: InsertQuiz): Promise<Quiz>;
+  updateQuiz(id: number, quiz: Partial<Quiz>): Promise<Quiz | undefined>;
+  
+  // Quiz question methods
+  getQuizQuestions(quizId: number): Promise<QuizQuestion[]>;
+  getQuizQuestion(id: number): Promise<QuizQuestion | undefined>;
+  createQuizQuestion(question: InsertQuizQuestion): Promise<QuizQuestion>;
+  updateQuizQuestion(id: number, question: Partial<QuizQuestion>): Promise<QuizQuestion | undefined>;
+  
+  // Quiz attempt methods
+  getQuizAttempts(quizId: number, userId: number): Promise<QuizAttempt[]>;
+  getQuizAttempt(id: number): Promise<QuizAttempt | undefined>;
+  createQuizAttempt(attempt: InsertQuizAttempt): Promise<QuizAttempt>;
+  updateQuizAttempt(id: number, attempt: Partial<QuizAttempt>): Promise<QuizAttempt | undefined>;
+  
+  // Quiz answer methods
+  getQuizAnswers(attemptId: number): Promise<QuizAnswer[]>;
+  getQuizAnswer(id: number): Promise<QuizAnswer | undefined>;
+  createQuizAnswer(answer: InsertQuizAnswer): Promise<QuizAnswer>;
+  
   // Assistant message methods
   getAssistantMessages(userId: number): Promise<AssistantMessage[]>;
   createAssistantMessage(message: InsertAssistantMessage): Promise<AssistantMessage>;
@@ -83,6 +111,10 @@ export class MemStorage implements IStorage {
   private financialAccounts: Map<number, FinancialAccount>;
   private transactions: Map<number, Transaction>;
   private budgets: Map<number, Budget>;
+  private quizzes: Map<number, Quiz>;
+  private quizQuestions: Map<number, QuizQuestion>;
+  private quizAttempts: Map<number, QuizAttempt>;
+  private quizAnswers: Map<number, QuizAnswer>;
   private assistantMessages: Map<number, AssistantMessage>;
   
   private userCurrentId: number;
@@ -94,6 +126,10 @@ export class MemStorage implements IStorage {
   private financialAccountCurrentId: number;
   private transactionCurrentId: number;
   private budgetCurrentId: number;
+  private quizCurrentId: number;
+  private quizQuestionCurrentId: number;
+  private quizAttemptCurrentId: number;
+  private quizAnswerCurrentId: number;
   private assistantMessageCurrentId: number;
 
   constructor() {
@@ -106,6 +142,10 @@ export class MemStorage implements IStorage {
     this.financialAccounts = new Map();
     this.transactions = new Map();
     this.budgets = new Map();
+    this.quizzes = new Map();
+    this.quizQuestions = new Map();
+    this.quizAttempts = new Map();
+    this.quizAnswers = new Map();
     this.assistantMessages = new Map();
     
     this.userCurrentId = 1;
@@ -117,6 +157,10 @@ export class MemStorage implements IStorage {
     this.financialAccountCurrentId = 1;
     this.transactionCurrentId = 1;
     this.budgetCurrentId = 1;
+    this.quizCurrentId = 1;
+    this.quizQuestionCurrentId = 1;
+    this.quizAttemptCurrentId = 1;
+    this.quizAnswerCurrentId = 1;
     this.assistantMessageCurrentId = 1;
     
     // Seed initial data
@@ -415,6 +459,147 @@ export class MemStorage implements IStorage {
     };
     this.budgets.set(id, updatedBudget);
     return updatedBudget;
+  }
+  
+  // Quiz methods
+  async getQuizzes(): Promise<Quiz[]> {
+    return Array.from(this.quizzes.values());
+  }
+  
+  async getQuizzesByLesson(lessonId: number): Promise<Quiz[]> {
+    return Array.from(this.quizzes.values()).filter(
+      (quiz) => quiz.lessonId === lessonId
+    );
+  }
+  
+  async getQuiz(id: number): Promise<Quiz | undefined> {
+    return this.quizzes.get(id);
+  }
+  
+  async createQuiz(quiz: InsertQuiz): Promise<Quiz> {
+    const id = this.quizCurrentId++;
+    const newQuiz: Quiz = { 
+      ...quiz, 
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.quizzes.set(id, newQuiz);
+    return newQuiz;
+  }
+  
+  async updateQuiz(id: number, quizData: Partial<Quiz>): Promise<Quiz | undefined> {
+    const quiz = this.quizzes.get(id);
+    if (!quiz) return undefined;
+    
+    const updatedQuiz = { 
+      ...quiz,
+      ...quizData,
+      updatedAt: new Date()
+    };
+    this.quizzes.set(id, updatedQuiz);
+    return updatedQuiz;
+  }
+  
+  // Quiz question methods
+  async getQuizQuestions(quizId: number): Promise<QuizQuestion[]> {
+    return Array.from(this.quizQuestions.values())
+      .filter((question) => question.quizId === quizId)
+      .sort((a, b) => a.order - b.order);
+  }
+  
+  async getQuizQuestion(id: number): Promise<QuizQuestion | undefined> {
+    return this.quizQuestions.get(id);
+  }
+  
+  async createQuizQuestion(question: InsertQuizQuestion): Promise<QuizQuestion> {
+    const id = this.quizQuestionCurrentId++;
+    const newQuestion: QuizQuestion = { 
+      ...question, 
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.quizQuestions.set(id, newQuestion);
+    return newQuestion;
+  }
+  
+  async updateQuizQuestion(id: number, questionData: Partial<QuizQuestion>): Promise<QuizQuestion | undefined> {
+    const question = this.quizQuestions.get(id);
+    if (!question) return undefined;
+    
+    const updatedQuestion = { 
+      ...question,
+      ...questionData,
+      updatedAt: new Date()
+    };
+    this.quizQuestions.set(id, updatedQuestion);
+    return updatedQuestion;
+  }
+  
+  // Quiz attempt methods
+  async getQuizAttempts(quizId: number, userId: number): Promise<QuizAttempt[]> {
+    return Array.from(this.quizAttempts.values())
+      .filter((attempt) => attempt.quizId === quizId && attempt.userId === userId)
+      .sort((a, b) => {
+        if (!a.startedAt || !b.startedAt) return 0;
+        return b.startedAt.getTime() - a.startedAt.getTime();
+      });
+  }
+  
+  async getQuizAttempt(id: number): Promise<QuizAttempt | undefined> {
+    return this.quizAttempts.get(id);
+  }
+  
+  async createQuizAttempt(attempt: InsertQuizAttempt): Promise<QuizAttempt> {
+    const id = this.quizAttemptCurrentId++;
+    const newAttempt: QuizAttempt = { 
+      ...attempt, 
+      id,
+      startedAt: new Date(),
+      completedAt: null
+    };
+    this.quizAttempts.set(id, newAttempt);
+    return newAttempt;
+  }
+  
+  async updateQuizAttempt(id: number, attemptData: Partial<QuizAttempt>): Promise<QuizAttempt | undefined> {
+    const attempt = this.quizAttempts.get(id);
+    if (!attempt) return undefined;
+    
+    const updatedAttempt = { 
+      ...attempt,
+      ...attemptData
+    };
+    
+    // If it's being marked as complete, set the completedAt date
+    if (attemptData.score !== undefined && !attempt.completedAt) {
+      updatedAttempt.completedAt = new Date();
+    }
+    
+    this.quizAttempts.set(id, updatedAttempt);
+    return updatedAttempt;
+  }
+  
+  // Quiz answer methods
+  async getQuizAnswers(attemptId: number): Promise<QuizAnswer[]> {
+    return Array.from(this.quizAnswers.values())
+      .filter((answer) => answer.attemptId === attemptId);
+  }
+  
+  async getQuizAnswer(id: number): Promise<QuizAnswer | undefined> {
+    return this.quizAnswers.get(id);
+  }
+  
+  async createQuizAnswer(answer: InsertQuizAnswer): Promise<QuizAnswer> {
+    const id = this.quizAnswerCurrentId++;
+    const newAnswer: QuizAnswer = { 
+      ...answer, 
+      id,
+      createdAt: new Date()
+    };
+    this.quizAnswers.set(id, newAnswer);
+    return newAnswer;
   }
   
   // Assistant message methods
