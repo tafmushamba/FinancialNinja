@@ -3,7 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import MainLayout from "@/components/layout/main-layout";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
 
 import Dashboard from "@/pages/dashboard";
@@ -19,12 +19,34 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 
-// Auth context to track login state
+// Define the type for our auth context
+type AuthContextType = {
+  isAuthenticated: boolean | null;
+  user: any;
+  loading: boolean;
+  login: (userData: any) => void;
+  logout: () => Promise<void>;
+  checkAuthStatus: () => Promise<void>;
+};
+
+// Create a context with a default value
+const AuthContext = createContext<AuthContextType | null>(null);
+
+// Custom hook to use the auth context
 export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
+
+// Auth Provider component
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [location, navigate] = useLocation();
+  const [, navigate] = useLocation();
 
   const checkAuthStatus = async () => {
     try {
@@ -51,7 +73,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     checkAuthStatus();
-  }, [location]);
+  }, []);
 
   const login = (userData: any) => {
     setIsAuthenticated(true);
@@ -73,14 +95,20 @@ export const useAuth = () => {
     }
   };
 
-  return {
-    isAuthenticated,
-    user,
-    loading,
-    login,
-    logout,
-    checkAuthStatus
-  };
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        loading,
+        login,
+        logout,
+        checkAuthStatus
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 // Auth component to protect routes
@@ -89,7 +117,7 @@ const ProtectedRoute = ({ component: Component, ...rest }: any) => {
   const [, navigate] = useLocation();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    if (!loading && isAuthenticated === false) {
       navigate("/login");
     }
   }, [isAuthenticated, loading, navigate]);
@@ -122,8 +150,8 @@ const AuthRoute = ({ component: Component, ...rest }: any) => {
 function Router() {
   return (
     <Switch>
-      <Route path="/login" component={() => <AuthRoute component={Login} />} />
-      <Route path="/register" component={() => <AuthRoute component={Register} />} />
+      <Route path="/login" component={() => <Login />} />
+      <Route path="/register" component={() => <Register />} />
       
       <Route path="/">
         <MainLayout>
@@ -148,8 +176,10 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
+      <AuthProvider>
+        <Router />
+        <Toaster />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

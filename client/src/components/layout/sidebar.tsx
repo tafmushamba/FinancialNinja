@@ -2,8 +2,14 @@ import React from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  collapsed?: boolean;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
   const [location] = useLocation();
+  // Mock user data for now
+  const user = { firstName: 'Test', lastName: 'User', username: 'testuser', userLevel: 'Basic User' };
 
   const navItems = [
     { icon: 'fas fa-home', label: 'Dashboard', path: '/' },
@@ -53,11 +59,17 @@ const Sidebar: React.FC = () => {
         <div className="p-4 border-t border-dark-600">
           <div className="flex items-center">
             <div className="w-8 h-8 rounded-full bg-neon-purple bg-opacity-30 flex items-center justify-center">
-              <span className="text-neon-purple text-sm font-bold">JS</span>
+              <span className="text-neon-purple text-sm font-bold">
+                {user ? (user.firstName?.[0] || '') + (user.lastName?.[0] || '') || user.username?.[0] || '?' : '?'}
+              </span>
             </div>
             <div className="ml-3 hidden lg:block">
-              <p className="text-sm font-medium">John Smith</p>
-              <p className="text-xs text-gray-400">Level 3 Investor</p>
+              <p className="text-sm font-medium">
+                {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username : 'Guest'}
+              </p>
+              <p className="text-xs text-gray-400">
+                {user?.userLevel || 'New User'}
+              </p>
             </div>
           </div>
         </div>

@@ -2,7 +2,12 @@ import React from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 
-const MobileNav: React.FC = () => {
+interface MobileNavProps {
+  isOpen?: boolean;
+  toggleMenu?: () => void;
+}
+
+const MobileNav: React.FC<MobileNavProps> = ({ isOpen = false, toggleMenu }) => {
   const [location] = useLocation();
 
   const navItems = [

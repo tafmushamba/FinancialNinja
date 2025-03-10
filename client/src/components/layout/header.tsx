@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth } from '../../App'; 
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -18,14 +17,24 @@ import {
 import { Link } from 'wouter';
 
 interface HeaderProps {
-  title: string;
+  title?: string;
+  toggleSidebar?: () => void;
+  isSidebarOpen?: boolean;
+  toggleMobileMenu?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
-  const { user, logout } = useAuth();
+const Header: React.FC<HeaderProps> = ({ 
+  title = "Dashboard", 
+  toggleSidebar,
+  isSidebarOpen,
+  toggleMobileMenu
+}) => {
+  // Mock user for now
+  const user = { firstName: 'Test', lastName: 'User', username: 'testuser' };
 
   const handleLogout = () => {
-    logout();
+    // Simple logout for now - just redirect to login page
+    window.location.href = '/login';
   };
 
   return (

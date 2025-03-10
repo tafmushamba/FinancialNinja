@@ -50,12 +50,16 @@ export default function Login() {
         data: data,
       });
       
-      toast({
-        title: "Login successful",
-        description: "Welcome back!",
-      });
-      
-      navigate("/");
+      // Navigate directly without using context
+      if (response && response.user) {
+        toast({
+          title: "Login successful",
+          description: "Welcome back!",
+        });
+        
+        // Redirect to dashboard
+        window.location.href = "/";
+      }
     } catch (error: any) {
       toast({
         title: "Login failed",
