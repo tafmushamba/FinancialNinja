@@ -6,7 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 import { mockFinancialInsights } from "./data/insights";
 import { User } from "../shared/schema";
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express, isAuthenticated?: (req: Request, res: Response, next: NextFunction) => void): Promise<Server> {
   // Get current user profile
   app.get("/api/user/profile", async (req: Request, res: Response) => {
     try {

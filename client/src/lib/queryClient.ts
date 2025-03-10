@@ -1,20 +1,25 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-async function throwIfResNotOk(res: Response) {
+async function throwIfResNotOk(res: Response, on401: UnauthorizedBehavior = "throw") {
   if (!res.ok) {
+    if (res.status === 401 && on401 === "returnNull") {
+      return null;
+    }
     const text = (await res.text()) || res.statusText;
     throw new Error(`${res.status}: ${text}`);
   }
+  return true;
 }
 
 export async function apiRequest<T = any>(
   options: {
     url: string; 
     method: string;
-    data?: unknown | undefined
+    data?: unknown | undefined;
+    on401?: UnauthorizedBehavior;
   }
 ): Promise<T> {
-  const { url, method, data } = options;
+  const { url, method, data, on401 } = options;
   const res = await fetch(url, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
@@ -22,7 +27,11 @@ export async function apiRequest<T = any>(
     credentials: "include",
   });
 
-  await throwIfResNotOk(res);
+  const checkResult = await throwIfResNotOk(res, on401);
+  if (checkResult === null) {
+    return null as unknown as T;
+  }
+  
   return res.json();
 }
 

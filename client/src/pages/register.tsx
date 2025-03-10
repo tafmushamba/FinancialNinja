@@ -53,7 +53,7 @@ export default function Register() {
       const response = await apiRequest({
         url: "/api/auth/register",
         method: "POST",
-        body: data,
+        data: data,
       });
       
       toast({
