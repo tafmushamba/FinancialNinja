@@ -26,13 +26,13 @@ const StatsOverview: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Financial Literacy Score */}
-        <Card className="bg-dark-800 border-dark-600">
+        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-primary/10 transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Financial Literacy Score</p>
-                <p className="text-2xl font-bold text-white mt-1">
-                  {financialLiteracyScore}<span className="text-sm text-gray-400">/100</span>
+                <p className="text-muted-foreground text-sm font-medium">Financial Literacy Score</p>
+                <p className="text-2xl font-bold text-foreground mt-1">
+                  {financialLiteracyScore}<span className="text-sm text-muted-foreground">/100</span>
                 </p>
               </div>
               <ProgressCircle 
@@ -42,7 +42,7 @@ const StatsOverview: React.FC = () => {
               />
             </div>
             <div className="mt-4">
-              <div className="text-xs text-gray-400">Last assessment: {lastAssessment}</div>
+              <div className="text-xs text-muted-foreground">Last assessment: {lastAssessment}</div>
               {scoreImprovement > 0 && (
                 <div className="text-xs text-neon-green mt-1">+{scoreImprovement} points since last month</div>
               )}
@@ -54,13 +54,13 @@ const StatsOverview: React.FC = () => {
         </Card>
         
         {/* Completed Modules */}
-        <Card className="bg-dark-800 border-dark-600">
+        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-primary/10 transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Modules Completed</p>
-                <p className="text-2xl font-bold text-white mt-1">
-                  {modulesCompleted}<span className="text-sm text-gray-400">/{totalModules}</span>
+                <p className="text-muted-foreground text-sm font-medium">Modules Completed</p>
+                <p className="text-2xl font-bold text-foreground mt-1">
+                  {modulesCompleted}<span className="text-sm text-muted-foreground">/{totalModules}</span>
                 </p>
               </div>
               <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-cyan bg-opacity-20 text-neon-cyan">
@@ -74,18 +74,18 @@ const StatsOverview: React.FC = () => {
                   style={{ width: `${modulesPercentage}%` }}
                 ></div>
               </div>
-              <div className="text-xs text-gray-400 mt-1">{modulesPercentage}% of curriculum completed</div>
+              <div className="text-xs text-muted-foreground mt-1">{modulesPercentage}% of curriculum completed</div>
             </div>
           </CardContent>
         </Card>
         
         {/* Badges Earned */}
-        <Card className="bg-dark-800 border-dark-600">
+        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-primary/10 transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Badges Earned</p>
-                <p className="text-2xl font-bold text-white mt-1">{badgesEarned}</p>
+                <p className="text-muted-foreground text-sm font-medium">Badges Earned</p>
+                <p className="text-2xl font-bold text-foreground mt-1">{badgesEarned}</p>
               </div>
               <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-purple bg-opacity-20 text-neon-purple">
                 <i className="fas fa-medal"></i>
@@ -94,20 +94,20 @@ const StatsOverview: React.FC = () => {
             <div className="mt-4 flex">
               <div className="flex -space-x-2">
                 {isLoading ? (
-                  <div className="text-xs text-gray-400">Loading badges...</div>
+                  <div className="text-xs text-muted-foreground">Loading badges...</div>
                 ) : (
                   <>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-green bg-opacity-20 border border-dark-800">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-green bg-opacity-20 border border-dark-700">
                       <i className="fas fa-chart-pie text-xs text-neon-green"></i>
                     </div>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-cyan bg-opacity-20 border border-dark-800">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-cyan bg-opacity-20 border border-dark-700">
                       <i className="fas fa-piggy-bank text-xs text-neon-cyan"></i>
                     </div>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-purple bg-opacity-20 border border-dark-800">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-purple bg-opacity-20 border border-dark-700">
                       <i className="fas fa-coins text-xs text-neon-purple"></i>
                     </div>
                     {badgesEarned > 3 && (
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-dark-600 border border-dark-800 text-white">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-dark-600 border border-dark-700 text-foreground">
                         <span className="text-xs">+{badgesEarned - 3}</span>
                       </div>
                     )}

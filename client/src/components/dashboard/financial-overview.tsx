@@ -27,31 +27,31 @@ const FinancialOverview: React.FC = () => {
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Spending Overview */}
-        <Card className="lg:col-span-2 bg-dark-800 border-dark-600">
+        <Card className="lg:col-span-2 bg-dark-800 border border-dark-600 shadow-lg hover:shadow-primary/10 transition-shadow">
           <CardHeader className="pb-0">
-            <CardTitle className="font-mono font-bold text-lg">Monthly Spending Overview</CardTitle>
+            <CardTitle className="font-mono font-bold text-lg text-foreground">Monthly Spending Overview</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             {/* Chart Placeholder */}
-            <div className="h-64 bg-dark-700 rounded flex items-center justify-center">
+            <div className="h-64 bg-dark-700 rounded-md flex items-center justify-center">
               {isLoading ? (
                 <div className="text-center">
-                  <p className="text-gray-400">Loading financial data...</p>
+                  <p className="text-muted-foreground">Loading financial data...</p>
                 </div>
               ) : financialData?.connected ? (
                 <div className="w-full h-full">
                   {/* Chart would be rendered here */}
                   <div className="text-center">
                     <i className="fas fa-chart-bar text-4xl text-neon-green mb-2"></i>
-                    <p className="text-gray-400">Spending chart would render here</p>
+                    <p className="text-muted-foreground">Spending chart would render here</p>
                   </div>
                 </div>
               ) : (
                 <div className="text-center">
                   <i className="fas fa-chart-bar text-4xl text-neon-green mb-2"></i>
-                  <p className="text-gray-400">Connect your accounts to track spending</p>
+                  <p className="text-muted-foreground">Connect your accounts to track spending</p>
                   <Button 
-                    className="mt-3 bg-neon-green bg-opacity-20 hover:bg-opacity-30 text-neon-green border-neon-green border-opacity-30"
+                    className="mt-3 bg-neon-green/20 hover:bg-neon-green/30 text-neon-green border-neon-green/30"
                     variant="outline"
                   >
                     Connect Account
@@ -63,14 +63,14 @@ const FinancialOverview: React.FC = () => {
             {/* Spending Categories */}
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
               {financialData?.categories?.map((category: any, index: number) => (
-                <div key={index} className="bg-dark-700 p-3 rounded">
+                <div key={index} className="bg-dark-700 p-3 rounded-md border border-dark-600">
                   <div className="flex items-center">
                     <div className={`w-8 h-8 rounded-full bg-${category.color} bg-opacity-20 flex items-center justify-center mr-3`}>
                       <i className={`fas ${category.icon} text-${category.color}`}></i>
                     </div>
                     <div>
-                      <p className="text-sm">{category.name}</p>
-                      <p className="text-xs text-gray-400">{category.percentage}% of budget</p>
+                      <p className="text-sm text-foreground">{category.name}</p>
+                      <p className="text-xs text-muted-foreground">{category.percentage}% of budget</p>
                     </div>
                   </div>
                 </div>
@@ -80,27 +80,27 @@ const FinancialOverview: React.FC = () => {
         </Card>
         
         {/* AI Financial Insights */}
-        <Card className="bg-dark-800 border-dark-600">
+        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-primary/10 transition-shadow">
           <CardHeader className="pb-0">
-            <CardTitle className="font-mono font-bold text-lg">AI Financial Insights</CardTitle>
+            <CardTitle className="font-mono font-bold text-lg text-foreground">AI Financial Insights</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             <div className="space-y-4">
               {insightsLoading ? (
                 <div className="text-center py-4">
-                  <p className="text-gray-400">Loading insights...</p>
+                  <p className="text-muted-foreground">Loading insights...</p>
                 </div>
               ) : (
                 <>
                   {insightsData?.insights?.map((insight: any, index: number) => (
-                    <div key={index} className="bg-dark-700 p-4 rounded">
+                    <div key={index} className="bg-dark-700 p-4 rounded-md border border-dark-600">
                       <div className="flex items-start">
                         <div className={`w-8 h-8 rounded-full bg-${insight.color} bg-opacity-20 flex items-center justify-center mr-3 mt-1`}>
                           <i className={`fas ${insight.icon} text-${insight.color}`}></i>
                         </div>
                         <div>
-                          <h5 className="text-sm font-bold">{insight.title}</h5>
-                          <p className="text-xs text-gray-400 mt-1">{insight.description}</p>
+                          <h5 className="text-sm font-bold text-foreground">{insight.title}</h5>
+                          <p className="text-xs text-muted-foreground mt-1">{insight.description}</p>
                         </div>
                       </div>
                     </div>
@@ -109,7 +109,7 @@ const FinancialOverview: React.FC = () => {
               )}
             </div>
             
-            <Button className="mt-4 w-full bg-dark-700 hover:bg-dark-600 text-white text-sm">
+            <Button className="mt-4 w-full bg-dark-700 hover:bg-dark-600 text-foreground text-sm">
               View All Insights
             </Button>
           </CardContent>

@@ -11,19 +11,19 @@ import AiAssistant from "@/components/dashboard/ai-assistant";
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="min-h-screen bg-dark-900 text-white">
+    <div className="min-h-screen bg-dark-900 text-foreground flex flex-col">
       <div className="hidden md:block">
         <Sidebar />
       </div>
       <div className="block md:hidden">
         <MobileNav />
       </div>
-      <div className="md:ml-64 p-4 md:p-8">
-        <Header />
-        <main className="mt-6">
+      <div className="md:ml-64 p-4 md:p-8 flex-grow">
+        <Header title="Dashboard" />
+        <main className="mt-6 max-w-7xl mx-auto">
           <WelcomeSection />
           <LearningModules />
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             <StatsOverview />
             <FinancialOverview />
           </div>
