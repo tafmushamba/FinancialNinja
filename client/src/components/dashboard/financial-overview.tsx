@@ -16,10 +16,10 @@ const FinancialOverview: React.FC = () => {
   return (
     <section className="mb-8 animate-fadeIn">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-mono font-bold">
+        <h3 className="text-lg font-mono font-bold text-foreground">
           <TerminalText>Financial Overview</TerminalText>
         </h3>
-        <Button variant="link" className="text-neon-green text-sm p-0 h-auto">
+        <Button variant="link" className="text-neon-green text-sm p-0 h-auto hover:text-neon-green/90 transition-colors">
           <span>Connect Account</span>
           <i className="fas fa-plus ml-1"></i>
         </Button>
@@ -63,10 +63,18 @@ const FinancialOverview: React.FC = () => {
             {/* Spending Categories */}
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
               {financialData?.categories?.map((category: any, index: number) => (
-                <div key={index} className="bg-dark-700 p-3 rounded-md border border-dark-600">
+                <div key={index} className="bg-dark-700 p-3 rounded-md border border-dark-600 hover:border-primary/30 transition-colors">
                   <div className="flex items-center">
-                    <div className={`w-8 h-8 rounded-full bg-${category.color} bg-opacity-20 flex items-center justify-center mr-3`}>
-                      <i className={`fas ${category.icon} text-${category.color}`}></i>
+                    <div 
+                      className="w-8 h-8 rounded-full flex items-center justify-center mr-3"
+                      style={{ 
+                        backgroundColor: `hsla(var(--${category.color || 'neon-green'}-hsl) / 0.2)` 
+                      }}
+                    >
+                      <i 
+                        className={`fas ${category.icon}`}
+                        style={{ color: `var(--${category.color || 'neon-green'})` }}
+                      ></i>
                     </div>
                     <div>
                       <p className="text-sm text-foreground">{category.name}</p>
@@ -93,10 +101,18 @@ const FinancialOverview: React.FC = () => {
               ) : (
                 <>
                   {insightsData?.insights?.map((insight: any, index: number) => (
-                    <div key={index} className="bg-dark-700 p-4 rounded-md border border-dark-600">
+                    <div key={index} className="bg-dark-700 p-4 rounded-md border border-dark-600 hover:border-primary/30 transition-colors">
                       <div className="flex items-start">
-                        <div className={`w-8 h-8 rounded-full bg-${insight.color} bg-opacity-20 flex items-center justify-center mr-3 mt-1`}>
-                          <i className={`fas ${insight.icon} text-${insight.color}`}></i>
+                        <div 
+                          className="w-8 h-8 rounded-full flex items-center justify-center mr-3 mt-1"
+                          style={{ 
+                            backgroundColor: `hsla(var(--${insight.color || 'neon-green'}-hsl) / 0.2)` 
+                          }}
+                        >
+                          <i 
+                            className={`fas ${insight.icon}`}
+                            style={{ color: `var(--${insight.color || 'neon-green'})` }}
+                          ></i>
                         </div>
                         <div>
                           <h5 className="text-sm font-bold text-foreground">{insight.title}</h5>
@@ -109,8 +125,12 @@ const FinancialOverview: React.FC = () => {
               )}
             </div>
             
-            <Button className="mt-4 w-full bg-dark-700 hover:bg-dark-600 text-foreground text-sm">
-              View All Insights
+            <Button 
+              className="mt-4 w-full bg-dark-700 hover:bg-dark-600 text-foreground text-sm border border-dark-600 hover:border-primary/30 transition-colors shadow-sm"
+              variant="secondary"
+            >
+              <span>View All Insights</span>
+              <i className="fas fa-arrow-right ml-2 text-xs"></i>
             </Button>
           </CardContent>
         </Card>

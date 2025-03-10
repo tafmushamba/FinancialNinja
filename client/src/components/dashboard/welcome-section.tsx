@@ -12,15 +12,15 @@ const WelcomeSection: React.FC = () => {
 
   return (
     <section className="mb-8 animate-fadeIn">
-      <div className="bg-dark-800 rounded-lg p-6 border border-dark-600">
+      <div className="bg-dark-800 rounded-lg p-6 border border-dark-600 shadow-lg hover:shadow-primary/10 transition-shadow">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           <div>
-            <h1 className="text-2xl font-mono font-bold">
+            <h1 className="text-2xl font-mono font-bold text-foreground">
               {isLoading ? 'Loading...' : (
                 <>Welcome back, <span className="text-neon-green">{username}</span></>
               )}
             </h1>
-            <p className="text-gray-400 mt-2 text-sm md:text-base">
+            <p className="text-muted-foreground mt-2 text-sm md:text-base">
               {isLoading ? 'Loading stats...' : (
                 <>You've completed <span className="text-neon-green font-bold">{lessonsCompleted} lessons</span> this week. Keep up the great work!</>
               )}
@@ -29,7 +29,7 @@ const WelcomeSection: React.FC = () => {
           <div className="mt-4 md:mt-0">
             <Button 
               variant="outline" 
-              className="bg-neon-green bg-opacity-20 hover:bg-opacity-30 text-neon-green border-neon-green border-opacity-30"
+              className="bg-neon-green/20 hover:bg-neon-green/30 text-neon-green border-neon-green/30 shadow-md hover:shadow-neon-green/20 transition-all"
             >
               <i className="fas fa-robot mr-2"></i>
               Start AI Assessment
