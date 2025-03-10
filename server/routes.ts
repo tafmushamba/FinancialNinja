@@ -563,6 +563,193 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Internal server error" });
     }
   });
+  
+  // Quiz routes
+  
+  // Get quizzes for a lesson
+  app.get("/api/quizzes/lesson/:lessonId", async (req: Request, res: Response) => {
+    try {
+      const lessonId = parseInt(req.params.lessonId);
+      
+      if (isNaN(lessonId)) {
+        return res.status(400).json({ message: "Invalid lesson ID" });
+      }
+      
+      const quizzes = await storage.getQuizzesByLesson(lessonId);
+      res.json({ quizzes });
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
+  // Get a specific quiz with its questions
+  app.get("/api/quizzes/:quizId", async (req: Request, res: Response) => {
+    try {
+      const quizId = parseInt(req.params.quizId);
+      
+      if (isNaN(quizId)) {
+        return res.status(400).json({ message: "Invalid quiz ID" });
+      }
+      
+      const quiz = await storage.getQuiz(quizId);
+      
+      if (!quiz) {
+        return res.status(404).json({ message: "Quiz not found" });
+      }
+      
+      const questions = await storage.getQuizQuestions(quizId);
+      
+      res.json({ 
+        quiz,
+        questions
+      });
+    } catch (error) {
+      console.error("Error fetching quiz:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
+  // Submit a quiz attempt
+  app.post("/api/quizzes/:quizId/attempt", async (req: Request, res: Response) => {
+    try {
+      // In a real app, we'd get the userId from the session
+      const userId = 1; // Mock user ID
+      const quizId = parseInt(req.params.quizId);
+      
+      if (isNaN(quizId)) {
+        return res.status(400).json({ message: "Invalid quiz ID" });
+      }
+      
+      const { answers, timeTaken } = req.body;
+      
+      if (!Array.isArray(answers)) {
+        return res.status(400).json({ message: "Answers must be an array" });
+      }
+      
+      const quiz = await storage.getQuiz(quizId);
+      
+      if (!quiz) {
+        return res.status(404).json({ message: "Quiz not found" });
+      }
+      
+      const questions = await storage.getQuizQuestions(quizId);
+      
+      // Create attempt
+      const attempt = await storage.createQuizAttempt({
+        userId,
+        quizId,
+        score: 0, // Will be calculated below
+        passed: false, // Will be calculated below
+        timeTaken
+      });
+      
+      let totalPoints = 0;
+      let earnedPoints = 0;
+      
+      // Process each answer
+      for (const answer of answers) {
+        const question = questions.find(q => q.id === answer.questionId);
+        
+        if (!question) {
+          continue;
+        }
+        
+        let isCorrect = false;
+        totalPoints += question.points || 1;
+        
+        // Evaluate correctness based on question type
+        if (question.type === 'multiple-choice' || question.type === 'true-false') {
+          const correctOptions = question.options?.filter(opt => opt.isCorrect).map(opt => opt.id) || [];
+          const selectedOptions = answer.selectedOptions || [];
+          
+          // For multiple-choice, the answer is correct if they selected all correct options and no incorrect ones
+          isCorrect = 
+            selectedOptions.length === correctOptions.length && 
+            selectedOptions.every(id => correctOptions.includes(id));
+            
+          if (isCorrect) {
+            earnedPoints += question.points || 1;
+          }
+        }
+        
+        // Save the answer
+        await storage.createQuizAnswer({
+          attemptId: attempt.id,
+          questionId: question.id,
+          selectedOptions: answer.selectedOptions || [],
+          isCorrect
+        });
+      }
+      
+      // Calculate score as a percentage
+      const scorePercentage = totalPoints > 0 ? Math.round((earnedPoints / totalPoints) * 100) : 0;
+      
+      // Update attempt with score
+      const updatedAttempt = await storage.updateQuizAttempt(attempt.id, {
+        score: scorePercentage,
+        passed: scorePercentage >= (quiz.passingScore || 70)
+      });
+      
+      res.json({ 
+        attempt: updatedAttempt,
+        success: true
+      });
+    } catch (error) {
+      console.error("Error submitting quiz attempt:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
+  // Get quiz attempts for a user
+  app.get("/api/quizzes/:quizId/attempts", async (req: Request, res: Response) => {
+    try {
+      // In a real app, we'd get the userId from the session
+      const userId = 1; // Mock user ID
+      const quizId = parseInt(req.params.quizId);
+      
+      if (isNaN(quizId)) {
+        return res.status(400).json({ message: "Invalid quiz ID" });
+      }
+      
+      const attempts = await storage.getQuizAttempts(quizId, userId);
+      res.json({ attempts });
+    } catch (error) {
+      console.error("Error fetching quiz attempts:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
+  // Get details of a specific quiz attempt
+  app.get("/api/quiz-attempts/:attemptId", async (req: Request, res: Response) => {
+    try {
+      const attemptId = parseInt(req.params.attemptId);
+      
+      if (isNaN(attemptId)) {
+        return res.status(400).json({ message: "Invalid attempt ID" });
+      }
+      
+      const attempt = await storage.getQuizAttempt(attemptId);
+      
+      if (!attempt) {
+        return res.status(404).json({ message: "Attempt not found" });
+      }
+      
+      const answers = await storage.getQuizAnswers(attemptId);
+      const quiz = await storage.getQuiz(attempt.quizId);
+      const questions = await storage.getQuizQuestions(attempt.quizId);
+      
+      res.json({ 
+        attempt,
+        answers,
+        quiz,
+        questions
+      });
+    } catch (error) {
+      console.error("Error fetching quiz attempt details:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
 
   const httpServer = createServer(app);
 

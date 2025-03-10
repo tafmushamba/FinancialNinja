@@ -157,8 +157,8 @@ export class MemStorage implements IStorage {
     this.financialAccountCurrentId = 1;
     this.transactionCurrentId = 1;
     this.budgetCurrentId = 1;
-    this.quizCurrentId = 1;
-    this.quizQuestionCurrentId = 1;
+    this.quizCurrentId = 2; // Starting from 2 since we'll add a sample quiz with ID 1
+    this.quizQuestionCurrentId = 6; // Starting from 6 since we'll add 5 sample questions
     this.quizAttemptCurrentId = 1;
     this.quizAnswerCurrentId = 1;
     this.assistantMessageCurrentId = 1;
@@ -227,6 +227,112 @@ export class MemStorage implements IStorage {
       content: "Hi there! I'm your financial literacy assistant. What financial topic would you like to learn about today?",
       sender: "assistant",
       timestamp: new Date()
+    });
+    
+    // Add a sample quiz for the first lesson
+    const quizId = 1;
+    this.quizzes.set(quizId, {
+      id: quizId,
+      title: "Investment Basics Quiz",
+      description: "Test your knowledge of basic investment concepts covered in this lesson.",
+      lessonId: 1, // Link to the first lesson
+      passingScore: 70,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+    
+    // Add sample quiz questions
+    const questions = [
+      {
+        id: 1,
+        quizId: quizId,
+        text: "Which of the following best describes a stock?",
+        type: "multiple-choice",
+        points: 2,
+        order: 1,
+        explanation: "A stock represents ownership in a company, making you a partial owner of the business.",
+        options: [
+          { id: "a", text: "A loan given to a company", isCorrect: false },
+          { id: "b", text: "Ownership in a company", isCorrect: true },
+          { id: "c", text: "A guarantee of fixed returns", isCorrect: false },
+          { id: "d", text: "A type of bank account", isCorrect: false }
+        ],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 2,
+        quizId: quizId,
+        text: "What is compound interest?",
+        type: "multiple-choice",
+        points: 2,
+        order: 2,
+        explanation: "Compound interest is calculated on both the initial principal and the accumulated interest, leading to exponential growth.",
+        options: [
+          { id: "a", text: "Interest calculated only on the principal amount", isCorrect: false },
+          { id: "b", text: "Interest calculated on both principal and accumulated interest", isCorrect: true },
+          { id: "c", text: "A fixed interest rate that never changes", isCorrect: false },
+          { id: "d", text: "Interest paid directly to your bank account", isCorrect: false }
+        ],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 3,
+        quizId: quizId,
+        text: "Diversification in investing helps to:",
+        type: "multiple-choice",
+        points: 2,
+        order: 3,
+        explanation: "Diversification spreads risk across different assets, reducing the impact of poor performance from any single investment.",
+        options: [
+          { id: "a", text: "Guarantee higher returns", isCorrect: false },
+          { id: "b", text: "Eliminate all investment risk", isCorrect: false },
+          { id: "c", text: "Reduce risk by spreading investments across different assets", isCorrect: true },
+          { id: "d", text: "Avoid paying taxes on investments", isCorrect: false }
+        ],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 4,
+        quizId: quizId,
+        text: "In the UK, an ISA (Individual Savings Account) is beneficial primarily because:",
+        type: "multiple-choice",
+        points: 2,
+        order: 4,
+        explanation: "ISAs provide tax advantages as you don't pay tax on the interest, dividends, or capital gains earned within the account.",
+        options: [
+          { id: "a", text: "It offers the highest interest rates in the market", isCorrect: false },
+          { id: "b", text: "It provides tax advantages on your savings and investments", isCorrect: true },
+          { id: "c", text: "It is insured by the government for unlimited amounts", isCorrect: false },
+          { id: "d", text: "It allows unlimited contributions per tax year", isCorrect: false }
+        ],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 5,
+        quizId: quizId,
+        text: "True or False: Higher potential returns usually come with higher risk.",
+        type: "true-false",
+        points: 1,
+        order: 5,
+        explanation: "This is a fundamental principle of investing. Investments that offer higher potential returns typically involve taking on more risk.",
+        options: [
+          { id: "a", text: "True", isCorrect: true },
+          { id: "b", text: "False", isCorrect: false }
+        ],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ];
+    
+    questions.forEach(question => {
+      this.quizQuestions.set(question.id, question);
+      if (question.id >= this.quizQuestionCurrentId) {
+        this.quizQuestionCurrentId = question.id + 1;
+      }
     });
   }
 
