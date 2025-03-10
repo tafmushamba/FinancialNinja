@@ -7,8 +7,8 @@ const client = new Mistral({
 });
 
 // Default model - Using Mistral's most capable model
-// You can use "mistral-tiny", "mistral-small", "mistral-medium" or "mistral-large"
-const DEFAULT_MODEL = "mistral-large";
+// Current available models include: "open-mistral-7b", "open-mixtral-8x7b", "mistral-small-latest", "mistral-medium-latest", "mistral-large-latest"
+const DEFAULT_MODEL = "mistral-medium-latest";
 
 /**
  * Generates personalized financial insights based on user query
