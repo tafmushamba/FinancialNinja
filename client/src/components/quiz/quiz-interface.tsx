@@ -50,7 +50,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
           method: 'GET',
         });
 
-        if (response) {
+        if (response && response.quiz) {
           setQuiz(response.quiz);
           setQuestions(response.questions);
           setStartTime(new Date());
@@ -114,6 +114,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
         score: number;
         passed: boolean;
         feedback: { [questionId: number]: { correct: boolean; explanation: string } };
+        attemptId: number;
       }>({
         url: `/api/quizzes/${quizId}/attempt`,
         method: 'POST',
@@ -123,7 +124,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
         },
       });
 
-      if (response) {
+      if (response && response.score !== undefined) {
         setAttemptResult(response);
         if (onComplete) {
           onComplete(response.score, response.passed);
