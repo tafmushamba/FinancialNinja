@@ -1,8 +1,9 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 interface ModuleCardProps {
   id: number;

@@ -12,8 +12,9 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocation } from "../lib/location";
-import { Button, Card, CardFooter } from "@/components/ui";
-import { MobileNav } from "@/components/navigation/mobile-nav";
+import { Button } from "@/components/ui/button";
+import { Card, CardFooter } from "@/components/ui/card";
+import MobileNav from "@/components/layout/mobile-nav";
 
 const LearningModulesPage: React.FC = () => {
   const [, setLocation] = useLocation();
