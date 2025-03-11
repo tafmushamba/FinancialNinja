@@ -880,6 +880,37 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
     }
   });
 
+  // Add Mistral AI integration endpoint for Python module
+  app.post("/api/mistral/generate", async (req: Request, res: Response) => {
+    try {
+      const { prompt, systemMessage } = req.body;
+      
+      // Validate required parameters
+      if (!prompt) {
+        return res.status(400).json({ message: "Missing required prompt parameter" });
+      }
+      
+      // Use the existing generateFinancialInsight function from our mistral service
+      // This ensures we use consistent Mistral API calls throughout the application
+      // The systemMessage can be handled in the question itself
+      const adjustedPrompt = systemMessage 
+        ? `${systemMessage}\n\nUser question: ${prompt}`
+        : prompt;
+        
+      // Call the Mistral API through our service
+      const content = await generateFinancialInsight(adjustedPrompt);
+      
+      // Return the content
+      res.json({ content, status: "success" });
+    } catch (error: any) {
+      console.error("Error calling Mistral API:", error);
+      res.status(500).json({ 
+        content: "Error calling Mistral API: " + (error?.message || "Unknown error"),
+        status: "error"
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
