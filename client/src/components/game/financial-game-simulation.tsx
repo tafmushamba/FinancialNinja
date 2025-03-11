@@ -108,7 +108,8 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
       const response = await apiRequest<any>('/api/financial-game/initialize', {
         method: 'POST',
         body: JSON.stringify({
-          careerPath: career
+          careerPath: career,
+          acknowledgeStatus: "I understand my initial financial status and am ready to proceed"
         })
       });
       
