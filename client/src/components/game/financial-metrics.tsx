@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { CircleDollarSign, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
+import { PoundSterling, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 
 export interface FinancialMetricsType {
@@ -38,7 +38,7 @@ export function FinancialMetrics({ metrics }: FinancialMetricsProps) {
             <MetricCard
               title="Monthly Income"
               value={formatCurrency(metrics.income)}
-              icon={<CircleDollarSign className="h-4 w-4 text-green-500" />}
+              icon={<PoundSterling className="h-4 w-4 text-green-500" />}
               className="bg-green-50 dark:bg-green-950/30"
             />
             <MetricCard
