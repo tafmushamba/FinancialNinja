@@ -50,17 +50,18 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }, [location]);
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground overflow-hidden" style={{ backgroundColor: 'var(--dark-900)' }}>
-      {/* Sidebar */}
-      <div className={cn(
-        "hidden md:block md:relative transition-all duration-300 ease-in-out h-screen z-30",
+    <div className="flex min-h-screen bg-background text-foreground overflow-hidden">
+      {/* Sidebar - hidden on mobile */}
+      <aside className={cn(
+        "hidden md:block transition-all duration-300 ease-in-out h-screen",
         isSidebarOpen ? "w-64" : "w-20"
       )}>
         <Sidebar collapsed={!isSidebarOpen} />
-      </div>
+      </aside>
       
-      {/* Main content */}
-      <div className="flex flex-col flex-1 w-full overflow-hidden">
+      {/* Main content area */}
+      <div className="flex flex-col flex-1 w-full">
+        {/* Top header */}
         <Header 
           title={getPageTitle()}
           toggleSidebar={toggleSidebar} 
@@ -68,11 +69,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           toggleMobileMenu={toggleMobileMenu}
         />
         
-        {/* Mobile menu */}
+        {/* Mobile navigation overlay */}
         <MobileNav isOpen={isMobileMenuOpen} toggleMenu={toggleMobileMenu} />
         
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-4 pb-20 md:pb-4" style={{ backgroundColor: 'var(--dark-900)' }}>
+        {/* Main page content */}
+        <main className="flex-1 overflow-y-auto p-4 pb-20 md:pb-10">
           {children}
         </main>
       </div>

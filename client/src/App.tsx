@@ -45,26 +45,12 @@ function Router() {
     return <div className="flex h-screen items-center justify-center">Loading...</div>;
   }
 
-  return (
-    <Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      
-      <Route path="/">
-        {isAuthenticated ? (
-          <MainLayout>
-            <Route path="/" component={Dashboard} />
-            <Route path="/learning-modules" component={LearningModules} />
-            <Route path="/learning-modules/:moduleId" component={ModuleDetail} />
-            <Route path="/lesson/:lessonId" component={Lesson} />
-            <Route path="/quiz/:id" component={Quiz} />
-            <Route path="/finance-tracker" component={FinanceTracker} />
-            <Route path="/achievements" component={Achievements} />
-            <Route path="/ai-assistant" component={AiAssistant} />
-            <Route path="/settings" component={Settings} />
-            <Route path="/:rest*" component={NotFound} />
-          </MainLayout>
-        ) : (
+  if (!isAuthenticated) {
+    return (
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/:rest*">
           <div className="flex justify-center items-center h-screen">
             <div className="text-center">
               <h1 className="text-2xl font-bold">Please log in</h1>
@@ -77,9 +63,26 @@ function Router() {
               </button>
             </div>
           </div>
-        )}
-      </Route>
-    </Switch>
+        </Route>
+      </Switch>
+    );
+  }
+
+  return (
+    <MainLayout>
+      <Switch>
+        <Route path="/" component={Dashboard} />
+        <Route path="/learning-modules" component={LearningModules} />
+        <Route path="/learning-modules/:moduleId" component={ModuleDetail} />
+        <Route path="/lesson/:lessonId" component={Lesson} />
+        <Route path="/quiz/:id" component={Quiz} />
+        <Route path="/finance-tracker" component={FinanceTracker} />
+        <Route path="/achievements" component={Achievements} />
+        <Route path="/ai-assistant" component={AiAssistant} />
+        <Route path="/settings" component={Settings} />
+        <Route path="/:rest*" component={NotFound} />
+      </Switch>
+    </MainLayout>
   );
 }
 
