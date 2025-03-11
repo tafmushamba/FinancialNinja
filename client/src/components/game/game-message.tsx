@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 
 interface GameMessageProps {
@@ -8,30 +8,51 @@ interface GameMessageProps {
 }
 
 export function GameMessage({ message, isLoading }: GameMessageProps) {
-  if (isLoading) {
-    return (
-      <Card className="bg-primary-50 dark:bg-primary-900/20 border-primary/20 my-4">
-        <CardContent className="p-4 flex items-center justify-center">
-          <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
-          <span>Processing your decision...</span>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (!message) return null;
+  // Split the message into paragraphs for better formatting
+  const paragraphs = React.useMemo(() => {
+    if (!message) return [];
+    return message.split('\n').filter(line => line.trim() !== '');
+  }, [message]);
 
   return (
-    <Card className="bg-primary-50 dark:bg-primary-900/20 border-primary/20 my-4">
-      <CardContent className="p-4">
-        <div className="prose prose-sm dark:prose-invert max-w-none">
-          {message.split('\n').map((paragraph, i) => (
-            <p key={i} className={i === 0 ? 'font-medium text-lg' : ''}>
-              {paragraph}
-            </p>
-          ))}
+    <Card className="p-6 relative min-h-[250px]">
+      {isLoading ? (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <span className="ml-2 text-muted-foreground">Processing your decision...</span>
         </div>
-      </CardContent>
+      ) : message ? (
+        <div className="space-y-4">
+          {paragraphs.map((paragraph, index) => {
+            // Check if paragraph is a list item with a dash or bullet
+            if (paragraph.trim().startsWith('- ')) {
+              return (
+                <div key={index} className="ml-4">
+                  <span className="text-primary">&bull;</span> {paragraph.replace('- ', '')}
+                </div>
+              );
+            }
+            
+            // Check if it's a section header (often in all caps or has a colon)
+            if (paragraph.includes(':') && !paragraph.includes(': £')) {
+              const [header, content] = paragraph.split(':', 2);
+              return (
+                <div key={index}>
+                  <strong className="text-primary font-medium">{header}:</strong>
+                  {content}
+                </div>
+              );
+            }
+            
+            // Regular paragraph
+            return <p key={index}>{paragraph}</p>;
+          })}
+        </div>
+      ) : (
+        <div className="text-center text-muted-foreground">
+          Make your first financial decision to start your journey!
+        </div>
+      )}
     </Card>
   );
 }

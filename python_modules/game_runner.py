@@ -8,41 +8,32 @@ from financial_twin import run_game_function
 
 def main():
     """Main entry point for the script when called from Node.js"""
+    # Read input from stdin (passed from Node.js)
+    input_json = sys.stdin.read()
+    
     try:
-        # Get the JSON input from command line arguments
-        if len(sys.argv) < 2:
-            print(json.dumps({
-                "content": "Error: Missing parameters",
-                "error": "No input parameters provided"
-            }))
-            return
-        
         # Parse the input JSON
-        input_json = json.loads(sys.argv[1])
-        function_name = input_json.get("function_name")
-        params = input_json.get("params", {})
+        params = json.loads(input_json)
+        function_name = params.get("function", "")
+        function_params = params.get("params", {})
         
-        if not function_name:
-            print(json.dumps({
-                "content": "Error: Missing function name",
-                "error": "Function name not provided"
-            }))
-            return
-        
-        # Run the specified game function with the provided parameters
-        result = run_game_function(function_name, params)
-        print(result)
-        
-    except json.JSONDecodeError as e:
-        print(json.dumps({
-            "content": "Error: Invalid JSON input",
-            "error": f"JSON parsing error: {str(e)}"
-        }))
+        # Run the appropriate game function
+        if function_name:
+            result = run_game_function(function_name, function_params)
+            
+            # Write the result to stdout for Node.js to read
+            sys.stdout.write(result)
+            sys.stdout.flush()
+        else:
+            error = {"error": "No function specified"}
+            sys.stdout.write(json.dumps(error))
+            sys.stdout.flush()
+            
     except Exception as e:
-        print(json.dumps({
-            "content": "Error: Game execution failed",
-            "error": f"Unexpected error: {str(e)}"
-        }))
+        # Handle any exceptions and return an error message
+        error = {"error": str(e)}
+        sys.stdout.write(json.dumps(error))
+        sys.stdout.flush()
 
 if __name__ == "__main__":
     main()

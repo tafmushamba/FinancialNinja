@@ -1,15 +1,6 @@
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { formatCurrency } from '@/lib/utils';
-import {
-  BarChart3,
-  CreditCard,
-  DollarSign,
-  Landmark,
-  TrendingDown,
-  TrendingUp,
-  Wallet
-} from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { PoundSterling, TrendingUp, TrendingDown, CreditCard, Wallet, Landmark } from 'lucide-react';
 
 export interface FinancialMetricsType {
   income: number;
@@ -32,72 +23,67 @@ export function FinancialMetrics({ metrics }: FinancialMetricsProps) {
     savings,
     debt,
     monthlyBalance = income - expenses,
-    debtToIncomeRatio = income > 0 ? debt / income : 0,
-    savingsRatio = income > 0 ? savings / income : 0
+    debtToIncomeRatio = debt / (income * 12) * 100,
+    savingsRatio = (savings / income) * 100
   } = metrics;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
-      <MetricCard
-        title="Monthly Income"
-        value={formatCurrency(income)}
-        icon={<DollarSign className="h-5 w-5" />}
-        className="bg-green-50 dark:bg-green-900/20"
-      />
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="space-y-4">
+        <MetricCard
+          title="Monthly Income"
+          value={`£${income.toLocaleString()}`}
+          icon={<PoundSterling className="text-green-500" />}
+          className="border-l-4 border-green-500"
+        />
+        <MetricCard
+          title="Monthly Expenses"
+          value={`£${expenses.toLocaleString()}`}
+          icon={<Wallet className="text-orange-500" />}
+          className="border-l-4 border-orange-500"
+        />
+      </div>
       
-      <MetricCard
-        title="Monthly Expenses"
-        value={formatCurrency(expenses)}
-        icon={<CreditCard className="h-5 w-5" />}
-        className="bg-red-50 dark:bg-red-900/20"
-      />
+      <div className="space-y-4">
+        <MetricCard
+          title="Current Savings"
+          value={`£${savings.toLocaleString()}`}
+          icon={<Landmark className="text-blue-500" />}
+          className="border-l-4 border-blue-500"
+        />
+        <MetricCard
+          title="Current Debt"
+          value={`£${debt.toLocaleString()}`}
+          icon={<CreditCard className="text-red-500" />}
+          className="border-l-4 border-red-500"
+        />
+      </div>
       
-      <MetricCard
-        title="Savings"
-        value={formatCurrency(savings)}
-        icon={<Landmark className="h-5 w-5" />}
-        className="bg-blue-50 dark:bg-blue-900/20"
-      />
-      
-      <MetricCard
-        title="Debt"
-        value={formatCurrency(debt)}
-        icon={<BarChart3 className="h-5 w-5" />}
-        className="bg-amber-50 dark:bg-amber-900/20"
-      />
-      
-      <MetricCard
-        title="Monthly Balance"
-        value={formatCurrency(monthlyBalance)}
-        icon={monthlyBalance >= 0 ? 
-          <TrendingUp className="h-5 w-5 text-green-500" /> : 
-          <TrendingDown className="h-5 w-5 text-red-500" />}
-        className={monthlyBalance >= 0 ? 
-          "bg-green-50 dark:bg-green-900/20" : 
-          "bg-red-50 dark:bg-red-900/20"}
-      />
-      
-      <MetricCard
-        title="Debt-to-Income Ratio"
-        value={`${(debtToIncomeRatio * 100).toFixed(1)}%`}
-        icon={<Wallet className="h-5 w-5" />}
-        className={debtToIncomeRatio < 0.3 ? 
-          "bg-green-50 dark:bg-green-900/20" : 
-          debtToIncomeRatio < 0.5 ? 
-            "bg-amber-50 dark:bg-amber-900/20" : 
-            "bg-red-50 dark:bg-red-900/20"}
-      />
-      
-      <MetricCard
-        title="Savings Ratio"
-        value={`${(savingsRatio * 100).toFixed(1)}%`}
-        icon={<Landmark className="h-5 w-5" />}
-        className={savingsRatio > 0.2 ? 
-          "bg-green-50 dark:bg-green-900/20" : 
-          savingsRatio > 0.1 ? 
-            "bg-amber-50 dark:bg-amber-900/20" : 
-            "bg-blue-50 dark:bg-blue-900/20"}
-      />
+      <div className="space-y-4">
+        <MetricCard
+          title="Monthly Balance"
+          value={`£${monthlyBalance.toLocaleString()}`}
+          icon={monthlyBalance >= 0 ? 
+            <TrendingUp className="text-green-500" /> : 
+            <TrendingDown className="text-red-500" />
+          }
+          className={`border-l-4 ${monthlyBalance >= 0 ? 'border-green-500' : 'border-red-500'}`}
+        />
+        <div className="grid grid-cols-2 gap-4">
+          <MetricCard
+            title="Debt-to-Income"
+            value={`${debtToIncomeRatio.toFixed(1)}%`}
+            icon={<CreditCard className="text-gray-500" />}
+            className="border-l-4 border-gray-500"
+          />
+          <MetricCard
+            title="Savings Ratio"
+            value={`${savingsRatio.toFixed(1)}%`}
+            icon={<Bank className="text-gray-500" />}
+            className="border-l-4 border-gray-500"
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -111,14 +97,16 @@ interface MetricCardProps {
 
 function MetricCard({ title, value, icon, className = '' }: MetricCardProps) {
   return (
-    <Card className={`${className} border-none`}>
-      <CardContent className="flex flex-col p-4">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-muted-foreground">{title}</span>
-          <div className="rounded-full bg-background p-1">{icon}</div>
+    <Card className={`p-4 ${className}`}>
+      <div className="flex justify-between items-center">
+        <div>
+          <p className="text-sm text-muted-foreground">{title}</p>
+          <p className="text-xl font-bold">{value}</p>
         </div>
-        <div className="text-2xl font-bold">{value}</div>
-      </CardContent>
+        <div className="h-10 w-10 rounded-full bg-background flex items-center justify-center">
+          {icon}
+        </div>
+      </div>
     </Card>
   );
 }
