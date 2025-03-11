@@ -4,20 +4,20 @@ This is the main module for the Financial Twin game, containing all the core gam
 """
 import random
 import json
-from typing import Dict, Any, List, Optional
+import math
+from typing import List, Dict, Any, Optional
+from datetime import datetime, timedelta
 
 class AbacusResponse:
     """Simple response class to mimic the structure of API responses"""
     def __init__(self, content: str, **kwargs):
         self.content = content
-        self.meta = kwargs
-        
+        self.data = kwargs
+    
     def to_dict(self):
         """Convert the response to a dictionary for JSON serialization"""
-        result = {
-            "content": self.content,
-            **self.meta
-        }
+        result = {"content": self.content}
+        result.update(self.data)
         return result
     
     def to_json(self):
@@ -26,16 +26,7 @@ class AbacusResponse:
 
 def get_level(xp: int) -> int:
     """Calculate level based on XP earned"""
-    if xp < 100:
-        return 1
-    elif xp < 300:
-        return 2
-    elif xp < 600:
-        return 3
-    elif xp < 1000:
-        return 4
-    else:
-        return 5
+    return math.floor(xp / 100) + 1
 
 def welcome_node_function(player_name: str, career_choice: str) -> AbacusResponse:
     """
@@ -48,60 +39,25 @@ def welcome_node_function(player_name: str, career_choice: str) -> AbacusRespons
     Returns:
         AbacusResponse containing welcome message and data
     """
-    career_paths = {
-        "Student": {
-            "income": 800,
-            "expenses": 700,
-            "savings": 200,
-            "debt": 5000  # Student loan
-        },
-        "Entrepreneur": {
-            "income": 1200,
-            "expenses": 1000,
-            "savings": 500,
-            "debt": 2000  # Initial business loan
-        },
-        "Artist": {
-            "income": 900,
-            "expenses": 800,
-            "savings": 300,
-            "debt": 1000  # Art supplies credit
-        },
-        "Banker": {
-            "income": 2500,
-            "expenses": 2000,
-            "savings": 1000,
-            "debt": 8000  # Mortgage or car loan
-        }
-    }
-    
-    path_data = career_paths.get(career_choice, career_paths["Student"])
-    
-    welcome_message = f"""
-Welcome to Financial Twin, {player_name}!
+    from abacusai import AgentResponse, ApiClient
+    client = ApiClient()
+    prompt = f'''You are a friendly game host. A new player named {player_name} has joined the game.
 
-You've chosen the {career_choice} career path. Let's see what financial future awaits you!
+Introduce the player to the Interactive Financial Simulation Game where they will create a virtual financial twin and navigate through life's financial challenges.
 
-Initial financial status:
-- Monthly Income: £{path_data['income']}
-- Monthly Expenses: £{path_data['expenses']}
-- Savings: £{path_data['savings']}
-- Debt: £{path_data['debt']}
+Explain that they can choose from one of the following career paths, each with unique financial challenges and story-driven missions:
 
-Are you ready to make your first financial decisions?
-"""
-    
-    return AbacusResponse(
-        welcome_message,
-        career_path=career_choice,
-        income=path_data['income'],
-        expenses=path_data['expenses'],
-        savings=path_data['savings'],
-        debt=path_data['debt'],
-        xp_earned=0,
-        level=1,
-        achievements=[]
-    )
+1. Student
+2. Entrepreneur
+3. Artist
+4. Banker
+
+They have chosen the career path: {career_choice.title() if hasattr(career_choice, "title") else career_choice}.
+
+Provide an enthusiastic welcome message that acknowledges their choice and sets the stage for their journey as a {career_choice.title() if hasattr(career_choice, "title") else career_choice}.
+'''
+    response = client.evaluate_prompt(prompt=prompt, system_message='As a game host, generate a welcoming message for the player. Be friendly, engaging, and set a positive tone for the game.').content
+    return AbacusResponse(response, career_path=career_choice)
 
 def initialize_financial_twin_function(career_path: str, acknowledge_status: str) -> AbacusResponse:
     """
@@ -114,128 +70,55 @@ def initialize_financial_twin_function(career_path: str, acknowledge_status: str
     Returns:
         AbacusResponse containing initial status and financial data
     """
-    career_paths = {
-        "Student": {
-            "income": 800,
-            "expenses": 700,
-            "savings": 200,
-            "debt": 5000,
-            "decisions": [
-                "Take a part-time job to increase income",
-                "Apply for a scholarship to reduce debt",
-                "Cut living expenses by moving to cheaper accommodation",
-                "Invest a small amount in a high-risk stock"
-            ]
-        },
-        "Entrepreneur": {
-            "income": 1200,
-            "expenses": 1000,
-            "savings": 500,
-            "debt": 2000,
-            "decisions": [
-                "Invest in marketing to increase business income",
-                "Cut business expenses by working from home",
-                "Take a small loan to expand operations",
-                "Focus on networking to find new clients"
-            ]
-        },
-        "Artist": {
-            "income": 900,
-            "expenses": 800,
-            "savings": 300,
-            "debt": 1000,
-            "decisions": [
-                "Create an online store to sell art",
-                "Apply for an arts grant",
-                "Teach art classes for additional income",
-                "Collaborate with other artists to share expenses"
-            ]
-        },
-        "Banker": {
-            "income": 2500,
-            "expenses": 2000,
-            "savings": 1000,
-            "debt": 8000,
-            "decisions": [
-                "Invest in a diversified portfolio",
-                "Refinance loans to lower interest rates",
-                "Take professional development courses",
-                "Start a side hustle in financial consulting"
-            ]
-        }
+    from abacusai import AgentResponse, ApiClient
+    client = ApiClient()
+    
+    # Define initial financial values for each career path
+    career_data = {
+        'Student': {'income': 1200.0, 'expenses': 1000.0, 'savings': 500.0, 'debt': 20000.0},
+        'Entrepreneur': {'income': 3000.0, 'expenses': 2500.0, 'savings': 10000.0, 'debt': 50000.0},
+        'Artist': {'income': 2000.0, 'expenses': 1800.0, 'savings': 2000.0, 'debt': 15000.0},
+        'Banker': {'income': 7000.0, 'expenses': 5000.0, 'savings': 30000.0, 'debt': 10000.0}
     }
     
-    path_data = career_paths.get(career_path, career_paths["Student"])
+    # Use the career data or default values if career not found
+    financial_status = career_data.get(str(career_path), {'income': 0.0, 'expenses': 0.0, 'savings': 0.0, 'debt': 0.0})
+    income = financial_status['income']
+    expenses = financial_status['expenses']
+    savings = financial_status['savings']
+    debt = financial_status['debt']
     
-    # Calculate financial health metrics
-    monthly_balance = path_data['income'] - path_data['expenses']
-    debt_to_income_ratio = path_data['debt'] / (path_data['income'] * 12) * 100
-    savings_ratio = path_data['savings'] / path_data['income'] * 100
-    
-    # Random initial financial event
-    events = [
-        "You've received a surprise £200 cashback from your credit card!",
-        "Unexpected car repairs cost you £150.",
-        "A family member gifted you £100 for your birthday.",
-        "Your utility bills were higher than expected this month (-£80).",
-        None  # No event
-    ]
-    
-    crisis_event = random.choice(events)
-    
-    # Initialize with some XP based on acknowledgment
-    xp_earned = 10 if "understand" in acknowledge_status.lower() else 5
-    
-    message = f"""
-Your financial twin is now initialized! As a {career_path}, you have:
+    # Create prompt for the AI
+    prompt = f'''
+You are a financial game host. A player has chosen the career path of {career_path}.
 
-Monthly Income: £{path_data['income']}
-Monthly Expenses: £{path_data['expenses']}
-Monthly Balance: £{monthly_balance}
-Current Savings: £{path_data['savings']}
-Current Debt: £{path_data['debt']}
+Their initial financial status is:
+- Income: ${income} per month
+- Expenses: ${expenses} per month
+- Savings: ${savings}
+- Debt: ${debt}
 
-Your financial health indicators:
-- Debt-to-Income Ratio: {debt_to_income_ratio:.1f}%
-- Savings Ratio: {savings_ratio:.1f}%
+Present this initial financial status to the player, providing a clear breakdown.
 
-{crisis_event if crisis_event else ""}
+Then, introduce the first financial challenge or story mission relevant to the chosen career path. The challenge should be appropriate for a {career_path}.
 
-What financial decision would you like to make? You can:
-- {path_data['decisions'][0]}
-- {path_data['decisions'][1]}
-- {path_data['decisions'][2]}
-- {path_data['decisions'][3]}
-"""
+Ask the player to make decisions regarding financial choices, such as budgeting, investing, paying off debt, or making purchases. Present at least two options for them to choose from.
+
+Use an engaging and motivating tone.
+'''
+    system_message = 'As a friendly game host, generate an engaging message for the player, presenting their initial financial status, introducing the first financial challenge, and asking them to make decisions. Keep the message under 500 words.'
+    response = client.evaluate_prompt(prompt=prompt, system_message=system_message).content
     
-    # Apply event impact if any
-    savings = path_data['savings']
-    if crisis_event:
-        if "cashback" in crisis_event:
-            savings += 200
-        elif "car repairs" in crisis_event:
-            savings -= 150
-        elif "gifted" in crisis_event:
-            savings += 100
-        elif "bills" in crisis_event:
-            savings -= 80
-    
-    return AbacusResponse(
-        message,
-        career_path=career_path,
-        income=path_data['income'],
-        expenses=path_data['expenses'],
-        savings=savings,
-        debt=path_data['debt'],
-        xp_earned=xp_earned,
-        level=get_level(xp_earned),
-        achievements=["Started Financial Journey"],
-        crisis_event=crisis_event,
-        monthly_savings=monthly_balance,
-        debt_to_income_ratio=debt_to_income_ratio,
-        savings_ratio=savings_ratio,
-        next_step="continue"
-    )
+    # Return response with initial financial data
+    return AbacusResponse(response, 
+                         income=income, 
+                         expenses=expenses, 
+                         savings=savings, 
+                         debt=debt, 
+                         career_path=career_path,
+                         xp_earned=0,
+                         level=1,
+                         achievements=[])
 
 def process_financial_decisions_function(
     career_path: str,
@@ -261,327 +144,171 @@ def process_financial_decisions_function(
     Returns:
         AbacusResponse containing updated financial status and game progress
     """
-    # Prepare career-specific decision outcomes
-    career_decisions = {
-        "Student": {
-            "Take a part-time job": {
-                "income_change": 200,
-                "expenses_change": 50,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 30,
-                "message": "You found a part-time job that pays £200 extra per month. Your expenses increased slightly due to commuting costs.",
-                "achievement": "Income Booster"
-            },
-            "Apply for a scholarship": {
-                "income_change": 0,
-                "expenses_change": 0,
-                "savings_change": 50,
-                "debt_change": -1000,
-                "xp_earned": 40,
-                "message": "You were awarded a partial scholarship! Your debt has been reduced by £1,000 and you received a £50 book stipend.",
-                "achievement": "Debt Reducer"
-            },
-            "Cut living expenses": {
-                "income_change": 0,
-                "expenses_change": -150,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 25,
-                "message": "You moved to a shared flat and reduced your monthly expenses by £150.",
-                "achievement": "Frugal Living"
-            },
-            "Invest in stocks": {
-                "income_change": 0,
-                "expenses_change": 0,
-                "savings_change": random.choice([-50, 100]),
-                "debt_change": 0,
-                "xp_earned": 20,
-                "message": "Your stock investment {result}.",
-                "achievement": "First Investor"
-            }
-        },
-        "Entrepreneur": {
-            "Invest in marketing": {
-                "income_change": 300,
-                "expenses_change": 100,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 35,
-                "message": "Your marketing campaign was a success! Monthly income increased by £300, with ongoing costs of £100.",
-                "achievement": "Marketing Guru"
-            },
-            "Cut business expenses": {
-                "income_change": 0,
-                "expenses_change": -200,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 30,
-                "message": "Working from home saved you £200 in monthly expenses.",
-                "achievement": "Cost Cutter"
-            },
-            "Take a small loan": {
-                "income_change": 400,
-                "expenses_change": 50,
-                "savings_change": 0,
-                "debt_change": 1000,
-                "xp_earned": 25,
-                "message": "You secured a £1,000 business loan and used it to generate £400 extra monthly income, with £50 in loan payments.",
-                "achievement": "Business Expander"
-            },
-            "Focus on networking": {
-                "income_change": random.choice([0, 250]),
-                "expenses_change": 50,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 20,
-                "message": "Your networking efforts {result}, with £50 spent on events and coffees.",
-                "achievement": "Networker"
-            }
-        },
-        "Artist": {
-            "Create an online store": {
-                "income_change": 200,
-                "expenses_change": 50,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 30,
-                "message": "Your online store is generating £200 extra per month, with £50 in platform fees.",
-                "achievement": "Digital Entrepreneur"
-            },
-            "Apply for an arts grant": {
-                "income_change": random.choice([0, 500]),
-                "expenses_change": 0,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 25,
-                "message": "Your grant application {result}.",
-                "achievement": "Grant Winner"
-            },
-            "Teach art classes": {
-                "income_change": 300,
-                "expenses_change": 75,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 35,
-                "message": "Your art classes bring in £300 extra per month, with £75 in materials and space rental.",
-                "achievement": "Art Educator"
-            },
-            "Collaborate with artists": {
-                "income_change": 150,
-                "expenses_change": -100,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 30,
-                "message": "Your collaboration reduced expenses by £100 and added £150 to your monthly income through joint projects.",
-                "achievement": "Collaborator"
-            }
-        },
-        "Banker": {
-            "Invest in a portfolio": {
-                "income_change": 150,
-                "expenses_change": 0,
-                "savings_change": -1000,
-                "debt_change": 0,
-                "xp_earned": 40,
-                "message": "You invested £1,000 from savings into a portfolio generating £150 monthly returns.",
-                "achievement": "Portfolio Manager"
-            },
-            "Refinance loans": {
-                "income_change": 0,
-                "expenses_change": -100,
-                "savings_change": 0,
-                "debt_change": -500,
-                "xp_earned": 35,
-                "message": "Refinancing reduced your debt by £500 and monthly expenses by £100.",
-                "achievement": "Smart Borrower"
-            },
-            "Take professional courses": {
-                "income_change": 300,
-                "expenses_change": 50,
-                "savings_change": -400,
-                "debt_change": 0,
-                "xp_earned": 30,
-                "message": "Your new certification cost £400 but increased your income by £300 per month, with ongoing professional fees of £50.",
-                "achievement": "Continuous Learner"
-            },
-            "Start a side hustle": {
-                "income_change": 400,
-                "expenses_change": 100,
-                "savings_change": 0,
-                "debt_change": 0,
-                "xp_earned": 35,
-                "message": "Your financial consulting side hustle brings in £400 extra income with £100 in expenses.",
-                "achievement": "Side Hustler"
-            }
-        }
+    from abacusai import AgentResponse, ApiClient
+    import random
+    import math
+    
+    client = ApiClient()
+    
+    # Convert inputs to appropriate types if they're strings
+    try:
+        income = float(income)
+        expenses = float(expenses)
+        savings = float(savings)
+        debt = float(debt)
+    except (ValueError, TypeError):
+        # If conversion fails, use default values
+        income = 2000.0
+        expenses = 1500.0
+        savings = 1000.0
+        debt = 10000.0
+    
+    # Scenario database for different career paths
+    scenarios = {
+        'Student': [
+            "Your student loan payment is due, but you've found a part-time job opportunity that could help. What's your decision?",
+            "A new semester is starting, and you need textbooks. You can buy new, used, or digital versions. What's your choice?",
+            "Your laptop is getting old. You can repair it, buy a new one, or use the library computers. What will you do?",
+            "Your friends are planning a spring break trip. It's expensive but could be a great experience. How do you handle this?",
+            "You've received a small scholarship. Will you save it, use it for current expenses, or invest in a skill-building course?"
+        ],
+        'Entrepreneur': [
+            "A potential investor is interested in your startup. They offer funding but want 30% equity. What's your decision?",
+            "Your product is gaining traction, but you need to decide between hiring help or working longer hours. What's your choice?",
+            "A competitor is struggling and offers to sell their client list. It's expensive but could boost your business. What do you do?",
+            "You can either invest in new equipment to improve efficiency or spend on marketing. Which path do you choose?",
+            "An opportunity to expand to a new market appears, but it requires significant upfront investment. How do you proceed?"
+        ],
+        'Artist': [
+            "A gallery offers to showcase your work, but you need to pay for the space upfront. What's your decision?",
+            "You can either invest in high-quality materials or save money with basic supplies. What's your choice?",
+            "A client requests a rush job at a higher rate, but it means canceling other commitments. What do you do?",
+            "You have the chance to attend an exclusive workshop that could enhance your skills. How do you handle the cost?",
+            "An online platform wants to feature your work but takes a 40% commission. What's your approach?"
+        ],
+        'Banker': [
+            "Your company offers stock options as part of your bonus. Will you exercise them or take the cash equivalent?",
+            "You've spotted a promising investment opportunity, but it's relatively high-risk. What's your decision?",
+            "A prestigious certification could advance your career but requires significant time and money. What's your choice?",
+            "You can either invest in a safe index fund or try active trading with higher potential returns. What's your strategy?",
+            "A startup approaches you for angel investment. How do you respond to this opportunity?"
+        ]
     }
     
-    # Find the matching decision based on keywords
-    decision_effect = None
-    chosen_key = None
+    # Calculate financial metrics
+    monthly_savings = income - expenses
+    debt_to_income_ratio = (debt / (income * 12)) if income > 0 else float('inf')
+    savings_ratio = (savings / income) if income > 0 else 0
+    
+    # Check for achievements
     achievements = []
+    if monthly_savings > 0:
+        achievements.append('Positive Cash Flow Master')
+    if savings_ratio > 0.2:
+        achievements.append('Strategic Saver')
+    if debt_to_income_ratio < 0.3:
+        achievements.append('Debt Management Expert')
+    if savings > 50000:
+        achievements.append('Wealth Builder')
+    if debt == 0:
+        achievements.append('Debt Free Champion')
     
-    if career_path in career_decisions:
-        career_options = career_decisions[career_path]
-        
-        for decision_key, effect in career_options.items():
-            if decision_key.lower() in financial_decision.lower():
-                decision_effect = effect
-                chosen_key = decision_key
-                break
+    # Calculate XP
+    xp_earned = 50
+    if monthly_savings > 0:
+        xp_earned += 25
+    if len(achievements) > 0:
+        xp_earned += 25 * len(achievements)
     
-    # Default decision if no match found
-    if not decision_effect:
-        decision_effect = {
-            "income_change": 0,
-            "expenses_change": 0,
-            "savings_change": 0,
-            "debt_change": 0,
-            "xp_earned": 10,
-            "message": "Your decision had minimal financial impact.",
-            "achievement": None
-        }
+    # Calculate level
+    level = math.floor(xp_earned / 100) + 1
     
-    # Apply the decision effects
-    new_income = income + decision_effect["income_change"]
-    new_expenses = expenses + decision_effect["expenses_change"]
-    new_savings = savings + decision_effect["savings_change"] + (new_income - new_expenses)
-    new_debt = debt + decision_effect["debt_change"]
+    # Process financial decision
+    decision_lower = str(financial_decision).lower()
+    if 'invest' in decision_lower:
+        savings -= 1000
+        if random.random() < 0.7:
+            income += 200
+    elif 'save' in decision_lower:
+        savings += 500
+        achievements.append('Savings Milestone')
+    elif 'pay' in decision_lower and 'debt' in decision_lower:
+        debt_payment = min(2000, debt)
+        debt -= debt_payment
+        savings -= debt_payment
     
-    # Format message with result for random outcomes
-    message = decision_effect["message"]
-    if "result" in message:
-        if "stocks" in financial_decision.lower():
-            result = "resulted in a profit" if decision_effect["savings_change"] > 0 else "resulted in a small loss"
-            message = message.format(result=result)
-        elif "networking" in financial_decision.lower():
-            result = "brought in new clients worth £250" if decision_effect["income_change"] > 0 else "haven't paid off financially yet"
-            message = message.format(result=result)
-        elif "grant" in financial_decision.lower():
-            result = "was successful! You received a £500 monthly stipend" if decision_effect["income_change"] > 0 else "was unsuccessful this time"
-            message = message.format(result=result)
-    
-    # Calculate financial health metrics
-    monthly_balance = new_income - new_expenses
-    debt_to_income_ratio = new_debt / (new_income * 12) * 100 if new_income > 0 else 0
-    savings_ratio = new_savings / new_income * 100 if new_income > 0 else 0
-    
-    # Add achievements
-    if decision_effect["achievement"]:
-        achievements.append(decision_effect["achievement"])
-    
-    # Add milestone achievements
-    if new_income >= 1500 and income < 1500:
-        achievements.append("Income Milestone: £1,500")
-    
-    if new_savings >= 1000 and savings < 1000:
-        achievements.append("Savings Milestone: £1,000")
-    
-    if new_debt <= 0 and debt > 0:
-        achievements.append("Debt Freedom")
-    
-    # Random events that might occur
-    random_events = [
-        {"event": "Your emergency fund came in handy when your laptop needed repairs. (-£200)", "savings": -200},
-        {"event": "You received a tax refund! (+£150)", "savings": 150},
-        {"event": "A friend paid back a loan you had forgotten about. (+£100)", "savings": 100},
-        {"event": "An unexpected medical expense came up. (-£250)", "savings": -250},
-        {"event": "You won a small prize in a local contest! (+£50)", "savings": 50},
-    ]
-    
-    # 30% chance of a random event
+    # Random crisis event (20% chance)
     crisis_event = None
-    if random.random() < 0.3:
-        event = random.choice(random_events)
-        crisis_event = event["event"]
-        new_savings += event["savings"]
+    if random.random() < 0.2:
+        crisis_events = {
+            'Medical Emergency': {'cost': 5000, 'message': 'You faced an unexpected medical expense.'},
+            'Job Setback': {'income_reduction': 0.2, 'message': 'Your income was temporarily reduced.'},
+            'Car Repair': {'cost': 2000, 'message': 'Your car needed urgent repairs.'},
+            'Family Emergency': {'cost': 3000, 'message': 'A family emergency required financial support.'}
+        }
+        crisis_type = random.choice(list(crisis_events.keys()))
+        crisis = crisis_events[crisis_type]
+        crisis_event = crisis['message']
+        
+        if 'cost' in crisis:
+            savings -= crisis['cost']
+        if 'income_reduction' in crisis:
+            income *= (1 - crisis['income_reduction'])
     
-    # Prepare next options based on career
-    next_options = []
-    if career_path == "Student":
-        next_options = [
-            "Look for higher-paying work opportunities",
-            "Apply for additional financial aid",
-            "Start a small side hustle",
-            "Create a stricter budget"
-        ]
-    elif career_path == "Entrepreneur":
-        next_options = [
-            "Explore new product/service offerings",
-            "Seek angel investment",
-            "Optimize pricing strategy",
-            "Expand to new markets"
-        ]
-    elif career_path == "Artist":
-        next_options = [
-            "Participate in a high-profile exhibition",
-            "Launch a crowdfunding campaign",
-            "Create a subscription service for fans",
-            "Partner with local businesses"
-        ]
-    elif career_path == "Banker":
-        next_options = [
-            "Negotiate a salary increase",
-            "Maximize employer benefits",
-            "Start a passive income stream",
-            "Optimize tax strategies"
-        ]
+    # Choose next scenario
+    career_path_str = str(career_path)
+    career_scenarios = scenarios.get(career_path_str, scenarios['Student'])
+    next_scenario = random.choice(career_scenarios)
     
-    # Generate response message
-    response_message = f"""
-{message}
+    # Create response message
+    response = f'''🎮 **Financial Twin Simulation Update** 🎮
 
-Your updated financial status:
-Monthly Income: £{new_income}
-Monthly Expenses: £{new_expenses}
-Monthly Balance: £{monthly_balance}
-Current Savings: £{new_savings}
-Current Debt: £{new_debt}
+💫 **Current Status:**
+Level: {level} (XP: {xp_earned})
+🏆 Achievements: {', '.join(achievements)}
 
-Your financial health indicators:
-- Debt-to-Income Ratio: {debt_to_income_ratio:.1f}%
-- Savings Ratio: {savings_ratio:.1f}%
+💰 **Financial Metrics:**
+Monthly Income: ${income:,.2f}
+Monthly Expenses: ${expenses:,.2f}
+Savings: ${savings:,.2f}
+Debt: ${debt:,.2f}
+Monthly Savings: ${monthly_savings:,.2f}
+Debt-to-Income Ratio: {debt_to_income_ratio:.2%}
+Savings Ratio: {savings_ratio:.2%}
 
-{crisis_event if crisis_event else ""}
-
-"""
+✨ **Decision Impact:**
+Your choice to {financial_decision} has been processed.
+'''
     
-    if next_step.lower() == "continue":
-        response_message += """
-What's your next financial move? You can:
-- {}
-- {}
-- {}
-- {}
-""".format(*next_options)
+    if crisis_event:
+        response += f'''
+⚠️ **Crisis Event:**
+{crisis_event}
+'''
+    
+    if next_step == 'continue':
+        response += f'''
+🎯 **Next Scenario:**
+{next_scenario}
+
+What's your decision?'''
     else:
-        response_message += "\nYou've decided to conclude this financial simulation session."
-    
-    # Calculate total XP
-    current_xp = decision_effect["xp_earned"]
-    if new_savings > savings:
-        current_xp += 5
-    if new_debt < debt:
-        current_xp += 5
-    if monthly_balance > 0:
-        current_xp += 5
+        response += "\n🏁 **Session Complete!**\nLet's see your final summary..."
     
     return AbacusResponse(
-        response_message,
-        career_path=career_path,
-        income=new_income,
-        expenses=new_expenses,
-        savings=new_savings,
-        debt=new_debt,
-        xp_earned=current_xp,
-        level=get_level(current_xp),
+        response,
+        xp_earned=xp_earned,
+        level=level,
         achievements=achievements,
         crisis_event=crisis_event,
-        monthly_savings=monthly_balance,
+        monthly_savings=monthly_savings,
         debt_to_income_ratio=debt_to_income_ratio,
         savings_ratio=savings_ratio,
-        next_step=next_step
+        next_step=next_step,
+        income=income,
+        expenses=expenses,
+        savings=savings,
+        debt=debt
     )
 
 def conclude_session_function(
@@ -606,46 +333,69 @@ def conclude_session_function(
     Returns:
         AbacusResponse containing conclusion message and summary
     """
-    # Calculate final stats
-    final_xp = xp_earned + 50  # Bonus for completing a session
+    from abacusai import AgentResponse, ApiClient
+    client = ApiClient()
+    
+    # Convert to appropriate types if needed
+    try:
+        xp_earned = int(xp_earned)
+        level = int(level)
+        if isinstance(achievements, str):
+            achievements = [achievements]
+    except (ValueError, TypeError):
+        xp_earned = 100
+        level = 2
+        achievements = []
+    
+    # Create leaderboard data
+    leaderboard = [
+        {'player_name': 'Alice', 'xp': 1200},
+        {'player_name': 'Bob', 'xp': 1100},
+        {'player_name': player_name, 'xp': xp_earned},
+        {'player_name': 'Charlie', 'xp': 900}
+    ]
+    leaderboard.sort(key=lambda x: x['xp'], reverse=True)
+    
+    leaderboard_text = 'Current Leaderboard:\n'
+    for rank, player in enumerate(leaderboard, start=1):
+        leaderboard_text += f"{rank}. {player['player_name']} - XP: {player['xp']}\n"
+    
+    # Financial insights
+    financial_insights = f'''You made the following financial decision during the simulation:
+- {financial_decision}
+'''
+    
+    # Create prompt for AI to generate conclusion
+    prompt = f'''
+As the game host, conclude the simulation session for player {player_name}.
+
+Provide a summary of their financial performance:
+- Career Path: {career_path}
+- Total XP Earned: {xp_earned}
+- Level Achieved: {level}
+- Achievements Unlocked: {', '.join(achievements) if achievements else 'None'}
+
+Provide data-driven insights on their spending patterns and financial decisions:
+{financial_insights}
+
+Update and display the leaderboards:
+{leaderboard_text}
+
+Thank the player for participating and encourage them to return for more gamified financial learning experiences.
+'''
+    
+    system_message = "As a friendly game host, provide a concluding message that summarizes the player's performance, offers insights, displays the leaderboard, and encourages them to return."
+    
+    response = client.evaluate_prompt(prompt=prompt, system_message=system_message).content
+    
+    # Calculate final values
+    final_xp = xp_earned + 100  # Bonus for completing session
     final_level = get_level(final_xp)
+    final_achievements = achievements.copy()
+    final_achievements.append("Game Completion")
     
-    # Add conclusion achievements
-    final_achievements = achievements if isinstance(achievements, list) else []
-    final_achievements.append("Session Completed")
-    
-    if final_level > level:
-        final_achievements.append(f"Reached Level {final_level}")
-    
-    # Create personalized advice based on career path
-    career_advice = {
-        "Student": "Focus on balancing study with part-time work, and prioritize paying down student loans early.",
-        "Entrepreneur": "Build an emergency fund of 6-12 months' expenses to weather business volatility.",
-        "Artist": "Diversify your income sources and gradually build passive income streams from your creative work.",
-        "Banker": "Leverage your financial knowledge to optimize investments and create multiple income sources."
-    }
-    
-    advice = career_advice.get(career_path, "Continue building your financial knowledge and apply it consistently.")
-    
-    # Generate conclusion message
-    conclusion_message = f"""
-Congratulations on completing your Financial Twin simulation, {player_name}!
-
-As a {career_path}, you've made several key financial decisions, including {financial_decision} most recently.
-
-Your achievements:
-- {", ".join(final_achievements)}
-
-You earned {final_xp} XP and reached Level {final_level}!
-
-Financial advice tailored for you:
-{advice}
-
-Key takeaways:
-1. Regular financial decisions compound over time
-2. Building emergency savings provides security during unexpected events
-3. Financial education leads to better decision-making
-4. Your career path offers unique financial opportunities and challenges
+    # Add conclusion message
+    conclusion_message = f"""{response}
 
 Thank you for using Financial Twin! Continue your journey to financial literacy with our other learning modules.
 """

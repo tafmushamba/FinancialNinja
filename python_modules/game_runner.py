@@ -11,11 +11,19 @@ def main():
     # Read input from stdin (passed from Node.js)
     input_json = sys.stdin.read()
     
+    # Debug - log input to a file for inspection
+    with open("/tmp/python_debug.log", "a") as debug_file:
+        debug_file.write(f"Input received: {input_json}\n")
+    
     try:
         # Parse the input JSON
         params = json.loads(input_json)
         function_name = params.get("function", "")
         function_params = params.get("params", {})
+        
+        # Debug - log parsed parameters
+        with open("/tmp/python_debug.log", "a") as debug_file:
+            debug_file.write(f"Function: {function_name}, Params: {function_params}\n")
         
         # Run the appropriate game function
         if function_name:
@@ -34,6 +42,10 @@ def main():
         error = {"error": str(e)}
         sys.stdout.write(json.dumps(error))
         sys.stdout.flush()
+        
+        # Debug - log the exception
+        with open("/tmp/python_debug.log", "a") as debug_file:
+            debug_file.write(f"Exception: {str(e)}\n")
 
 if __name__ == "__main__":
     main()

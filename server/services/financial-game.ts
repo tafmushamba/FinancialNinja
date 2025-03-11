@@ -52,9 +52,14 @@ async function runGameFunction(
       params
     };
 
+    // Log the data being sent to Python
+    log(`Sending data to Python: ${JSON.stringify(data)}`, 'python');
+
+    // Use stdio instead of stdin (which is not a valid option)
     const results = await PythonShell.run('game_runner.py', {
       ...options,
-      stdin: true,
+      stdio: 'pipe',
+      // Pass the data as input to the Python script
       stdinString: JSON.stringify(data)
     });
 
