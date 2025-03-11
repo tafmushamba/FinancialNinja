@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { DecisionOption } from './types';
+import { getDecisionAvatar } from './avatars';
 
 interface DecisionCardsProps {
   onSelect: (option: string) => void;

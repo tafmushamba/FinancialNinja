@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { PlayCircle } from 'lucide-react';
 import { FinancialGameSimulation } from '@/components/game/financial-game-simulation';
+import { careerAvatars } from '@/components/game/avatars';
 
 export default function FinancialGame() {
   const { toast } = useToast();
@@ -115,6 +116,9 @@ interface CareerCardProps {
 }
 
 function CareerCard({ career, onSelect }: CareerCardProps) {
+  // Get appropriate avatar component for this career
+  const AvatarComponent = careerAvatars[career.title as keyof typeof careerAvatars];
+  
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
@@ -128,11 +132,15 @@ function CareerCard({ career, onSelect }: CareerCardProps) {
         onClick={onSelect}
       >
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl font-semibold">{career.title}</h3>
-            <span className="text-4xl">{career.icon}</span>
+          <div className="flex flex-col items-center mb-4">
+            {AvatarComponent && (
+              <div className="w-32 h-32 mb-2">
+                <AvatarComponent className="w-full h-full" />
+              </div>
+            )}
+            <h3 className="text-xl font-semibold text-center">{career.title}</h3>
           </div>
-          <p className="text-muted-foreground">{career.description}</p>
+          <p className="text-muted-foreground text-center">{career.description}</p>
           <Button className="w-full">
             <PlayCircle className="h-4 w-4 mr-2" />
             Select This Path
