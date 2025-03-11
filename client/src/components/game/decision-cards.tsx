@@ -1,6 +1,10 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CreditCard, PiggyBank, ArrowUpDown, BarChart3, Shield, Wallet } from 'lucide-react';
+import { 
+  CreditCard, PiggyBank, ArrowUpDown, BarChart3, Shield, Wallet, 
+  Plane, Home, Coffee, Users, TrendingDown, Globe, Sparkles, 
+  PartyPopper, DollarSign
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface DecisionOption {
@@ -20,11 +24,171 @@ interface DecisionCardsProps {
   onSelect: (option: string) => void;
   selectedOption: string | null;
   disabled: boolean;
+  scenario?: string | undefined;
 }
 
-export function DecisionCards({ onSelect, selectedOption, disabled }: DecisionCardsProps) {
-  // Define the financial decision options with their impacts
-  const options: DecisionOption[] = [
+export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: DecisionCardsProps) {
+  // Detect scenarios from message content
+  const isSpringBreakScenario = scenario?.toLowerCase().includes('spring break');
+  const isUnexpectedExpenseScenario = scenario?.toLowerCase().includes('unexpected') || scenario?.toLowerCase().includes('emergency');
+  const isInvestmentScenario = scenario?.toLowerCase().includes('investment') || scenario?.toLowerCase().includes('stock market');
+  
+  // Different sets of options based on scenario
+  const springBreakOptions: DecisionOption[] = [
+    {
+      value: 'skip_trip',
+      label: 'Skip the Trip',
+      description: 'Focus on your financial goals instead of spending on the trip',
+      icon: <Home className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: 10,
+        debt: -5,
+        income: 0,
+        expenses: -15
+      }
+    },
+    {
+      value: 'budget_travel',
+      label: 'Budget Travel Options',
+      description: 'Go on the trip but find ways to minimize costs',
+      icon: <Plane className="h-6 w-6 text-amber-500" />,
+      impact: {
+        savings: -5,
+        debt: 5,
+        income: 0,
+        expenses: 10
+      }
+    },
+    {
+      value: 'side_hustle',
+      label: 'Earn Extra Money',
+      description: 'Take on a temporary side job to pay for the trip',
+      icon: <DollarSign className="h-6 w-6 text-green-500" />,
+      impact: {
+        savings: 0,
+        debt: 0,
+        income: 15,
+        expenses: 5
+      }
+    },
+    {
+      value: 'split_costs',
+      label: 'Split Costs with Friends',
+      description: 'Coordinate with friends to share expenses and reduce individual costs',
+      icon: <Users className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: -5,
+        debt: 0,
+        income: 0,
+        expenses: 5
+      }
+    }
+  ];
+
+  const unexpectedExpenseOptions: DecisionOption[] = [
+    {
+      value: 'use_emergency_fund',
+      label: 'Use Emergency Fund',
+      description: 'This is what your emergency fund was built for',
+      icon: <Shield className="h-6 w-6 text-red-500" />,
+      impact: {
+        savings: -15,
+        debt: 0,
+        income: 0,
+        expenses: 0
+      }
+    },
+    {
+      value: 'temporary_credit',
+      label: 'Use Credit Card',
+      description: 'Cover the expense with credit and pay it off gradually',
+      icon: <CreditCard className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: 0,
+        debt: 10,
+        income: 0,
+        expenses: 5
+      }
+    },
+    {
+      value: 'reduce_expenses',
+      label: 'Cut Other Expenses',
+      description: 'Temporarily reduce discretionary spending to cover this cost',
+      icon: <TrendingDown className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: -5,
+        debt: 0,
+        income: 0,
+        expenses: -10
+      }
+    },
+    {
+      value: 'ask_for_help',
+      label: 'Ask for Help',
+      description: 'Reach out to family or friends for temporary assistance',
+      icon: <Users className="h-6 w-6 text-sky-500" />,
+      impact: {
+        savings: 0,
+        debt: 0,
+        income: 5,
+        expenses: 0
+      }
+    }
+  ];
+
+  const investmentOptions: DecisionOption[] = [
+    {
+      value: 'conservative_investment',
+      label: 'Conservative Investment',
+      description: 'Lower risk, stable but modest returns',
+      icon: <Shield className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: -5,
+        debt: 0,
+        income: 3,
+        expenses: 0
+      }
+    },
+    {
+      value: 'balanced_portfolio',
+      label: 'Balanced Portfolio',
+      description: 'Mix of stocks and bonds for moderate growth with some stability',
+      icon: <ArrowUpDown className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: -10,
+        debt: 0,
+        income: 7,
+        expenses: 0
+      }
+    },
+    {
+      value: 'aggressive_growth',
+      label: 'Aggressive Growth',
+      description: 'Higher risk stocks and funds for potential higher returns',
+      icon: <BarChart3 className="h-6 w-6 text-red-500" />,
+      impact: {
+        savings: -15,
+        debt: 0,
+        income: 12,
+        expenses: 0
+      }
+    },
+    {
+      value: 'real_estate',
+      label: 'Real Estate Investment',
+      description: 'Invest in property or REITs for steady income and appreciation',
+      icon: <Home className="h-6 w-6 text-green-500" />,
+      impact: {
+        savings: -20,
+        debt: 10,
+        income: 10,
+        expenses: 5
+      }
+    }
+  ];
+  
+  // Default options if no specific scenario is detected
+  const defaultOptions: DecisionOption[] = [
     {
       value: 'savings_focus',
       label: 'Focus on Savings',
@@ -98,6 +262,17 @@ export function DecisionCards({ onSelect, selectedOption, disabled }: DecisionCa
       }
     }
   ];
+  
+  // Select the appropriate options based on the detected scenario
+  let options: DecisionOption[] = defaultOptions;
+  
+  if (isSpringBreakScenario) {
+    options = springBreakOptions;
+  } else if (isUnexpectedExpenseScenario) {
+    options = unexpectedExpenseOptions;
+  } else if (isInvestmentScenario) {
+    options = investmentOptions;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

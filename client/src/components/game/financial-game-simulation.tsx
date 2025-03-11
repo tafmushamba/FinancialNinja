@@ -415,6 +415,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                   onSelect={setSelectedDecision}
                   selectedOption={selectedDecision}
                   disabled={gameState.isLoading}
+                  scenario={gameState.message || undefined}
                 />
 
                 <Button 
