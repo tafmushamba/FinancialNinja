@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card } from '@/components/ui/card';
-import { Award, Star, Trophy, Medal } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Award, CheckCircle } from 'lucide-react';
 
 interface AchievementsListProps {
   achievements: string[];
@@ -8,43 +8,27 @@ interface AchievementsListProps {
 
 export function AchievementsList({ achievements }: AchievementsListProps) {
   if (!achievements || achievements.length === 0) {
-    return (
-      <Card className="p-4 text-center text-muted-foreground">
-        <div className="flex flex-col items-center gap-2">
-          <Trophy className="h-8 w-8 opacity-50" />
-          <p>No achievements unlocked yet. Make financial decisions to earn achievements!</p>
-        </div>
-      </Card>
-    );
+    return null;
   }
-
-  // Get a icon based on achievement name
-  const getAchievementIcon = (achievement: string) => {
-    if (achievement.includes('Milestone') || achievement.includes('Level')) {
-      return <Star className="h-5 w-5 text-yellow-500" />;
-    } else if (achievement.includes('Journey') || achievement.includes('Started')) {
-      return <Award className="h-5 w-5 text-blue-500" />;
-    } else if (achievement.includes('Freedom') || achievement.includes('Completed')) {
-      return <Trophy className="h-5 w-5 text-purple-500" />;
-    } else {
-      return <Medal className="h-5 w-5 text-green-500" />;
-    }
-  };
-
+  
   return (
-    <Card className="p-4">
-      <h3 className="text-lg font-medium mb-3">Achievements Unlocked</h3>
-      <div className="space-y-2">
-        {achievements.map((achievement, index) => (
-          <div 
-            key={index} 
-            className="flex items-center gap-3 p-2 rounded-md border bg-background/80 hover:bg-background transition-colors"
-          >
-            {getAchievementIcon(achievement)}
-            <span>{achievement}</span>
-          </div>
-        ))}
-      </div>
+    <Card className="shadow-md">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-semibold flex items-center gap-2">
+          <Award className="h-5 w-5 text-amber-500" />
+          Achievements Unlocked
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-2">
+          {achievements.map((achievement, index) => (
+            <li key={index} className="flex items-start gap-2">
+              <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+              <span>{achievement}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
     </Card>
   );
 }

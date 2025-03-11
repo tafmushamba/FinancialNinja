@@ -40,7 +40,7 @@ async function runGameFunction(
 ): Promise<FinancialGameData> {
   try {
     const options = {
-      mode: 'text',
+      mode: 'text' as const, // TypeScript needs this constraint
       pythonPath: 'python3',
       pythonOptions: ['-u'],
       scriptPath: path.join(process.cwd(), 'python_modules'),
@@ -55,13 +55,33 @@ async function runGameFunction(
     // Log the data being sent to Python
     log(`Sending data to Python: ${JSON.stringify(data)}`, 'python');
 
-    // Use stdio instead of stdin (which is not a valid option)
-    const results = await PythonShell.run('game_runner.py', {
-      ...options,
-      stdio: 'pipe',
-      // Pass the data as input to the Python script
-      stdinString: JSON.stringify(data)
+    // PythonShell does not directly support stdin input with the run method
+    // We need to create a properly configured PythonShell instance
+    const pyshell = new PythonShell('game_runner.py', options);
+    
+    // Write to stdin
+    pyshell.stdin.write(JSON.stringify(data));
+    pyshell.stdin.end();
+    
+    // Collect results
+    const results: string[] = [];
+    const resultPromise = new Promise<string[]>((resolve, reject) => {
+      pyshell.on('message', (message) => {
+        results.push(message);
+      });
+      
+      pyshell.on('error', (err) => {
+        log(`Python error: ${err}`, 'python');
+        reject(err);
+      });
+      
+      pyshell.on('close', () => {
+        resolve(results);
+      });
     });
+    
+    // Wait for results
+    await resultPromise;
 
     // The result will be a stringified JSON object
     const resultData = JSON.parse(results.join('')) as FinancialGameData;

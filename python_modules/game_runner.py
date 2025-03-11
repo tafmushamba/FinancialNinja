@@ -4,48 +4,48 @@ This module provides a simple entry point for Node.js to communicate with the Fi
 """
 import sys
 import json
+import traceback
 from financial_twin import run_game_function
 
 def main():
     """Main entry point for the script when called from Node.js"""
-    # Read input from stdin (passed from Node.js)
-    input_json = sys.stdin.read()
-    
-    # Debug - log input to a file for inspection
-    with open("/tmp/python_debug.log", "a") as debug_file:
-        debug_file.write(f"Input received: {input_json}\n")
-    
     try:
-        # Parse the input JSON
-        params = json.loads(input_json)
-        function_name = params.get("function", "")
-        function_params = params.get("params", {})
+        # Read the input data from stdin
+        input_data = sys.stdin.read()
         
-        # Debug - log parsed parameters
-        with open("/tmp/python_debug.log", "a") as debug_file:
-            debug_file.write(f"Function: {function_name}, Params: {function_params}\n")
+        # Log the received data for debugging
+        with open('/tmp/python_game_input.log', 'a') as f:
+            f.write(f"Received input: {input_data}\n")
         
-        # Run the appropriate game function
-        if function_name:
-            result = run_game_function(function_name, function_params)
-            
-            # Write the result to stdout for Node.js to read
-            sys.stdout.write(result)
-            sys.stdout.flush()
-        else:
-            error = {"error": "No function specified"}
-            sys.stdout.write(json.dumps(error))
-            sys.stdout.flush()
-            
+        # Parse the JSON data
+        data = json.loads(input_data)
+        
+        # Extract the function name and parameters
+        function_name = data.get('function')
+        params = data.get('params', {})
+        
+        # Log the extracted data
+        with open('/tmp/python_game_params.log', 'a') as f:
+            f.write(f"Function: {function_name}, Params: {params}\n")
+        
+        # Run the specified game function
+        result = run_game_function(function_name, params)
+        
+        # Print the result as JSON to be captured by Node.js
+        print(result)
+        
     except Exception as e:
-        # Handle any exceptions and return an error message
-        error = {"error": str(e)}
-        sys.stdout.write(json.dumps(error))
-        sys.stdout.flush()
+        # Log any errors
+        error_msg = traceback.format_exc()
+        with open('/tmp/python_game_error.log', 'a') as f:
+            f.write(f"Error: {error_msg}\n")
         
-        # Debug - log the exception
-        with open("/tmp/python_debug.log", "a") as debug_file:
-            debug_file.write(f"Exception: {str(e)}\n")
+        # Return an error message
+        error_response = json.dumps({
+            "content": f"Error running game: {str(e)}",
+            "error": str(e)
+        })
+        print(error_response)
 
 if __name__ == "__main__":
     main()
