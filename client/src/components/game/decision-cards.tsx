@@ -10,6 +10,7 @@ import {
 import { motion } from 'framer-motion';
 import { DecisionOption } from './types';
 import { getDecisionAvatar } from './avatars';
+import { DecisionSprite } from './sprites';
 
 interface DecisionCardsProps {
   onSelect: (option: string) => void;
@@ -76,7 +77,7 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario, de
         {/* Scenario Avatar */}
         <div className="flex justify-center mb-4">
           <div className="w-32 h-32">
-            <AvatarComponent className="w-full h-full" />
+            <DecisionSprite decisionType={avatarType} className="w-full h-full" />
           </div>
         </div>
         
@@ -721,7 +722,7 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario, de
       {/* Scenario Avatar */}
       <div className="flex justify-center mb-4">
         <div className="w-32 h-32">
-          <AvatarComponent className="w-full h-full" />
+          <DecisionSprite decisionType={avatarType} className="w-full h-full" />
         </div>
       </div>
       
