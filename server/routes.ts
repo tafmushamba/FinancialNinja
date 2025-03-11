@@ -12,7 +12,8 @@ import {
   initializeFinancialTwin,
   processFinancialDecision,
   concludeGameSession,
-  FinancialGameData
+  FinancialGameData,
+  DecisionOption
 } from './services/financial-game';
 
 export async function registerRoutes(app: Express, isAuthenticated?: (req: Request, res: Response, next: NextFunction) => void): Promise<Server> {

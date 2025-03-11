@@ -9,6 +9,18 @@ import { log } from '../vite';
 /**
  * Types for Financial Game data
  */
+export interface DecisionOption {
+  value: string;
+  label: string;
+  description: string;
+  impact: {
+    savings: number;
+    debt: number;
+    income: number;
+    expenses: number;
+  };
+}
+
 export interface FinancialGameData {
   content: string;
   career_path?: string;
@@ -28,6 +40,7 @@ export interface FinancialGameData {
   final_level?: number;
   final_achievements?: string[];
   leaderboard_position?: number;
+  decision_options?: DecisionOption[];
   error?: string;
 }
 
