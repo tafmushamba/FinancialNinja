@@ -50,9 +50,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }, [location]);
 
   return (
-    <div className="flex h-screen bg-dark-900 text-white overflow-hidden">
-      {/* Sidebar - hidden on mobile */}
-      <Sidebar collapsed={!isSidebarOpen} />
+    <div className="flex h-screen bg-background text-foreground overflow-hidden" style={{ backgroundColor: 'var(--dark-900)' }}>
+      {/* Sidebar */}
+      <div className={cn(
+        "fixed md:relative transition-all duration-300 ease-in-out h-full z-30",
+        isSidebarOpen ? "w-64" : "w-20"
+      )}>
+        <Sidebar collapsed={!isSidebarOpen} />
+      </div>
       
       {/* Main content */}
       <div className="flex flex-col flex-1 w-full overflow-hidden">
@@ -67,7 +72,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <MobileNav isOpen={isMobileMenuOpen} toggleMenu={toggleMobileMenu} />
         
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto bg-dark-900 p-4">
+        <main className="flex-1 overflow-y-auto p-4" style={{ backgroundColor: 'var(--dark-900)' }}>
           {children}
         </main>
       </div>

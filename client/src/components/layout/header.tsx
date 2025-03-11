@@ -37,24 +37,38 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-dark-800 border-b border-dark-600 py-3 px-4 flex justify-between items-center sticky top-0 z-10 w-full">
-      <div className="md:hidden">
-        <div className="w-8 h-8 flex items-center justify-center rounded-md bg-neon-green bg-opacity-20">
-          <i className="fas fa-chart-line text-neon-green"></i>
-        </div>
+    <header className="bg-dark-800 border-b border-dark-600 py-3 px-4 flex justify-between items-center sticky top-0 z-10 w-full" style={{ backgroundColor: 'var(--dark-800)', borderColor: 'var(--dark-600)' }}>
+      <div className="flex items-center">
+        <button 
+          onClick={toggleMobileMenu} 
+          className="md:hidden mr-4 p-2 rounded hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200"
+          aria-label="Toggle mobile menu"
+        >
+          <i className="fas fa-bars"></i>
+        </button>
+        
+        <button 
+          onClick={toggleSidebar} 
+          className="hidden md:flex mr-4 p-2 rounded hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200"
+          aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+        >
+          <i className={`fas ${isSidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'}`}></i>
+        </button>
+        
+        <h2 className="text-xl font-mono font-bold">{title}</h2>
       </div>
-      <h2 className="text-xl font-mono font-bold hidden md:block">{title}</h2>
+      
       <div className="flex items-center space-x-4">
-        <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-neon-green transition-colors duration-200">
+        <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200">
           <Bell size={18} />
         </button>
-        <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-neon-green transition-colors duration-200">
+        <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200">
           <Search size={18} />
         </button>
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="h-8 w-8 rounded-full bg-neon-green bg-opacity-20 flex items-center justify-center text-neon-green hover:bg-opacity-30 transition-all">
+            <button className="h-8 w-8 rounded-full bg-green-500 bg-opacity-20 flex items-center justify-center text-green-500 hover:bg-opacity-30 transition-all">
               <User size={16} />
             </button>
           </DropdownMenuTrigger>
