@@ -50,7 +50,7 @@ def welcome_node_function(player_name: str, career_choice: str) -> AbacusRespons
     Returns:
         AbacusResponse containing welcome message and data
     """
-    from python_modules.abacusai import AgentResponse, ApiClient
+    # ApiClient is already imported at the top of the file
     client = ApiClient()
     prompt = f'''You are a friendly game host. A new player named {player_name} has joined the game.
 
@@ -81,7 +81,7 @@ def initialize_financial_twin_function(career_path: str, acknowledge_status: str
     Returns:
         AbacusResponse containing initial status and financial data
     """
-    from python_modules.abacusai import AgentResponse, ApiClient
+    # ApiClient is already imported at the top of the file
     client = ApiClient()
     
     # Define initial financial values for each career path
@@ -155,9 +155,8 @@ def process_financial_decisions_function(
     Returns:
         AbacusResponse containing updated financial status and game progress
     """
-    from python_modules.abacusai import AgentResponse, ApiClient
-    import random
-    import math
+    # ApiClient is already imported at the top of the file
+    # random and math are already imported at the top
     
     client = ApiClient()
     
@@ -344,7 +343,7 @@ def conclude_session_function(
     Returns:
         AbacusResponse containing conclusion message and summary
     """
-    from python_modules.abacusai import AgentResponse, ApiClient
+    # ApiClient is already imported at the top of the file
     client = ApiClient()
     
     # Convert to appropriate types if needed
