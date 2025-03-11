@@ -27,6 +27,7 @@ import { AchievementsDisplay } from './achievements-display';
 import { AnimatedGameMessage } from './animated-game-message';
 import { DecisionOption } from './types';
 import { careerAvatars } from './avatars';
+import { CareerSprite, DecisionSprite } from './sprites';
 
 interface FinancialGameSimulationProps {
   career: string;
@@ -326,11 +327,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
             >
               {/* Career Avatar Section */}
               <div className="flex flex-col items-center mb-4">
-                {career && careerAvatars[career as keyof typeof careerAvatars] && (
-                  <div className="w-32 h-32 mb-2">
-                    {React.createElement(careerAvatars[career as keyof typeof careerAvatars], { className: "w-full h-full" })}
-                  </div>
-                )}
+                {/* Use the new CareerSprite component */}
+                <div className="w-32 h-32 mb-2">
+                  <CareerSprite career={career} className="w-full h-full" />
+                </div>
                 <div className="text-xl font-medium text-center">
                   <span className="text-primary">{career}</span> Career Path
                 </div>
@@ -468,11 +468,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
             >
               <div className="flex items-center justify-between p-4 bg-primary/10 rounded-md">
                 <div className="flex items-center space-x-3">
-                  {gameState.careerPath && careerAvatars[gameState.careerPath as keyof typeof careerAvatars] && (
-                    <div className="w-12 h-12">
-                      {React.createElement(careerAvatars[gameState.careerPath as keyof typeof careerAvatars], { className: "w-full h-full" })}
-                    </div>
-                  )}
+                  {/* Use the new CareerSprite component */}
+                  <div className="w-12 h-12">
+                    <CareerSprite career={gameState.careerPath} className="w-full h-full" />
+                  </div>
                   <div>
                     <div className="font-medium text-lg">{gameState.playerName}</div>
                     <div className="text-sm text-muted-foreground">{gameState.careerPath}</div>
