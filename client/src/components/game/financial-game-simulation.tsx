@@ -26,6 +26,7 @@ import { DecisionCards } from './decision-cards';
 import { AchievementsDisplay } from './achievements-display';
 import { AnimatedGameMessage } from './animated-game-message';
 import { DecisionOption } from './types';
+import { careerAvatars } from './avatars';
 
 interface FinancialGameSimulationProps {
   career: string;
@@ -323,10 +324,15 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               animate={{ opacity: 1 }}
               className="space-y-4"
             >
-              <div className="flex items-center space-x-2 p-4 bg-primary/5 rounded-md">
-                <User className="h-5 w-5 text-primary" />
-                <div className="text-lg font-medium">
-                  Career Path: <span className="text-primary">{career}</span>
+              {/* Career Avatar Section */}
+              <div className="flex flex-col items-center mb-4">
+                {career && careerAvatars[career as keyof typeof careerAvatars] && (
+                  <div className="w-32 h-32 mb-2">
+                    {React.createElement(careerAvatars[career as keyof typeof careerAvatars], { className: "w-full h-full" })}
+                  </div>
+                )}
+                <div className="text-xl font-medium text-center">
+                  <span className="text-primary">{career}</span> Career Path
                 </div>
               </div>
 
@@ -337,6 +343,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                     Welcome, <span className="text-primary">{playerName}</span>!
                   </div>
                 </div>
+                <p className="text-muted-foreground text-center">
+                  You'll navigate your financial journey as a {career}. Make decisions to improve your financial well-being 
+                  and achieve your goals.
+                </p>
                 <Button 
                   onClick={startGame}
                   disabled={!playerName || gameState.isLoading}
@@ -457,8 +467,12 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               className="space-y-6"
             >
               <div className="flex items-center justify-between p-4 bg-primary/10 rounded-md">
-                <div className="flex items-center space-x-2">
-                  <Award className="h-6 w-6 text-amber-500" />
+                <div className="flex items-center space-x-3">
+                  {gameState.careerPath && careerAvatars[gameState.careerPath as keyof typeof careerAvatars] && (
+                    <div className="w-12 h-12">
+                      {React.createElement(careerAvatars[gameState.careerPath as keyof typeof careerAvatars], { className: "w-full h-full" })}
+                    </div>
+                  )}
                   <div>
                     <div className="font-medium text-lg">{gameState.playerName}</div>
                     <div className="text-sm text-muted-foreground">{gameState.careerPath}</div>

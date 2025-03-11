@@ -51,63 +51,93 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario, de
       };
     });
     
+    // Get an appropriate avatar for this scenario
+    const scenarioValue = scenario?.toLowerCase() || '';
+    let avatarType = 'default';
+    
+    if (scenarioValue.includes('savings') || scenarioValue.includes('emergency fund')) {
+      avatarType = 'savings_focus';
+    } else if (scenarioValue.includes('debt') || scenarioValue.includes('loan')) {
+      avatarType = 'debt_payment';
+    } else if (scenarioValue.includes('invest') || scenarioValue.includes('growth')) {
+      avatarType = 'investment';
+    } else if (scenarioValue.includes('budget') || scenarioValue.includes('expense')) {
+      avatarType = 'budget_optimization';
+    } else if (scenarioValue.includes('crisis') || scenarioValue.includes('emergency')) {
+      avatarType = 'crisis';
+    } else if (scenarioValue.includes('achievement') || scenarioValue.includes('success')) {
+      avatarType = 'achievement';
+    }
+    
+    const AvatarComponent = getDecisionAvatar(avatarType);
+    
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {mappedOptions.map((option, index) => (
-          <motion.div
-            key={option.value}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-          >
-            <Card 
-              className={`cursor-pointer transition-all hover:shadow-md hover:border-primary/50 ${
-                selectedOption === option.value ? 'border-2 border-primary' : ''
-              } ${disabled ? 'opacity-60 pointer-events-none' : ''}`}
-              onClick={() => !disabled && onSelect(option.value)}
+      <div>
+        {/* Scenario Avatar */}
+        <div className="flex justify-center mb-4">
+          <div className="w-32 h-32">
+            <AvatarComponent className="w-full h-full" />
+          </div>
+        </div>
+        
+        {/* Decision Options */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {mappedOptions.map((option, index) => (
+            <motion.div
+              key={option.value}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <CardHeader className="pb-2">
-                <div className="flex items-center space-x-2">
-                  {option.icon}
-                  <CardTitle className="text-base">{option.label}</CardTitle>
-                </div>
-                <CardDescription>{option.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0 text-sm">
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span>Savings Impact:</span>
-                    <span className={option.impact.savings > 0 ? 'text-green-600' : option.impact.savings < 0 ? 'text-red-600' : ''}>
-                      {option.impact.savings > 0 ? '+' : ''}{option.impact.savings}%
-                    </span>
+              <Card 
+                className={`cursor-pointer transition-all hover:shadow-md hover:border-primary/50 ${
+                  selectedOption === option.value ? 'border-2 border-primary' : ''
+                } ${disabled ? 'opacity-60 pointer-events-none' : ''}`}
+                onClick={() => !disabled && onSelect(option.value)}
+              >
+                <CardHeader className="pb-2">
+                  <div className="flex items-center space-x-2">
+                    {option.icon}
+                    <CardTitle className="text-base">{option.label}</CardTitle>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span>Debt Impact:</span>
-                    <span className={option.impact.debt < 0 ? 'text-green-600' : option.impact.debt > 0 ? 'text-red-600' : ''}>
-                      {option.impact.debt > 0 ? '+' : ''}{option.impact.debt}%
-                    </span>
-                  </div>
-                  {option.impact.income !== 0 && (
+                  <CardDescription>{option.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0 text-sm">
+                  <div className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <span>Income Impact:</span>
-                      <span className={option.impact.income > 0 ? 'text-green-600' : 'text-red-600'}>
-                        {option.impact.income > 0 ? '+' : ''}{option.impact.income}%
+                      <span>Savings Impact:</span>
+                      <span className={option.impact.savings > 0 ? 'text-green-600' : option.impact.savings < 0 ? 'text-red-600' : ''}>
+                        {option.impact.savings > 0 ? '+' : ''}{option.impact.savings}%
                       </span>
                     </div>
-                  )}
-                  {option.impact.expenses !== 0 && (
                     <div className="flex items-center justify-between">
-                      <span>Expenses Impact:</span>
-                      <span className={option.impact.expenses < 0 ? 'text-green-600' : 'text-red-600'}>
-                        {option.impact.expenses > 0 ? '+' : ''}{option.impact.expenses}%
+                      <span>Debt Impact:</span>
+                      <span className={option.impact.debt < 0 ? 'text-green-600' : option.impact.debt > 0 ? 'text-red-600' : ''}>
+                        {option.impact.debt > 0 ? '+' : ''}{option.impact.debt}%
                       </span>
                     </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+                    {option.impact.income !== 0 && (
+                      <div className="flex items-center justify-between">
+                        <span>Income Impact:</span>
+                        <span className={option.impact.income > 0 ? 'text-green-600' : 'text-red-600'}>
+                          {option.impact.income > 0 ? '+' : ''}{option.impact.income}%
+                        </span>
+                      </div>
+                    )}
+                    {option.impact.expenses !== 0 && (
+                      <div className="flex items-center justify-between">
+                        <span>Expenses Impact:</span>
+                        <span className={option.impact.expenses < 0 ? 'text-green-600' : 'text-red-600'}>
+                          {option.impact.expenses > 0 ? '+' : ''}{option.impact.expenses}%
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -667,63 +697,92 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario, de
     options = investmentOptions;
   }
 
+  // Determine avatar type based on options or scenario
+  let avatarType = 'default';
+  
+  if (isInvestmentScenario) {
+    avatarType = 'investment';
+  } else if (isUnexpectedExpenseScenario) {
+    avatarType = 'crisis';
+  } else if (options === defaultOptions) {
+    avatarType = 'default';
+  } else if (options[0]?.value.includes('debt') || options[0]?.value.includes('credit')) {
+    avatarType = 'debt_payment';
+  } else if (options[0]?.value.includes('saving') || options[0]?.value.includes('emergency')) {
+    avatarType = 'savings_focus';
+  } else if (options[0]?.value.includes('budget')) {
+    avatarType = 'budget_optimization';
+  }
+  
+  const AvatarComponent = getDecisionAvatar(avatarType);
+  
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-      {options.map((option, index) => (
-        <motion.div
-          key={option.value}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.1 }}
-        >
-          <Card 
-            className={`cursor-pointer transition-all hover:shadow-md hover:border-primary/50 ${
-              selectedOption === option.value ? 'border-2 border-primary' : ''
-            } ${disabled ? 'opacity-60 pointer-events-none' : ''}`}
-            onClick={() => !disabled && onSelect(option.value)}
+    <div>
+      {/* Scenario Avatar */}
+      <div className="flex justify-center mb-4">
+        <div className="w-32 h-32">
+          <AvatarComponent className="w-full h-full" />
+        </div>
+      </div>
+      
+      {/* Decision Options */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {options.map((option, index) => (
+          <motion.div
+            key={option.value}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <CardHeader className="pb-2">
-              <div className="flex items-center space-x-2">
-                {option.icon}
-                <CardTitle className="text-base">{option.label}</CardTitle>
-              </div>
-              <CardDescription>{option.description}</CardDescription>
-            </CardHeader>
-            <CardContent className="pt-0 text-sm">
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span>Savings Impact:</span>
-                  <span className={option.impact.savings > 0 ? 'text-green-600' : option.impact.savings < 0 ? 'text-red-600' : ''}>
-                    {option.impact.savings > 0 ? '+' : ''}{option.impact.savings}%
-                  </span>
+            <Card 
+              className={`cursor-pointer transition-all hover:shadow-md hover:border-primary/50 ${
+                selectedOption === option.value ? 'border-2 border-primary' : ''
+              } ${disabled ? 'opacity-60 pointer-events-none' : ''}`}
+              onClick={() => !disabled && onSelect(option.value)}
+            >
+              <CardHeader className="pb-2">
+                <div className="flex items-center space-x-2">
+                  {option.icon}
+                  <CardTitle className="text-base">{option.label}</CardTitle>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span>Debt Impact:</span>
-                  <span className={option.impact.debt < 0 ? 'text-green-600' : option.impact.debt > 0 ? 'text-red-600' : ''}>
-                    {option.impact.debt > 0 ? '+' : ''}{option.impact.debt}%
-                  </span>
-                </div>
-                {option.impact.income !== 0 && (
+                <CardDescription>{option.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 text-sm">
+                <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <span>Income Impact:</span>
-                    <span className={option.impact.income > 0 ? 'text-green-600' : 'text-red-600'}>
-                      {option.impact.income > 0 ? '+' : ''}{option.impact.income}%
+                    <span>Savings Impact:</span>
+                    <span className={option.impact.savings > 0 ? 'text-green-600' : option.impact.savings < 0 ? 'text-red-600' : ''}>
+                      {option.impact.savings > 0 ? '+' : ''}{option.impact.savings}%
                     </span>
                   </div>
-                )}
-                {option.impact.expenses !== 0 && (
                   <div className="flex items-center justify-between">
-                    <span>Expenses Impact:</span>
-                    <span className={option.impact.expenses < 0 ? 'text-green-600' : 'text-red-600'}>
-                      {option.impact.expenses > 0 ? '+' : ''}{option.impact.expenses}%
+                    <span>Debt Impact:</span>
+                    <span className={option.impact.debt < 0 ? 'text-green-600' : option.impact.debt > 0 ? 'text-red-600' : ''}>
+                      {option.impact.debt > 0 ? '+' : ''}{option.impact.debt}%
                     </span>
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ))}
+                  {option.impact.income !== 0 && (
+                    <div className="flex items-center justify-between">
+                      <span>Income Impact:</span>
+                      <span className={option.impact.income > 0 ? 'text-green-600' : 'text-red-600'}>
+                        {option.impact.income > 0 ? '+' : ''}{option.impact.income}%
+                      </span>
+                    </div>
+                  )}
+                  {option.impact.expenses !== 0 && (
+                    <div className="flex items-center justify-between">
+                      <span>Expenses Impact:</span>
+                      <span className={option.impact.expenses < 0 ? 'text-green-600' : 'text-red-600'}>
+                        {option.impact.expenses > 0 ? '+' : ''}{option.impact.expenses}%
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }
