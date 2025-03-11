@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { apiRequest } from '@/lib/queryClient';
 import { ArrowRight, Calendar, Clock, Landmark, User } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from "@/components/ui/input"; // Added import for Input component
+import { useAuth } from '@/context/AuthContext';
 
 import { FinancialMetrics, FinancialMetricsType } from './financial-metrics';
 import { GameMessage } from './game-message';
@@ -34,11 +34,12 @@ interface GameState {
 }
 
 export function FinancialGameSimulation({ career }: FinancialGameSimulationProps) {
-  const [playerName, setPlayerName] = useState('');
+  const { user } = useAuth();
+  const playerName = user ? `${user.firstName || user.username}` : '';
   const [selectedDecision, setSelectedDecision] = useState('');
   const [gameState, setGameState] = useState<GameState>({
     stage: 'welcome',
-    playerName: '',
+    playerName: playerName,
     careerPath: career,
     income: 0,
     expenses: 0,
