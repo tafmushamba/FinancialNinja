@@ -90,50 +90,50 @@ export const achievements = pgTable("achievements", {
   icon: text("icon").notNull(),
   color: text("color").notNull(),
   requirement: text("requirement").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: timestamp("createdAt").defaultNow(),
 });
 
 // User Achievement Schema
 export const userAchievements = pgTable("user_achievements", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
-  achievementId: integer("achievement_id").notNull().references(() => achievements.id),
-  unlockedAt: timestamp("unlocked_at").defaultNow(),
+  userId: integer("userId").notNull().references(() => users.id),
+  achievementId: integer("achievementId").notNull().references(() => achievements.id),
+  unlockedAt: timestamp("unlockedAt").defaultNow(),
 });
 
 // Financial Account Schema
 export const financialAccounts = pgTable("financial_accounts", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
+  userId: integer("userId").notNull().references(() => users.id),
   name: text("name").notNull(),
   type: text("type").notNull(),
   balance: integer("balance").notNull(),
   currency: text("currency").default("USD"),
-  isConnected: boolean("is_connected").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  isConnected: boolean("isConnected").default(false),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 // Transaction Schema
 export const transactions = pgTable("transactions", {
   id: serial("id").primaryKey(),
-  accountId: integer("account_id").notNull().references(() => financialAccounts.id),
+  accountId: integer("accountId").notNull().references(() => financialAccounts.id),
   amount: integer("amount").notNull(),
   description: text("description").notNull(),
   category: text("category"),
   date: timestamp("date").defaultNow(),
-  isExpense: boolean("is_expense").default(true),
+  isExpense: boolean("isExpense").default(true),
 });
 
 // Budget Schema
 export const budgets = pgTable("budgets", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
+  userId: integer("userId").notNull().references(() => users.id),
   category: text("category").notNull(),
   limit: integer("limit").notNull(),
   period: text("period").default("monthly"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 // Quiz Schema
@@ -141,16 +141,16 @@ export const quizzes = pgTable("quizzes", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
-  lessonId: integer("lesson_id").references(() => lessons.id),
-  passingScore: integer("passing_score").default(70),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  lessonId: integer("lessonId").references(() => lessons.id),
+  passingScore: integer("passingScore").default(70),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 // Quiz Question Schema
 export const quizQuestions = pgTable("quiz_questions", {
   id: serial("id").primaryKey(),
-  quizId: integer("quiz_id").notNull().references(() => quizzes.id),
+  quizId: integer("quizId").notNull().references(() => quizzes.id),
   text: text("text").notNull(),
   type: text("type").notNull(), // 'multiple-choice', 'true-false', 'matching'
   points: integer("points").default(1),
@@ -161,36 +161,36 @@ export const quizQuestions = pgTable("quiz_questions", {
     text: string;
     isCorrect: boolean;
   }[]>(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 // Quiz Attempt Schema
 export const quizAttempts = pgTable("quiz_attempts", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
-  quizId: integer("quiz_id").notNull().references(() => quizzes.id),
+  userId: integer("userId").notNull().references(() => users.id),
+  quizId: integer("quizId").notNull().references(() => quizzes.id),
   score: integer("score").notNull(),
   passed: boolean("passed").notNull(),
-  timeTaken: integer("time_taken"), // in seconds
-  startedAt: timestamp("started_at").defaultNow(),
-  completedAt: timestamp("completed_at"),
+  timeTaken: integer("timeTaken"), // in seconds
+  startedAt: timestamp("startedAt").defaultNow(),
+  completedAt: timestamp("completedAt"),
 });
 
 // Quiz Answer Schema
 export const quizAnswers = pgTable("quiz_answers", {
   id: serial("id").primaryKey(),
-  attemptId: integer("attempt_id").notNull().references(() => quizAttempts.id),
-  questionId: integer("question_id").notNull().references(() => quizQuestions.id),
-  selectedOptions: jsonb("selected_options").$type<string[]>(), // Array of option IDs
-  isCorrect: boolean("is_correct").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+  attemptId: integer("attemptId").notNull().references(() => quizAttempts.id),
+  questionId: integer("questionId").notNull().references(() => quizQuestions.id),
+  selectedOptions: jsonb("selectedOptions").$type<string[]>(), // Array of option IDs
+  isCorrect: boolean("isCorrect").notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
 });
 
 // AI Assistant Message Schema
 export const assistantMessages = pgTable("assistant_messages", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
+  userId: integer("userId").notNull().references(() => users.id),
   content: text("content").notNull(),
   sender: text("sender").notNull(), // 'user' or 'assistant'
   timestamp: timestamp("timestamp").defaultNow(),
