@@ -53,18 +53,16 @@ function Router() {
       <Route path="/">
         {isAuthenticated ? (
           <MainLayout>
-            <Switch>
-              <Route path="/" component={Dashboard} />
-              <Route path="/learning-modules" component={LearningModules} />
-              <Route path="/learning-modules/:moduleId" component={ModuleDetail} />
-              <Route path="/lesson/:lessonId" component={Lesson} />
-              <Route path="/quiz/:id" component={Quiz} />
-              <Route path="/finance-tracker" component={FinanceTracker} />
-              <Route path="/achievements" component={Achievements} />
-              <Route path="/ai-assistant" component={AiAssistant} />
-              <Route path="/settings" component={Settings} />
-              <Route component={NotFound} />
-            </Switch>
+            <Route path="/" component={Dashboard} />
+            <Route path="/learning-modules" component={LearningModules} />
+            <Route path="/learning-modules/:moduleId" component={ModuleDetail} />
+            <Route path="/lesson/:lessonId" component={Lesson} />
+            <Route path="/quiz/:id" component={Quiz} />
+            <Route path="/finance-tracker" component={FinanceTracker} />
+            <Route path="/achievements" component={Achievements} />
+            <Route path="/ai-assistant" component={AiAssistant} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/:rest*" component={NotFound} />
           </MainLayout>
         ) : (
           <div className="flex justify-center items-center h-screen">
