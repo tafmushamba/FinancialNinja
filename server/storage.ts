@@ -18,6 +18,10 @@ import { mockModules } from "./data/modules";
 import { mockAchievements } from "./data/achievements";
 import { mockUser } from "./data/users";
 import { mockLessons } from "./data/lessons";
+import pg from 'pg';
+const { Pool } = pg;
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { eq } from 'drizzle-orm';
 
 // modify the interface with any CRUD methods
 // you might need
@@ -746,4 +750,304 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class PostgresStorage implements IStorage {
+  private db: ReturnType<typeof drizzle>;
+  
+  constructor() {
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+    });
+    this.db = drizzle(pool);
+  }
+
+  // User methods
+  async getUser(id: number): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.id, id));
+    return result[0];
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.username, username));
+    return result[0];
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    const result = await this.db.insert(users).values({
+      ...user,
+      firstName: user.firstName || null,
+      lastName: user.lastName || null,
+      email: user.email || null,
+      userLevel: "Level 1 Investor",
+      financialLiteracyScore: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      settings: {
+        darkMode: true,
+        animations: true,
+        soundEffects: false,
+        learningDifficulty: 'intermediate',
+        notifications: {
+          email: true,
+          push: true,
+          learningReminders: true,
+          budgetAlerts: true
+        }
+      }
+    }).returning();
+    return result[0];
+  }
+
+  async updateUser(id: number, userData: Partial<User>): Promise<User | undefined> {
+    const result = await this.db.update(users)
+      .set({ ...userData, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return result[0];
+  }
+
+  // The rest of the storage methods will use the in-memory implementation for now
+  // We'll focus just on the user authentication part
+
+  // Learning module methods
+  async getLearningModules(): Promise<LearningModule[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getLearningModules();
+  }
+  
+  async getLearningModule(id: number): Promise<LearningModule | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getLearningModule(id);
+  }
+  
+  async createLearningModule(module: InsertLearningModule): Promise<LearningModule> {
+    const memStorage = new MemStorage();
+    return memStorage.createLearningModule(module);
+  }
+  
+  // Lesson methods
+  async getLessons(moduleId: number): Promise<Lesson[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getLessons(moduleId);
+  }
+  
+  async getLesson(id: number): Promise<Lesson | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getLesson(id);
+  }
+  
+  async createLesson(lesson: InsertLesson): Promise<Lesson> {
+    const memStorage = new MemStorage();
+    return memStorage.createLesson(lesson);
+  }
+  
+  // User progress methods
+  async getUserProgress(userId: number): Promise<UserProgress[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getUserProgress(userId);
+  }
+  
+  async getUserModuleProgress(userId: number, moduleId: number): Promise<UserProgress | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getUserModuleProgress(userId, moduleId);
+  }
+  
+  async createUserProgress(progress: InsertUserProgress): Promise<UserProgress> {
+    const memStorage = new MemStorage();
+    return memStorage.createUserProgress(progress);
+  }
+  
+  async updateUserProgress(id: number, progress: Partial<UserProgress>): Promise<UserProgress | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateUserProgress(id, progress);
+  }
+  
+  // Achievement methods
+  async getAchievements(): Promise<Achievement[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getAchievements();
+  }
+  
+  async getAchievement(id: number): Promise<Achievement | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getAchievement(id);
+  }
+  
+  async createAchievement(achievement: InsertAchievement): Promise<Achievement> {
+    const memStorage = new MemStorage();
+    return memStorage.createAchievement(achievement);
+  }
+  
+  // User achievement methods
+  async getUserAchievements(userId: number): Promise<UserAchievement[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getUserAchievements(userId);
+  }
+  
+  async getUserAchievement(userId: number, achievementId: number): Promise<UserAchievement | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getUserAchievement(userId, achievementId);
+  }
+  
+  async createUserAchievement(userAchievement: InsertUserAchievement): Promise<UserAchievement> {
+    const memStorage = new MemStorage();
+    return memStorage.createUserAchievement(userAchievement);
+  }
+  
+  // Financial account methods
+  async getFinancialAccounts(userId: number): Promise<FinancialAccount[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getFinancialAccounts(userId);
+  }
+  
+  async getFinancialAccount(id: number): Promise<FinancialAccount | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getFinancialAccount(id);
+  }
+  
+  async createFinancialAccount(account: InsertFinancialAccount): Promise<FinancialAccount> {
+    const memStorage = new MemStorage();
+    return memStorage.createFinancialAccount(account);
+  }
+  
+  async updateFinancialAccount(id: number, account: Partial<FinancialAccount>): Promise<FinancialAccount | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateFinancialAccount(id, account);
+  }
+  
+  // Transaction methods
+  async getTransactions(accountId: number): Promise<Transaction[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getTransactions(accountId);
+  }
+  
+  async getTransaction(id: number): Promise<Transaction | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getTransaction(id);
+  }
+  
+  async createTransaction(transaction: InsertTransaction): Promise<Transaction> {
+    const memStorage = new MemStorage();
+    return memStorage.createTransaction(transaction);
+  }
+  
+  // Budget methods
+  async getBudgets(userId: number): Promise<Budget[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getBudgets(userId);
+  }
+  
+  async getBudget(id: number): Promise<Budget | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getBudget(id);
+  }
+  
+  async createBudget(budget: InsertBudget): Promise<Budget> {
+    const memStorage = new MemStorage();
+    return memStorage.createBudget(budget);
+  }
+  
+  async updateBudget(id: number, budget: Partial<Budget>): Promise<Budget | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateBudget(id, budget);
+  }
+  
+  // Quiz methods
+  async getQuizzes(): Promise<Quiz[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizzes();
+  }
+  
+  async getQuizzesByLesson(lessonId: number): Promise<Quiz[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizzesByLesson(lessonId);
+  }
+  
+  async getQuiz(id: number): Promise<Quiz | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuiz(id);
+  }
+  
+  async createQuiz(quiz: InsertQuiz): Promise<Quiz> {
+    const memStorage = new MemStorage();
+    return memStorage.createQuiz(quiz);
+  }
+  
+  async updateQuiz(id: number, quiz: Partial<Quiz>): Promise<Quiz | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateQuiz(id, quiz);
+  }
+  
+  // Quiz question methods
+  async getQuizQuestions(quizId: number): Promise<QuizQuestion[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizQuestions(quizId);
+  }
+  
+  async getQuizQuestion(id: number): Promise<QuizQuestion | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizQuestion(id);
+  }
+  
+  async createQuizQuestion(question: InsertQuizQuestion): Promise<QuizQuestion> {
+    const memStorage = new MemStorage();
+    return memStorage.createQuizQuestion(question);
+  }
+  
+  async updateQuizQuestion(id: number, question: Partial<QuizQuestion>): Promise<QuizQuestion | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateQuizQuestion(id, question);
+  }
+  
+  // Quiz attempt methods
+  async getQuizAttempts(quizId: number, userId: number): Promise<QuizAttempt[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizAttempts(quizId, userId);
+  }
+  
+  async getQuizAttempt(id: number): Promise<QuizAttempt | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizAttempt(id);
+  }
+  
+  async createQuizAttempt(attempt: InsertQuizAttempt): Promise<QuizAttempt> {
+    const memStorage = new MemStorage();
+    return memStorage.createQuizAttempt(attempt);
+  }
+  
+  async updateQuizAttempt(id: number, attempt: Partial<QuizAttempt>): Promise<QuizAttempt | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateQuizAttempt(id, attempt);
+  }
+  
+  // Quiz answer methods
+  async getQuizAnswers(attemptId: number): Promise<QuizAnswer[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizAnswers(attemptId);
+  }
+  
+  async getQuizAnswer(id: number): Promise<QuizAnswer | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getQuizAnswer(id);
+  }
+  
+  async createQuizAnswer(answer: InsertQuizAnswer): Promise<QuizAnswer> {
+    const memStorage = new MemStorage();
+    return memStorage.createQuizAnswer(answer);
+  }
+  
+  // Assistant message methods
+  async getAssistantMessages(userId: number): Promise<AssistantMessage[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getAssistantMessages(userId);
+  }
+  
+  async createAssistantMessage(message: InsertAssistantMessage): Promise<AssistantMessage> {
+    const memStorage = new MemStorage();
+    return memStorage.createAssistantMessage(message);
+  }
+}
+
+// Use PostgreSQL storage when DATABASE_URL is available, otherwise fallback to MemStorage
+export const storage = process.env.DATABASE_URL 
+  ? new PostgresStorage() 
+  : new MemStorage();
