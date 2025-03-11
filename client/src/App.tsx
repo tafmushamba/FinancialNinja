@@ -19,6 +19,15 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 
+// Custom Redirect component for navigation
+const Redirect = ({ to }: { to: string }) => {
+  const [, navigate] = useLocation();
+  useEffect(() => {
+    navigate(to);
+  }, [to, navigate]);
+  return null;
+};
+
 // Auth component to protect routes
 const ProtectedRoute = ({ component: Component, ...rest }: any) => {
   const { isAuthenticated, loading } = useAuth();
@@ -41,48 +50,84 @@ function Router() {
   const { isAuthenticated, loading } = useAuth();
   const [, navigate] = useLocation();
 
+  useEffect(() => {
+    if (isAuthenticated === false && !loading) {
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/login' && currentPath !== '/register') {
+        navigate('/login');
+      }
+    }
+  }, [isAuthenticated, loading, navigate]);
+
   if (loading) {
     return <div className="flex h-screen items-center justify-center">Loading...</div>;
   }
 
-  if (!isAuthenticated) {
-    return (
-      <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/:rest*">
-          <div className="flex justify-center items-center h-screen">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold">Please log in</h1>
-              <p className="mb-4">You need to be logged in to access this page</p>
-              <button 
-                onClick={() => navigate("/login")} 
-                className="text-primary hover:underline"
-              >
-                Go to login
-              </button>
-            </div>
-          </div>
-        </Route>
-      </Switch>
-    );
-  }
-
   return (
-    <MainLayout>
-      <Switch>
-        <Route path="/" component={Dashboard} />
-        <Route path="/learning-modules" component={LearningModules} />
-        <Route path="/learning-modules/:moduleId" component={ModuleDetail} />
-        <Route path="/lesson/:lessonId" component={Lesson} />
-        <Route path="/quiz/:id" component={Quiz} />
-        <Route path="/finance-tracker" component={FinanceTracker} />
-        <Route path="/achievements" component={Achievements} />
-        <Route path="/ai-assistant" component={AiAssistant} />
-        <Route path="/settings" component={Settings} />
-        <Route path="/:rest*" component={NotFound} />
-      </Switch>
-    </MainLayout>
+    <Switch>
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      
+      <Route path="/learning-modules">
+        <MainLayout>
+          <LearningModules />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/learning-modules/:moduleId">
+        <MainLayout>
+          <ModuleDetail />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/lesson/:lessonId">
+        <MainLayout>
+          <Lesson />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/quiz/:id">
+        <MainLayout>
+          <Quiz />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/finance-tracker">
+        <MainLayout>
+          <FinanceTracker />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/achievements">
+        <MainLayout>
+          <Achievements />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/ai-assistant">
+        <MainLayout>
+          <AiAssistant />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/settings">
+        <MainLayout>
+          <Settings />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/">
+        <MainLayout>
+          <Dashboard />
+        </MainLayout>
+      </Route>
+      
+      <Route>
+        <MainLayout>
+          <NotFound />
+        </MainLayout>
+      </Route>
+    </Switch>
   );
 }
 
