@@ -1,6 +1,5 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import Header from "@/components/layout/header";
 import WelcomeSection from "@/components/dashboard/welcome-section";
 import LearningModules from "@/components/dashboard/learning-modules";
 import StatsOverview from "@/components/dashboard/stats-overview";
@@ -9,18 +8,15 @@ import AiAssistant from "@/components/dashboard/ai-assistant";
 
 const Dashboard: React.FC = () => {
   return (
-    <>
-      <Header title="Dashboard" />
-      <div>
-        <WelcomeSection />
-        <LearningModules />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 px-4">
-          <StatsOverview />
-          <FinancialOverview />
-        </div>
-        <AiAssistant />
+    <div>
+      <WelcomeSection />
+      <LearningModules />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 px-4">
+        <StatsOverview />
+        <FinancialOverview />
       </div>
-    </>
+      <AiAssistant />
+    </div>
   );
 };
 

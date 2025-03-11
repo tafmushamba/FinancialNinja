@@ -23,6 +23,27 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
   
+  // Get page title based on current location
+  const getPageTitle = () => {
+    const path = location.split("/")[1];
+    switch (path) {
+      case "":
+        return "Dashboard";
+      case "learning-modules":
+        return "Learning Modules";
+      case "finance-tracker":
+        return "Finance Tracker";
+      case "achievements":
+        return "Achievements";
+      case "ai-assistant":
+        return "AI Assistant";
+      case "settings":
+        return "Settings";
+      default:
+        return path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " ");
+    }
+  };
+  
   // Close mobile menu when navigating to a new page
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -41,6 +62,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       {/* Main content */}
       <div className="flex flex-col flex-1 w-full overflow-hidden">
         <Header 
+          title={getPageTitle()}
           toggleSidebar={toggleSidebar} 
           isSidebarOpen={isSidebarOpen}
           toggleMobileMenu={toggleMobileMenu}
