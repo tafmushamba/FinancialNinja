@@ -793,13 +793,16 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   // Initialize the financial twin with career path
   app.post("/api/financial-game/initialize", async (req: Request, res: Response) => {
     try {
-      const { careerPath } = req.body;
+      const { careerPath, acknowledgeStatus } = req.body;
       
       if (!careerPath) {
         return res.status(400).json({ message: "Career path is required" });
       }
       
-      const result = await initializeFinancialTwin(careerPath);
+      const result = await initializeFinancialTwin(
+        careerPath, 
+        acknowledgeStatus || "I understand my initial financial status"
+      );
       
       res.json(result);
     } catch (error) {

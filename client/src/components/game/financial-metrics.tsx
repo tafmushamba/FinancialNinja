@@ -79,7 +79,7 @@ export function FinancialMetrics({ metrics }: FinancialMetricsProps) {
           <MetricCard
             title="Savings Ratio"
             value={`${savingsRatio.toFixed(1)}%`}
-            icon={<Bank className="text-gray-500" />}
+            icon={<Landmark className="text-gray-500" />}
             className="border-l-4 border-gray-500"
           />
         </div>
