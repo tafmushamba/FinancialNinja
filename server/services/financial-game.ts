@@ -57,7 +57,7 @@ async function runGameFunction(
 
     // PythonShell does not directly support stdin input with the run method
     // We need to create a properly configured PythonShell instance
-    const pyshell = new PythonShell('game_runner.py', options);
+    const pyshell = new PythonShell('python_modules/game_runner.py', options);
     
     // Write to stdin
     pyshell.stdin.write(JSON.stringify(data));

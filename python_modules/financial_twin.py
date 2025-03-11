@@ -5,8 +5,19 @@ This is the main module for the Financial Twin game, containing all the core gam
 import random
 import json
 import math
+import sys
+import os
 from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
+
+# Add the project root to the Python path to support both direct and relative imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Setup module imports that can work both when imported directly or as part of a package
+try:
+    from python_modules.abacusai import AgentResponse, ApiClient
+except ImportError:
+    from abacusai import AgentResponse, ApiClient
 
 class AbacusResponse:
     """Simple response class to mimic the structure of API responses"""
