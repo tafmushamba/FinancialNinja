@@ -70,6 +70,9 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
 
   const startGame = async () => {
     if (!playerName) return;
+    
+    console.log('Starting game with player name:', playerName);
+    console.log('Career path:', career);
 
     setGameState(prev => ({ 
       ...prev, 
@@ -78,13 +81,20 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
     }));
 
     try {
+      console.log('Sending API request to /api/financial-game/start');
+      
+      const requestData = {
+        playerName,
+        careerChoice: career
+      };
+      console.log('Request data:', requestData);
+      
       const response = await apiRequest<any>('/api/financial-game/start', {
         method: 'POST',
-        body: JSON.stringify({
-          playerName,
-          careerChoice: career
-        })
+        body: JSON.stringify(requestData)
       });
+      
+      console.log('Received response:', response);
 
       setGameState(prev => ({ 
         ...prev, 
@@ -92,6 +102,8 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
         message: response.content,
         isLoading: false
       }));
+      
+      console.log('Game state updated to initialization stage');
     } catch (error) {
       console.error('Error starting game:', error);
       setGameState(prev => ({ 

@@ -39,6 +39,17 @@ async function runGameFunction(
   params: Record<string, any>
 ): Promise<FinancialGameData> {
   try {
+    // Log function call
+    log(`runGameFunction called with function: ${functionName}`, 'python');
+    
+    // Check if python_modules directory exists
+    const scriptsDir = path.join(process.cwd(), 'python_modules');
+    log(`Looking for python_modules at: ${scriptsDir}`, 'python');
+    
+    // Log script path
+    const scriptPath = path.join(process.cwd(), 'python_modules/game_runner.py');
+    log(`Running script at: ${scriptPath}`, 'python');
+    
     const options = {
       mode: 'text' as const, // TypeScript needs this constraint
       pythonPath: 'python3',
@@ -67,6 +78,7 @@ async function runGameFunction(
     const results: string[] = [];
     const resultPromise = new Promise<string[]>((resolve, reject) => {
       pyshell.on('message', (message) => {
+        log(`Received message from Python: ${message}`, 'python');
         results.push(message);
       });
       
@@ -76,6 +88,7 @@ async function runGameFunction(
       });
       
       pyshell.on('close', () => {
+        log(`Python process closed, collected ${results.length} messages`, 'python');
         resolve(results);
       });
     });
@@ -84,13 +97,16 @@ async function runGameFunction(
     await resultPromise;
 
     // The result will be a stringified JSON object
+    log(`Processing Python results: ${results.join('')}`, 'python');
     const resultData = JSON.parse(results.join('')) as FinancialGameData;
     return resultData;
   } catch (error) {
     log(`Error running game function ${functionName}:`, 'python');
     log(`${error}`, 'python');
+    
+    // Provide more descriptive error message with fallback content
     return {
-      content: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      content: `There was an issue processing your request. Our financial advisors are currently unavailable. Please try again shortly.`,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
