@@ -25,22 +25,10 @@ import { FinancialMetrics } from './financial-metrics';
 import { DecisionCards } from './decision-cards';
 import { AchievementsDisplay } from './achievements-display';
 import { AnimatedGameMessage } from './animated-game-message';
+import { DecisionOption } from './types';
 
 interface FinancialGameSimulationProps {
   career: string;
-}
-
-interface DecisionOption {
-  value: string;
-  label: string;
-  description: string;
-  icon?: React.ReactNode;
-  impact: {
-    savings: number;
-    debt: number;
-    income: number;
-    expenses: number;
-  };
 }
 
 interface GameState {

@@ -8,19 +8,7 @@ import {
   BookOpen as BookOpenIcon, Book as BookIcon, Laptop as LaptopIcon
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-interface DecisionOption {
-  value: string;
-  label: string;
-  description: string;
-  icon?: React.ReactNode;
-  impact: {
-    savings: number;
-    debt: number;
-    income: number;
-    expenses: number;
-  };
-}
+import { DecisionOption } from './types';
 
 interface DecisionCardsProps {
   onSelect: (option: string) => void;
