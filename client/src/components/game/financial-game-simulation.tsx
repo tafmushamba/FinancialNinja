@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { apiRequest } from '@/lib/queryClient';
 import { ArrowRight, Calendar, Clock, Landmark, User } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from "@/components/ui/input"; // Added import for Input component
 
 import { FinancialMetrics, FinancialMetricsType } from './financial-metrics';
 import { GameMessage } from './game-message';
@@ -69,13 +70,13 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
 
   const startGame = async () => {
     if (!playerName) return;
-    
+
     setGameState(prev => ({ 
       ...prev, 
       isLoading: true,
       playerName
     }));
-    
+
     try {
       const response = await apiRequest<any>('/api/financial-game/start', {
         method: 'POST',
@@ -84,7 +85,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
           careerChoice: career
         })
       });
-      
+
       setGameState(prev => ({ 
         ...prev, 
         stage: 'initialization',
@@ -103,7 +104,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
 
   const initializeGame = async () => {
     setGameState(prev => ({ ...prev, isLoading: true }));
-    
+
     try {
       const response = await apiRequest<any>('/api/financial-game/initialize', {
         method: 'POST',
@@ -112,7 +113,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
           acknowledgeStatus: "I understand my initial financial status and am ready to proceed"
         })
       });
-      
+
       setGameState(prev => ({ 
         ...prev, 
         stage: 'making_decisions',
@@ -138,15 +139,15 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
 
   const makeDecision = async () => {
     if (!selectedDecision) return;
-    
+
     const nextStep = gameState.roundCount >= 4 ? 'conclude' : 'continue';
-    
+
     setGameState(prev => ({ 
       ...prev, 
       isLoading: true,
       nextStep
     }));
-    
+
     try {
       const response = await apiRequest<any>('/api/financial-game/process-decision', {
         method: 'POST',
@@ -160,11 +161,11 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
           nextStep
         })
       });
-      
+
       setGameState(prev => {
         // Check if we should move to conclusion based on the round count
         const newStage = nextStep === 'conclude' ? 'conclusion' : 'making_decisions';
-        
+
         return { 
           ...prev, 
           stage: newStage,
@@ -180,10 +181,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
           roundCount: prev.roundCount + 1
         };
       });
-      
+
       // Reset decision selection
       setSelectedDecision('');
-      
+
       // If moving to conclusion, automatically trigger the conclusion
       if (nextStep === 'conclude') {
         concludeGame();
@@ -200,7 +201,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
 
   const concludeGame = async () => {
     setGameState(prev => ({ ...prev, isLoading: true }));
-    
+
     try {
       const response = await apiRequest<any>('/api/financial-game/conclude', {
         method: 'POST',
@@ -213,7 +214,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
           financialDecision: selectedDecision || 'balanced_approach'
         })
       });
-      
+
       setGameState(prev => ({ 
         ...prev, 
         stage: 'conclusion',
@@ -280,10 +281,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                   Career Path: <span className="text-primary">{career}</span>
                 </div>
               </div>
-              
+
               <div className="space-y-4 py-4">
                 <h3 className="text-lg font-medium">Enter Your Name to Begin</h3>
-                <input
+                <Input
                   type="text"
                   value={playerName}
                   onChange={(e) => setPlayerName(e.target.value)}
@@ -307,7 +308,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                 message={gameState.message} 
                 isLoading={gameState.isLoading} 
               />
-              
+
               <Button 
                 onClick={initializeGame}
                 disabled={gameState.isLoading}
@@ -317,32 +318,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               </Button>
             </div>
           )}
-          
-          {gameState.stage === 'welcome' && (
-            <div className="space-y-4">
-              <GameMessage 
-                message={gameState.message || "Enter your name to begin your financial journey."} 
-                isLoading={gameState.isLoading} 
-              />
-              
-              <div className="mt-4">
-                <Input 
-                  placeholder="Enter your name" 
-                  value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
-                  className="mb-4"
-                />
-                
-                <Button 
-                  onClick={() => startGame(playerName)}
-                  disabled={!playerName.trim() || gameState.isLoading}
-                  className="w-full"
-                >
-                  Start Financial Journey
-                </Button>
-              </div>
-            </div>
-          )}
+
 
           {gameState.stage === 'making_decisions' && (
             <div className="space-y-4">
@@ -351,12 +327,12 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                   <User className="h-5 w-5 text-primary" />
                   <div className="font-medium">{gameState.playerName} - {gameState.careerPath}</div>
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <div className="text-sm text-muted-foreground">Round {gameState.roundCount + 1}/5</div>
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                   <Landmark className="h-4 w-4 text-primary" />
                   <div>
@@ -369,23 +345,23 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                   </div>
                 </div>
               </div>
-              
+
               <FinancialMetrics metrics={financialMetrics} />
-              
+
               <GameMessage 
                 message={gameState.message} 
                 isLoading={gameState.isLoading} 
               />
-              
+
               {gameState.achievements.length > 0 && (
                 <AchievementsList achievements={gameState.achievements} />
               )}
-              
+
               <Separator />
-              
+
               <div className="space-y-4 pt-2">
                 <h3 className="text-lg font-medium">Make a Financial Decision</h3>
-                
+
                 <Select
                   value={selectedDecision}
                   onValueChange={setSelectedDecision}
@@ -402,7 +378,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                     ))}
                   </SelectContent>
                 </Select>
-                
+
                 <Button 
                   onClick={makeDecision}
                   disabled={!selectedDecision || gameState.isLoading}
@@ -413,7 +389,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               </div>
             </div>
           )}
-          
+
           {gameState.stage === 'conclusion' && (
             <div className="space-y-4">
               <div className="flex items-center space-x-2 p-4 bg-primary/5 rounded-md">
@@ -423,16 +399,16 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                   Level {gameState.level}
                 </Badge>
               </div>
-              
+
               <GameMessage 
                 message={gameState.message} 
                 isLoading={gameState.isLoading} 
               />
-              
+
               {gameState.achievements.length > 0 && (
                 <AchievementsList achievements={gameState.achievements} />
               )}
-              
+
               <Button 
                 onClick={resetGame}
                 className="w-full"
