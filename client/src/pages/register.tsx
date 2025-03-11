@@ -5,7 +5,6 @@ import { z } from "zod";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "@/lib/location";
-import { useAuth } from "@/App";
 
 import {
   Form,
@@ -35,7 +34,6 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [, navigate] = useLocation();
-  const { login } = useAuth();
   
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -58,17 +56,15 @@ export default function Register() {
         data: data,
       });
       
-      // Use the login function from auth context
       if (response && response.user) {
-        login(response.user);
+        toast({
+          title: "Registration successful",
+          description: "Your account has been created and you're now logged in!",
+        });
+        
+        // Redirect to dashboard
+        window.location.href = "/";
       }
-      
-      toast({
-        title: "Registration successful",
-        description: "Your account has been created and you're now logged in!",
-      });
-      
-      navigate("/");
     } catch (error: any) {
       toast({
         title: "Registration failed",
