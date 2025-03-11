@@ -25,11 +25,11 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
       <div className="h-full flex flex-col">
         {/* Logo */}
         <div className="p-4 flex items-center justify-center lg:justify-start border-b border-dark-600">
-          <div className="w-8 h-8 flex items-center justify-center rounded-md bg-neon-green bg-opacity-20">
-            <i className="fas fa-chart-line text-neon-green"></i>
+          <div className="w-8 h-8 flex items-center justify-center rounded-md bg-green-500 bg-opacity-20">
+            <i className="fas fa-chart-line text-green-500"></i>
           </div>
           <h1 className="hidden lg:block ml-3 text-xl font-mono font-bold text-white">
-            Fin<span className="text-neon-green">Byte</span>
+            Fin<span className="text-green-500">Byte</span>
           </h1>
         </div>
         
@@ -43,8 +43,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
                   className={cn(
                     "flex items-center py-2 px-4 transition-all duration-200",
                     location === item.path
-                      ? "text-neon-green bg-dark-700 border-l-4 border-neon-green"
-                      : "text-white hover:text-neon-green hover:bg-dark-700"
+                      ? "text-green-500 bg-dark-700 border-l-4 border-green-500"
+                      : "text-white hover:text-green-500 hover:bg-dark-700"
                   )}
                 >
                   <i className={cn(item.icon, "w-6 text-center")}></i>
@@ -58,8 +58,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
         {/* User Profile */}
         <div className="p-4 border-t border-dark-600">
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-neon-purple bg-opacity-30 flex items-center justify-center">
-              <span className="text-neon-purple text-sm font-bold">
+            <div className="w-8 h-8 rounded-full bg-purple-500 bg-opacity-30 flex items-center justify-center">
+              <span className="text-purple-500 text-sm font-bold">
                 {user ? (user.firstName?.[0] || '') + (user.lastName?.[0] || '') || user.username?.[0] || '?' : '?'}
               </span>
             </div>
