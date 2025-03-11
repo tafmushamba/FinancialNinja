@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { 
   CreditCard, PiggyBank, ArrowUpDown, BarChart3, Shield, Wallet, 
   Plane, Home, Coffee, Users, TrendingDown, Globe, Sparkles, 
-  PartyPopper, DollarSign
+  PartyPopper, DollarSign, Calendar as CalendarIcon, Clock as ClockIcon, 
+  Lightbulb as LightbulbIcon, Zap as ZapIcon, TrendingUp as TrendingUpIcon
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -28,10 +29,26 @@ interface DecisionCardsProps {
 }
 
 export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: DecisionCardsProps) {
-  // Detect scenarios from message content
+  // Advanced scenario detection system
+  // This analyzes the scenario text to determine the most appropriate decision set
+  
+  // Lifestyle and social scenarios
   const isSpringBreakScenario = scenario?.toLowerCase().includes('spring break');
-  const isUnexpectedExpenseScenario = scenario?.toLowerCase().includes('unexpected') || scenario?.toLowerCase().includes('emergency');
-  const isInvestmentScenario = scenario?.toLowerCase().includes('investment') || scenario?.toLowerCase().includes('stock market');
+  const isVacationScenario = scenario?.toLowerCase().includes('vacation') || scenario?.toLowerCase().includes('holiday') || scenario?.toLowerCase().includes('trip');
+  const isSocialEventScenario = scenario?.toLowerCase().includes('friend') || scenario?.toLowerCase().includes('party') || scenario?.toLowerCase().includes('wedding') || scenario?.toLowerCase().includes('social');
+  const isDiningScenario = scenario?.toLowerCase().includes('dining') || scenario?.toLowerCase().includes('restaurant') || scenario?.toLowerCase().includes('food');
+  
+  // Emergency and unexpected events
+  const isUnexpectedExpenseScenario = scenario?.toLowerCase().includes('unexpected') || scenario?.toLowerCase().includes('emergency') || scenario?.toLowerCase().includes('surprise bill');
+  const isMedicalScenario = scenario?.toLowerCase().includes('medical') || scenario?.toLowerCase().includes('health') || scenario?.toLowerCase().includes('doctor') || scenario?.toLowerCase().includes('hospital');
+  const isCarRepairScenario = scenario?.toLowerCase().includes('car') || scenario?.toLowerCase().includes('vehicle') || scenario?.toLowerCase().includes('repair');
+  const isHomeRepairScenario = scenario?.toLowerCase().includes('home repair') || scenario?.toLowerCase().includes('fix') || scenario?.toLowerCase().includes('maintenance');
+  
+  // Investment and financial opportunity scenarios
+  const isInvestmentScenario = scenario?.toLowerCase().includes('investment') || scenario?.toLowerCase().includes('stock market') || scenario?.toLowerCase().includes('opportunity');
+  const isRealEstateScenario = scenario?.toLowerCase().includes('real estate') || scenario?.toLowerCase().includes('property') || scenario?.toLowerCase().includes('house');
+  const isEducationScenario = scenario?.toLowerCase().includes('education') || scenario?.toLowerCase().includes('course') || scenario?.toLowerCase().includes('class') || scenario?.toLowerCase().includes('training');
+  const isCareerScenario = scenario?.toLowerCase().includes('career') || scenario?.toLowerCase().includes('job') || scenario?.toLowerCase().includes('work') || scenario?.toLowerCase().includes('business');
   
   // Different sets of options based on scenario
   const springBreakOptions: DecisionOption[] = [
@@ -263,14 +280,247 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: 
     }
   ];
   
-  // Select the appropriate options based on the detected scenario
+  // Add more specific scenario options
+  const socialEventOptions: DecisionOption[] = [
+    {
+      value: 'attend_budget',
+      label: 'Attend on a Budget',
+      description: 'Participate but set strict spending limits',
+      icon: <Users className="h-6 w-6 text-green-500" />,
+      impact: {
+        savings: -5,
+        debt: 0,
+        income: 0,
+        expenses: 8
+      }
+    },
+    {
+      value: 'skip_event',
+      label: 'Skip the Event',
+      description: 'Prioritize financial health over social activities',
+      icon: <Home className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: 5,
+        debt: 0,
+        income: 0,
+        expenses: -10
+      }
+    },
+    {
+      value: 'host_alternative',
+      label: 'Host Alternative Gathering',
+      description: 'Organize a more affordable alternative with friends',
+      icon: <PartyPopper className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: 0,
+        debt: 0,
+        income: 0,
+        expenses: 5
+      }
+    },
+    {
+      value: 'gift_creative',
+      label: 'Creative Gift Solution',
+      description: 'Make a thoughtful but inexpensive gift',
+      icon: <Sparkles className="h-6 w-6 text-amber-500" />,
+      impact: {
+        savings: 0,
+        debt: 0,
+        income: 0,
+        expenses: 3
+      }
+    }
+  ];
+
+  const medicalScenarioOptions: DecisionOption[] = [
+    {
+      value: 'use_insurance',
+      label: 'Use Insurance Coverage',
+      description: 'Maximize your insurance benefits',
+      icon: <Shield className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: -5,
+        debt: 0,
+        income: 0,
+        expenses: 5
+      }
+    },
+    {
+      value: 'payment_plan',
+      label: 'Request Payment Plan',
+      description: 'Negotiate a manageable payment schedule',
+      icon: <CalendarIcon className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: -2,
+        debt: 3,
+        income: 0,
+        expenses: 3
+      }
+    },
+    {
+      value: 'seek_assistance',
+      label: 'Apply for Assistance',
+      description: 'Look into financial aid programs',
+      icon: <Users className="h-6 w-6 text-green-500" />,
+      impact: {
+        savings: 0,
+        debt: 0,
+        income: 0,
+        expenses: 2
+      }
+    },
+    {
+      value: 'preventive_care',
+      label: 'Focus on Prevention',
+      description: 'Invest in preventive care to avoid future costs',
+      icon: <ZapIcon className="h-6 w-6 text-amber-500" />,
+      impact: {
+        savings: -3,
+        debt: 0,
+        income: 0,
+        expenses: 0
+      }
+    }
+  ];
+
+  const careerOptions: DecisionOption[] = [
+    {
+      value: 'accept_promotion',
+      label: 'Accept Promotion',
+      description: 'Take on more responsibility for higher pay',
+      icon: <TrendingUpIcon className="h-6 w-6 text-green-500" />,
+      impact: {
+        savings: 5,
+        debt: -5,
+        income: 15,
+        expenses: 5
+      }
+    },
+    {
+      value: 'further_education',
+      label: 'Invest in Education',
+      description: 'Gain credentials for long-term career growth',
+      icon: <LightbulbIcon className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: -10,
+        debt: 15,
+        income: 0,
+        expenses: 10
+      }
+    },
+    {
+      value: 'start_business',
+      label: 'Start Side Business',
+      description: 'Create additional income stream with entrepreneurship',
+      icon: <DollarSign className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: -15,
+        debt: 5,
+        income: 20,
+        expenses: 10
+      }
+    },
+    {
+      value: 'networking',
+      label: 'Focus on Networking',
+      description: 'Build professional relationships for opportunities',
+      icon: <Users className="h-6 w-6 text-amber-500" />,
+      impact: {
+        savings: -2,
+        debt: 0,
+        income: 5,
+        expenses: 3
+      }
+    }
+  ];
+
+  const homeOptions: DecisionOption[] = [
+    {
+      value: 'diy_repair',
+      label: 'DIY Repair',
+      description: 'Fix it yourself to save on labor costs',
+      icon: <Home className="h-6 w-6 text-green-500" />,
+      impact: {
+        savings: -5,
+        debt: 0,
+        income: 0,
+        expenses: 3
+      }
+    },
+    {
+      value: 'professional_service',
+      label: 'Hire Professional',
+      description: 'Pay for quality work with warranty',
+      icon: <Shield className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: -15,
+        debt: 5,
+        income: 0,
+        expenses: 15
+      }
+    },
+    {
+      value: 'delay_repair',
+      label: 'Delay Non-Critical Repair',
+      description: 'Save up first for non-urgent issues',
+      icon: <Clock className="h-6 w-6 text-amber-500" />,
+      impact: {
+        savings: 5,
+        debt: 0,
+        income: 0,
+        expenses: -5
+      }
+    },
+    {
+      value: 'preventive_maintenance',
+      label: 'Preventive Maintenance',
+      description: 'Regular upkeep to avoid expensive repairs',
+      icon: <Shield className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: -3,
+        debt: 0,
+        income: 0,
+        expenses: 5
+      }
+    }
+  ];
+
+  // Dynamically select the appropriate options based on the detected scenario
   let options: DecisionOption[] = defaultOptions;
   
+  // General category detection
+  const isLifestyleScenario = isSpringBreakScenario || isVacationScenario || isSocialEventScenario || isDiningScenario;
+  const isEmergencyScenario = isUnexpectedExpenseScenario || isMedicalScenario || isCarRepairScenario || isHomeRepairScenario;
+  const isOpportunityScenario = isInvestmentScenario || isRealEstateScenario || isEducationScenario || isCareerScenario;
+  
+  // Specific scenario selection with priority for the most specific match
   if (isSpringBreakScenario) {
     options = springBreakOptions;
+  } else if (isVacationScenario) {
+    options = springBreakOptions; // Reuse spring break options for vacation scenarios
+  } else if (isSocialEventScenario) {
+    options = socialEventOptions;
+  } else if (isMedicalScenario) {
+    options = medicalScenarioOptions;
+  } else if (isHomeRepairScenario) {
+    options = homeOptions;
+  } else if (isCareerScenario) {
+    options = careerOptions;
+  } else if (isEducationScenario) {
+    options = careerOptions; // Reuse career options for education
   } else if (isUnexpectedExpenseScenario) {
     options = unexpectedExpenseOptions;
   } else if (isInvestmentScenario) {
+    options = investmentOptions;
+  } else if (isRealEstateScenario) {
+    options = investmentOptions; // Reuse investment options for real estate
+  } 
+  // Use category fallbacks if specific scenario not found
+  else if (isLifestyleScenario) {
+    options = socialEventOptions;
+  } else if (isEmergencyScenario) {
+    options = unexpectedExpenseOptions;
+  } else if (isOpportunityScenario) {
     options = investmentOptions;
   }
 

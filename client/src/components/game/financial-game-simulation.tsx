@@ -371,6 +371,20 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               className="space-y-6"
             >
               {/* Player info and game progress */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <div className="flex flex-col md:flex-row gap-2 mb-4 items-center justify-between">
+                  <Badge className="capitalize bg-primary text-white">
+                    Round {gameState.roundCount + 1} of 5
+                  </Badge>
+                  <Badge variant="outline" className="bg-primary/10">
+                    <Award className="h-4 w-4 mr-1" /> Level {gameState.level} (XP: {gameState.xpEarned})
+                  </Badge>
+                </div>
+              </motion.div>
+              
               <GameProgressTracker 
                 currentRound={gameState.roundCount + 1}
                 totalRounds={5}
