@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { motion } from 'framer-motion';
+import { PlayCircle } from 'lucide-react';
 import { FinancialGameSimulation } from '@/components/game/financial-game-simulation';
 
 export default function FinancialGame() {
@@ -49,16 +51,21 @@ export default function FinancialGame() {
   if (!gameStarted) {
     return (
       <div className="container mx-auto py-6 space-y-8">
-        <div className="text-center space-y-2">
+        <motion.div 
+          className="text-center space-y-2"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1 className="text-3xl font-bold tracking-tight">Financial Twin Simulation</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Create your financial twin and navigate through life's financial challenges.
             Make decisions, face unexpected events, and build your financial future.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {careerOptions.map((career) => (
+          {careerOptions.map((career, index) => (
             <CareerCard 
               key={career.title}
               career={career}
@@ -72,14 +79,28 @@ export default function FinancialGame() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      <div className="flex justify-between items-center">
+      <motion.div 
+        className="flex justify-between items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
         <h1 className="text-3xl font-bold tracking-tight">Financial Twin Simulation</h1>
         <Button variant="outline" onClick={resetGame}>
-          Start Over
+          <PlayCircle className="mr-2 h-4 w-4" />
+          Choose Different Career
         </Button>
-      </div>
+      </motion.div>
       
-      {selectedCareer && <FinancialGameSimulation career={selectedCareer} />}
+      {selectedCareer && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <FinancialGameSimulation career={selectedCareer} />
+        </motion.div>
+      )}
     </div>
   );
 }

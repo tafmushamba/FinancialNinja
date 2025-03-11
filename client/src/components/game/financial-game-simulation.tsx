@@ -21,6 +21,7 @@ import {
 // Import new visual components
 import { GameProgressTracker } from './game-progress-tracker';
 import { FinancialStatsVisualization } from './financial-stats-visualization';
+import { FinancialMetrics } from './financial-metrics';
 import { DecisionCards } from './decision-cards';
 import { AchievementsDisplay } from './achievements-display';
 import { AnimatedGameMessage } from './animated-game-message';
