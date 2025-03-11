@@ -5,6 +5,7 @@ import { generateFinancialInsight } from "./services/mistral";
 import { formatCurrency } from "@/lib/utils";
 import { mockFinancialInsights } from "./data/insights";
 import { User } from "../shared/schema";
+import { Mistral } from "@mistralai/mistralai";
 
 import {
   startGame,
