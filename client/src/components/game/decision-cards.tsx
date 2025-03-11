@@ -463,7 +463,7 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: 
       value: 'delay_repair',
       label: 'Delay Non-Critical Repair',
       description: 'Save up first for non-urgent issues',
-      icon: <Clock className="h-6 w-6 text-amber-500" />,
+      icon: <ClockIcon className="h-6 w-6 text-amber-500" />,
       impact: {
         savings: 5,
         debt: 0,
