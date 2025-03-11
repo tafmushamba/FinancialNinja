@@ -18,7 +18,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-// Import new visual components
+// Import visual components
 import { GameProgressTracker } from './game-progress-tracker';
 import { FinancialStatsVisualization } from './financial-stats-visualization';
 import { FinancialMetrics } from './financial-metrics';
@@ -28,6 +28,10 @@ import { AnimatedGameMessage } from './animated-game-message';
 import { DecisionOption } from './types';
 import { careerAvatars } from './avatars';
 import { CareerSprite, DecisionSprite } from './sprites';
+
+// Import Pokémon-style UI components
+import { PokemonGameUI } from './pokemon-game-ui';
+import '../../styles/pixel-art.css';
 
 interface FinancialGameSimulationProps {
   career: string;
@@ -309,205 +313,48 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
     debtToIncomeRatio: gameState.income > 0 ? (gameState.debt / gameState.income) : 0
   };
 
+  // Track if a decision is being submitted
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Handle continue action for the Pokemon UI
+  const handleContinue = () => {
+    if (gameState.stage === 'welcome') {
+      startGame();
+    } else if (gameState.stage === 'initialization') {
+      initializeGame();
+    } else if (gameState.stage === 'making_decisions') {
+      if (selectedDecision) {
+        setIsSubmitting(true);
+        makeDecision().finally(() => setIsSubmitting(false));
+      }
+    } else if (gameState.stage === 'conclusion') {
+      resetGame();
+    }
+  };
+  
+  // Handle decision selection
+  const handleDecisionSelect = (decision: string) => {
+    setSelectedDecision(decision);
+  };
+
   return (
     <div className="flex flex-col space-y-4">
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-2xl">Financial Twin Simulation</CardTitle>
-          <CardDescription>
-            Make financial decisions and see how they impact your financial health
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {gameState.stage === 'welcome' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-4"
-            >
-              {/* Career Avatar Section */}
-              <div className="flex flex-col items-center mb-4">
-                {/* Use the new CareerSprite component */}
-                <div className="w-32 h-32 mb-2">
-                  <CareerSprite career={career} className="w-full h-full" />
-                </div>
-                <div className="text-xl font-medium text-center">
-                  <span className="text-primary">{career}</span> Career Path
-                </div>
-              </div>
-
-              <div className="space-y-4 py-4">
-                <div className="flex items-center space-x-2 p-4 bg-primary/5 rounded-md">
-                  <User className="h-5 w-5 text-primary" />
-                  <div className="text-lg font-medium">
-                    Welcome, <span className="text-primary">{playerName}</span>!
-                  </div>
-                </div>
-                <p className="text-muted-foreground text-center">
-                  You'll navigate your financial journey as a {career}. Make decisions to improve your financial well-being 
-                  and achieve your goals.
-                </p>
-                <Button 
-                  onClick={startGame}
-                  disabled={!playerName || gameState.isLoading}
-                  className="w-full"
-                >
-                  <PlayCircle className="mr-2 h-5 w-5" />
-                  Start Financial Journey
-                </Button>
-              </div>
-            </motion.div>
-          )}
-
-          {gameState.stage === 'initialization' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-4"
-            >
-              <AnimatedGameMessage 
-                message={gameState.message} 
-                isLoading={gameState.isLoading} 
-              />
-
-              <Button 
-                onClick={initializeGame}
-                disabled={gameState.isLoading}
-                className="w-full"
-              >
-                Initialize Financial Profile
-              </Button>
-            </motion.div>
-          )}
-
-          {gameState.stage === 'making_decisions' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-6"
-            >
-              {/* Player info and game progress */}
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <div className="flex flex-col md:flex-row gap-2 mb-4 items-center justify-between">
-                  <Badge className="capitalize bg-primary text-white">
-                    Round {gameState.roundCount + 1} of 5
-                  </Badge>
-                  <Badge variant="outline" className="bg-primary/10">
-                    <Award className="h-4 w-4 mr-1" /> Level {gameState.level} (XP: {gameState.xpEarned})
-                  </Badge>
-                </div>
-              </motion.div>
-              
-              <GameProgressTracker 
-                currentRound={gameState.roundCount + 1}
-                totalRounds={5}
-                level={gameState.level}
-                xp={gameState.xpEarned}
-              />
-
-              {/* Financial metrics and visualizations */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <FinancialMetrics metrics={financialMetrics} />
-                <FinancialStatsVisualization
-                  income={gameState.income}
-                  expenses={gameState.expenses}
-                  savings={gameState.savings}
-                  debt={gameState.debt}
-                  savingsRatio={financialMetrics.savingsRatio}
-                  debtToIncomeRatio={financialMetrics.debtToIncomeRatio}
-                />
-              </div>
-
-              {/* Game message */}
-              <AnimatedGameMessage 
-                message={gameState.message} 
-                isLoading={gameState.isLoading} 
-              />
-
-              {/* Achievements */}
-              {gameState.achievements.length > 0 && (
-                <AchievementsDisplay achievements={gameState.achievements} />
-              )}
-
-              <Separator />
-
-              {/* Decision making */}
-              <div className="space-y-4 pt-2">
-                <h3 className="text-lg font-medium flex items-center">
-                  <PiggyBank className="mr-2 h-5 w-5 text-primary" />
-                  Make a Financial Decision
-                </h3>
-
-                <DecisionCards
-                  onSelect={setSelectedDecision}
-                  selectedOption={selectedDecision}
-                  disabled={gameState.isLoading}
-                  scenario={gameState.message || undefined}
-                  decisionOptions={gameState.decisionOptions}
-                />
-
-                <Button 
-                  onClick={makeDecision}
-                  disabled={!selectedDecision || gameState.isLoading}
-                  className="w-full mt-4"
-                >
-                  Submit Decision <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </motion.div>
-          )}
-
-          {gameState.stage === 'conclusion' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-6"
-            >
-              <div className="flex items-center justify-between p-4 bg-primary/10 rounded-md">
-                <div className="flex items-center space-x-3">
-                  {/* Use the new CareerSprite component */}
-                  <div className="w-12 h-12">
-                    <CareerSprite career={gameState.careerPath} className="w-full h-full" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-lg">{gameState.playerName}</div>
-                    <div className="text-sm text-muted-foreground">{gameState.careerPath}</div>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end">
-                  <Badge variant="outline" className="bg-primary/20 mb-1">
-                    Level {gameState.level}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {gameState.xpEarned} XP Earned
-                  </span>
-                </div>
-              </div>
-
-              <AnimatedGameMessage 
-                message={gameState.message} 
-                isLoading={gameState.isLoading}
-                type="tip"
-              />
-
-              {gameState.achievements.length > 0 && (
-                <AchievementsDisplay achievements={gameState.achievements} />
-              )}
-
-              <Button 
-                onClick={resetGame}
-                className="w-full"
-              >
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Play Again
-              </Button>
-            </motion.div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Toggle between original UI and Pokemon style UI */}
+      <div className="pokemon-game-container">
+        <div className="mb-4">
+          <h1 className="text-2xl font-pixel text-center mb-2">Financial Adventure</h1>
+          <p className="text-center text-muted-foreground mb-4">Navigate your financial journey in the world of money management</p>
+        </div>
+        
+        {/* Pokemon-style Game UI */}
+        <PokemonGameUI
+          gameState={gameState}
+          selectedDecision={selectedDecision}
+          onDecisionSelect={handleDecisionSelect}
+          onContinue={handleContinue}
+          isSubmitting={isSubmitting || gameState.isLoading}
+        />
+      </div>
     </div>
   );
 }
