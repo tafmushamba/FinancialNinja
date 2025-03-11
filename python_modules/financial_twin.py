@@ -79,17 +79,125 @@ def initialize_financial_twin_function(career_path: str, acknowledge_status: str
         acknowledge_status: Acknowledgment of initial financial status
         
     Returns:
-        AbacusResponse containing initial status and financial data
+        AbacusResponse containing initial status and financial data plus decision options
     """
     # ApiClient is already imported at the top of the file
     client = ApiClient()
     
-    # Define initial financial values for each career path
+    # Define initial financial values for each career path (in GBP £)
     career_data = {
-        'Student': {'income': 1200.0, 'expenses': 1000.0, 'savings': 500.0, 'debt': 20000.0},
-        'Entrepreneur': {'income': 3000.0, 'expenses': 2500.0, 'savings': 10000.0, 'debt': 50000.0},
-        'Artist': {'income': 2000.0, 'expenses': 1800.0, 'savings': 2000.0, 'debt': 15000.0},
-        'Banker': {'income': 7000.0, 'expenses': 5000.0, 'savings': 30000.0, 'debt': 10000.0}
+        'Student': {'income': 900.0, 'expenses': 850.0, 'savings': 400.0, 'debt': 15000.0},
+        'Entrepreneur': {'income': 2500.0, 'expenses': 2000.0, 'savings': 8000.0, 'debt': 40000.0},
+        'Artist': {'income': 1700.0, 'expenses': 1500.0, 'savings': 1500.0, 'debt': 12000.0},
+        'Banker': {'income': 5500.0, 'expenses': 4000.0, 'savings': 25000.0, 'debt': 8000.0}
+    }
+    
+    # UK-specific initial decision options for each career path
+    career_decisions = {
+        'Student': [
+            {
+                'value': 'budget_tightly',
+                'label': 'Budget Tightly',
+                'description': 'Cut all non-essential spending to maximize savings',
+                'impact': {'savings': 15, 'debt': 0, 'income': 0, 'expenses': -20}
+            },
+            {
+                'value': 'find_part_time_job',
+                'label': 'Find Part-Time Job',
+                'description': 'Look for work in a pub or shop to supplement your maintenance loan',
+                'impact': {'savings': 5, 'debt': 0, 'income': 25, 'expenses': 5}
+            },
+            {
+                'value': 'student_discount_focus',
+                'label': 'Maximise Student Discounts',
+                'description': 'Sign up for TOTUM card and student offers',
+                'impact': {'savings': 5, 'debt': 0, 'income': 0, 'expenses': -10}
+            },
+            {
+                'value': 'loan_repayment_planning',
+                'label': 'Student Loan Planning',
+                'description': 'Understand repayment thresholds and plan your finances',
+                'impact': {'savings': 0, 'debt': -5, 'income': 0, 'expenses': 0}
+            }
+        ],
+        'Entrepreneur': [
+            {
+                'value': 'bootstrap_business',
+                'label': 'Bootstrap Your Business',
+                'description': 'Minimize expenses and grow slowly without external funding',
+                'impact': {'savings': -5, 'debt': 0, 'income': 10, 'expenses': -15}
+            },
+            {
+                'value': 'seek_angel_investment',
+                'label': 'Seek Angel Investment',
+                'description': 'Pitch to UK angel investors for early funding',
+                'impact': {'savings': 30, 'debt': 0, 'income': 20, 'expenses': 15}
+            },
+            {
+                'value': 'apply_startup_loan',
+                'label': 'Apply for Start Up Loan',
+                'description': 'Apply for a UK government-backed Start Up Loan',
+                'impact': {'savings': 25, 'debt': 20, 'income': 15, 'expenses': 10}
+            },
+            {
+                'value': 'revenue_focus',
+                'label': 'Focus on Early Revenue',
+                'description': 'Prioritize paying customers and positive cash flow',
+                'impact': {'savings': 10, 'debt': -5, 'income': 15, 'expenses': 0}
+            }
+        ],
+        'Artist': [
+            {
+                'value': 'arts_council_grant',
+                'label': 'Apply for Arts Council Grant',
+                'description': 'Seek funding from Arts Council England',
+                'impact': {'savings': 20, 'debt': 0, 'income': 15, 'expenses': 5}
+            },
+            {
+                'value': 'teaching_workshops',
+                'label': 'Teach Art Workshops',
+                'description': 'Supplement income by teaching your skills',
+                'impact': {'savings': 5, 'debt': 0, 'income': 20, 'expenses': 3}
+            },
+            {
+                'value': 'digital_platforms',
+                'label': 'Sell on Digital Platforms',
+                'description': 'Use UK platforms like Etsy and Not On The High Street',
+                'impact': {'savings': 8, 'debt': 0, 'income': 12, 'expenses': 5}
+            },
+            {
+                'value': 'shared_studio_space',
+                'label': 'Join Shared Studio',
+                'description': 'Share studio costs with other artists',
+                'impact': {'savings': 5, 'debt': 0, 'income': 0, 'expenses': -15}
+            }
+        ],
+        'Banker': [
+            {
+                'value': 'maximise_pension',
+                'label': 'Maximise Pension Contributions',
+                'description': 'Take advantage of tax relief and employer matching',
+                'impact': {'savings': 25, 'debt': 0, 'income': -5, 'expenses': 0}
+            },
+            {
+                'value': 'invest_isa',
+                'label': 'Invest in Stocks & Shares ISA',
+                'description': 'Use your annual ISA allowance for tax-efficient investing',
+                'impact': {'savings': -10, 'debt': 0, 'income': 8, 'expenses': 0}
+            },
+            {
+                'value': 'property_investment',
+                'label': 'UK Property Investment',
+                'description': 'Invest in the British property market',
+                'impact': {'savings': -30, 'debt': 20, 'income': 15, 'expenses': 10}
+            },
+            {
+                'value': 'professional_development',
+                'label': 'Professional Qualifications',
+                'description': 'Invest in CFA or other financial certifications',
+                'impact': {'savings': -15, 'debt': 0, 'income': 25, 'expenses': 5}
+            }
+        ]
     }
     
     # Use the career data or default values if career not found
@@ -99,28 +207,33 @@ def initialize_financial_twin_function(career_path: str, acknowledge_status: str
     savings = financial_status['savings']
     debt = financial_status['debt']
     
+    # Get decision options for this career path
+    decision_options = career_decisions.get(str(career_path), [])
+    
     # Create prompt for the AI
     prompt = f'''
-You are a financial game host. A player has chosen the career path of {career_path}.
+You are a financial game host for UK players. A player has chosen the career path of {career_path}.
 
 Their initial financial status is:
-- Income: ${income} per month
-- Expenses: ${expenses} per month
-- Savings: ${savings}
-- Debt: ${debt}
+- Monthly Income: £{income} per month
+- Monthly Expenses: £{expenses} per month
+- Savings: £{savings}
+- Debt: £{debt}
 
-Present this initial financial status to the player, providing a clear breakdown.
+Present this initial financial status to the player, providing a clear breakdown using British pounds (£).
 
-Then, introduce the first financial challenge or story mission relevant to the chosen career path. The challenge should be appropriate for a {career_path}.
+Then, introduce the first financial challenge or story mission relevant to the chosen career path. The challenge should be specific to the UK context and appropriate for a {career_path}.
 
-Ask the player to make decisions regarding financial choices, such as budgeting, investing, paying off debt, or making purchases. Present at least two options for them to choose from.
+Use examples that are relevant to the UK financial system (ISAs, Help to Buy, NS&I, UK tax bands, etc.) and British life scenarios rather than American ones.
+
+Ask the player to make decisions regarding financial choices, such as budgeting, investing, paying off debt, or making purchases. Present specific UK-relevant options for them to choose from.
 
 Use an engaging and motivating tone.
 '''
-    system_message = 'As a friendly game host, generate an engaging message for the player, presenting their initial financial status, introducing the first financial challenge, and asking them to make decisions. Keep the message under 500 words.'
+    system_message = 'As a friendly financial game host, generate an engaging message for a UK player, presenting their initial financial status in British pounds (£), introducing the first financial challenge with UK-specific context, and asking them to make decisions. Keep the message under 500 words.'
     response = client.evaluate_prompt(prompt=prompt, system_message=system_message).content
     
-    # Return response with initial financial data
+    # Return response with initial financial data and decision options
     return AbacusResponse(response, 
                          income=income, 
                          expenses=expenses, 
@@ -129,7 +242,8 @@ Use an engaging and motivating tone.
                          career_path=career_path,
                          xp_earned=0,
                          level=1,
-                         achievements=[])
+                         achievements=[],
+                         decision_options=decision_options)
 
 def process_financial_decisions_function(
     career_path: str,
@@ -173,35 +287,35 @@ def process_financial_decisions_function(
         savings = 1000.0
         debt = 10000.0
     
-    # Scenario database for different career paths
+    # UK-specific scenario database for different career paths
     scenarios = {
         'Student': [
-            "Your student loan payment is due, but you've found a part-time job opportunity that could help. What's your decision?",
-            "A new semester is starting, and you need textbooks. You can buy new, used, or digital versions. What's your choice?",
-            "Your laptop is getting old. You can repair it, buy a new one, or use the library computers. What will you do?",
-            "Your friends are planning a spring break trip. It's expensive but could be a great experience. How do you handle this?",
-            "You've received a small scholarship. Will you save it, use it for current expenses, or invest in a skill-building course?"
+            "Your student maintenance loan payment from Student Finance England is due soon, but your expenses are higher than expected. How will you manage your finances?",
+            "The new term is starting at uni, and you need to purchase textbooks. You can buy new, get used ones from the SU shop, or find digital versions. What's your plan?",
+            "Your laptop needs replacing before assignment deadlines. You could use your overdraft, ask parents for help, or use the uni computer labs. What will you do?",
+            "Your flatmates are planning a holiday to Spain during reading week. It would cost £450 but could be a great experience. How do you handle this?",
+            "You've received a £300 bursary from your university. Will you save it in your ISA, use it for everyday expenses, or invest in a professional development course?"
         ],
         'Entrepreneur': [
-            "A potential investor is interested in your startup. They offer funding but want 30% equity. What's your decision?",
-            "Your product is gaining traction, but you need to decide between hiring help or working longer hours. What's your choice?",
-            "A competitor is struggling and offers to sell their client list. It's expensive but could boost your business. What do you do?",
-            "You can either invest in new equipment to improve efficiency or spend on marketing. Which path do you choose?",
-            "An opportunity to expand to a new market appears, but it requires significant upfront investment. How do you proceed?"
+            "A potential angel investor from London Tech Angels is interested in your startup. They offer £50,000 funding but want 25% equity. What's your decision?",
+            "Your business is growing and you're stretched thin. You can hire a part-time assistant for £1,200/month or work longer hours yourself. What will you do?",
+            "A competitor in your industry is closing down and offers to sell their client list for £5,000. It could bring in new business but is pricey. What's your choice?",
+            "You have £8,000 to invest in your business. You can either upgrade your equipment or invest in digital marketing with a London agency. Which path do you choose?",
+            "There's an opportunity to expand your business to Manchester, but it requires £15,000 upfront for a new location. How do you proceed?"
         ],
         'Artist': [
-            "A gallery offers to showcase your work, but you need to pay for the space upfront. What's your decision?",
-            "You can either invest in high-quality materials or save money with basic supplies. What's your choice?",
-            "A client requests a rush job at a higher rate, but it means canceling other commitments. What do you do?",
-            "You have the chance to attend an exclusive workshop that could enhance your skills. How do you handle the cost?",
-            "An online platform wants to feature your work but takes a 40% commission. What's your approach?"
+            "A popular gallery in Bristol offers to showcase your work, but you need to pay £600 for the space upfront. Is this a worthwhile investment?",
+            "You need supplies for your next project. You can invest £400 in premium materials or £150 in basic supplies. What's your approach?",
+            "A prestigious client offers a rush commission that pays £1,200, but you'll need to cancel other commitments worth £800. What do you do?",
+            "The Royal College of Art is offering a specialized workshop that could enhance your skills, but it costs £850. How do you handle this opportunity?",
+            "Not On The High Street wants to feature your work on their platform but takes a 35% commission. Will you join their marketplace?"
         ],
         'Banker': [
-            "Your company offers stock options as part of your bonus. Will you exercise them or take the cash equivalent?",
-            "You've spotted a promising investment opportunity, but it's relatively high-risk. What's your decision?",
-            "A prestigious certification could advance your career but requires significant time and money. What's your choice?",
-            "You can either invest in a safe index fund or try active trading with higher potential returns. What's your strategy?",
-            "A startup approaches you for angel investment. How do you respond to this opportunity?"
+            "Your company offers share options as part of your bonus package. Will you exercise them (worth potentially £8,000) or take the cash equivalent of £5,500?",
+            "You've spotted a promising investment opportunity in UK tech stocks, but it's relatively high-risk. Will you invest £10,000 from your portfolio?",
+            "A Chartered Financial Analyst qualification could advance your career but costs £5,000 and requires significant study time. Is this the right move?",
+            "You have £20,000 to invest. You can choose between a safe FTSE tracker fund or active management with higher potential returns. What's your strategy?",
+            "A fintech startup approaches you to become an early investor with £15,000 for a 3% stake. How do you respond to this opportunity?"
         ]
     }
     
@@ -247,14 +361,16 @@ def process_financial_decisions_function(
         debt -= debt_payment
         savings -= debt_payment
     
-    # Random crisis event (20% chance)
+    # Random UK-specific crisis event (20% chance)
     crisis_event = None
     if random.random() < 0.2:
         crisis_events = {
-            'Medical Emergency': {'cost': 5000, 'message': 'You faced an unexpected medical expense.'},
-            'Job Setback': {'income_reduction': 0.2, 'message': 'Your income was temporarily reduced.'},
-            'Car Repair': {'cost': 2000, 'message': 'Your car needed urgent repairs.'},
-            'Family Emergency': {'cost': 3000, 'message': 'A family emergency required financial support.'}
+            'NHS Dental Treatment': {'cost': 280, 'message': 'You needed unexpected dental work not fully covered by the NHS.'},
+            'Zero Hours Contract': {'income_reduction': 0.25, 'message': 'Your hours were cut on your zero-hours contract.'},
+            'Boiler Breakdown': {'cost': 850, 'message': 'Your home boiler broke down and needed emergency repairs.'},
+            'Council Tax Arrears': {'cost': 450, 'message': 'You received a notice for council tax arrears that must be paid.'},
+            'Train Fare Increase': {'cost': 200, 'message': 'Your monthly rail commuting costs increased unexpectedly.'},
+            'Letting Agency Fees': {'cost': 300, 'message': 'You faced unexpected letting agency fees during a house move.'}
         }
         crisis_type = random.choice(list(crisis_events.keys()))
         crisis = crisis_events[crisis_type]
@@ -270,7 +386,7 @@ def process_financial_decisions_function(
     career_scenarios = scenarios.get(career_path_str, scenarios['Student'])
     next_scenario = random.choice(career_scenarios)
     
-    # Create response message
+    # Create response message with British pounds
     response = f'''🎮 **Financial Twin Simulation Update** 🎮
 
 💫 **Current Status:**
@@ -278,11 +394,11 @@ Level: {level} (XP: {xp_earned})
 🏆 Achievements: {', '.join(achievements)}
 
 💰 **Financial Metrics:**
-Monthly Income: ${income:,.2f}
-Monthly Expenses: ${expenses:,.2f}
-Savings: ${savings:,.2f}
-Debt: ${debt:,.2f}
-Monthly Savings: ${monthly_savings:,.2f}
+Monthly Income: £{income:,.2f}
+Monthly Expenses: £{expenses:,.2f}
+Savings: £{savings:,.2f}
+Debt: £{debt:,.2f}
+Monthly Savings: £{monthly_savings:,.2f}
 Debt-to-Income Ratio: {debt_to_income_ratio:.2%}
 Savings Ratio: {savings_ratio:.2%}
 

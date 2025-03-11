@@ -27,10 +27,103 @@ interface DecisionCardsProps {
   selectedOption: string | null;
   disabled: boolean;
   scenario?: string | undefined;
+  decisionOptions?: DecisionOption[];
 }
 
-export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: DecisionCardsProps) {
-  // Advanced scenario detection system
+export function DecisionCards({ onSelect, selectedOption, disabled, scenario, decisionOptions }: DecisionCardsProps) {
+  // If we have API-provided decision options, use those instead of detecting from scenario
+  if (decisionOptions && decisionOptions.length > 0) {
+    // Map API decision options to our component's expected format
+    const mappedOptions = decisionOptions.map(option => {
+      // Determine icon based on the option's label or value
+      let icon;
+      const labelLower = option.label.toLowerCase();
+      const valueLower = option.value.toLowerCase();
+      
+      if (labelLower.includes('save') || valueLower.includes('save')) {
+        icon = <PiggyBank className="h-6 w-6 text-amber-500" />;
+      } else if (labelLower.includes('debt') || valueLower.includes('debt') || labelLower.includes('loan') || valueLower.includes('loan')) {
+        icon = <CreditCard className="h-6 w-6 text-blue-500" />;
+      } else if (labelLower.includes('invest') || valueLower.includes('invest') || labelLower.includes('isa') || valueLower.includes('isa')) {
+        icon = <BarChart3 className="h-6 w-6 text-green-500" />;
+      } else if (labelLower.includes('budget') || valueLower.includes('budget')) {
+        icon = <Wallet className="h-6 w-6 text-sky-500" />;
+      } else if (labelLower.includes('job') || valueLower.includes('job') || labelLower.includes('work') || valueLower.includes('work')) {
+        icon = <TrendingUpIcon className="h-6 w-6 text-purple-500" />;
+      } else if (labelLower.includes('study') || valueLower.includes('study') || labelLower.includes('education') || valueLower.includes('education')) {
+        icon = <BookOpenIcon className="h-6 w-6 text-blue-500" />;
+      } else {
+        icon = <LightbulbIcon className="h-6 w-6 text-purple-500" />;
+      }
+      
+      return {
+        ...option,
+        icon
+      };
+    });
+    
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {mappedOptions.map((option, index) => (
+          <motion.div
+            key={option.value}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <Card 
+              className={`cursor-pointer transition-all hover:shadow-md hover:border-primary/50 ${
+                selectedOption === option.value ? 'border-2 border-primary' : ''
+              } ${disabled ? 'opacity-60 pointer-events-none' : ''}`}
+              onClick={() => !disabled && onSelect(option.value)}
+            >
+              <CardHeader className="pb-2">
+                <div className="flex items-center space-x-2">
+                  {option.icon}
+                  <CardTitle className="text-base">{option.label}</CardTitle>
+                </div>
+                <CardDescription>{option.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 text-sm">
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span>Savings Impact:</span>
+                    <span className={option.impact.savings > 0 ? 'text-green-600' : option.impact.savings < 0 ? 'text-red-600' : ''}>
+                      {option.impact.savings > 0 ? '+' : ''}{option.impact.savings}%
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Debt Impact:</span>
+                    <span className={option.impact.debt < 0 ? 'text-green-600' : option.impact.debt > 0 ? 'text-red-600' : ''}>
+                      {option.impact.debt > 0 ? '+' : ''}{option.impact.debt}%
+                    </span>
+                  </div>
+                  {option.impact.income !== 0 && (
+                    <div className="flex items-center justify-between">
+                      <span>Income Impact:</span>
+                      <span className={option.impact.income > 0 ? 'text-green-600' : 'text-red-600'}>
+                        {option.impact.income > 0 ? '+' : ''}{option.impact.income}%
+                      </span>
+                    </div>
+                  )}
+                  {option.impact.expenses !== 0 && (
+                    <div className="flex items-center justify-between">
+                      <span>Expenses Impact:</span>
+                      <span className={option.impact.expenses < 0 ? 'text-green-600' : 'text-red-600'}>
+                        {option.impact.expenses > 0 ? '+' : ''}{option.impact.expenses}%
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    );
+  }
+
+  // Advanced scenario detection system if no API options provided
   // This analyzes the scenario text to determine the most appropriate decision set
   
   // Lifestyle and social scenarios

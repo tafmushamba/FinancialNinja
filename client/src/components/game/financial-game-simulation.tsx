@@ -30,6 +30,18 @@ interface FinancialGameSimulationProps {
   career: string;
 }
 
+interface DecisionOption {
+  value: string;
+  label: string;
+  description: string;
+  impact: {
+    savings: number;
+    debt: number;
+    income: number;
+    expenses: number;
+  };
+}
+
 interface GameState {
   stage: 'welcome' | 'initialization' | 'making_decisions' | 'conclusion';
   playerName: string;
@@ -45,6 +57,7 @@ interface GameState {
   isLoading: boolean;
   roundCount: number;
   nextStep: 'continue' | 'conclude';
+  decisionOptions?: DecisionOption[];
 }
 
 export function FinancialGameSimulation({ career }: FinancialGameSimulationProps) {
