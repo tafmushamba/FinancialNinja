@@ -2,6 +2,18 @@ import React from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
+import { 
+  Home, 
+  GraduationCap, 
+  WalletCards, 
+  Gamepad2, 
+  Trophy, 
+  Bot, 
+  Settings,
+  ChevronRight 
+} from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface SidebarProps {
   collapsed?: boolean;
@@ -12,66 +24,115 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
   const { user } = useAuth();
 
   const navItems = [
-    { icon: 'fas fa-home', label: 'Dashboard', path: '/' },
-    { icon: 'fas fa-graduation-cap', label: 'Learning Modules', path: '/learning-modules' },
-    { icon: 'fas fa-wallet', label: 'Finance Tracker', path: '/finance-tracker' },
-    { icon: 'fas fa-gamepad', label: 'Financial Game', path: '/financial-game' },
-    { icon: 'fas fa-trophy', label: 'Achievements', path: '/achievements' },
-    { icon: 'fas fa-robot', label: 'AI Assistant', path: '/ai-assistant' },
-    { icon: 'fas fa-cog', label: 'Settings', path: '/settings' }
+    { icon: Home, label: 'Dashboard', path: '/' },
+    { icon: GraduationCap, label: 'Learning Modules', path: '/learning-modules' },
+    { icon: WalletCards, label: 'Finance Tracker', path: '/finance-tracker' },
+    { icon: Gamepad2, label: 'Financial Game', path: '/financial-game' },
+    { icon: Trophy, label: 'Achievements', path: '/achievements' },
+    { icon: Bot, label: 'AI Assistant', path: '/ai-assistant' },
+    { icon: Settings, label: 'Settings', path: '/settings' }
   ];
 
+  const getUserInitials = () => {
+    if (!user) return '?';
+    
+    if (user.firstName && user.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`;
+    } else if (user.username) {
+      return user.username[0].toUpperCase();
+    }
+    
+    return '?';
+  };
+
+  // Staggered animation for sidebar items
+  const sidebar = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      }
+    }
+  };
+
+  const navItem = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
+
   return (
-    <aside className="w-full h-full bg-dark-800 overflow-hidden z-30" style={{ backgroundColor: 'var(--dark-800)' }}>
+    <aside className="w-full h-full bg-card/70 overflow-hidden z-30 backdrop-blur-sm border-r border-border/30">
       <div className="h-full flex flex-col">
         {/* Logo */}
-        <div className="p-4 flex items-center justify-center lg:justify-start border-b border-dark-600" style={{ borderColor: 'var(--dark-600)' }}>
-          <div className="w-8 h-8 flex items-center justify-center rounded-md bg-green-500 bg-opacity-20">
-            <i className="fas fa-chart-line text-green-500"></i>
+        <div className="p-4 flex items-center justify-center lg:justify-start border-b border-border/30">
+          <div className="w-9 h-9 flex items-center justify-center rounded-md bg-primary/20">
+            <ChevronRight className="text-primary h-4 w-4" />
           </div>
-          <h1 className={cn("ml-3 text-xl font-mono font-bold text-white", collapsed ? "hidden" : "hidden lg:block")}>
-            Fin<span className="text-green-500">Byte</span>
-          </h1>
+          <motion.h1 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className={cn("ml-3 text-xl font-bold", collapsed ? "hidden" : "hidden lg:block")}
+          >
+            Fin<span className="text-primary">Byte</span>
+          </motion.h1>
         </div>
         
         {/* Navigation */}
-        <nav className="flex-1 py-4 overflow-y-auto">
-          <ul className="space-y-2">
-            {navItems.map((item) => (
-              <li key={item.path}>
-                <Link 
-                  href={item.path}
-                  className={cn(
-                    "flex items-center py-2 px-4 transition-all duration-200",
-                    location === item.path
-                      ? "text-green-500 border-l-4 border-green-500"
-                      : "text-white hover:text-green-500"
-                  )}
-                  style={{ 
-                    backgroundColor: location === item.path ? 'var(--dark-700)' : ''
-                  }}
+        <motion.nav 
+          className="flex-1 py-4 overflow-y-auto px-2"
+          variants={sidebar}
+          initial="hidden"
+          animate="show"
+        >
+          <ul className="space-y-1">
+            {navItems.map((item, index) => {
+              const isActive = location === item.path;
+              const Icon = item.icon;
+              
+              return (
+                <motion.li 
+                  key={item.path}
+                  variants={navItem}
+                  custom={index}
                 >
-                  <i className={cn(item.icon, "w-6 text-center")}></i>
-                  <span className={cn("ml-3", collapsed ? "hidden" : "hidden lg:block")}>{item.label}</span>
-                </Link>
-              </li>
-            ))}
+                  <Link 
+                    href={item.path}
+                    className={cn(
+                      "flex items-center py-2 px-3 rounded-lg transition-all duration-200",
+                      isActive
+                        ? "bg-primary/15 text-primary font-medium"
+                        : "text-foreground hover:bg-primary/10 hover:text-primary"
+                    )}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span className={cn("ml-3 text-sm", collapsed ? "hidden" : "hidden lg:block")}>
+                      {item.label}
+                    </span>
+                    {isActive && !collapsed && (
+                      <div className="ml-auto w-1 h-4 bg-primary rounded-full" />
+                    )}
+                  </Link>
+                </motion.li>
+              );
+            })}
           </ul>
-        </nav>
+        </motion.nav>
         
         {/* User Profile */}
-        <div className="p-4 border-t border-dark-600" style={{ borderColor: 'var(--dark-600)' }}>
+        <div className="p-4 border-t border-border/30">
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-purple-500 bg-opacity-30 flex items-center justify-center">
-              <span className="text-purple-500 text-sm font-bold">
-                {user ? (user.firstName?.[0] || '') + (user.lastName?.[0] || '') || user.username?.[0] || '?' : '?'}
-              </span>
-            </div>
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-primary/20 text-primary text-sm font-medium">
+                {getUserInitials()}
+              </AvatarFallback>
+            </Avatar>
             <div className={cn("ml-3", collapsed ? "hidden" : "hidden lg:block")}>
               <p className="text-sm font-medium">
                 {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username : 'Guest'}
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-muted-foreground">
                 {user?.userLevel || 'New User'}
               </p>
             </div>

@@ -12,10 +12,16 @@ import {
   User,
   Settings, 
   Bell, 
-  Search 
+  Search,
+  Menu,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { useAuth } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 interface HeaderProps {
   title?: string;
@@ -36,40 +42,71 @@ const Header: React.FC<HeaderProps> = ({
     await logout();
   };
 
+  const getUserInitials = () => {
+    if (!user) return 'U';
+    
+    if (user.firstName && user.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`;
+    } else if (user.username) {
+      return user.username[0].toUpperCase();
+    }
+    
+    return 'U';
+  };
+
   return (
-    <header className="bg-dark-800 border-b border-dark-600 py-3 px-4 flex justify-between items-center sticky top-0 z-10 w-full" style={{ backgroundColor: 'var(--dark-800)', borderColor: 'var(--dark-600)' }}>
+    <motion.header 
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="bg-card/40 backdrop-blur-md border-b border-border/30 py-3 px-4 flex justify-between items-center sticky top-0 z-10 w-full"
+    >
       <div className="flex items-center">
         <button 
           onClick={toggleMobileMenu} 
-          className="md:hidden mr-4 p-2 rounded hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200"
+          className="md:hidden mr-4 p-2 rounded-full hover:bg-primary/10 text-foreground hover:text-primary transition-colors duration-200"
           aria-label="Toggle mobile menu"
         >
-          <i className="fas fa-bars"></i>
+          <Menu size={20} />
         </button>
         
         <button 
           onClick={toggleSidebar} 
-          className="hidden md:flex mr-4 p-2 rounded hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200"
+          className="hidden md:flex mr-4 p-2 rounded-full hover:bg-primary/10 text-foreground hover:text-primary transition-colors duration-200"
           aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
         >
-          <i className={`fas ${isSidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'}`}></i>
+          {isSidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
         </button>
         
-        <h2 className="text-xl font-mono font-bold">{title}</h2>
+        <motion.h2 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-xl font-bold text-foreground"
+        >
+          {title}
+        </motion.h2>
       </div>
       
-      <div className="flex items-center space-x-4">
-        <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200">
+      <div className="flex items-center space-x-2">
+        <button className="p-2 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors duration-200">
           <Bell size={18} />
         </button>
-        <button className="p-2 hover:bg-dark-700 text-gray-400 hover:text-green-500 transition-colors duration-200">
+        <button className="p-2 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors duration-200">
           <Search size={18} />
         </button>
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="h-8 w-8 rounded-full bg-green-500 bg-opacity-20 flex items-center justify-center text-green-500 hover:bg-opacity-30 transition-all">
-              <User size={16} />
+            <button className={cn(
+              "h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center",
+              "hover:bg-primary/20 transition-all border border-primary/20 ml-2"
+            )}>
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="bg-primary/20 text-primary text-sm font-medium">
+                  {getUserInitials()}
+                </AvatarFallback>
+              </Avatar>
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
@@ -90,7 +127,7 @@ const Header: React.FC<HeaderProps> = ({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
