@@ -311,7 +311,11 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
         </CardHeader>
         <CardContent>
           {gameState.stage === 'welcome' && (
-            <div className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-4"
+            >
               <div className="flex items-center space-x-2 p-4 bg-primary/5 rounded-md">
                 <User className="h-5 w-5 text-primary" />
                 <div className="text-lg font-medium">
@@ -331,15 +335,20 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                   disabled={!playerName || gameState.isLoading}
                   className="w-full"
                 >
+                  <PlayCircle className="mr-2 h-5 w-5" />
                   Start Financial Journey
                 </Button>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {gameState.stage === 'initialization' && (
-            <div className="space-y-4">
-              <GameMessage 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-4"
+            >
+              <AnimatedGameMessage 
                 message={gameState.message} 
                 isLoading={gameState.isLoading} 
               />
@@ -351,106 +360,115 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               >
                 Initialize Financial Profile
               </Button>
-            </div>
+            </motion.div>
           )}
 
-
           {gameState.stage === 'making_decisions' && (
-            <div className="space-y-4">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4 p-4 bg-primary/5 rounded-md">
-                <div className="flex items-center space-x-2">
-                  <User className="h-5 w-5 text-primary" />
-                  <div className="font-medium">{gameState.playerName} - {gameState.careerPath}</div>
-                </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-6"
+            >
+              {/* Player info and game progress */}
+              <GameProgressTracker 
+                currentRound={gameState.roundCount + 1}
+                totalRounds={5}
+                level={gameState.level}
+                xp={gameState.xpEarned}
+              />
 
-                <div className="flex items-center space-x-2">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <div className="text-sm text-muted-foreground">Round {gameState.roundCount + 1}/5</div>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Landmark className="h-4 w-4 text-primary" />
-                  <div>
-                    <Badge variant="secondary" className="bg-primary/10">
-                      Level {gameState.level}
-                    </Badge>
-                    <span className="ml-2 text-xs text-muted-foreground">
-                      {gameState.xpEarned} XP
-                    </span>
-                  </div>
-                </div>
+              {/* Financial metrics and visualizations */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <FinancialMetrics metrics={financialMetrics} />
+                <FinancialStatsVisualization
+                  income={gameState.income}
+                  expenses={gameState.expenses}
+                  savings={gameState.savings}
+                  debt={gameState.debt}
+                  savingsRatio={financialMetrics.savingsRatio}
+                  debtToIncomeRatio={financialMetrics.debtToIncomeRatio}
+                />
               </div>
 
-              <FinancialMetrics metrics={financialMetrics} />
-
-              <GameMessage 
+              {/* Game message */}
+              <AnimatedGameMessage 
                 message={gameState.message} 
                 isLoading={gameState.isLoading} 
               />
 
+              {/* Achievements */}
               {gameState.achievements.length > 0 && (
-                <AchievementsList achievements={gameState.achievements} />
+                <AchievementsDisplay achievements={gameState.achievements} />
               )}
 
               <Separator />
 
+              {/* Decision making */}
               <div className="space-y-4 pt-2">
-                <h3 className="text-lg font-medium">Make a Financial Decision</h3>
+                <h3 className="text-lg font-medium flex items-center">
+                  <PiggyBank className="mr-2 h-5 w-5 text-primary" />
+                  Make a Financial Decision
+                </h3>
 
-                <Select
-                  value={selectedDecision}
-                  onValueChange={setSelectedDecision}
+                <DecisionCards
+                  onSelect={setSelectedDecision}
+                  selectedOption={selectedDecision}
                   disabled={gameState.isLoading}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a financial decision..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {financialDecisions.map((decision) => (
-                      <SelectItem key={decision.value} value={decision.value}>
-                        {decision.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                />
 
                 <Button 
                   onClick={makeDecision}
                   disabled={!selectedDecision || gameState.isLoading}
-                  className="w-full"
+                  className="w-full mt-4"
                 >
-                  Make Decision <ArrowRight className="ml-2 h-4 w-4" />
+                  Submit Decision <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {gameState.stage === 'conclusion' && (
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2 p-4 bg-primary/5 rounded-md">
-                <User className="h-5 w-5 text-primary" />
-                <div className="font-medium">{gameState.playerName} - {gameState.careerPath}</div>
-                <Badge variant="outline" className="ml-auto">
-                  Level {gameState.level}
-                </Badge>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="space-y-6"
+            >
+              <div className="flex items-center justify-between p-4 bg-primary/10 rounded-md">
+                <div className="flex items-center space-x-2">
+                  <Award className="h-6 w-6 text-amber-500" />
+                  <div>
+                    <div className="font-medium text-lg">{gameState.playerName}</div>
+                    <div className="text-sm text-muted-foreground">{gameState.careerPath}</div>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <Badge variant="outline" className="bg-primary/20 mb-1">
+                    Level {gameState.level}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground">
+                    {gameState.xpEarned} XP Earned
+                  </span>
+                </div>
               </div>
 
-              <GameMessage 
+              <AnimatedGameMessage 
                 message={gameState.message} 
-                isLoading={gameState.isLoading} 
+                isLoading={gameState.isLoading}
+                type="tip"
               />
 
               {gameState.achievements.length > 0 && (
-                <AchievementsList achievements={gameState.achievements} />
+                <AchievementsDisplay achievements={gameState.achievements} />
               )}
 
               <Button 
                 onClick={resetGame}
                 className="w-full"
               >
+                <PlayCircle className="mr-2 h-5 w-5" />
                 Play Again
               </Button>
-            </div>
+            </motion.div>
           )}
         </CardContent>
       </Card>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { CircleDollarSign, PoundSterling, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowUp, ArrowDown, Coins, Wallet, CreditCard, Receipt } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 export interface FinancialMetricsType {
   income: number;
@@ -18,85 +19,71 @@ interface FinancialMetricsProps {
 }
 
 export function FinancialMetrics({ metrics }: FinancialMetricsProps) {
-  const monthlyBalance = metrics.monthlyBalance !== undefined ? 
-    metrics.monthlyBalance : 
-    metrics.income - metrics.expenses;
-  
-  const debtToIncomeRatio = metrics.debtToIncomeRatio !== undefined ? 
-    metrics.debtToIncomeRatio : 
-    metrics.income > 0 ? (metrics.debt / metrics.income) * 100 : 0;
-  
-  const savingsRatio = metrics.savingsRatio !== undefined ? 
-    metrics.savingsRatio : 
-    metrics.income > 0 ? (metrics.savings / metrics.income) * 100 : 0;
-  
+  const { income, expenses, savings, debt } = metrics;
+  const monthlyBalance = income - expenses;
+
+  // Format metrics for display
+  const formattedIncome = formatCurrency(income);
+  const formattedExpenses = formatCurrency(expenses);
+  const formattedSavings = formatCurrency(savings);
+  const formattedDebt = formatCurrency(debt);
+  const formattedBalance = formatCurrency(monthlyBalance);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
-      <Card className="bg-background border-2 border-primary/10">
-        <CardContent className="p-4">
-          <div className="grid grid-cols-2 gap-2">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center">
+            <Coins className="h-5 w-5 text-primary mr-2" />
+            Financial Status
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <MetricCard
               title="Monthly Income"
-              value={formatCurrency(metrics.income)}
-              icon={<PoundSterling className="h-4 w-4 text-green-500" />}
-              className="bg-green-50 dark:bg-green-950/30"
+              value={formattedIncome}
+              icon={<Wallet className="h-4 w-4 text-emerald-500" />}
+              className="bg-emerald-50 dark:bg-emerald-950/30"
             />
             <MetricCard
               title="Monthly Expenses"
-              value={formatCurrency(metrics.expenses)}
-              icon={<TrendingDown className="h-4 w-4 text-red-500" />}
+              value={formattedExpenses}
+              icon={<Receipt className="h-4 w-4 text-red-500" />}
               className="bg-red-50 dark:bg-red-950/30"
             />
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card className="bg-background border-2 border-primary/10">
-        <CardContent className="p-4">
-          <div className="grid grid-cols-2 gap-2">
             <MetricCard
               title="Total Savings"
-              value={formatCurrency(metrics.savings)}
-              icon={<TrendingUp className="h-4 w-4 text-blue-500" />}
-              className="bg-blue-50 dark:bg-blue-950/30"
-            />
-            <MetricCard
-              title="Outstanding Debt"
-              value={formatCurrency(metrics.debt)}
-              icon={<Wallet className="h-4 w-4 text-amber-500" />}
+              value={formattedSavings}
+              icon={<Coins className="h-4 w-4 text-amber-500" />}
               className="bg-amber-50 dark:bg-amber-950/30"
             />
+            <MetricCard
+              title="Total Debt"
+              value={formattedDebt}
+              icon={<CreditCard className="h-4 w-4 text-blue-500" />}
+              className="bg-blue-50 dark:bg-blue-950/30"
+            />
           </div>
-        </CardContent>
-      </Card>
-      
-      <Card className="md:col-span-2 bg-background border-2 border-primary/10">
-        <CardContent className="p-4">
-          <div className="grid grid-cols-3 gap-2">
-            <div className="text-center p-3 rounded-md bg-green-50 dark:bg-green-950/30">
-              <div className="text-xs text-muted-foreground mb-1">Monthly Balance</div>
-              <div className={`font-medium ${monthlyBalance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatCurrency(monthlyBalance)}
-              </div>
-            </div>
-            
-            <div className="text-center p-3 rounded-md bg-blue-50 dark:bg-blue-950/30">
-              <div className="text-xs text-muted-foreground mb-1">Savings Rate</div>
-              <div className="font-medium text-blue-600">
-                {savingsRatio.toFixed(1)}%
-              </div>
-            </div>
-            
-            <div className="text-center p-3 rounded-md bg-amber-50 dark:bg-amber-950/30">
-              <div className="text-xs text-muted-foreground mb-1">Debt-to-Income</div>
-              <div className="font-medium text-amber-600">
-                {debtToIncomeRatio.toFixed(1)}%
-              </div>
+          
+          <div className="mt-4 p-3 rounded-md flex items-center justify-between text-sm">
+            <div className="font-medium">Monthly Balance</div>
+            <div className={`flex items-center font-medium ${monthlyBalance >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
+              {monthlyBalance >= 0 ? (
+                <ArrowUp className="h-4 w-4 mr-1" />
+              ) : (
+                <ArrowDown className="h-4 w-4 mr-1" />
+              )}
+              {formattedBalance}
             </div>
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 
@@ -109,12 +96,12 @@ interface MetricCardProps {
 
 function MetricCard({ title, value, icon, className = '' }: MetricCardProps) {
   return (
-    <div className={`flex flex-col p-3 rounded-md ${className}`}>
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-xs text-muted-foreground">{title}</span>
+    <div className={`p-3 rounded-md ${className}`}>
+      <div className="flex items-center space-x-2 mb-1">
         {icon}
+        <span className="text-xs font-medium">{title}</span>
       </div>
-      <div className="font-medium">{value}</div>
+      <div className="text-lg font-semibold">{value}</div>
     </div>
   );
 }

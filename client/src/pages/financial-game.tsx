@@ -95,15 +95,29 @@ interface CareerCardProps {
 
 function CareerCard({ career, onSelect }: CareerCardProps) {
   return (
-    <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={onSelect}>
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="text-xl font-semibold">{career.title}</h3>
-          <span className="text-4xl">{career.icon}</span>
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card 
+        className="p-6 hover:shadow-lg transition-all cursor-pointer overflow-hidden border-2 hover:border-primary/50" 
+        onClick={onSelect}
+      >
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-semibold">{career.title}</h3>
+            <span className="text-4xl">{career.icon}</span>
+          </div>
+          <p className="text-muted-foreground">{career.description}</p>
+          <Button className="w-full">
+            <PlayCircle className="h-4 w-4 mr-2" />
+            Select This Path
+          </Button>
         </div>
-        <p className="text-muted-foreground">{career.description}</p>
-        <Button className="w-full">Select This Path</Button>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }

@@ -1,6 +1,8 @@
 import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { TrendingUp, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Badge } from '@/components/ui/badge';
 
 interface GameProgressTrackerProps {
   currentRound: number;
@@ -10,44 +12,60 @@ interface GameProgressTrackerProps {
 }
 
 export function GameProgressTracker({ currentRound, totalRounds, level, xp }: GameProgressTrackerProps) {
+  // Calculate percentage of rounds completed
+  const roundProgress = (currentRound / totalRounds) * 100;
+  
+  // XP required for next level (simple formula)
+  const xpForNextLevel = level * 100;
+  
+  // Calculate XP progress percentage
+  const xpProgress = Math.min(100, (xp / xpForNextLevel) * 100);
+
   return (
-    <div className="w-full bg-background/50 rounded-lg p-4 mb-4">
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="text-md font-medium">Game Progress</h3>
-        <Badge variant="outline" className="bg-primary/10">Level {level}</Badge>
-      </div>
-      
-      {/* Round progress */}
-      <div className="mb-3">
-        <div className="flex justify-between text-xs text-muted-foreground mb-1">
-          <span>Round</span>
-          <span>{currentRound} of {totalRounds}</span>
-        </div>
-        <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-          <motion.div 
-            className="h-full bg-primary"
-            initial={{ width: 0 }}
-            animate={{ width: `${(currentRound / totalRounds) * 100}%` }}
-            transition={{ duration: 0.5 }}
-          />
-        </div>
-      </div>
-      
-      {/* XP progress */}
-      <div>
-        <div className="flex justify-between text-xs text-muted-foreground mb-1">
-          <span>Experience</span>
-          <span>{xp} XP</span>
-        </div>
-        <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-          <motion.div 
-            className="h-full bg-amber-500"
-            initial={{ width: 0 }}
-            animate={{ width: `${Math.min((xp / 100) * 100, 100)}%` }}
-            transition={{ duration: 0.5 }}
-          />
-        </div>
-      </div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card>
+        <CardContent className="p-4 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <TrendingUp className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">Game Progress</span>
+            </div>
+            <span className="text-sm text-muted-foreground">
+              Round {currentRound} of {totalRounds}
+            </span>
+          </div>
+          
+          <div className="space-y-1">
+            <Progress value={roundProgress} className="h-2" />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>Progress</span>
+              <span>{Math.round(roundProgress)}%</span>
+            </div>
+          </div>
+          
+          <div className="mt-4 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Star className="h-4 w-4 text-amber-500" />
+              <span className="text-sm font-medium">Level {level}</span>
+            </div>
+            <span className="text-sm text-muted-foreground">
+              {xp} / {xpForNextLevel} XP
+            </span>
+          </div>
+          
+          <div className="space-y-1">
+            <Progress value={xpProgress} className="h-2" />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>Level Progress</span>
+              <span>{Math.round(xpProgress)}%</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }

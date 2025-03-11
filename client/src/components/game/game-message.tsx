@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { MessageCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 
 interface GameMessageProps {
@@ -9,33 +10,45 @@ interface GameMessageProps {
 }
 
 export function GameMessage({ message, isLoading }: GameMessageProps) {
+  if (isLoading) {
+    return (
+      <Card className="border-primary/20 bg-primary/5 overflow-hidden">
+        <CardContent className="p-4">
+          <div className="flex items-start space-x-3">
+            <div className="mt-1">
+              <MessageCircle className="h-5 w-5 text-primary" />
+            </div>
+            <div className="w-full space-y-2">
+              <div className="h-4 bg-muted rounded animate-pulse w-3/4"></div>
+              <div className="h-4 bg-muted rounded animate-pulse w-1/2"></div>
+              <div className="h-4 bg-muted rounded animate-pulse w-5/6"></div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!message) return null;
+
   return (
-    <Card className="border-2 border-primary/20 bg-gradient-to-b from-background to-background/50 shadow-md h-full">
-      <CardContent className="p-4 md:p-6">
-        {isLoading ? (
-          <div className="space-y-4">
-            <Skeleton className="h-6 w-3/4" />
-            <Skeleton className="h-6 w-1/2" />
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-6 w-2/3" />
-            <Skeleton className="h-6 w-4/5" />
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card className="border-primary/20 bg-primary/5 overflow-hidden">
+        <CardContent className="p-4">
+          <div className="flex items-start space-x-3">
+            <div className="mt-1">
+              <MessageCircle className="h-5 w-5 text-primary" />
+            </div>
+            <div className="prose prose-sm dark:prose-invert max-w-none">
+              <ReactMarkdown>{message}</ReactMarkdown>
+            </div>
           </div>
-        ) : (
-          <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
-            {message ? (
-              <div className="whitespace-pre-line">
-                <ReactMarkdown>
-                  {message}
-                </ReactMarkdown>
-              </div>
-            ) : (
-              <div className="whitespace-pre-line">
-                Welcome to the Financial Twin game! Enter your name to begin your journey.
-              </div>
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
