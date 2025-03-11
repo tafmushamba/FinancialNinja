@@ -3,7 +3,6 @@
  * Provides integration with the Python Financial Twin game
  */
 import { PythonShell } from 'python-shell';
-import { log } from '../vite';
 import path from 'path';
 
 /**
@@ -35,39 +34,35 @@ export interface FinancialGameData {
  * Run a Python game function with parameters
  */
 async function runGameFunction(
-  functionName: string,
+  functionName: string, 
   params: Record<string, any>
 ): Promise<FinancialGameData> {
   try {
-    // Setup Python Shell options
     const options = {
       mode: 'text' as const,
       pythonPath: 'python3',
-      pythonOptions: ['-u'], // unbuffered output
-      scriptPath: './',
-      args: [functionName, JSON.stringify(params)]
+      scriptPath: path.join(process.cwd(), 'python_modules'),
+      args: [JSON.stringify({ function_name: functionName, params })]
     };
 
-    // Run the Python script
-    const results = await PythonShell.run('python_modules/game_runner.py', options);
-    
-    // Parse the result (should be a JSON string)
+    const results = await PythonShell.run('game_runner.py', options);
     const result = results.join('');
-    
+
     try {
-      return JSON.parse(result) as FinancialGameData;
+      return JSON.parse(result);
     } catch (e) {
-      log(`Error parsing Python result: ${e}`);
+      console.error('Error parsing Python output:', e);
+      console.error('Raw output:', result);
       return { 
-        content: "There was an error processing your request.",
-        error: `Failed to parse result: ${result}`
+        content: 'Error in game simulation', 
+        error: `Failed to parse game output: ${e}. Raw output: ${result.substring(0, 200)}...` 
       };
     }
   } catch (error) {
-    log(`Error running Python script: ${error}`);
+    console.error('Error executing Python script:', error);
     return { 
-      content: "There was an error running the game.",
-      error: `${error}`
+      content: 'Game simulation failed', 
+      error: `Python execution error: ${error}` 
     };
   }
 }
@@ -76,10 +71,10 @@ async function runGameFunction(
  * Start a new game session with player name and career choice
  */
 export async function startGame(
-  playerName: string,
+  playerName: string, 
   careerChoice: string
 ): Promise<FinancialGameData> {
-  return runGameFunction('welcome', {
+  return runGameFunction('welcome_node_function', {
     player_name: playerName,
     career_choice: careerChoice
   });
@@ -91,9 +86,9 @@ export async function startGame(
 export async function initializeFinancialTwin(
   careerPath: string
 ): Promise<FinancialGameData> {
-  return runGameFunction('initialize', {
+  return runGameFunction('initialize_financial_twin_function', {
     career_path: careerPath,
-    acknowledge_status: true
+    acknowledge_status: 'Yes'
   });
 }
 
@@ -107,9 +102,9 @@ export async function processFinancialDecision(
   savings: number,
   debt: number,
   financialDecision: string,
-  nextStep: 'Continue with next scenario' | 'End session'
+  nextStep: string
 ): Promise<FinancialGameData> {
-  return runGameFunction('process_decision', {
+  return runGameFunction('process_financial_decisions_function', {
     career_path: careerPath,
     income,
     expenses,
@@ -131,7 +126,7 @@ export async function concludeGameSession(
   achievements: string[],
   financialDecision: string
 ): Promise<FinancialGameData> {
-  return runGameFunction('conclude', {
+  return runGameFunction('conclude_session_function', {
     player_name: playerName,
     career_path: careerPath,
     xp_earned: xpEarned,

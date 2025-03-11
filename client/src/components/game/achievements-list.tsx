@@ -1,55 +1,50 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Star, Trophy, Award, TrendingUp, AlertCircle } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Trophy } from 'lucide-react';
 
 interface AchievementsListProps {
   achievements: string[];
 }
 
 export function AchievementsList({ achievements }: AchievementsListProps) {
-  const getAchievementIcon = (achievement: string) => {
-    if (achievement.includes('Debt') || achievement.includes('debt')) {
-      return <Award className="text-blue-500" />;
-    } else if (achievement.includes('Cash Flow') || achievement.includes('Income')) {
-      return <TrendingUp className="text-green-500" />;
-    } else if (achievement.includes('Saver') || achievement.includes('Savings')) {
-      return <Star className="text-amber-500" />;
-    } else if (achievement.includes('Crisis') || achievement.includes('Emergency')) {
-      return <AlertCircle className="text-red-500" />;
-    }
-    return <Trophy className="text-purple-500" />;
-  };
+  if (!achievements || achievements.length === 0) {
+    return (
+      <Card className="my-4">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-xl flex items-center">
+            <Trophy className="h-5 w-5 mr-2 text-amber-500" />
+            Achievements
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">No achievements unlocked yet. Make wise financial decisions to earn achievements!</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      {achievements.length === 0 ? (
-        <Card>
-          <CardContent className="p-6 text-center">
-            <p className="text-muted-foreground">No achievements unlocked yet. Keep making good financial decisions!</p>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Achievements Unlocked</h3>
-            <div className="space-y-2">
-              {achievements.map((achievement, index) => (
-                <div key={index}>
-                  <div className="flex items-center gap-3 py-2">
-                    <div className="h-8 w-8 flex items-center justify-center rounded-full bg-muted">
-                      {getAchievementIcon(achievement)}
-                    </div>
-                    <div>
-                      <p className="font-medium">{achievement}</p>
-                    </div>
-                  </div>
-                  {index < achievements.length - 1 && <Separator />}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+    <Card className="my-4">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-xl flex items-center">
+          <Trophy className="h-5 w-5 mr-2 text-amber-500" />
+          Achievements ({achievements.length})
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-wrap gap-2">
+          {achievements.map((achievement, index) => (
+            <Badge 
+              key={index} 
+              variant="secondary"
+              className="py-1.5 px-3 text-sm bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800"
+            >
+              {achievement}
+            </Badge>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
