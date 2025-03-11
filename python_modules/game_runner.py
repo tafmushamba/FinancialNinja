@@ -11,11 +11,18 @@ import traceback
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
-    # Try importing as a module first (when run as part of a package)
-    from python_modules.financial_twin import run_game_function
+    # Try importing from the updated module first
+    from python_modules.financial_twin_updated import run_game_function
 except ImportError:
-    # Fall back to a local import (when run directly)
-    from financial_twin import run_game_function
+    try:
+        # Try importing as a module (when run as part of a package)
+        from python_modules.financial_twin import run_game_function
+    except ImportError:
+        # Fall back to a local import (when run directly)
+        try:
+            from financial_twin_updated import run_game_function
+        except ImportError:
+            from financial_twin import run_game_function
 
 def main():
     """Main entry point for the script when called from Node.js"""
