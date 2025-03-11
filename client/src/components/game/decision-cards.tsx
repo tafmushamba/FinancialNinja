@@ -13,7 +13,7 @@ interface DecisionOption {
   value: string;
   label: string;
   description: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   impact: {
     savings: number;
     debt: number;

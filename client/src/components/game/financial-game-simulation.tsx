@@ -34,6 +34,7 @@ interface DecisionOption {
   value: string;
   label: string;
   description: string;
+  icon?: React.ReactNode;
   impact: {
     savings: number;
     debt: number;
@@ -78,7 +79,8 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
     message: null,
     isLoading: false,
     roundCount: 0,
-    nextStep: 'continue'
+    nextStep: 'continue',
+    decisionOptions: []
   });
 
   // Financial decisions available to the player
@@ -173,6 +175,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
         xpEarned: response.xp_earned,
         level: response.level,
         achievements: response.achievements || [],
+        decisionOptions: response.decision_options || [],
         isLoading: false
       }));
     } catch (error) {
@@ -226,6 +229,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
           xpEarned: response.xp_earned || prev.xpEarned,
           level: response.level || prev.level,
           achievements: response.achievements || prev.achievements,
+          decisionOptions: response.decision_options || [],
           isLoading: false,
           roundCount: prev.roundCount + 1
         };
@@ -300,7 +304,8 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
       message: null,
       isLoading: false,
       roundCount: 0,
-      nextStep: 'continue'
+      nextStep: 'continue',
+      decisionOptions: []
     });
   };
 
@@ -443,6 +448,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
                   selectedOption={selectedDecision}
                   disabled={gameState.isLoading}
                   scenario={gameState.message || undefined}
+                  decisionOptions={gameState.decisionOptions}
                 />
 
                 <Button 
