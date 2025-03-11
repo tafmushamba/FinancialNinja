@@ -18,6 +18,7 @@ import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
+import FinancialGame from "@/pages/financial-game";
 
 // Custom Redirect component for navigation
 const Redirect = ({ to }: { to: string }) => {
@@ -107,6 +108,12 @@ function Router() {
       <Route path="/ai-assistant">
         <MainLayout>
           <AiAssistant />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/financial-game">
+        <MainLayout>
+          <FinancialGame />
         </MainLayout>
       </Route>
       

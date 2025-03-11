@@ -14,6 +14,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ isOpen = false, toggleMenu }) => 
     { icon: 'fas fa-home', label: 'Home', path: '/' },
     { icon: 'fas fa-graduation-cap', label: 'Learn', path: '/learning-modules' },
     { icon: 'fas fa-wallet', label: 'Track', path: '/finance-tracker' },
+    { icon: 'fas fa-gamepad', label: 'Game', path: '/financial-game' },
     { icon: 'fas fa-trophy', label: 'Achieve', path: '/achievements' },
     { icon: 'fas fa-user', label: 'Profile', path: '/settings' }
   ];

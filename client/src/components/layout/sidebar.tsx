@@ -15,6 +15,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
     { icon: 'fas fa-home', label: 'Dashboard', path: '/' },
     { icon: 'fas fa-graduation-cap', label: 'Learning Modules', path: '/learning-modules' },
     { icon: 'fas fa-wallet', label: 'Finance Tracker', path: '/finance-tracker' },
+    { icon: 'fas fa-gamepad', label: 'Financial Game', path: '/financial-game' },
     { icon: 'fas fa-trophy', label: 'Achievements', path: '/achievements' },
     { icon: 'fas fa-robot', label: 'AI Assistant', path: '/ai-assistant' },
     { icon: 'fas fa-cog', label: 'Settings', path: '/settings' }

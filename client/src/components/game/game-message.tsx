@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { TerminalText } from '@/components/ui/terminal-text';
+import TerminalText from '@/components/ui/terminal-text';
 
 interface GameMessageProps {
   message: string | null;
