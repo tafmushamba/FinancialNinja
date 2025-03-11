@@ -210,7 +210,12 @@ def initialize_financial_twin_function(career_path: str, acknowledge_status: str
     # Get decision options for this career path
     decision_options = career_decisions.get(str(career_path), [])
     
-    # Create prompt for the AI
+    # Create prompt for the AI with specific decision options
+    # Format the decision options for the prompt
+    formatted_options = ""
+    for option in decision_options:
+        formatted_options += f"- {option['label']}: {option['description']}\n"
+    
     prompt = f'''
 You are a financial game host for UK players. A player has chosen the career path of {career_path}.
 
@@ -226,7 +231,10 @@ Then, introduce the first financial challenge or story mission relevant to the c
 
 Use examples that are relevant to the UK financial system (ISAs, Help to Buy, NS&I, UK tax bands, etc.) and British life scenarios rather than American ones.
 
-Ask the player to make decisions regarding financial choices, such as budgeting, investing, paying off debt, or making purchases. Present specific UK-relevant options for them to choose from.
+When presenting the financial challenge, ask the player to choose from ONLY the following options:
+{formatted_options}
+
+IMPORTANT: The scenario must relate directly to these exact options. Do not reference any other choices that aren't listed above. Ensure your challenge scenario logically connects to these specific options.
 
 Use an engaging and motivating tone.
 '''
@@ -286,6 +294,117 @@ def process_financial_decisions_function(
         expenses = 1500.0
         savings = 1000.0
         debt = 10000.0
+    
+    # UK-specific career decisions dictionary
+    career_decisions = {
+        'Student': [
+            {
+                'value': 'budget_tightly',
+                'label': 'Budget Tightly',
+                'description': 'Cut all non-essential spending to maximize savings',
+                'impact': {'savings': 15, 'debt': 0, 'income': 0, 'expenses': -20}
+            },
+            {
+                'value': 'find_part_time_job',
+                'label': 'Find Part-Time Job',
+                'description': 'Look for work in a pub or shop to supplement your maintenance loan',
+                'impact': {'savings': 5, 'debt': 0, 'income': 25, 'expenses': 5}
+            },
+            {
+                'value': 'student_discount_focus',
+                'label': 'Maximise Student Discounts',
+                'description': 'Sign up for TOTUM card and student offers',
+                'impact': {'savings': 5, 'debt': 0, 'income': 0, 'expenses': -10}
+            },
+            {
+                'value': 'loan_repayment_planning',
+                'label': 'Student Loan Planning',
+                'description': 'Understand repayment thresholds and plan your finances',
+                'impact': {'savings': 0, 'debt': -5, 'income': 0, 'expenses': 0}
+            }
+        ],
+        'Entrepreneur': [
+            {
+                'value': 'bootstrap_business',
+                'label': 'Bootstrap Your Business',
+                'description': 'Minimize expenses and grow slowly without external funding',
+                'impact': {'savings': -5, 'debt': 0, 'income': 10, 'expenses': -15}
+            },
+            {
+                'value': 'seek_angel_investment',
+                'label': 'Seek Angel Investment',
+                'description': 'Pitch to UK angel investors for early funding',
+                'impact': {'savings': 30, 'debt': 0, 'income': 20, 'expenses': 15}
+            },
+            {
+                'value': 'apply_startup_loan',
+                'label': 'Apply for Start Up Loan',
+                'description': 'Apply for a UK government-backed Start Up Loan',
+                'impact': {'savings': 25, 'debt': 20, 'income': 15, 'expenses': 10}
+            },
+            {
+                'value': 'revenue_focus',
+                'label': 'Focus on Early Revenue',
+                'description': 'Prioritize paying customers and positive cash flow',
+                'impact': {'savings': 10, 'debt': -5, 'income': 15, 'expenses': 0}
+            }
+        ],
+        'Artist': [
+            {
+                'value': 'arts_council_grant',
+                'label': 'Apply for Arts Council Grant',
+                'description': 'Seek funding from Arts Council England',
+                'impact': {'savings': 20, 'debt': 0, 'income': 15, 'expenses': 5}
+            },
+            {
+                'value': 'teaching_workshops',
+                'label': 'Teach Art Workshops',
+                'description': 'Supplement income by teaching your skills',
+                'impact': {'savings': 5, 'debt': 0, 'income': 20, 'expenses': 3}
+            },
+            {
+                'value': 'digital_platforms',
+                'label': 'Sell on Digital Platforms',
+                'description': 'Use UK platforms like Etsy and Not On The High Street',
+                'impact': {'savings': 8, 'debt': 0, 'income': 12, 'expenses': 5}
+            },
+            {
+                'value': 'shared_studio_space',
+                'label': 'Join Shared Studio',
+                'description': 'Share studio costs with other artists',
+                'impact': {'savings': 5, 'debt': 0, 'income': 0, 'expenses': -15}
+            }
+        ],
+        'Banker': [
+            {
+                'value': 'maximise_pension',
+                'label': 'Maximise Pension Contributions',
+                'description': 'Take advantage of tax relief and employer matching',
+                'impact': {'savings': 25, 'debt': 0, 'income': -5, 'expenses': 0}
+            },
+            {
+                'value': 'invest_isa',
+                'label': 'Invest in Stocks & Shares ISA',
+                'description': 'Use your annual ISA allowance for tax-efficient investing',
+                'impact': {'savings': -10, 'debt': 0, 'income': 8, 'expenses': 0}
+            },
+            {
+                'value': 'property_investment',
+                'label': 'UK Property Investment',
+                'description': 'Invest in the British property market',
+                'impact': {'savings': -30, 'debt': 20, 'income': 15, 'expenses': 10}
+            },
+            {
+                'value': 'professional_development',
+                'label': 'Professional Qualifications',
+                'description': 'Invest in CFA or other financial certifications',
+                'impact': {'savings': -15, 'debt': 0, 'income': 25, 'expenses': 5}
+            }
+        ]
+    }
+    
+    # Get decision options for this career path
+    decision_options = career_decisions.get(str(career_path), [])
     
     # UK-specific scenario database for different career paths
     scenarios = {
@@ -386,6 +505,15 @@ def process_financial_decisions_function(
     career_scenarios = scenarios.get(career_path_str, scenarios['Student'])
     next_scenario = random.choice(career_scenarios)
     
+    # Format the decision options for the next prompt
+    formatted_options = ""
+    for option in decision_options:
+        formatted_options += f"- {option['label']}: {option['description']}\n"
+    
+    # If we're continuing, update the next_scenario to include option information
+    if next_step == 'continue':
+        next_scenario += f"\n\nYou need to choose from the following options:\n{formatted_options}"
+    
     # Create response message with British pounds
     response = f'''🎮 **Financial Twin Simulation Update** 🎮
 
@@ -421,6 +549,9 @@ What's your decision?'''
     else:
         response += "\n🏁 **Session Complete!**\nLet's see your final summary..."
     
+    # Get decision options for this career path for next round
+    decision_options = career_decisions.get(str(career_path), [])
+    
     return AbacusResponse(
         response,
         xp_earned=xp_earned,
@@ -434,7 +565,8 @@ What's your decision?'''
         income=income,
         expenses=expenses,
         savings=savings,
-        debt=debt
+        debt=debt,
+        decision_options=decision_options
     )
 
 def conclude_session_function(
