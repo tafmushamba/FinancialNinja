@@ -5,7 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { PlayCircle } from 'lucide-react';
 import { FinancialGameSimulation } from '@/components/game/financial-game-simulation';
-import { careerAvatars } from '@/components/game/avatars';
+import { CareerSprite } from '@/components/game/sprites';
 
 export default function FinancialGame() {
   const { toast } = useToast();
@@ -116,9 +116,6 @@ interface CareerCardProps {
 }
 
 function CareerCard({ career, onSelect }: CareerCardProps) {
-  // Get appropriate avatar component for this career
-  const AvatarComponent = careerAvatars[career.title as keyof typeof careerAvatars];
-  
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
@@ -133,11 +130,9 @@ function CareerCard({ career, onSelect }: CareerCardProps) {
       >
         <div className="space-y-4">
           <div className="flex flex-col items-center mb-4">
-            {AvatarComponent && (
-              <div className="w-32 h-32 mb-2">
-                <AvatarComponent className="w-full h-full" />
-              </div>
-            )}
+            <div className="w-32 h-32 mb-2 bg-gray-100 rounded-full p-1 flex items-center justify-center">
+              <CareerSprite career={career.title} className="w-full h-full" />
+            </div>
             <h3 className="text-xl font-semibold text-center">{career.title}</h3>
           </div>
           <p className="text-muted-foreground text-center">{career.description}</p>
