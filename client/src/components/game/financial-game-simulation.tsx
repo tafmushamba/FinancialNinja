@@ -89,9 +89,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
       };
       console.log('Request data:', requestData);
       
-      const response = await apiRequest<any>('/api/financial-game/start', {
+      const response = await apiRequest<any>({
+        url: '/api/financial-game/start',
         method: 'POST',
-        body: JSON.stringify(requestData)
+        data: requestData
       });
       
       console.log('Received response:', response);
@@ -118,12 +119,15 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
     setGameState(prev => ({ ...prev, isLoading: true }));
 
     try {
-      const response = await apiRequest<any>('/api/financial-game/initialize', {
+      console.log('Sending API request to /api/financial-game/initialize');
+      
+      const response = await apiRequest<any>({
+        url: '/api/financial-game/initialize',
         method: 'POST',
-        body: JSON.stringify({
+        data: {
           careerPath: career,
           acknowledgeStatus: "I understand my initial financial status and am ready to proceed"
-        })
+        }
       });
 
       setGameState(prev => ({ 
@@ -161,9 +165,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
     }));
 
     try {
-      const response = await apiRequest<any>('/api/financial-game/process-decision', {
+      const response = await apiRequest<any>({
+        url: '/api/financial-game/process-decision',
         method: 'POST',
-        body: JSON.stringify({
+        data: {
           careerPath: gameState.careerPath,
           income: gameState.income,
           expenses: gameState.expenses,
@@ -171,7 +176,7 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
           debt: gameState.debt,
           financialDecision: selectedDecision,
           nextStep
-        })
+        }
       });
 
       setGameState(prev => {
@@ -215,16 +220,17 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
     setGameState(prev => ({ ...prev, isLoading: true }));
 
     try {
-      const response = await apiRequest<any>('/api/financial-game/conclude', {
+      const response = await apiRequest<any>({
+        url: '/api/financial-game/conclude',
         method: 'POST',
-        body: JSON.stringify({
+        data: {
           playerName: gameState.playerName,
           careerPath: gameState.careerPath,
           xpEarned: gameState.xpEarned,
           level: gameState.level,
           achievements: gameState.achievements,
           financialDecision: selectedDecision || 'balanced_approach'
-        })
+        }
       });
 
       setGameState(prev => ({ 

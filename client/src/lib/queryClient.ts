@@ -12,18 +12,53 @@ async function throwIfResNotOk(res: Response, on401: UnauthorizedBehavior = "thr
 }
 
 export async function apiRequest<T = any>(
-  options: {
+  urlOrOptions: string | {
     url: string; 
     method: string;
     data?: unknown | undefined;
     on401?: UnauthorizedBehavior;
+  },
+  configOrUndefined?: {
+    method: string;
+    body?: string;
+    on401?: UnauthorizedBehavior;
   }
 ): Promise<T> {
-  const { url, method, data, on401 } = options;
+  let url: string;
+  let method: string;
+  let body: string | undefined;
+  let on401: UnauthorizedBehavior | undefined;
+  let headers: Record<string, string> = {};
+  
+  // Handle both function signatures for backward compatibility
+  if (typeof urlOrOptions === 'string') {
+    // Old format: apiRequest(url, config)
+    url = urlOrOptions;
+    if (configOrUndefined) {
+      method = configOrUndefined.method;
+      body = configOrUndefined.body;
+      on401 = configOrUndefined.on401;
+      if (body) {
+        headers["Content-Type"] = "application/json";
+      }
+    } else {
+      method = 'GET';
+    }
+  } else {
+    // New format: apiRequest({ url, method, data })
+    url = urlOrOptions.url;
+    method = urlOrOptions.method;
+    body = urlOrOptions.data ? JSON.stringify(urlOrOptions.data) : undefined;
+    on401 = urlOrOptions.on401;
+    if (urlOrOptions.data) {
+      headers["Content-Type"] = "application/json";
+    }
+  }
+  
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
+    headers,
+    body,
     credentials: "include",
   });
 
