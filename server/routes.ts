@@ -770,6 +770,112 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
     }
   });
 
+  // ===== Financial Game API Routes =====
+
+  // Start a new game session with player name and career choice
+  app.post("/api/financial-game/start", async (req: Request, res: Response) => {
+    try {
+      const { playerName, careerChoice } = req.body;
+      
+      if (!playerName || !careerChoice) {
+        return res.status(400).json({ message: "Player name and career choice are required" });
+      }
+      
+      const result = await startGame(playerName, careerChoice);
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Error starting financial game:", error);
+      res.status(500).json({ message: "Internal server error", error: `${error}` });
+    }
+  });
+  
+  // Initialize the financial twin with career path
+  app.post("/api/financial-game/initialize", async (req: Request, res: Response) => {
+    try {
+      const { careerPath } = req.body;
+      
+      if (!careerPath) {
+        return res.status(400).json({ message: "Career path is required" });
+      }
+      
+      const result = await initializeFinancialTwin(careerPath);
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Error initializing financial twin:", error);
+      res.status(500).json({ message: "Internal server error", error: `${error}` });
+    }
+  });
+  
+  // Process financial decision
+  app.post("/api/financial-game/process-decision", async (req: Request, res: Response) => {
+    try {
+      const { 
+        careerPath, 
+        income, 
+        expenses, 
+        savings, 
+        debt, 
+        financialDecision,
+        nextStep 
+      } = req.body;
+      
+      if (!careerPath || income === undefined || expenses === undefined || 
+          savings === undefined || debt === undefined || !financialDecision || !nextStep) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      const result = await processFinancialDecision(
+        careerPath, 
+        income, 
+        expenses, 
+        savings, 
+        debt, 
+        financialDecision, 
+        nextStep
+      );
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Error processing financial decision:", error);
+      res.status(500).json({ message: "Internal server error", error: `${error}` });
+    }
+  });
+  
+  // Conclude game session
+  app.post("/api/financial-game/conclude", async (req: Request, res: Response) => {
+    try {
+      const { 
+        playerName, 
+        careerPath, 
+        xpEarned, 
+        level, 
+        achievements, 
+        financialDecision 
+      } = req.body;
+      
+      if (!playerName || !careerPath || xpEarned === undefined || 
+          level === undefined || !achievements || !financialDecision) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      const result = await concludeGameSession(
+        playerName, 
+        careerPath, 
+        xpEarned, 
+        level, 
+        achievements, 
+        financialDecision
+      );
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Error concluding game session:", error);
+      res.status(500).json({ message: "Internal server error", error: `${error}` });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
