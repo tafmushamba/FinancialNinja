@@ -4,13 +4,26 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { apiRequest } from '@/lib/queryClient';
-import { ArrowRight, Calendar, Clock, Landmark, User } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { motion } from 'framer-motion';
+import { 
+  ArrowRight, Calendar, Clock, Landmark, User, 
+  PlayCircle, Award, DollarSign, PiggyBank
+} from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue
+} from "@/components/ui/select";
 
-import { FinancialMetrics, FinancialMetricsType } from './financial-metrics';
-import { GameMessage } from './game-message';
-import { AchievementsList } from './achievements-list';
+// Import new visual components
+import { GameProgressTracker } from './game-progress-tracker';
+import { FinancialStatsVisualization } from './financial-stats-visualization';
+import { DecisionCards } from './decision-cards';
+import { AchievementsDisplay } from './achievements-display';
+import { AnimatedGameMessage } from './animated-game-message';
 
 interface FinancialGameSimulationProps {
   career: string;
@@ -278,11 +291,13 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
   };
 
   // Prepare financial metrics data for the component
-  const financialMetrics: FinancialMetricsType = {
+  const financialMetrics = {
     income: gameState.income,
     expenses: gameState.expenses,
     savings: gameState.savings,
-    debt: gameState.debt
+    debt: gameState.debt,
+    savingsRatio: gameState.income > 0 ? (gameState.savings / gameState.income) : 0,
+    debtToIncomeRatio: gameState.income > 0 ? (gameState.debt / gameState.income) : 0
   };
 
   return (
