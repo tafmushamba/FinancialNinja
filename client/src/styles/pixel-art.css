@@ -24,6 +24,9 @@
   padding: 16px;
   position: relative;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  color: #000;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .dialog-box:before {
@@ -95,8 +98,10 @@
   margin-top: 10px;
   margin-bottom: 10px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #000;
+  text-shadow: none;
 }
 
 /* Pokemon-style menu */
@@ -223,8 +228,10 @@
   padding: 12px;
   cursor: pointer;
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  font-size: 12px;
   transition: all 0.2s;
+  color: #000;
+  line-height: 1.6;
 }
 
 .decision-option:hover {
@@ -235,6 +242,16 @@
 .decision-option.selected {
   background-color: #dff8ff;
   border-color: #3498db;
+}
+
+.decision-option .text-primary {
+  color: #1a73e8;
+  font-weight: bold;
+}
+
+.decision-option .text-gray-600 {
+  color: #333;
+  margin-top: 4px;
 }
 
 /* Game container */
@@ -256,11 +273,25 @@
   }
   
   .font-pixel {
-    font-size: 0.8em;
+    font-size: 0.85em;
+    line-height: 1.8;
   }
   
   .battle-text-area {
-    font-size: 10px;
+    font-size: 12px;
     padding: 12px;
+    line-height: 1.8;
+  }
+  
+  .dialog-box {
+    font-size: 12px;
+    line-height: 1.8;
+    padding: 12px;
+  }
+  
+  .decision-option {
+    font-size: 11px;
+    line-height: 1.7;
+    padding: 10px;
   }
 }

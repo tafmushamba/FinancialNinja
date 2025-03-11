@@ -85,13 +85,16 @@ export function DialogBox({
       return;
     }
 
+    // Format text with proper line breaks for readability
+    const formattedText = formatDisplayText(text);
+    
     let currentIndex = 0;
     setIsTyping(true);
     setDisplayedText('');
     
     const typingInterval = setInterval(() => {
-      if (currentIndex < text.length) {
-        setDisplayedText(prev => prev + text.charAt(currentIndex));
+      if (currentIndex < formattedText.length) {
+        setDisplayedText(prev => prev + formattedText.charAt(currentIndex));
         currentIndex++;
       } else {
         clearInterval(typingInterval);
@@ -114,13 +117,43 @@ export function DialogBox({
     return () => clearInterval(blinkInterval);
   }, [isTyping]);
   
+  // Function to break long text into multiple lines for readability
+  const formatDisplayText = (text: string) => {
+    // If text is short, don't process it
+    if (text.length < 80) return text;
+    
+    // Split text into sentences or at punctuation
+    const parts = text.split(/([.!?]+\s+)/);
+    let formatted = '';
+    let lineLength = 0;
+    
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      
+      if (lineLength + part.length > 80) {
+        formatted += '\n';
+        lineLength = 0;
+      }
+      
+      formatted += part;
+      lineLength += part.length;
+    }
+    
+    return formatted;
+  };
+
   return (
     <div className={cn('dialog-box font-pixel text-sm', className)}>
       {speakerName && (
         <div className="text-primary font-bold mb-2">{speakerName}:</div>
       )}
       <div className="relative min-h-[60px]">
-        {displayedText}
+        {displayedText.split('\n').map((line, index) => (
+          <React.Fragment key={index}>
+            {line}
+            {index < displayedText.split('\n').length - 1 && <br />}
+          </React.Fragment>
+        ))}
         {isTyping && showCursor && (
           <span className="blinking-cursor ml-1" />
         )}
