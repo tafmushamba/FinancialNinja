@@ -14,8 +14,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocation } from "../lib/location";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
-import MobileNav from "@/components/layout/mobile-nav";
-
 const LearningModulesPage: React.FC = () => {
   const [, setLocation] = useLocation();
   const { data: allModulesData, isLoading } = useQuery({
@@ -143,8 +141,6 @@ const LearningModulesPage: React.FC = () => {
           </section>
         </div>
       </main>
-
-      <MobileNav />
     </div>
   );
 };
