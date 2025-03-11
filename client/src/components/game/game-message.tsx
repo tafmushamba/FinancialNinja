@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import ReactMarkdown from 'react-markdown';
 
 interface GameMessageProps {
   message: string | null;
@@ -21,9 +22,15 @@ export function GameMessage({ message, isLoading }: GameMessageProps) {
           </div>
         ) : (
           <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
-            <div className="whitespace-pre-line">
-              {message || "Welcome to the Financial Twin game! Select a career path to begin your journey."}
-            </div>
+            {message ? (
+              <ReactMarkdown className="whitespace-pre-line">
+                {message}
+              </ReactMarkdown>
+            ) : (
+              <div className="whitespace-pre-line">
+                Welcome to the Financial Twin game! Enter your name to begin your journey.
+              </div>
+            )}
           </div>
         )}
       </CardContent>

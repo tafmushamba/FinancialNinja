@@ -317,6 +317,32 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               </Button>
             </div>
           )}
+          
+          {gameState.stage === 'welcome' && (
+            <div className="space-y-4">
+              <GameMessage 
+                message={gameState.message || "Enter your name to begin your financial journey."} 
+                isLoading={gameState.isLoading} 
+              />
+              
+              <div className="mt-4">
+                <Input 
+                  placeholder="Enter your name" 
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                  className="mb-4"
+                />
+                
+                <Button 
+                  onClick={() => startGame(playerName)}
+                  disabled={!playerName.trim() || gameState.isLoading}
+                  className="w-full"
+                >
+                  Start Financial Journey
+                </Button>
+              </div>
+            </div>
+          )}
 
           {gameState.stage === 'making_decisions' && (
             <div className="space-y-4">

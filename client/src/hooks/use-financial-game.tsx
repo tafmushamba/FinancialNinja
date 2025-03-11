@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FinancialMetricsType } from '@/components/game/financial-metrics';
 
 type GameStage = 'welcome' | 'initialization' | 'processing_decisions' | 'game_over';
@@ -160,6 +160,36 @@ export function useFinancialGame(careerPath: string, playerName: string) {
         setIsProcessing(false);
       }, 2000);
     }, 3000);
+  };
+
+  // Start a new game with player name
+  const startGame = async (name: string) => {
+    if (!name.trim()) return;
+    
+    setIsProcessing(true);
+    setCurrentMessage(`Welcome ${name}! Initializing your financial journey as a ${careerPath}...`);
+    
+    try {
+      // Call the API to start a new game session
+      const response = await fetch('/api/financial-game/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playerName: name, careerChoice: careerPath })
+      });
+      
+      if (!response.ok) throw new Error('Failed to start game');
+      
+      const data = await response.json();
+      
+      // Update game state with response
+      setCurrentMessage(data.content);
+      setGameStage('initialization');
+    } catch (error) {
+      console.error('Error starting game:', error);
+      setCurrentMessage(`Sorry, there was an error starting the game. Please try again.`);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   // Process player decisions
