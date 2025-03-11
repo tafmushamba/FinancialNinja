@@ -65,9 +65,13 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
   ];
 
   useEffect(() => {
-    // Set career path when component mounts
-    setGameState(prev => ({ ...prev, careerPath: career }));
-  }, [career]);
+    // Set career path and player name when component mounts or user changes
+    setGameState(prev => ({ 
+      ...prev, 
+      careerPath: career,
+      playerName: playerName
+    }));
+  }, [career, playerName]);
 
   const startGame = async () => {
     if (!playerName) return;
@@ -254,11 +258,10 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
   };
 
   const resetGame = () => {
-    setPlayerName('');
     setSelectedDecision('');
     setGameState({
       stage: 'welcome',
-      playerName: '',
+      playerName: playerName,
       careerPath: career,
       income: 0,
       expenses: 0,
@@ -302,14 +305,12 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
               </div>
 
               <div className="space-y-4 py-4">
-                <h3 className="text-lg font-medium">Enter Your Name to Begin</h3>
-                <Input
-                  type="text"
-                  value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
-                  className="w-full rounded-md border border-input p-2"
-                  placeholder="Your name"
-                />
+                <div className="flex items-center space-x-2 p-4 bg-primary/5 rounded-md">
+                  <User className="h-5 w-5 text-primary" />
+                  <div className="text-lg font-medium">
+                    Welcome, <span className="text-primary">{playerName}</span>!
+                  </div>
+                </div>
                 <Button 
                   onClick={startGame}
                   disabled={!playerName || gameState.isLoading}
