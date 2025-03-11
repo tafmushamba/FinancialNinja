@@ -415,7 +415,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "You've received a £300 bursary from your university. Will you save it in your ISA, use it for everyday expenses, or invest in a professional development course?",
+                'scenario': "You\'ve received a £300 bursary from your university. Will you save it in your ISA, use it for everyday expenses, or invest in a professional development course?",
                 'options': [
                     {
                         'value': 'save_in_isa',
@@ -446,7 +446,7 @@ def process_financial_decisions_function(
         ],
         'Entrepreneur': [
             {
-                'scenario': "A potential angel investor from London Tech Angels is interested in your startup. They offer £50,000 funding but want 25% equity. What's your decision?",
+                'scenario': "A potential angel investor from London Tech Angels is interested in your startup. They offer £50,000 funding but want 25% equity. What\'s your decision?",
                 'options': [
                     {
                         'value': 'accept_investment',
@@ -475,7 +475,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "Your business is growing and you're stretched thin. You can hire a part-time assistant for £1,200/month or work longer hours yourself. What will you do?",
+                'scenario': "Your business is growing and you\'re stretched thin. You can hire a part-time assistant for £1,200/month or work longer hours yourself. What will you do?",
                 'options': [
                     {
                         'value': 'hire_assistant',
@@ -504,7 +504,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "A competitor in your industry is closing down and offers to sell their client list for £5,000. It could bring in new business but is pricey. What's your choice?",
+                'scenario': "A competitor in your industry is closing down and offers to sell their client list for £5,000. It could bring in new business but is pricey. What\'s your choice?",
                 'options': [
                     {
                         'value': 'buy_client_list',
@@ -562,7 +562,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "There's an opportunity to expand your business to Manchester, but it requires £15,000 upfront for a new location. How do you proceed?",
+                'scenario': "There\'s an opportunity to expand your business to Manchester, but it requires £15,000 upfront for a new location. How do you proceed?",
                 'options': [
                     {
                         'value': 'expand_location',
@@ -622,7 +622,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "You need supplies for your next project. You can invest £400 in premium materials or £150 in basic supplies. What's your approach?",
+                'scenario': "You need supplies for your next project. You can invest £400 in premium materials or £150 in basic supplies. What\'s your approach?",
                 'options': [
                     {
                         'value': 'premium_materials',
@@ -651,7 +651,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "A prestigious client offers a rush commission that pays £1,200, but you'll need to cancel other commitments worth £800. What do you do?",
+                'scenario': "A prestigious client offers a rush commission that pays £1,200, but you\'ll need to cancel other commitments worth £800. What do you do?",
                 'options': [
                     {
                         'value': 'accept_commission',
@@ -769,7 +769,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "You've spotted a promising investment opportunity in UK tech stocks, but it's relatively high-risk. Will you invest £10,000 from your portfolio?",
+                'scenario': "You\'ve spotted a promising investment opportunity in UK tech stocks, but it's relatively high-risk. Will you invest £10,000 from your portfolio?",
                 'options': [
                     {
                         'value': 'invest_tech_stocks',
@@ -827,7 +827,7 @@ def process_financial_decisions_function(
                 ]
             },
             {
-                'scenario': "You have £20,000 to invest. You can choose between a safe FTSE tracker fund or active management with higher potential returns. What's your strategy?",
+                'scenario': "You have £20,000 to invest. You can choose between a safe FTSE tracker fund or active management with higher potential returns. What\'s your strategy?",
                 'options': [
                     {
                         'value': 'ftse_tracker',
@@ -987,7 +987,7 @@ Your choice to {financial_decision} has been processed.
 🎯 **Next Scenario:**
 {next_scenario}
 
-What's your decision?'''
+What\'s your decision?'''
     
     # Return response with financial data
     return AbacusResponse(
