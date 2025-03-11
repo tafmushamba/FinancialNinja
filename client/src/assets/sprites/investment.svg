@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pixelated {
+      shape-rendering: crispEdges;
+      image-rendering: pixelated;
+    }
+  </style>
+  <!-- Background -->
+  <rect class="pixelated" width="64" height="64" fill="#E8F5E9"/>
+  
+  <!-- Graph Paper Background -->
+  <rect class="pixelated" x="8" y="8" width="48" height="48" fill="#FFFFFF"/>
+  
+  <!-- Grid Lines -->
+  <path class="pixelated" d="M8,16 h48 M8,24 h48 M8,32 h48 M8,40 h48 M8,48 h48" stroke="#E0E0E0" stroke-width="1"/>
+  <path class="pixelated" d="M16,8 v48 M24,8 v48 M32,8 v48 M40,8 v48 M48,8 v48" stroke="#E0E0E0" stroke-width="1"/>
+  
+  <!-- Stock Chart (Uptrend) -->
+  <path class="pixelated" d="M8,48 L16,40 L24,44 L32,32 L40,36 L48,24 L56,16" stroke="#4CAF50" stroke-width="2" fill="none"/>
+  
+  <!-- Chart Points -->
+  <circle class="pixelated" cx="16" cy="40" r="2" fill="#4CAF50"/>
+  <circle class="pixelated" cx="24" cy="44" r="2" fill="#4CAF50"/>
+  <circle class="pixelated" cx="32" cy="32" r="2" fill="#4CAF50"/>
+  <circle class="pixelated" cx="40" cy="36" r="2" fill="#4CAF50"/>
+  <circle class="pixelated" cx="48" cy="24" r="2" fill="#4CAF50"/>
+  
+  <!-- Money Symbols -->
+  <text x="12" y="20" font-size="8" fill="#4CAF50">£</text>
+  <text x="52" y="20" font-size="8" fill="#4CAF50">£</text>
+  
+  <!-- Up Arrows -->
+  <path class="pixelated" d="M32,4 l6,6 h-4 v4 h-4 v-4 h-4 z" fill="#4CAF50"/>
+  
+  <!-- Stacks of Coins -->
+  <circle class="pixelated" cx="12" cy="56" r="4" fill="#FFC107"/>
+  <circle class="pixelated" cx="12" cy="54" r="4" fill="#FFC107"/>
+  <circle class="pixelated" cx="12" cy="52" r="4" fill="#FFC107"/>
+  
+  <circle class="pixelated" cx="52" cy="56" r="4" fill="#FFC107"/>
+  <circle class="pixelated" cx="52" cy="54" r="4" fill="#FFC107"/>
+  <circle class="pixelated" cx="52" cy="52" r="4" fill="#FFC107"/>
+</svg>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pixelated {
+      shape-rendering: crispEdges;
+      image-rendering: pixelated;
+    }
+  </style>
+  <!-- Background -->
+  <rect class="pixelated" width="64" height="64" fill="#B3E5FC"/>
+  
+  <!-- Body -->
+  <rect class="pixelated" x="22" y="32" width="20" height="20" fill="#2196F3"/>
+  
+  <!-- Head -->
+  <rect class="pixelated" x="22" y="12" width="20" height="20" fill="#FFCCBC"/>
+  
+  <!-- Hair -->
+  <rect class="pixelated" x="22" y="8" width="20" height="8" fill="#795548"/>
+  <rect class="pixelated" x="18" y="12" width="4" height="4" fill="#795548"/>
+  <rect class="pixelated" x="42" y="12" width="4" height="4" fill="#795548"/>
+  
+  <!-- Face -->
+  <rect class="pixelated" x="26" y="18" width="4" height="4" fill="#212121"/>
+  <rect class="pixelated" x="34" y="18" width="4" height="4" fill="#212121"/>
+  <rect class="pixelated" x="30" y="24" width="4" height="2" fill="#212121"/>
+  
+  <!-- Book -->
+  <rect class="pixelated" x="16" y="40" width="12" height="8" fill="#FFC107"/>
+  <rect class="pixelated" x="16" y="40" width="6" height="8" fill="#FF5722"/>
+  <line class="pixelated" x1="22" y1="40" x2="22" y2="48" stroke="#212121" stroke-width="1"/>
+  
+  <!-- Graduation Cap -->
+  <rect class="pixelated" x="22" y="4" width="20" height="4" fill="#212121"/>
+  <rect class="pixelated" x="26" y="0" width="12" height="4" fill="#212121"/>
+  <rect class="pixelated" x="34" y="4" width="4" height="4" fill="#FFC107"/>
+  
+  <!-- Legs -->
+  <rect class="pixelated" x="26" y="52" width="4" height="8" fill="#1565C0"/>
+  <rect class="pixelated" x="34" y="52" width="4" height="8" fill="#1565C0"/>
+  
+  <!-- Arms -->
+  <rect class="pixelated" x="14" y="32" width="8" height="4" fill="#FFCCBC"/>
+  <rect class="pixelated" x="42" y="32" width="8" height="4" fill="#FFCCBC"/>
+</svg>

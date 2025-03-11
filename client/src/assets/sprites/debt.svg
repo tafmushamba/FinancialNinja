@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pixelated {
+      shape-rendering: crispEdges;
+      image-rendering: pixelated;
+    }
+  </style>
+  <!-- Background -->
+  <rect class="pixelated" width="64" height="64" fill="#FFEBEE"/>
+  
+  <!-- Credit Card -->
+  <rect class="pixelated" x="12" y="20" width="40" height="24" rx="2" fill="#1565C0"/>
+  <rect class="pixelated" x="16" y="28" width="32" height="4" fill="#E0E0E0"/>
+  <rect class="pixelated" x="16" y="36" width="12" height="4" fill="#E0E0E0"/>
+  <rect class="pixelated" x="32" y="36" width="8" height="4" fill="#E0E0E0"/>
+  
+  <!-- Chip -->
+  <rect class="pixelated" x="20" y="24" width="8" height="6" fill="#FFC107"/>
+  <rect class="pixelated" x="22" y="26" width="4" height="2" fill="#FFA000"/>
+  
+  <!-- Chain and Ball (Debt Weight) -->
+  <circle class="pixelated" cx="40" cy="50" r="8" fill="#455A64"/>
+  <rect class="pixelated" x="32" y="44" width="8" height="4" fill="#607D8B"/>
+  <rect class="pixelated" x="28" y="44" width="4" height="4" fill="#607D8B"/>
+  <rect class="pixelated" x="24" y="44" width="4" height="4" fill="#607D8B"/>
+  <rect class="pixelated" x="20" y="44" width="4" height="4" fill="#607D8B"/>
+  
+  <!-- Money/Debt Icons (Down Arrows) -->
+  <path class="pixelated" d="M8,8 h8 v4 h-3 v8 h-2 v-8 h-3 z" fill="#F44336"/>
+  <path class="pixelated" d="M48,8 h8 v4 h-3 v8 h-2 v-8 h-3 z" fill="#F44336"/>
+  
+  <!-- Interest/APR Text -->
+  <text x="48" y="44" font-size="6" fill="#F44336" font-weight="bold">APR</text>
+  <text x="48" y="52" font-size="10" fill="#F44336" font-weight="bold">24.9%</text>
+  
+  <!-- Warning Symbols -->
+  <path class="pixelated" d="M14,12 l4,-8 l4,8 z" fill="#FFC107"/>
+  <rect class="pixelated" x="16" y="8" width="4" height="2" fill="#212121"/>
+  <rect class="pixelated" x="16" y="10" width="4" height="2" fill="#212121"/>
+</svg>

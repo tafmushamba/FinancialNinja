@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pixelated {
+      shape-rendering: crispEdges;
+      image-rendering: pixelated;
+    }
+  </style>
+  <!-- Background -->
+  <rect class="pixelated" width="64" height="64" fill="#FFF9C4"/>
+  
+  <!-- Piggy Bank Body -->
+  <rect class="pixelated" x="12" y="24" width="40" height="24" fill="#F8BBD0"/>
+  <rect class="pixelated" x="8" y="28" width="4" height="16" fill="#F8BBD0"/>
+  <rect class="pixelated" x="52" y="28" width="4" height="16" fill="#F8BBD0"/>
+  <rect class="pixelated" x="16" y="20" width="32" height="4" fill="#F8BBD0"/>
+  <rect class="pixelated" x="16" y="48" width="8" height="4" fill="#F8BBD0"/>
+  <rect class="pixelated" x="40" y="48" width="8" height="4" fill="#F8BBD0"/>
+  
+  <!-- Piggy Bank Ears -->
+  <rect class="pixelated" x="14" y="16" width="8" height="8" fill="#F48FB1"/>
+  <rect class="pixelated" x="42" y="16" width="8" height="8" fill="#F48FB1"/>
+  
+  <!-- Piggy Bank Facial Features -->
+  <rect class="pixelated" x="46" y="28" width="8" height="8" fill="#F48FB1"/>
+  <rect class="pixelated" x="48" y="32" width="4" height="4" fill="#212121"/>
+  
+  <!-- Coin Slot -->
+  <rect class="pixelated" x="28" y="20" width="8" height="4" fill="#212121"/>
+  
+  <!-- Legs -->
+  <rect class="pixelated" x="18" y="48" width="4" height="8" fill="#F48FB1"/>
+  <rect class="pixelated" x="42" y="48" width="4" height="8" fill="#F48FB1"/>
+  
+  <!-- Coins -->
+  <circle class="pixelated" cx="16" cy="52" r="6" fill="#FFC107"/>
+  <circle class="pixelated" cx="16" cy="52" r="4" fill="#FFA000"/>
+  <text x="16" y="55" font-size="8" text-anchor="middle" fill="#212121">£</text>
+  
+  <circle class="pixelated" cx="48" cy="54" r="6" fill="#FFC107"/>
+  <circle class="pixelated" cx="48" cy="54" r="4" fill="#FFA000"/>
+  <text x="48" y="57" font-size="8" text-anchor="middle" fill="#212121">£</text>
+  
+  <circle class="pixelated" cx="32" cy="12" r="6" fill="#FFC107"/>
+  <circle class="pixelated" cx="32" cy="12" r="4" fill="#FFA000"/>
+  <text x="32" y="15" font-size="8" text-anchor="middle" fill="#212121">£</text>
+</svg>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pixelated {
+      shape-rendering: crispEdges;
+      image-rendering: pixelated;
+    }
+  </style>
+  <!-- Background -->
+  <rect class="pixelated" width="64" height="64" fill="#FFEBEE"/>
+  
+  <!-- Crisis Warning Symbol -->
+  <path class="pixelated" d="M32,8 L60,56 L4,56 Z" fill="#FFC107"/>
+  <path class="pixelated" d="M32,16 L52,48 L12,48 Z" fill="#FF9800"/>
+  
+  <!-- Exclamation Mark -->
+  <rect class="pixelated" x="28" y="24" width="8" height="16" fill="#212121"/>
+  <rect class="pixelated" x="28" y="44" width="8" height="8" fill="#212121"/>
+  
+  <!-- Money Falling/Flying Away -->
+  <rect class="pixelated" x="8" y="12" width="8" height="4" fill="#4CAF50"/>
+  <text x="12" y="16" font-size="6" text-anchor="middle" fill="#212121">£</text>
+  <path class="pixelated" d="M8,12 l-2,-2 l2,-2 l2,2 z" fill="#4CAF50"/>
+  
+  <rect class="pixelated" x="48" y="16" width="8" height="4" fill="#4CAF50"/>
+  <text x="52" y="20" font-size="6" text-anchor="middle" fill="#212121">£</text>
+  <path class="pixelated" d="M56,16 l2,-2 l-2,-2 l-2,2 z" fill="#4CAF50"/>
+  
+  <rect class="pixelated" x="16" y="36" width="8" height="4" transform="rotate(30, 16, 36)" fill="#4CAF50"/>
+  <path class="pixelated" d="M14,32 l-2,2 l2,2 l2,-2 z" transform="rotate(30, 14, 32)" fill="#4CAF50"/>
+  
+  <!-- Umbrella (Protection in Crisis) -->
+  <path class="pixelated" d="M40,28 v12" stroke="#B71C1C" stroke-width="2"/>
+  <path class="pixelated" d="M28,28 h24 a12,12 0 0,0 -24,0 z" fill="#EF5350"/>
+  <path class="pixelated" d="M44,40 l4,8" stroke="#B71C1C" stroke-width="2"/>
+  
+  <!-- Lightning (Crisis/Emergency) -->
+  <path class="pixelated" d="M20,28 l-4,8 h4 l-4,8 h0 l6,-10 h-4 l4,-6 z" fill="#FFEB3B"/>
+</svg>

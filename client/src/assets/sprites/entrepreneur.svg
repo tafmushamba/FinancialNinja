@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pixelated {
+      shape-rendering: crispEdges;
+      image-rendering: pixelated;
+    }
+  </style>
+  <!-- Background -->
+  <rect class="pixelated" width="64" height="64" fill="#C8E6C9"/>
+  
+  <!-- Body (Business Suit) -->
+  <rect class="pixelated" x="22" y="32" width="20" height="20" fill="#263238"/>
+  
+  <!-- Shirt -->
+  <rect class="pixelated" x="28" y="32" width="8" height="10" fill="#FFFFFF"/>
+  <rect class="pixelated" x="30" y="42" width="4" height="4" fill="#F44336"/>
+  
+  <!-- Head -->
+  <rect class="pixelated" x="22" y="12" width="20" height="20" fill="#FFD54F"/>
+  
+  <!-- Hair (Business style) -->
+  <rect class="pixelated" x="22" y="8" width="20" height="6" fill="#4E342E"/>
+  <rect class="pixelated" x="22" y="14" width="4" height="2" fill="#4E342E"/>
+  
+  <!-- Face -->
+  <rect class="pixelated" x="26" y="18" width="4" height="4" fill="#212121"/>
+  <rect class="pixelated" x="34" y="18" width="4" height="4" fill="#212121"/>
+  <rect class="pixelated" x="28" y="24" width="8" height="2" fill="#212121"/>
+  
+  <!-- Briefcase -->
+  <rect class="pixelated" x="42" y="36" width="10" height="12" fill="#795548"/>
+  <rect class="pixelated" x="42" y="40" width="10" height="2" fill="#8D6E63"/>
+  <rect class="pixelated" x="46" y="36" width="2" height="4" fill="#FFD54F"/>
+  
+  <!-- Legs -->
+  <rect class="pixelated" x="26" y="52" width="4" height="8" fill="#263238"/>
+  <rect class="pixelated" x="34" y="52" width="4" height="8" fill="#263238"/>
+  
+  <!-- Arms -->
+  <rect class="pixelated" x="14" y="32" width="8" height="4" fill="#FFD54F"/>
+  <rect class="pixelated" x="42" y="32" width="8" height="4" fill="#FFD54F"/>
+  
+  <!-- Bitcoin/Crypto Icon -->
+  <rect class="pixelated" x="12" y="12" width="8" height="8" fill="#F9A825"/>
+  <path class="pixelated" d="M14,14 h4 v1 h-4 v2 h4 v1 h-4" fill="#FFFFFF"/>
+  <path class="pixelated" d="M16,12 v8" stroke="#FFFFFF" stroke-width="1"/>
+  <path class="pixelated" d="M17,12 v8" stroke="#FFFFFF" stroke-width="1"/>
+</svg>
