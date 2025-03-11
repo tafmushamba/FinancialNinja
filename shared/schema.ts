@@ -7,13 +7,13 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
-  firstName: text("first_name"),
-  lastName: text("last_name"),
+  firstName: text("firstName"),
+  lastName: text("lastName"),
   email: text("email"),
-  userLevel: text("user_level").default("Level 1 Investor"),
-  financialLiteracyScore: integer("financial_literacy_score").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  userLevel: text("userLevel").default("Level 1 Investor"),
+  financialLiteracyScore: integer("financialLiteracyScore").default(0),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
   settings: json("settings").$type<{
     darkMode: boolean;
     animations: boolean;
@@ -45,41 +45,41 @@ export const learningModules = pgTable("learning_modules", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   icon: text("icon").notNull(),
-  accentColor: text("accent_color").notNull(),
-  totalLessons: integer("total_lessons").notNull(),
+  accentColor: text("accentColor").notNull(),
+  totalLessons: integer("totalLessons").notNull(),
   difficulty: text("difficulty").notNull(),
   duration: text("duration").notNull(),
   topics: json("topics").$type<string[]>().default([]),
   prerequisites: json("prerequisites").$type<number[]>().default([]),
   order: integer("order").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 // Lesson Schema
 export const lessons = pgTable("lessons", {
   id: serial("id").primaryKey(),
-  moduleId: integer("module_id").notNull().references(() => learningModules.id),
+  moduleId: integer("moduleId").notNull().references(() => learningModules.id),
   title: text("title").notNull(),
   content: text("content").notNull(),
   order: integer("order").notNull(),
   duration: integer("duration").notNull(), // in minutes
-  quizId: integer("quiz_id"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
+  quizId: integer("quizId"),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 // User Progress Schema
 export const userProgress = pgTable("user_progress", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
-  moduleId: integer("module_id").notNull().references(() => learningModules.id),
-  lessonsCompleted: integer("lessons_completed").default(0),
-  lastLessonId: integer("last_lesson_id"),
+  userId: integer("userId").notNull().references(() => users.id),
+  moduleId: integer("moduleId").notNull().references(() => learningModules.id),
+  lessonsCompleted: integer("lessonsCompleted").default(0),
+  lastLessonId: integer("lastLessonId"),
   completed: boolean("completed").default(false),
-  percentageComplete: integer("percentage_complete").default(0),
-  startedAt: timestamp("started_at").defaultNow(),
-  completedAt: timestamp("completed_at"),
+  percentageComplete: integer("percentageComplete").default(0),
+  startedAt: timestamp("startedAt").defaultNow(),
+  completedAt: timestamp("completedAt"),
 });
 
 // Achievement Schema
