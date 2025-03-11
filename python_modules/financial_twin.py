@@ -70,7 +70,7 @@ def initialize_financial_twin_function(career_path: str, acknowledge_status: str
     Returns:
         AbacusResponse containing initial status and financial data
     """
-    from abacusai import AgentResponse, ApiClient
+    from python_modules.abacusai import AgentResponse, ApiClient
     client = ApiClient()
     
     # Define initial financial values for each career path
@@ -144,7 +144,7 @@ def process_financial_decisions_function(
     Returns:
         AbacusResponse containing updated financial status and game progress
     """
-    from abacusai import AgentResponse, ApiClient
+    from python_modules.abacusai import AgentResponse, ApiClient
     import random
     import math
     
@@ -333,7 +333,7 @@ def conclude_session_function(
     Returns:
         AbacusResponse containing conclusion message and summary
     """
-    from abacusai import AgentResponse, ApiClient
+    from python_modules.abacusai import AgentResponse, ApiClient
     client = ApiClient()
     
     # Convert to appropriate types if needed

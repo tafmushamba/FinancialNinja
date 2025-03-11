@@ -5,7 +5,7 @@ This module provides a simple entry point for Node.js to communicate with the Fi
 import sys
 import json
 import traceback
-from financial_twin import run_game_function
+from python_modules.financial_twin import run_game_function
 
 def main():
     """Main entry point for the script when called from Node.js"""

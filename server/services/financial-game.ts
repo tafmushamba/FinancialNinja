@@ -43,7 +43,7 @@ async function runGameFunction(
       mode: 'text' as const, // TypeScript needs this constraint
       pythonPath: 'python3',
       pythonOptions: ['-u'],
-      scriptPath: path.join(process.cwd(), 'python_modules'),
+      scriptPath: path.join(process.cwd()),
       args: []
     };
 
