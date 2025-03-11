@@ -165,14 +165,35 @@ export function PokemonGameUI({
   };
 
   return (
-    <div className="pokemon-game-container">
+    <div className="pokemon-game-container p-4 md:p-8 pb-20 md:pb-12 max-w-5xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-8"
+      >
+        <div className="flex items-center mb-4">
+          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+            <span className="text-primary font-bold">{gameState.level}</span>
+          </div>
+          <div className="ml-3">
+            <h1 className="text-2xl font-bold text-foreground">
+              Financial Adventure
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Career: {gameState.careerPath} | Round: {gameState.roundCount}
+            </p>
+          </div>
+        </div>
+      </motion.div>
+      
       <BattleScene
         playerCharacter={getPlayerCharacter()}
         opponentCharacter={getOpponentCharacter()}
         playerStats={playerStats}
         opponentStats={opponentStats}
         backgroundImage={backgroundImage}
-        className="rounded-lg overflow-hidden shadow-lg mb-6"
+        className="rounded-xl overflow-hidden shadow-xl border border-primary/20 mb-6"
       >
         {/* Dialog box with typewriter effect */}
         <div className="mb-4">
@@ -212,7 +233,7 @@ export function PokemonGameUI({
             <button
               onClick={onContinue}
               disabled={isSubmitting}
-              className="px-6 py-3 bg-blue-500 text-white font-pixel rounded-lg disabled:opacity-50 transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+              className="px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg disabled:opacity-50 transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2"
             >
               {isSubmitting ? "Processing..." : "Continue"}
             </button>
@@ -230,7 +251,7 @@ export function PokemonGameUI({
             <button
               onClick={onContinue}
               disabled={isSubmitting || !selectedDecision}
-              className="px-6 py-3 bg-green-500 text-white font-pixel rounded-lg disabled:opacity-50 transition-all hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+              className="px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg disabled:opacity-50 transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 shadow-md"
             >
               {isSubmitting ? "Processing..." : "Confirm Decision"}
             </button>
@@ -238,74 +259,123 @@ export function PokemonGameUI({
         )}
       </BattleScene>
 
-      {/* Game info panel */}
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <PixelContainer className="p-4 bg-white">
-          <h3 className="font-pixel text-lg mb-3">Financial Status</h3>
-          <div className="space-y-2 font-pixel">
-            <div className="flex justify-between">
-              <span>Income:</span>
-              <span>{formatCurrency(gameState.income)}</span>
+      {/* Game info panels */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <PixelContainer className="p-4 bg-card/60 backdrop-blur-sm border border-border/50 shadow-md">
+            <h3 className="font-pixel text-lg mb-3 text-foreground font-bold flex items-center">
+              <span className="w-6 h-6 rounded-full bg-primary/20 inline-flex items-center justify-center mr-2">
+                <span className="text-primary text-xs">£</span>
+              </span>
+              Financial Status
+            </h3>
+            <div className="space-y-2 font-pixel text-foreground">
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>Income:</span>
+                <span className="font-medium">{formatCurrency(gameState.income)}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>Expenses:</span>
+                <span className="font-medium">{formatCurrency(gameState.expenses)}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>Savings:</span>
+                <span className="font-medium">{formatCurrency(gameState.savings)}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>Debt:</span>
+                <span className="font-medium">{formatCurrency(gameState.debt)}</span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span>Expenses:</span>
-              <span>{formatCurrency(gameState.expenses)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Savings:</span>
-              <span>{formatCurrency(gameState.savings)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Debt:</span>
-              <span>{formatCurrency(gameState.debt)}</span>
-            </div>
-          </div>
-        </PixelContainer>
+          </PixelContainer>
+        </motion.div>
 
-        <PixelContainer className="p-4 bg-white">
-          <h3 className="font-pixel text-lg mb-3">Game Progress</h3>
-          <div className="space-y-2 font-pixel">
-            <div className="flex justify-between">
-              <span>Level:</span>
-              <span>{gameState.level}</span>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <PixelContainer className="p-4 bg-card/60 backdrop-blur-sm border border-border/50 shadow-md">
+            <h3 className="font-pixel text-lg mb-3 text-foreground font-bold flex items-center">
+              <span className="w-6 h-6 rounded-full bg-primary/20 inline-flex items-center justify-center mr-2">
+                <span className="text-primary text-xs">XP</span>
+              </span>
+              Game Progress
+            </h3>
+            <div className="space-y-2 font-pixel text-foreground">
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>Level:</span>
+                <span className="font-medium">{gameState.level}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>XP Earned:</span>
+                <span className="font-medium">{gameState.xpEarned}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>Round:</span>
+                <span className="font-medium">{gameState.roundCount}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 rounded-md bg-primary/5">
+                <span>Achievements:</span>
+                <span className="font-medium">{gameState.achievements.length}</span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span>XP Earned:</span>
-              <span>{gameState.xpEarned}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Round:</span>
-              <span>{gameState.roundCount}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Achievements:</span>
-              <span>{gameState.achievements.length}</span>
-            </div>
-          </div>
-        </PixelContainer>
+          </PixelContainer>
+        </motion.div>
       </div>
 
       {/* Achievements panel (if any) */}
       {gameState.achievements.length > 0 && (
-        <PixelContainer className="mt-4 p-4 bg-white">
-          <h3 className="font-pixel text-lg mb-3">Achievements</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {gameState.achievements.map((achievement, index) => (
-              <div 
-                key={index} 
-                className="flex items-center space-x-2 p-2 bg-yellow-100 rounded-md"
-              >
-                <img 
-                  src={getScenarioSprite('achievement')}
-                  alt="Achievement" 
-                  className="w-6 h-6 pixelated" 
-                />
-                <span className="font-pixel text-xs">{achievement}</span>
-              </div>
-            ))}
-          </div>
-        </PixelContainer>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <PixelContainer className="mt-6 p-4 bg-card/60 backdrop-blur-sm border border-border/50 shadow-md">
+            <h3 className="font-pixel text-lg mb-3 text-foreground font-bold flex items-center">
+              <span className="w-6 h-6 rounded-full bg-yellow-500/20 inline-flex items-center justify-center mr-2">
+                <span className="text-yellow-500 text-xs">★</span>
+              </span>
+              Achievements
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {gameState.achievements.map((achievement, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="flex items-center space-x-2 p-2 bg-yellow-500/10 border border-yellow-500/20 rounded-md"
+                >
+                  <img 
+                    src={getScenarioSprite('achievement')}
+                    alt="Achievement" 
+                    className="w-6 h-6 pixelated" 
+                  />
+                  <span className="font-pixel text-sm text-foreground">{achievement}</span>
+                </motion.div>
+              ))}
+            </div>
+          </PixelContainer>
+        </motion.div>
       )}
+      
+      {/* Return to home link */}
+      <div className="mt-8 text-center">
+        <a 
+          href="/" 
+          className="inline-flex items-center text-primary hover:text-primary/80 text-sm font-medium"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Return to Dashboard
+        </a>
+      </div>
     </div>
   );
 }
