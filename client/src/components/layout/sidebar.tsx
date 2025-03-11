@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
 
 interface SidebarProps {
   collapsed?: boolean;
@@ -8,8 +9,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
   const [location] = useLocation();
-  // Mock user data for now
-  const user = { firstName: 'Test', lastName: 'User', username: 'testuser', userLevel: 'Basic User' };
+  const { user } = useAuth();
 
   const navItems = [
     { icon: 'fas fa-home', label: 'Dashboard', path: '/' },

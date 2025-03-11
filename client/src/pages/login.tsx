@@ -5,6 +5,7 @@ import { z } from "zod";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "@/lib/location";
+import { useAuth } from "@/context/AuthContext";
 
 import {
   Form,
@@ -31,6 +32,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [, navigate] = useLocation();
+  const { login } = useAuth();
   
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -50,15 +52,17 @@ export default function Login() {
         data: data,
       });
       
-      // Navigate directly without using context
       if (response && response.user) {
+        // Use the login function from the auth context
+        login(response.user);
+        
         toast({
           title: "Login successful",
           description: "Welcome back!",
         });
         
-        // Redirect to dashboard
-        window.location.href = "/";
+        // Use navigate instead of window.location for a smoother experience
+        navigate("/");
       }
     } catch (error: any) {
       toast({

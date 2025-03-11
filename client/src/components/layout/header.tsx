@@ -15,6 +15,7 @@ import {
   Search 
 } from 'lucide-react';
 import { Link } from 'wouter';
+import { useAuth } from '@/context/AuthContext';
 
 interface HeaderProps {
   title?: string;
@@ -29,12 +30,10 @@ const Header: React.FC<HeaderProps> = ({
   isSidebarOpen,
   toggleMobileMenu
 }) => {
-  // Mock user for now
-  const user = { firstName: 'Test', lastName: 'User', username: 'testuser' };
+  const { user, logout } = useAuth();
 
-  const handleLogout = () => {
-    // Simple logout for now - just redirect to login page
-    window.location.href = '/login';
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
