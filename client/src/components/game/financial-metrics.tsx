@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { PoundSterling, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
+import { CircleDollarSign, PoundSterling, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 
 export interface FinancialMetricsType {
