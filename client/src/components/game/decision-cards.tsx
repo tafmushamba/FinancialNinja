@@ -4,7 +4,8 @@ import {
   CreditCard, PiggyBank, ArrowUpDown, BarChart3, Shield, Wallet, 
   Plane, Home, Coffee, Users, TrendingDown, Globe, Sparkles, 
   PartyPopper, DollarSign, Calendar as CalendarIcon, Clock as ClockIcon, 
-  Lightbulb as LightbulbIcon, Zap as ZapIcon, TrendingUp as TrendingUpIcon
+  Lightbulb as LightbulbIcon, Zap as ZapIcon, TrendingUp as TrendingUpIcon,
+  BookOpen as BookOpenIcon, Book as BookIcon, Laptop as LaptopIcon
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -49,6 +50,10 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: 
   const isRealEstateScenario = scenario?.toLowerCase().includes('real estate') || scenario?.toLowerCase().includes('property') || scenario?.toLowerCase().includes('house');
   const isEducationScenario = scenario?.toLowerCase().includes('education') || scenario?.toLowerCase().includes('course') || scenario?.toLowerCase().includes('class') || scenario?.toLowerCase().includes('training');
   const isCareerScenario = scenario?.toLowerCase().includes('career') || scenario?.toLowerCase().includes('job') || scenario?.toLowerCase().includes('work') || scenario?.toLowerCase().includes('business');
+  
+  // Student-specific scenarios
+  const isTextbookScenario = scenario?.toLowerCase().includes('textbook') || scenario?.toLowerCase().includes('tightrope');
+  const isStudentScenario = scenario?.toLowerCase().includes('student') || scenario?.toLowerCase().includes('college') || scenario?.toLowerCase().includes('university');
   
   // Different sets of options based on scenario
   const springBreakOptions: DecisionOption[] = [
@@ -434,6 +439,58 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: 
     }
   ];
 
+  // Student-specific textbook options
+  const textbookOptions: DecisionOption[] = [
+    {
+      value: 'buy_new_textbooks',
+      label: 'Buy New Textbooks',
+      description: 'Purchase all new textbooks for your classes',
+      icon: <BookOpenIcon className="h-6 w-6 text-blue-500" />,
+      impact: {
+        savings: -20,
+        debt: 0,
+        income: 0,
+        expenses: 15
+      }
+    },
+    {
+      value: 'used_textbooks',
+      label: 'Buy Used Textbooks',
+      description: 'Find used textbooks at a discount',
+      icon: <BookIcon className="h-6 w-6 text-amber-500" />,
+      impact: {
+        savings: -10,
+        debt: 0,
+        income: 0,
+        expenses: 8
+      }
+    },
+    {
+      value: 'rent_textbooks',
+      label: 'Rent Textbooks',
+      description: 'Temporarily rent textbooks for the semester',
+      icon: <CalendarIcon className="h-6 w-6 text-green-500" />,
+      impact: {
+        savings: -5,
+        debt: 0,
+        income: 0,
+        expenses: 5
+      }
+    },
+    {
+      value: 'digital_alternatives',
+      label: 'Digital Alternatives',
+      description: 'Use e-books or online resources instead',
+      icon: <LaptopIcon className="h-6 w-6 text-purple-500" />,
+      impact: {
+        savings: -3,
+        debt: 0,
+        income: 0,
+        expenses: 3
+      }
+    }
+  ];
+
   const homeOptions: DecisionOption[] = [
     {
       value: 'diy_repair',
@@ -494,7 +551,9 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: 
   const isOpportunityScenario = isInvestmentScenario || isRealEstateScenario || isEducationScenario || isCareerScenario;
   
   // Specific scenario selection with priority for the most specific match
-  if (isSpringBreakScenario) {
+  if (isTextbookScenario) {
+    options = textbookOptions; // Highest priority for textbook scenarios
+  } else if (isSpringBreakScenario) {
     options = springBreakOptions;
   } else if (isVacationScenario) {
     options = springBreakOptions; // Reuse spring break options for vacation scenarios
@@ -514,7 +573,9 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario }: 
     options = investmentOptions;
   } else if (isRealEstateScenario) {
     options = investmentOptions; // Reuse investment options for real estate
-  } 
+  } else if (isStudentScenario) {
+    options = textbookOptions; // Use textbook options for general student scenarios
+  }
   // Use category fallbacks if specific scenario not found
   else if (isLifestyleScenario) {
     options = socialEventOptions;
