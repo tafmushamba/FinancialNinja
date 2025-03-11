@@ -23,9 +23,11 @@ export function GameMessage({ message, isLoading }: GameMessageProps) {
         ) : (
           <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none">
             {message ? (
-              <ReactMarkdown className="whitespace-pre-line">
-                {message}
-              </ReactMarkdown>
+              <div className="whitespace-pre-line">
+                <ReactMarkdown>
+                  {message}
+                </ReactMarkdown>
+              </div>
             ) : (
               <div className="whitespace-pre-line">
                 Welcome to the Financial Twin game! Enter your name to begin your journey.
