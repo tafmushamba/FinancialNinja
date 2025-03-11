@@ -39,7 +39,7 @@ def welcome_node_function(player_name: str, career_choice: str) -> AbacusRespons
     Returns:
         AbacusResponse containing welcome message and data
     """
-    from abacusai import AgentResponse, ApiClient
+    from python_modules.abacusai import AgentResponse, ApiClient
     client = ApiClient()
     prompt = f'''You are a friendly game host. A new player named {player_name} has joined the game.
 
