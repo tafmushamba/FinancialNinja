@@ -2,9 +2,9 @@ export interface ForumCategory {
   id: number;
   name: string;
   description: string;
+  icon: string;
   slug: string;
   order: number;
-  icon: string | null;
   topicCount?: number;
   color?: string;
 }
@@ -13,21 +13,22 @@ export interface ForumTopic {
   id: number;
   title: string;
   content: string;
-  slug: string;
   userId: number;
   categoryId: number;
-  createdAt: Date | string | null;
-  updatedAt: Date | string | null;
-  views: number | null;
-  isPinned: boolean | null;
-  isLocked: boolean | null;
+  isPinned: boolean;
+  isLocked: boolean;
+  views: number;
+  slug: string;
+  createdAt: Date;
+  updatedAt: Date;
+  lastPostAt: Date | null;
   postCount?: number;
-  lastPostAt?: Date | string | null;
   user?: {
     id: number;
     username: string;
-    userLevel?: string;
+    avatar?: string;
   };
+  category?: ForumCategory;
 }
 
 export interface ForumPost {
@@ -35,14 +36,14 @@ export interface ForumPost {
   content: string;
   userId: number;
   topicId: number;
-  createdAt: Date | string | null;
-  updatedAt: Date | string | null;
-  isEdited: boolean | null;
+  createdAt: Date;
+  updatedAt: Date;
+  isEdited: boolean;
   reactionCount?: number;
   user?: {
     id: number;
     username: string;
-    userLevel?: string;
+    avatar?: string;
   };
 }
 
@@ -51,9 +52,10 @@ export interface ForumReaction {
   userId: number;
   postId: number;
   reactionType: string;
-  createdAt: Date | string | null;
-}
-
-export interface ReactionCounts {
-  [key: string]: number;
+  createdAt: Date;
+  user?: {
+    id: number;
+    username: string;
+    avatar?: string;
+  };
 }
