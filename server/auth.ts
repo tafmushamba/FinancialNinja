@@ -51,7 +51,7 @@ export function setupAuth(app: express.Express) {
   );
 
   // Serialize user information to store in session
-  passport.serializeUser((user: User, done) => {
+  passport.serializeUser((user: any, done) => {
     done(null, user.id);
   });
 
