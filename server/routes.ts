@@ -1032,7 +1032,19 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   app.get("/api/forum/categories", async (req: Request, res: Response) => {
     try {
       const categories = await storage.getForumCategories();
-      res.json({ categories });
+      
+      // Get topic counts for each category
+      const enrichedCategories = await Promise.all(
+        categories.map(async (category) => {
+          const topics = await storage.getForumTopics(category.id);
+          return {
+            ...category,
+            topicCount: topics.length
+          };
+        })
+      );
+      
+      res.json({ categories: enrichedCategories });
     } catch (error) {
       console.error("Error fetching forum categories:", error);
       res.status(500).json({ message: "Failed to fetch forum categories" });
