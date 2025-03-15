@@ -196,6 +196,67 @@ export const assistantMessages = pgTable("assistant_messages", {
   timestamp: timestamp("timestamp").defaultNow(),
 });
 
+// Forum Categories Schema
+export const forumCategories = pgTable("forum_categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  icon: text("icon").default("message-circle"),
+  slug: text("slug").notNull().unique(),
+  order: integer("order").notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
+});
+
+// Forum Topics Schema
+export const forumTopics = pgTable("forum_topics", {
+  id: serial("id").primaryKey(),
+  categoryId: integer("categoryId").notNull().references(() => forumCategories.id),
+  userId: integer("userId").notNull().references(() => users.id),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  isPinned: boolean("isPinned").default(false),
+  isLocked: boolean("isLocked").default(false),
+  views: integer("views").default(0),
+  slug: text("slug").notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
+  lastPostAt: timestamp("lastPostAt").defaultNow(),
+});
+
+// Forum Posts Schema
+export const forumPosts = pgTable("forum_posts", {
+  id: serial("id").primaryKey(),
+  topicId: integer("topicId").notNull().references(() => forumTopics.id),
+  userId: integer("userId").notNull().references(() => users.id),
+  content: text("content").notNull(),
+  isEdited: boolean("isEdited").default(false),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
+});
+
+// Forum Reactions Schema
+export const forumReactions = pgTable("forum_reactions", {
+  id: serial("id").primaryKey(),
+  postId: integer("postId").notNull().references(() => forumPosts.id),
+  userId: integer("userId").notNull().references(() => users.id),
+  reactionType: text("reactionType").notNull(), // 'like', 'helpful', 'insightful', etc.
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+// Certificates Schema
+export const certificates = pgTable("certificates", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId").notNull().references(() => users.id),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  moduleId: integer("moduleId").references(() => learningModules.id),
+  imageUrl: text("imageUrl"),
+  issueDate: timestamp("issueDate").defaultNow(),
+  expiryDate: timestamp("expiryDate"),
+  verificationCode: text("verificationCode").notNull().unique(),
+});
+
 // Insert Schemas
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
@@ -275,6 +336,38 @@ export const insertQuizAnswerSchema = createInsertSchema(quizAnswers).omit({
 export const insertAssistantMessageSchema = createInsertSchema(assistantMessages).omit({
   id: true,
   timestamp: true,
+});
+
+export const insertForumCategorySchema = createInsertSchema(forumCategories).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertForumTopicSchema = createInsertSchema(forumTopics).omit({
+  id: true,
+  views: true,
+  createdAt: true,
+  updatedAt: true,
+  lastPostAt: true,
+});
+
+export const insertForumPostSchema = createInsertSchema(forumPosts).omit({
+  id: true,
+  isEdited: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertForumReactionSchema = createInsertSchema(forumReactions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCertificateSchema = createInsertSchema(certificates).omit({
+  id: true,
+  issueDate: true,
+  expiryDate: true,
 });
 
 // Types
