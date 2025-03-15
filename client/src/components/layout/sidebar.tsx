@@ -15,7 +15,8 @@ import {
   BrainCircuit,
   Gift,
   Calculator,
-  LifeBuoy
+  LifeBuoy,
+  MessageCircle
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
@@ -176,6 +177,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
     { icon: Calculator, label: 'Financial Calculators', path: '/financial-calculators' },
     { icon: Gamepad2, label: 'Financial Game', path: '/financial-game' },
     { icon: BrainCircuit, label: 'Life Simulation', path: '/life-simulation' },
+    { icon: MessageCircle, label: 'Community Forum', path: '/forum' },
     { icon: Trophy, label: 'Achievements', path: '/achievements' },
     { icon: Gift, label: 'Rewards', path: '/rewards' },
     { icon: Bot, label: 'AI Assistant', path: '/ai-assistant' },
