@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -6,9 +7,22 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { QuizQuestion, Quiz } from '@shared/schema';
 import { apiRequest } from '@/lib/queryClient';
+import { 
+  CheckCircle2, 
+  XCircle, 
+  Clock, 
+  Award, 
+  Zap, 
+  Trophy, 
+  Brain, 
+  Lightbulb, 
+  BarChart4,
+  Flame
+} from 'lucide-react';
 
 type QuizProps = {
   quizId: number;
@@ -23,7 +37,60 @@ type QuestionWithOptions = QuizQuestion & {
   options: { id: string; text: string; isCorrect: boolean }[];
 };
 
+// Additional types for gamification
+type QuestionPoints = {
+  [questionId: number]: {
+    basePoints: number;
+    timeBonus: number;
+    streakBonus: number;
+    difficultyMultiplier: number;
+    total: number;
+  }
+};
+
+type Achievement = {
+  id: string;
+  title: string;
+  description: string;
+  icon: JSX.Element;
+};
+
+// Define achievements
+const QUIZ_ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'speed-demon',
+    title: 'Speed Demon',
+    description: 'Complete the quiz in record time',
+    icon: <Clock className="w-5 h-5 text-blue-500" />
+  },
+  {
+    id: 'perfect-score',
+    title: 'Perfect Score',
+    description: 'Answer all questions correctly',
+    icon: <Trophy className="w-5 h-5 text-yellow-500" />
+  },
+  {
+    id: 'streak-master',
+    title: 'Streak Master',
+    description: 'Answer 3 or more questions correctly in a row',
+    icon: <Flame className="w-5 h-5 text-orange-500" />
+  },
+  {
+    id: 'comeback-kid',
+    title: 'Comeback Kid',
+    description: 'Pass the quiz after a previous failure',
+    icon: <Award className="w-5 h-5 text-purple-500" />
+  },
+  {
+    id: 'knowledge-seeker',
+    title: 'Knowledge Seeker',
+    description: 'Complete all quiz questions',
+    icon: <Brain className="w-5 h-5 text-green-500" />
+  }
+];
+
 export function QuizInterface({ quizId, onComplete }: QuizProps) {
+  // Quiz state
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [questions, setQuestions] = useState<QuestionWithOptions[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -36,7 +103,119 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
   } | null>(null);
   const [isReviewing, setIsReviewing] = useState(false);
   const [startTime, setStartTime] = useState<Date | null>(null);
+  
+  // Gamification state
+  const [timeRemaining, setTimeRemaining] = useState<number>(60); // 60 seconds per question
+  const [currentStreak, setCurrentStreak] = useState<number>(0);
+  const [maxStreak, setMaxStreak] = useState<number>(0);
+  const [questionStartTime, setQuestionStartTime] = useState<Date | null>(null);
+  const [pointsBreakdown, setPointsBreakdown] = useState<QuestionPoints>({});
+  const [earnedAchievements, setEarnedAchievements] = useState<Achievement[]>([]);
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  const [questionPoints, setQuestionPoints] = useState<number>(0);
+  const [totalPoints, setTotalPoints] = useState<number>(0);
+  const [previousAttempts, setPreviousAttempts] = useState<number>(0);
+  const [difficultyLevel, setDifficultyLevel] = useState<'easy' | 'medium' | 'hard'>('medium');
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  
   const { toast } = useToast();
+
+  // Get difficulty multiplier for points
+  const getDifficultyMultiplier = (difficulty: 'easy' | 'medium' | 'hard'): number => {
+    switch (difficulty) {
+      case 'easy': return 1;
+      case 'medium': return 1.5;
+      case 'hard': return 2;
+      default: return 1;
+    }
+  };
+
+  // Calculate time bonus based on how quickly a question is answered
+  const calculateTimeBonus = (timeRemaining: number): number => {
+    if (timeRemaining > 45) return 20; // Very fast (75% of time remaining)
+    if (timeRemaining > 30) return 15; // Fast (50% of time remaining)
+    if (timeRemaining > 15) return 10; // Moderate (25% of time remaining)
+    return 0; // Slow (no bonus)
+  };
+
+  // Calculate streak bonus
+  const calculateStreakBonus = (streak: number): number => {
+    if (streak >= 5) return 25; // 5+ streak
+    if (streak >= 3) return 15; // 3-4 streak
+    if (streak >= 2) return 5;  // 2 streak
+    return 0;                   // No streak
+  };
+
+  // Check and update achievements
+  const checkAchievements = (
+    score: number, 
+    maxStreak: number, 
+    timeTaken: number,
+    previousAttempts: number
+  ): Achievement[] => {
+    const newAchievements: Achievement[] = [];
+    
+    // Perfect score achievement
+    if (score === 100) {
+      newAchievements.push(QUIZ_ACHIEVEMENTS[1]);
+    }
+    
+    // Streak master achievement
+    if (maxStreak >= 3) {
+      newAchievements.push(QUIZ_ACHIEVEMENTS[2]);
+    }
+    
+    // Speed demon achievement (complete in less than 20 seconds per question on average)
+    const averageTimePerQuestion = timeTaken / questions.length;
+    if (averageTimePerQuestion < 20 && questions.length > 1) {
+      newAchievements.push(QUIZ_ACHIEVEMENTS[0]);
+    }
+    
+    // Comeback kid achievement
+    if (previousAttempts > 0) {
+      newAchievements.push(QUIZ_ACHIEVEMENTS[3]);
+    }
+    
+    // Knowledge seeker achievement (complete all questions)
+    if (allQuestionsAnswered) {
+      newAchievements.push(QUIZ_ACHIEVEMENTS[4]);
+    }
+    
+    return newAchievements;
+  };
+
+  // Setup timer for each question
+  useEffect(() => {
+    if (currentQuestion && !isReviewing) {
+      // Reset timer when question changes
+      setTimeRemaining(60);
+      setQuestionStartTime(new Date());
+      
+      // Clear any existing timer
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      
+      // Start new timer
+      timerRef.current = setInterval(() => {
+        setTimeRemaining(prev => {
+          if (prev <= 1) {
+            // Time's up - clear interval
+            if (timerRef.current) clearInterval(timerRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    
+    // Cleanup
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [currentQuestionIndex, isReviewing, currentQuestion]);
 
   // Fetch quiz data
   useEffect(() => {
@@ -54,6 +233,23 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
           setQuiz(response.quiz);
           setQuestions(response.questions);
           setStartTime(new Date());
+          setQuestionStartTime(new Date());
+          
+          // Attempt to fetch previous attempts
+          try {
+            const attemptHistory = await apiRequest<{
+              attempts: any[];
+            }>({
+              url: `/api/quizzes/${quizId}/attempts`,
+              method: 'GET',
+            });
+            
+            if (attemptHistory && attemptHistory.attempts) {
+              setPreviousAttempts(attemptHistory.attempts.length);
+            }
+          } catch (error) {
+            console.log('No previous attempts found');
+          }
         }
       } catch (error) {
         console.error('Error fetching quiz:', error);
