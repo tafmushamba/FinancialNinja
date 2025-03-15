@@ -78,6 +78,28 @@ export interface UserProgress {
   percentageComplete: number;
 }
 
+// Reward-related interfaces
+export interface Reward {
+  id: string;
+  title: string;
+  brand: string;
+  value: string;
+  pointsRequired: number;
+  imageUrl: string;
+  category: string;
+}
+
+export interface RewardTransaction {
+  id: string;
+  rewardId: string;
+  rewardTitle: string;
+  rewardValue: string;
+  pointsSpent: number;
+  redeemedAt: Date;
+  status: 'pending' | 'fulfilled' | 'failed';
+  code?: string;
+}
+
 // API functions
 export const fetchModules = async (): Promise<{ modules: Module[] }> => {
   return apiRequest<{ modules: Module[] }>({
@@ -180,4 +202,34 @@ export const checkAssistantStatus = async (): Promise<{
     url: '/api/assistant/api-status',
     method: 'GET'
   });
+};
+
+export const fetchRewards = async (): Promise<{
+  rewards: Reward[];
+}> => {
+  return await apiRequest('/api/rewards/available', { method: 'GET' });
+};
+
+export const redeemReward = async (rewardId: string): Promise<{
+  transaction: RewardTransaction;
+  remainingPoints: number;
+}> => {
+  return await apiRequest('/api/rewards/redeem', {
+    method: 'POST',
+    body: JSON.stringify({ rewardId }),
+  });
+};
+
+export const fetchUserPoints = async (): Promise<{
+  points: number;
+  totalEarned: number;
+  totalSpent: number;
+}> => {
+  return await apiRequest('/api/user/points', { method: 'GET' });
+};
+
+export const fetchRewardHistory = async (): Promise<{
+  transactions: RewardTransaction[];
+}> => {
+  return await apiRequest('/api/rewards/history', { method: 'GET' });
 };

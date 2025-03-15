@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import Sidebar from "./sidebar";
@@ -53,7 +52,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   }, [location]);
 
   // Check if current page is financial game
-  const isFinancialGame = location.includes('financial-game');
+  const isFinancialGame = location === '/financial-game';
 
   return (
     <div className={cn(
@@ -82,8 +81,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           />
         )}
         
-        {/* Mobile navigation overlay - hidden on financial game page */}
-        {!isFinancialGame && (
+        {/* Mobile navigation overlay - only rendered when menu is open and not on financial game page */}
+        {!isFinancialGame && isMobileMenuOpen && (
           <MobileNav isOpen={isMobileMenuOpen} toggleMenu={toggleMobileMenu} />
         )}
         

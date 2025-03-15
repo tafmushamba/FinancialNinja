@@ -12,6 +12,17 @@ type AuthContextType = {
   checkAuthStatus: () => Promise<void>;
 };
 
+// Default mock user for development
+const mockUser = {
+  id: 1,
+  username: "taf_m",
+  firstName: "taf",
+  lastName: "Mushamba",
+  email: "taf@example.com",
+  userLevel: "Level 1 Investor",
+  financialLiteracyScore: 72,
+};
+
 // Create a context with a default value
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -43,12 +54,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(true);
         setUser(response.user);
       } else {
+        // For development, provide a default mock user so the UI works properly
+        // In production, this would be removed
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Using mock user data for development');
+          setIsAuthenticated(true);
+          setUser(mockUser);
+        } else {
+          setIsAuthenticated(false);
+          setUser(null);
+        }
+      }
+    } catch (error) {
+      console.error("Auth check error:", error);
+      // For development, provide a mock user on error
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Using mock user data for development after error');
+        setIsAuthenticated(true);
+        setUser(mockUser);
+      } else {
         setIsAuthenticated(false);
         setUser(null);
       }
-    } catch (error) {
-      setIsAuthenticated(false);
-      setUser(null);
     } finally {
       setLoading(false);
     }

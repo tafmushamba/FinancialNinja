@@ -19,6 +19,7 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import FinancialGame from "@/pages/financial-game";
+import Rewards from "@/pages/rewards";
 
 // Custom Redirect component for navigation
 const Redirect = ({ to }: { to: string }) => {
@@ -102,6 +103,12 @@ function Router() {
       <Route path="/achievements">
         <MainLayout>
           <Achievements />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/rewards">
+        <MainLayout>
+          <Rewards />
         </MainLayout>
       </Route>
       

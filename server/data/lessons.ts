@@ -1242,5 +1242,881 @@ Understanding the UK pension system is essential for effective retirement planni
     quizId: 10,
     createdAt: new Date(),
     updatedAt: new Date()
+  },
+  // Module 9: UK Debt Management
+  {
+    id: 30,
+    moduleId: 9,
+    title: "Understanding UK Debt Types",
+    content: `# Understanding UK Debt Types
+
+## Introduction
+Debt is a reality for most UK adults at some point in their lives. When managed responsibly, debt can be a useful tool, but when mismanaged, it can lead to serious financial difficulties. This lesson explores the UK debt landscape and helps you understand different types of debt.
+
+## The UK Debt Landscape
+
+### UK Household Debt Statistics
+- Average UK household debt (including mortgages): approximately £59,900
+- Average credit card debt per household: around £2,100
+- Total unsecured debt in the UK: over £400 billion
+
+### Common Types of UK Debt
+
+#### Secured Debt
+- **Mortgages**: Loans secured against property
+- **Secured Loans**: Other loans using assets as collateral
+- **Hire Purchase**: Car finance and similar arrangements where the lender owns the asset until final payment
+
+#### Unsecured Debt
+- **Credit Cards**: Revolving credit with high interest rates (average 27.0% APR)
+- **Personal Loans**: Fixed-term loans from banks or other lenders
+- **Overdrafts**: Short-term borrowing on current accounts (typically 35-40% EAR)
+- **Buy Now, Pay Later**: Deferred payment schemes from retailers
+- **Catalogue Debt**: Credit arrangements for purchasing goods
+
+#### Priority Debts
+Debts with serious consequences for non-payment:
+- **Council Tax**: Local authority can pursue court action and enforcement
+- **Rent/Mortgage**: Risk of eviction or repossession
+- **Utility Bills**: Risk of disconnection
+- **TV Licence**: Potential criminal prosecution
+- **Tax Debts**: HMRC has significant collection powers
+
+#### Student Loans
+A unique form of debt in the UK:
+- Income-contingent repayment
+- Only repay when earning above threshold (£27,295 for Plan 2, £21,000 for Plan 5)
+- Written off after 30-40 years depending on plan
+- Does not affect credit score
+
+## How Debt Affects Your Financial Health
+
+### Interest and Compound Interest
+- How interest accumulates over time
+- UK example: £2,000 credit card debt at 25% APR would take 25+ years to repay making only minimum payments
+
+### Debt-to-Income Ratio
+- Calculate by dividing total monthly debt payments by gross monthly income
+- 20% or less is generally considered healthy (excluding mortgage)
+- 40%+ indicates potential financial distress
+
+### Impact on Credit Score
+- UK credit reference agencies (Experian, Equifax, TransUnion)
+- How debt levels and repayment history affect scores
+- Importance of credit utilisation (percentage of available credit used)
+
+## Good Debt vs. Bad Debt
+
+### Potentially Good Debt
+- **Mortgages**: Building equity in an appreciating asset
+- **Student Loans**: Increasing earning potential (though value depends on career path)
+- **Business Loans**: Generating income or growth
+
+### Potentially Problematic Debt
+- **High-interest Consumer Debt**: Credit cards, store cards, payday loans
+- **Debt for Depreciating Assets**: Car loans for new vehicles
+- **Lifestyle Debt**: Borrowing for holidays, luxuries, or everyday expenses
+
+## UK Debt Regulation and Protection
+
+### Financial Conduct Authority (FCA)
+- Regulates consumer credit providers
+- Enforces responsible lending practices
+- Introduced price caps on certain high-cost credit products
+
+### Consumer Credit Act Protections
+- Section 75 protection for credit card purchases between £100 and £30,000
+- Right to cancel certain credit agreements within 14 days
+- Liability for misuse of credit facilities
+
+## Debt Warning Signs
+
+### Behavioural Indicators
+- Using credit for essential expenses (groceries, bills)
+- Making only minimum payments on credit cards
+- Taking out new debt to pay existing debts
+- Hiding debt from family members
+- Avoiding opening bills or statements
+
+### Financial Indicators
+- Credit utilisation above 50%
+- Debt-to-income ratio above 40%
+- Multiple rejected credit applications
+- Regularly exceeding overdraft limits
+- Missing payments
+
+## Conclusion
+Understanding the different types of debt common in the UK, their implications, and warning signs of problem debt is the first step toward taking control of your financial situation. In the next lessons, we'll explore strategies for managing debt effectively and dealing with debt problems.
+
+## Key Terms
+- **APR**: Annual Percentage Rate, the standardised way to compare cost of borrowing
+- **EAR**: Equivalent Annual Rate, typically used for overdraft interest rates
+- **Secured Debt**: Debt backed by collateral that can be repossessed if payments are missed
+- **Unsecured Debt**: Debt not tied to specific assets
+- **Priority Debts**: Debts where non-payment can have serious consequences beyond damage to credit rating`,
+    order: 1,
+    duration: 15, // in minutes
+    quizId: 30,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 31,
+    moduleId: 9,
+    title: "UK Debt Repayment Strategies",
+    content: `# UK Debt Repayment Strategies
+
+## Introduction
+Developing an effective strategy to repay debt is crucial for regaining financial control. This lesson explores proven methods for tackling debt, tailored to the UK financial environment.
+
+## Assessing Your Debt Situation
+
+### Taking Stock
+- Create a comprehensive list of all debts
+- Note each debt's:
+  - Outstanding balance
+  - Interest rate
+  - Minimum payment
+  - Due date
+  - Term length (if applicable)
+
+### Categorising Your Debts
+- Priority vs non-priority
+- Secured vs unsecured
+- High vs low interest
+
+### Understanding Your Cashflow
+- Assess monthly income after tax
+- Identify essential expenses
+- Calculate how much is available for debt repayment
+
+## UK Debt Repayment Methods
+
+### The Avalanche Method
+- Focus extra payments on the highest interest debt first
+- Pay minimum payments on all other debts
+- Once highest interest debt is cleared, move to next highest
+- Mathematically the most efficient approach
+- Example: Focus on UK credit card debt (typically 22-30% APR) before personal loans (3-15% APR)
+
+### The Snowball Method
+- Focus extra payments on the smallest debt balance first
+- Creates quick wins and psychological momentum
+- After smallest debt is cleared, move to next smallest
+- Popular approach promoted by money experts like Martin Lewis
+- Works well for those needing motivation from early successes
+
+### The Blended Approach
+- Prioritise high-interest debts with small balances first
+- Combines mathematical efficiency with psychological benefits
+- Example: Clear a £500 store card at 29% APR before a £5,000 loan at 5% APR
+
+## Accelerating Debt Repayment
+
+### Finding Extra Money
+- Review and trim UK household expenses
+- Cancel unnecessary subscriptions (average UK adult spends £570 annually on subscriptions)
+- Energy switching (potential savings of £200-300 annually)
+- Reduce council tax (check for single person discount, band reassessment)
+- Meal planning to reduce food waste (average UK family wastes £720 of food annually)
+
+### Increasing Income
+- Side hustles common in UK gig economy
+- Overtime opportunities
+- Selling unused items (car boot sales, Facebook Marketplace, eBay)
+- Rent out assets (parking spaces, spare rooms under Rent a Room scheme)
+
+### Debt Recycling
+- Using balance transfers to reduce interest (0% deals for 12-24 months common in UK)
+- Money transfer cards to clear high-cost overdrafts
+- 0% purchase cards for essential spending while clearing other debt
+- Being aware of balance transfer fees (typically 1-3%)
+
+## Dealing with Specific UK Debts
+
+### Credit Card Strategies
+- Always pay more than the minimum (UK minimum payments often just 1-2.5% of balance)
+- Avoid using cards while repaying
+- Consider fixed repayment amounts rather than percentage-based minimums
+- Look for 0% balance transfer offers but be aware of deadlines
+
+### Overdraft Tactics
+- Since 2020, UK banks charge single interest rates on overdrafts (typically 35-40% EAR)
+- Often more expensive than many credit cards
+- Consider money transfer cards to clear overdrafts
+- Negotiate temporary interest-free buffers with your bank
+
+### Personal Loan Management
+- UK personal loans typically have fixed terms and payments
+- Early repayment may incur penalties (typically 1-2 months' interest)
+- Calculate whether early repayment penalty outweighs interest savings
+
+### Mortgage Overpayments
+- Most UK mortgages allow overpayments of up to 10% of balance annually without penalty
+- Significant interest savings over loan term
+- Example: £10,000 overpayment on a £200,000 mortgage at 4% could save over £15,000 in interest
+
+## Creating Your Debt Repayment Plan
+
+### Step 1: Budget for Minimum Payments
+Ensure you can meet all minimum required payments to avoid default.
+
+### Step 2: Determine Extra Payment Amount
+Calculate how much additional money you can put toward debt each month.
+
+### Step 3: Choose Your Method
+Select avalanche, snowball, or blended approach based on your personal preference.
+
+### Step 4: Create a Timeline
+Map out how long it will take to clear each debt based on your plan.
+
+### Step 5: Set Up Payment Systems
+- Use standing orders for fixed payments
+- Consider timing payments just after payday
+- Use Direct Debits for minimum payments to avoid missed payments
+
+### Step 6: Track Progress
+Monitor your debt reduction journey to maintain motivation.
+
+## Staying Motivated During Debt Repayment
+
+### Visual Tracking
+- Debt thermometers
+- Spreadsheet charts
+- UK-specific debt apps like Money Dashboard
+
+### Celebrate Milestones
+- Acknowledge each debt cleared
+- Celebrate percentage milestones (25%, 50%, 75% of total debt)
+
+### Support Networks
+- UK debt support forums
+- Money management communities
+- Accountability partners
+
+### Avoiding Debt Relapse
+- Address underlying spending habits
+- Identify and manage financial triggers
+- Build emergency savings alongside debt repayment
+
+## Debt Repayment and Your Credit Score
+
+### How Repayment Affects UK Credit Scores
+- Consistent payments improve credit profiles
+- Closing accounts may temporarily reduce scores
+- Reduced credit utilisation improves scores
+- UK credit reference agencies (Experian, Equifax, TransUnion) track repayment patterns
+
+### Credit Score Recovery Timeline
+- Missed payments remain on UK credit files for 6 years
+- Impact of missed payments reduces over time
+- Most recent 12-24 months activity has strongest influence
+
+## Conclusion
+Developing and implementing a structured debt repayment strategy is the most effective way to become debt-free. By choosing an approach that works for your specific situation and UK debt types, you can systematically reduce your debts while maintaining motivation throughout the journey.
+
+## Key Terms
+- **Avalanche Method**: Paying off debts in order of highest interest rate first
+- **Snowball Method**: Paying off debts in order of smallest balance first
+- **Balance Transfer**: Moving debt from one credit card to another, often at a lower interest rate
+- **Minimum Payment**: The smallest amount your lender will accept each month
+- **Direct Debit**: Automated payment method where the organisation being paid controls when and how much is collected`,
+    order: 2,
+    duration: 15, // in minutes
+    quizId: 31,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 32,
+    moduleId: 9,
+    title: "UK Debt Solutions and Getting Help",
+    content: `# UK Debt Solutions and Getting Help
+
+## Introduction
+When debt becomes unmanageable despite your best efforts, there are several formal and informal solutions available in the UK. This lesson explores these options and explains how to access professional debt help.
+
+## When to Seek Debt Help
+
+### Warning Signs That You Need Support
+- Unable to make minimum payments on debts
+- Using credit for essential expenses
+- Experiencing bailiff or enforcement action
+- Receiving court summons or CCJs (County Court Judgments)
+- Feeling overwhelmed by debt management
+- Experiencing significant stress or anxiety about money
+
+### Overcoming Reluctance to Seek Help
+- Debt problems affect millions of UK residents
+- Early intervention typically leads to better outcomes
+- Free, confidential advice is readily available
+- Professional advisers are non-judgmental and supportive
+
+## UK Free Debt Advice Services
+
+### Citizens Advice
+- Nationwide network of local offices
+- Face-to-face, telephone, and online advice
+- Comprehensive debt and benefits check
+- Can help with priority debts and emergencies
+
+### StepChange Debt Charity
+- UK's largest specialist debt charity
+- Online debt advice tool and telephone service
+- Helps create debt management plans
+- Advises on formal debt solutions
+
+### National Debtline
+- Free telephone service and webchat
+- Self-help materials and factsheets
+- Specialises in helping self-employed people
+- Provides template letters for creditor negotiations
+
+### Money Advice Service
+- Government-backed guidance
+- Online debt advice locator tool
+- Budget planner and debt assessment tools
+- Educational resources on debt management
+
+## Informal Debt Solutions
+
+### Debt Management Plans (DMPs)
+- Informal agreement with creditors
+- Single monthly payment distributed among creditors
+- Interest and charges often frozen
+- Typically arranged through debt charities like StepChange or PayPlan
+- Payments based on what you can afford
+- No impact on home ownership
+- Flexibility to adjust if circumstances change
+
+### Token Payment Plans
+- For those with very limited disposable income
+- Small payments (often £1 per month) to each creditor
+- Demonstrates willingness to pay
+- Temporary solution during financial hardship
+
+### Full and Final Settlement
+- Offering a lump sum to settle debt for less than full amount
+- Typically 30-70% of original debt
+- Requires access to lump sum (e.g., from family, inheritance)
+- Must be clearly documented with creditors
+
+### Write-off Requests
+- For those with long-term hardship and no assets
+- Limited success but possible in cases of severe illness or very low income
+- Requires evidence of circumstances
+- More common with smaller debts or from social lenders
+
+## Formal Debt Solutions in England and Wales
+
+### Debt Relief Orders (DROs)
+- For debts under £30,000
+- For those with minimal assets (under £2,000) and low disposable income (under £75 monthly)
+- No house ownership
+- Debts written off after 12 months if situation unchanged
+- Fee of £90
+- Arranged through authorised debt advisers
+- Appears on credit file for 6 years
+
+### Individual Voluntary Arrangements (IVAs)
+- Legally binding agreement with creditors
+- Typically 5-6 years of affordable payments
+- Remaining debt written off at end of term
+- Suitable for those with regular income and larger debts
+- Usually requires homeowners to release equity in final year
+- Set up by Insolvency Practitioners (fees typically included in payments)
+- Appears on credit file for 6 years
+
+### Bankruptcy
+- For those who cannot pay debts within a reasonable time
+- Application fee of £680 in England and Wales
+- Assets may be sold to repay creditors
+- Usually discharged after 12 months
+- Restrictions on certain professions and financial activities during bankruptcy
+- Appears on credit file for 6 years
+- Home may be at risk if there is significant equity
+
+## Scotland-Specific Solutions
+
+### Debt Arrangement Scheme (DAS)
+- Formal debt payment programme
+- Interest and charges frozen
+- Protection from creditor enforcement
+- No minimum or maximum debt level
+- Assets protected
+
+### Minimal Asset Process (MAP)
+- Scottish equivalent to DRO
+- For debts between £1,500 and £25,000
+- For those on benefits or low income with minimal assets
+- Fee of £50
+- Discharge after 6 months
+
+### Scottish Trust Deeds
+- Similar to IVAs in England and Wales
+- Typically 4 years of payments
+- Protected trust deeds prevent creditor action
+- Remaining debt written off at completion
+
+## Northern Ireland Solutions
+Similar to England and Wales but with some procedural differences:
+- Debt Relief Orders
+- Individual Voluntary Arrangements
+- Bankruptcy (handled by the Northern Ireland Insolvency Service)
+
+## Comparing Debt Solutions
+
+### Factors to Consider
+- Total debt level
+- Types of debt (not all debts can be included in all solutions)
+- Employment status and income stability
+- Asset position (especially home ownership)
+- Credit score impact
+- Profession (some careers restricted by bankruptcy)
+- Future plans (e.g., need for credit, moving home)
+
+### Solution Selection Matrix
+- **Low debt, low income, no assets**: DRO (or MAP in Scotland)
+- **Medium-high debt, stable income**: DMP or IVA (or Protected Trust Deed in Scotland)
+- **Any debt level, minimal income prospects**: Bankruptcy
+- **Any debt level, temporary hardship**: Temporary DMP with view to resume normal payments
+
+## Getting Professional Debt Advice
+
+### The Advice Process
+1. **Preparation**: Gather details of all debts, income, and expenditure
+2. **Initial Contact**: Reach out to a free debt advice organisation
+3. **Assessment**: Adviser reviews your financial situation
+4. **Options**: Adviser explains suitable solutions
+5. **Decision**: Choose preferred solution with adviser guidance
+6. **Implementation**: Set up chosen solution with adviser support
+
+### What to Expect from Debt Advice
+- Confidential, non-judgmental support
+- Complete review of financial situation
+- Explanation of all available options
+- Pros and cons of each solution
+- Support through implementation
+- Ongoing help if needed
+
+## Dealing with Creditors and Enforcement
+
+### Temporary Hardship
+- Explain situation to creditors proactively
+- Request payment holidays (typically 1-3 months)
+- Ask for interest/charges to be frozen
+- Request affordable payment arrangements
+
+### Responding to Court Action
+- Never ignore court forms
+- Return defence forms within specified timeframes
+- Seek immediate advice from Citizens Advice or National Debtline
+- Propose affordable repayments where possible
+
+### Bailiffs and Enforcement Agents
+- Know your rights (enforcement agents cannot force entry on first visit)
+- Request ID and documentation
+- Seek urgent debt advice if enforcement action threatened
+- Offer affordable payment where possible
+
+## Conclusion
+If you're struggling with debt, remember that help is available. UK debt advice services provide expert, compassionate support to help you find the most appropriate solution for your circumstances. The earlier you seek advice, the more options you'll have and the quicker you can begin your journey to becoming debt-free.
+
+## Key Terms
+- **CCJ**: County Court Judgment, a court order registered when you fail to repay money you owe
+- **DMP**: Debt Management Plan
+- **DRO**: Debt Relief Order
+- **IVA**: Individual Voluntary Arrangement
+- **Insolvency**: The state of being unable to pay your debts when they are due`,
+    order: 3,
+    duration: 20, // in minutes
+    quizId: 32,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  // Module 6: UK Tax Essentials
+  {
+    id: 40,
+    moduleId: 6,
+    title: "UK Tax System Fundamentals",
+    content: `# UK Tax System Fundamentals
+
+## Introduction
+Understanding taxation is essential for effective financial planning. This lesson provides an overview of the UK tax system, including key taxes that affect individuals and how they are collected and calculated.
+
+## The Purpose of Taxation
+
+### Public Services Funding
+Taxes fund essential services including the NHS, education, transport infrastructure, defence, and welfare.
+
+### Economic Management
+The government uses taxation as a tool to influence economic behaviour and address inequality.
+
+## Key UK Taxes for Individuals
+
+### Income Tax
+
+#### How It Works
+- Progressive tax on earnings from employment, self-employment, pensions, and some benefits
+- Collected through PAYE (Pay As You Earn) for employees or Self Assessment for self-employed
+- Different rates apply to different income bands
+
+#### Tax Bands and Rates (2023/24)
+- **Personal Allowance**: £12,570 (0%)
+- **Basic Rate**: £12,571 to £50,270 (20%)
+- **Higher Rate**: £50,271 to £125,140 (40%)
+- **Additional Rate**: Over £125,140 (45%)
+
+#### Example Calculation
+For someone earning £35,000 per year:
+- First £12,570: £0 tax (personal allowance)
+- Remaining £22,430: £4,486 tax (20% basic rate)
+- Total income tax: £4,486
+
+#### Scotland Differences
+Scotland has slightly different income tax bands and rates.
+
+### National Insurance Contributions (NICs)
+
+#### How It Works
+- Social security tax that funds state benefits including State Pension
+- Different classes depending on employment status
+- Class 1 for employees, Class 2 and 4 for self-employed
+
+#### Class 1 Employee NICs (2023/24)
+- 12% on earnings between £12,570 and £50,270
+- 2% on earnings above £50,270
+
+### Value Added Tax (VAT)
+
+#### How It Works
+- Consumption tax added to the price of goods and services
+- Businesses collect VAT on behalf of HMRC
+- Registered businesses can reclaim VAT on purchases
+
+#### VAT Rates
+- **Standard Rate**: 20% (most goods and services)
+- **Reduced Rate**: 5% (domestic fuel, children's car seats, etc.)
+- **Zero Rate**: 0% (most food, books, children's clothes)
+- **Exempt**: No VAT (financial services, postal services, health services)
+
+### Council Tax
+
+#### How It Works
+- Local tax set by local authorities
+- Based on property value bands determined in 1991
+- Funds local services such as waste collection, police, and fire services
+
+#### Property Bands
+- England: Bands A to H (A lowest, H highest)
+- Scotland: Bands A to H
+- Wales: Bands A to I
+
+#### Reductions and Exemptions
+- Single person discount (25%)
+- Student households (exempt)
+- Low-income households (Council Tax Reduction schemes)
+
+### Capital Gains Tax (CGT)
+
+#### How It Works
+- Tax on profit when selling assets that have increased in value
+- Applies to property (not main residence), shares, business assets, etc.
+- Annual tax-free allowance of £6,000 (2023/24)
+
+#### CGT Rates (2023/24)
+- Basic rate taxpayers: 10% (18% for residential property)
+- Higher/additional rate taxpayers: 20% (28% for residential property)
+
+### Inheritance Tax (IHT)
+
+#### How It Works
+- Tax on estates (property, money, possessions) after death
+- Standard rate: 40% on value above threshold
+- Nil-rate band: £325,000 per person
+- Additional residence nil-rate band up to £175,000 for main home
+
+#### Allowances and Exemptions
+- Transfers between spouses/civil partners exempt
+- Unused allowances can be transferred to surviving spouse
+- Potentially tax-free if entire estate left to charity
+
+### Other Notable Taxes
+- **Stamp Duty Land Tax**: Paid when buying property
+- **Dividend Tax**: Tax on dividend income (rates: 8.75%, 33.75%, 39.35%)
+- **Vehicle Excise Duty**: Annual tax on vehicle ownership
+- **Insurance Premium Tax**: 12% on most insurance premiums
+
+## UK Tax System Principles
+
+### Tax Year
+The UK tax year runs from 6 April to 5 April the following year, unlike the calendar year used in many countries.
+
+### Self Assessment
+- System for declaring income not taxed at source
+- Online or paper tax returns
+- Deadlines: 31 October (paper) or 31 January (online)
+- Payments due by 31 January and 31 July (for payments on account)
+
+### PAYE System
+- Tax collected directly from wages and pensions
+- Employers calculate and deduct tax
+- Tax code determines how much tax is deducted
+- Most common tax code is 1257L (representing £12,570 personal allowance)
+
+## Tax Allowances and Reliefs
+
+### Personal Allowance
+- £12,570 tax-free income (2023/24)
+- Reduced by £1 for every £2 earned above £100,000
+- Disappears completely at income of £125,140
+
+### Savings Allowance
+- £1,000 for basic rate taxpayers
+- £500 for higher rate taxpayers
+- £0 for additional rate taxpayers
+
+### Dividend Allowance
+- £1,000 tax-free dividends (2023/24)
+
+### Marriage Allowance
+- Transfer 10% of personal allowance to spouse if one earns below personal allowance
+- Worth up to £252 per year (2023/24)
+
+### Pension Tax Relief
+- Tax relief on pension contributions at your marginal rate
+- Annual allowance of £60,000 (2023/24)
+- Lifetime allowance abolished from April 2023
+
+## Tax-Efficient Investments
+
+### Individual Savings Accounts (ISAs)
+- Tax-free interest, dividends, and capital gains
+- £20,000 annual allowance (2023/24)
+- Various types: Cash ISA, Stocks & Shares ISA, Lifetime ISA, Innovative Finance ISA
+
+### Pensions
+- Tax relief on contributions
+- 25% tax-free lump sum at retirement
+- Remaining pension taxed as income when withdrawn
+
+## Tax Planning Basics
+
+### Record Keeping
+- Keep records for at least 22 months after tax year end (self-employed: 5 years)
+- Important documents: payslips, P60, P45, bank statements, receipts for expenses
+
+### Claiming Allowable Expenses
+- Self-employed can deduct business expenses
+- Employees can claim tax relief on job-related expenses
+- Work from home tax relief (£6 per week simplified amount)
+
+### Tax Payment Planning
+- Budget for tax bills
+- Consider payments on account (self-employed)
+- Use tax-free allowances effectively
+
+## Conclusion
+Understanding the UK tax system is fundamental to managing your finances effectively. While taxation is complex, grasping the basics of how different taxes work, the allowances available, and your obligations can help you plan more efficiently and potentially reduce your tax liability through legitimate means.
+
+## Key Terms
+- **PAYE**: Pay As You Earn system for collecting tax
+- **Self Assessment**: System for declaring untaxed income
+- **Tax Year**: 6 April to 5 April the following year
+- **Marginal Rate**: The tax rate applied to your highest slice of income
+- **Tax Code**: Used by employers to calculate how much tax to deduct`,
+    order: 1,
+    duration: 20, // in minutes
+    quizId: 40,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  // Module 5: UK Credit Management
+  {
+    id: 50,
+    moduleId: 5,
+    title: "Understanding UK Credit Scores and Reports",
+    content: `# Understanding UK Credit Scores and Reports
+
+## Introduction
+Credit scores and reports play a crucial role in your financial life in the UK. They affect your ability to borrow money, the interest rates you'll pay, and can even impact housing and employment opportunities. This lesson explores how the UK credit system works and how to manage your credit profile effectively.
+
+## The UK Credit Reporting System
+
+### Credit Reference Agencies (CRAs)
+The UK has three main credit reference agencies:
+- **Experian**: One of the largest global credit bureaus
+- **Equifax**: Major international credit reporting agency
+- **TransUnion**: Previously known as CallCredit in the UK
+
+Each agency collects slightly different information and calculates scores differently.
+
+### What's in Your Credit Report
+
+#### Personal Information
+- Name, date of birth, current and previous addresses
+- Electoral roll registration status
+- Financial associations with other people (joint accounts)
+
+#### Credit Account Information
+- Current and closed accounts (credit cards, loans, mortgages, utilities)
+- Payment history (including missed or late payments)
+- Credit limits and current balances
+- Account opening dates
+
+#### Public Records
+- County Court Judgments (CCJs)
+- Individual Voluntary Arrangements (IVAs)
+- Bankruptcies
+- Home repossessions
+
+#### Searches
+- Record of organisations that have checked your credit report
+- Hard searches (when applying for credit)
+- Soft searches (background checks, your own checks)
+
+#### What's NOT on Your Credit Report
+- Savings accounts and investments
+- Salary and employment history
+- Council tax payment record
+- Parking or speeding fines
+- Medical history
+- Criminal record
+
+## UK Credit Scores Explained
+
+### How Scores Work
+- Each CRA has its own scoring system
+- Experian: 0-999 (higher is better)
+- Equifax: 0-700 (higher is better)
+- TransUnion: 0-710 (higher is better)
+
+### Score Bands
+#### Experian
+- 961-999: Excellent
+- 881-960: Good
+- 721-880: Fair
+- 561-720: Poor
+- 0-560: Very Poor
+
+#### Equifax
+- 466-700: Excellent
+- 421-465: Good
+- 311-420: Fair
+- 279-310: Poor
+- 0-278: Very Poor
+
+### What Affects Your Score
+
+#### Positive Factors
+- Consistent on-time payments
+- Low credit utilisation (ideally below 30%)
+- Long credit history
+- Electoral roll registration
+- Stability (address, bank accounts)
+
+#### Negative Factors
+- Missed or late payments
+- High credit utilisation
+- CCJs, IVAs, bankruptcy
+- Multiple credit applications in short period
+- No credit history
+- Financial associations with people who have poor credit
+
+## Accessing Your Credit Report
+
+### Statutory Credit Reports
+- Legal right to access your statutory credit report for £2 from each CRA
+- Basic version of your credit information
+
+### Free Access Options
+- ClearScore (uses Equifax data)
+- Credit Karma (uses TransUnion data)
+- Money Saving Expert Credit Club (uses Experian data)
+- Most banks now offer free credit score access
+
+### Paid Subscription Services
+- More detailed reports and monitoring
+- Fraud alerts and identity protection
+- Score improvement suggestions
+
+## Building and Improving Your UK Credit Score
+
+### For Credit Beginners
+- **Get on the electoral roll**: Register to vote at your current address
+- **Open a basic bank account**: Demonstrates financial responsibility
+- **Consider a credit builder card**: Designed for those with limited credit history
+- **Become an authorised user**: On a family member's well-managed credit card
+- **Use utilities to build credit**: Services like Loqbox or apps that report rent payments
+
+### Repairing Damaged Credit
+- **Check for errors**: Dispute any inaccuracies with the relevant CRA
+- **Pay off outstanding debts**: Focus on reducing balances
+- **Set up direct debits**: Ensures you never miss payments
+- **Stay within credit limits**: Reduce utilisation where possible
+- **Add a Notice of Correction**: 200-word statement explaining circumstances of past problems
+
+### Timescales for Negative Information
+- Late payments: 6 years
+- CCJs: 6 years (unless satisfied, then can be removed after payment)
+- Bankruptcies: 6 years from the date of bankruptcy
+- IVAs: 6 years from the start date
+
+## Credit Score Myths and Misconceptions
+
+### Common UK Myths
+- **"Checking my own score lowers it"**: False - soft searches don't affect your score
+- **"I'm on a credit blacklist"**: False - no such thing exists in the UK
+- **"I need to carry a credit card balance to build credit"**: False - paying in full is best
+- **"Closing unused credit cards improves my score"**: Potentially false - can reduce your available credit and increase utilisation
+- **"All credit reference agencies hold the same information"**: False - information can vary between agencies
+
+## Credit Scores and Major Life Events
+
+### Applying for a Mortgage
+- Lenders use credit scores as part of affordability assessment
+- Better scores typically mean access to better interest rates
+- Most UK mortgage lenders use Experian or Equifax
+
+### Renting Property
+- Landlords and letting agents often perform credit checks
+- Poor credit may require a guarantor or larger deposit
+
+### Car Finance
+- Credit score heavily influences APR on car loans and financing
+- Sub-prime car finance can have very high interest rates (20%+)
+
+## Protecting Your Credit Score
+
+### Identity Theft Prevention
+- Regularly check your credit report for unfamiliar activity
+- Secure personal documents and shred financial paperwork
+- Be cautious with personal information online
+
+### Fraud Alerts
+- Free protective registration with CIFAS (UK fraud prevention service)
+- Credit monitoring services with alerts for suspicious activity
+
+### Data Protection Rights
+- Under GDPR and the Data Protection Act 2018, you have the right to:
+  - Access your data
+  - Have inaccurate information corrected
+  - Object to your data being used for marketing
+
+## Conclusion
+Understanding and actively managing your credit score is essential for your financial wellbeing in the UK. By regularly checking your credit reports, addressing any issues, and following good credit practices, you can build and maintain a strong credit profile that will give you access to better financial products and opportunities.
+
+## Key Terms
+- **CRA**: Credit Reference Agency
+- **CCJ**: County Court Judgment
+- **IVA**: Individual Voluntary Arrangement
+- **Credit Utilisation**: Percentage of available credit you're using
+- **Hard Search**: Credit check that leaves a footprint on your credit file when applying for credit
+- **Soft Search**: Credit check that doesn't impact your score (eligibility checkers, your own checks)`,
+    order: 1,
+    duration: 20, // in minutes
+    quizId: 50,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ];

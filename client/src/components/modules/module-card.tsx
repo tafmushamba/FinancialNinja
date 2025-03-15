@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "wouter";
 import { Badge } from "@/components/ui/badge";
@@ -43,12 +42,23 @@ export function ModuleCard({
   return (
     <Link
       to={`/learning-modules/${id}`}
-      className={`module-card block rounded-lg p-6 h-full`}
-      style={{ backgroundImage: `url(${bgImage})` }}
+      className={`module-card block rounded-lg p-6 h-full glow-border card-highlight glass-card`}
     >
-      <div className="module-card-content flex flex-col h-full">
+      <div 
+        className="absolute inset-0 rounded-lg opacity-40 z-0" 
+        style={{ 
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(1px)'
+        }}
+      ></div>
+      
+      <div className="module-card-content flex flex-col h-full relative z-10">
         <div className="flex items-center mb-2">
-          <i className={`${icon} text-${accentColor} mr-2`}></i>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3" style={{ backgroundColor: `${accentColor}20` }}>
+            <i className={`${icon} text-xl`} style={{ color: accentColor }}></i>
+          </div>
           <h3 className="text-xl font-bold text-white">{title}</h3>
         </div>
         
@@ -57,12 +67,12 @@ export function ModuleCard({
         <div className="mt-auto">
           <div className="flex flex-wrap gap-2 mb-3">
             {topics.slice(0, 2).map((topic, index) => (
-              <Badge key={index} variant="outline" className="bg-dark-700/50 text-white border-none">
+              <Badge key={index} variant="outline" className="bg-dark-700/50 backdrop-blur-sm text-white border-none">
                 {topic}
               </Badge>
             ))}
             {topics.length > 2 && (
-              <Badge variant="outline" className="bg-dark-700/50 text-white border-none">
+              <Badge variant="outline" className="bg-dark-700/50 backdrop-blur-sm text-white border-none">
                 +{topics.length - 2} more
               </Badge>
             )}
@@ -75,7 +85,15 @@ export function ModuleCard({
           
           {progress > 0 && (
             <div className="flex items-center gap-2">
-              <Progress value={progress} className="h-1.5" />
+              <Progress value={progress} className="h-1.5 overflow-hidden">
+                <div 
+                  className="h-full bg-neon-green" 
+                  style={{ 
+                    width: `${progress}%`,
+                    boxShadow: '0 0 8px rgba(159, 239, 0, 0.7)'
+                  }}>
+                </div>
+              </Progress>
               <span className="text-xs text-white/70">{progress}%</span>
             </div>
           )}

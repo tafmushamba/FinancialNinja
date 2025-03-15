@@ -15,7 +15,10 @@ import {
   Search,
   Menu,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  BrainCircuit,
+  Code,
+  Server
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { useAuth } from '@/context/AuthContext';
@@ -59,12 +62,29 @@ const Header: React.FC<HeaderProps> = ({
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="bg-card/40 backdrop-blur-md border-b border-border/30 py-3 px-4 flex justify-between items-center sticky top-0 z-10 w-full"
+      className="bg-black/80 backdrop-blur-md border-b border-[#9FEF00]/20 py-3 px-4 flex justify-between items-center sticky top-0 z-10 w-full relative overflow-hidden"
     >
-      <div className="flex items-center">
+      {/* Animated background grid effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-20">
+        <div className="absolute inset-0 grid grid-cols-[repeat(20,1fr)] grid-rows-[repeat(5,1fr)]">
+          {Array.from({ length: 100 }).map((_, i) => (
+            <div 
+              key={i} 
+              className="border-r border-b border-[#9FEF00]/10" 
+              style={{ 
+                animation: `pulse ${Math.random() * 4 + 3}s infinite ${Math.random() * 5}s ease-in-out`,
+                opacity: Math.random() * 0.3
+              }}
+            />
+          ))}
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80"></div>
+      </div>
+
+      <div className="flex items-center relative z-10">
         <button 
           onClick={toggleMobileMenu} 
-          className="md:hidden mr-4 p-2 rounded-full hover:bg-primary/10 text-foreground hover:text-primary transition-colors duration-200"
+          className="md:hidden mr-4 p-2 rounded-full hover:bg-[#9FEF00]/10 text-white hover:text-[#9FEF00] transition-colors duration-200"
           aria-label="Toggle mobile menu"
         >
           <Menu size={20} />
@@ -72,55 +92,69 @@ const Header: React.FC<HeaderProps> = ({
         
         <button 
           onClick={toggleSidebar} 
-          className="hidden md:flex mr-4 p-2 rounded-full hover:bg-primary/10 text-foreground hover:text-primary transition-colors duration-200"
+          className="hidden md:flex mr-4 p-2 rounded-full hover:bg-[#9FEF00]/10 text-white hover:text-[#9FEF00] transition-colors duration-200"
           aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
         >
           {isSidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
         </button>
         
-        <motion.h2 
+        <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-xl font-bold text-foreground"
+          className="flex items-center"
         >
-          {title}
-        </motion.h2>
+          <BrainCircuit className="h-5 w-5 text-[#9FEF00] mr-2" />
+          <h2 className="text-xl font-mono font-bold text-white">
+            <span className="text-[#9FEF00]">&gt;</span> {title}<span className="text-[#9FEF00] animate-pulse">_</span>
+          </h2>
+        </motion.div>
       </div>
       
-      <div className="flex items-center space-x-2">
-        <button className="p-2 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors duration-200">
+      <div className="flex items-center space-x-2 relative z-10">
+        {/* Notification button with glow effect */}
+        <button className="p-2 rounded-full hover:bg-[#9FEF00]/10 text-white/70 hover:text-[#9FEF00] transition-colors duration-200 relative group">
           <Bell size={18} />
+          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-[#9FEF00] shadow-[0_0_5px_#9FEF00] animate-pulse"></span>
         </button>
-        <button className="p-2 rounded-full hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors duration-200">
+        
+        {/* Search button */}
+        <button className="p-2 rounded-full hover:bg-[#9FEF00]/10 text-white/70 hover:text-[#9FEF00] transition-colors duration-200">
           <Search size={18} />
         </button>
         
+        {/* System status indicator */}
+        <div className="hidden md:flex items-center mr-2 px-2 py-1 bg-black/40 border border-[#9FEF00]/20 rounded text-xs text-white/70">
+          <Server size={12} className="text-[#9FEF00] mr-1" />
+          <span className="font-mono">SYSTEM <span className="text-[#9FEF00]">ONLINE</span></span>
+        </div>
+        
+        {/* User dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className={cn(
-              "h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center",
-              "hover:bg-primary/20 transition-all border border-primary/20 ml-2"
+              "h-9 w-9 rounded-full bg-[#9FEF00]/10 flex items-center justify-center",
+              "hover:bg-[#9FEF00]/20 transition-all border border-[#9FEF00]/30 shadow-[0_0_10px_rgba(159,239,0,0.2)] ml-2"
             )}>
               <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-primary/20 text-primary text-sm font-medium">
+                <AvatarFallback className="bg-black text-[#9FEF00] text-sm font-mono">
                   {getUserInitials()}
                 </AvatarFallback>
               </Avatar>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>
-              {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username : 'Account'}
+          <DropdownMenuContent align="end" className="w-56 bg-black/90 border border-[#9FEF00]/30 text-white shadow-[0_0_20px_rgba(159,239,0,0.2)]">
+            <DropdownMenuLabel className="font-mono">
+              <span className="text-[#9FEF00]">&gt;</span> {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username : 'User'}
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="bg-[#9FEF00]/20" />
             <Link to="/settings">
-              <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuItem className="cursor-pointer hover:bg-[#9FEF00]/10 hover:text-[#9FEF00] font-mono">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+            <DropdownMenuItem className="cursor-pointer hover:bg-[#9FEF00]/10 hover:text-[#9FEF00] font-mono" onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>

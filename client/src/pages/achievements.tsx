@@ -27,8 +27,6 @@ const Achievements: React.FC = () => {
   return (
     <div className="p-4">
       <section className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">Achievements</h2>
-        
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <Card className="bg-dark-800 border-dark-600">
             <CardHeader className="pb-2">

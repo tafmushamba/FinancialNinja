@@ -37,20 +37,23 @@ interface SpriteProps {
   spriteSrc: string;
   className?: string;
   alt?: string;
+  isPixelated?: boolean;
 }
 
 /**
  * Generic Sprite component to render sprite images
  */
-export function Sprite({ spriteSrc, className = '', alt = 'Game sprite' }: SpriteProps) {
+export function Sprite({ spriteSrc, className = '', alt = 'Game sprite', isPixelated = false }: SpriteProps) {
   return (
     <img 
       src={spriteSrc} 
-      className={`pixelated ${className}`} 
+      className={className} 
       alt={alt}
       style={{ 
-        imageRendering: 'pixelated',
-        objectFit: 'contain'
+        imageRendering: isPixelated ? 'pixelated' : 'auto',
+        objectFit: 'contain',
+        filter: isPixelated ? 'none' : 'drop-shadow(0 0 5px rgba(159, 239, 0, 0.3))',
+        transition: 'all 0.3s ease'
       }}
     />
   );
@@ -61,7 +64,15 @@ export function Sprite({ spriteSrc, className = '', alt = 'Game sprite' }: Sprit
  */
 export function CareerSprite({ career, className = '' }: { career: string; className?: string }) {
   const spriteSrc = careerSprites[career] || defaultSprite;
-  return <Sprite spriteSrc={spriteSrc} className={className} alt={`${career} character`} />;
+  return (
+    <div className="relative flex items-center justify-center w-full h-full">
+      <Sprite 
+        spriteSrc={spriteSrc} 
+        className={`relative z-10 ${className}`} 
+        alt={`${career} character`}
+      />
+    </div>
+  );
 }
 
 /**
@@ -70,7 +81,16 @@ export function CareerSprite({ career, className = '' }: { career: string; class
 export function DecisionSprite({ decisionType, className = '' }: { decisionType: string; className?: string }) {
   // Get sprite source based on decision type, with fallback to default
   const spriteSrc = decisionSprites[decisionType] || decisionSprites.default;
-  return <Sprite spriteSrc={spriteSrc} className={className} alt={`${decisionType} scenario`} />;
+  return (
+    <div className="relative flex items-center justify-center">
+      <div className="absolute inset-0 bg-[#9FEF00]/5 rounded-lg"></div>
+      <Sprite 
+        spriteSrc={spriteSrc} 
+        className={`relative z-10 ${className}`} 
+        alt={`${decisionType} scenario`}
+      />
+    </div>
+  );
 }
 
 /**

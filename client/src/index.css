@@ -46,6 +46,62 @@
   .neon-border::after {
     content: '';
     @apply absolute inset-0 border border-neon-green rounded-lg pointer-events-none z-10;
+    box-shadow: 0 0 5px rgba(159, 239, 0, 0.5), inset 0 0 5px rgba(159, 239, 0, 0.3);
+    animation: borderPulse 4s infinite alternate ease-in-out;
+  }
+  
+  /* Glass card styling */
+  .glass-card {
+    @apply bg-dark-800/40 backdrop-blur-md border-dark-600;
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.5) 0%, rgba(23, 23, 23, 0.25) 100%);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+  
+  .glass-card:hover {
+    @apply shadow-lg;
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.6) 0%, rgba(23, 23, 23, 0.3) 100%);
+  }
+  
+  /* Glowing border effect for cards */
+  .glow-border {
+    @apply relative border-transparent;
+    isolation: isolate;
+  }
+  
+  .glow-border::before {
+    content: '';
+    @apply absolute -inset-[1px] rounded-lg z-[-1];
+    background: linear-gradient(90deg, #9FEF00 0%, #00c2ff 50%, #9FEF00 100%);
+    background-size: 200% auto;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+    animation: borderGlow 6s linear infinite;
+  }
+  
+  .glow-border::after {
+    content: '';
+    @apply absolute inset-[1px] rounded-[calc(0.5rem-1px)] bg-dark-800 z-[-1];
+    background: linear-gradient(135deg, rgba(18, 18, 18, 0.95) 0%, rgba(23, 23, 23, 0.7) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  .glow-border:hover::before {
+    opacity: 1;
+  }
+  
+  @keyframes borderGlow {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+  
+  @keyframes borderPulse {
+    0% { box-shadow: 0 0 5px rgba(159, 239, 0, 0.3), inset 0 0 5px rgba(159, 239, 0, 0.2); }
+    100% { box-shadow: 0 0 10px rgba(159, 239, 0, 0.7), inset 0 0 10px rgba(159, 239, 0, 0.4); }
   }
   
   .neon-text {
@@ -65,6 +121,92 @@
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+  
+  /* Floating animation keyframes for animated elements in the navbar */
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(5px, -5px); }
+  }
+  
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-7px, 7px); }
+  }
+  
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-5px, -8px); }
+  }
+  
+  @keyframes float4 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(6px, 6px); }
+  }
+  
+  /* Add pulse animation for grid cells */
+  @keyframes pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+  }
+  
+  /* Slow pulse animation for sprite backgrounds */
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.4; transform: scale(0.95); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
+  
+  /* Card highlight effect */
+  .card-highlight {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-highlight::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      transparent,
+      transparent,
+      transparent,
+      rgba(159, 239, 0, 0.08),
+      transparent,
+      transparent,
+      transparent
+    );
+    transform: rotate(30deg);
+    animation: highlightSweep 8s linear infinite;
+  }
+  
+  @keyframes highlightSweep {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+  }
+  
+  /* Animation utilities */
+  .animate-float1 {
+    animation: float1 8s infinite ease-in-out;
+  }
+  
+  .animate-float2 {
+    animation: float2 12s infinite ease-in-out;
+  }
+  
+  .animate-float3 {
+    animation: float3 10s infinite ease-in-out;
+  }
+  
+  .animate-float4 {
+    animation: float4 9s infinite ease-in-out;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse-slow 4s infinite ease-in-out;
   }
   
   .module-card {

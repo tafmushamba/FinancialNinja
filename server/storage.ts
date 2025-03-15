@@ -105,6 +105,35 @@ export interface IStorage {
   createAssistantMessage(message: InsertAssistantMessage): Promise<AssistantMessage>;
 }
 
+// Add these interfaces for rewards
+interface UserPoints {
+  userId: string;
+  earned: number;
+  lastUpdated: Date;
+}
+
+interface Reward {
+  id: string;
+  title: string;
+  brand: string;
+  value: string;
+  pointsRequired: number;
+  imageUrl: string;
+  category: string;
+}
+
+interface RewardTransaction {
+  id: string;
+  userId: string;
+  rewardId: string;
+  rewardTitle: string;
+  rewardValue: string;
+  pointsSpent: number;
+  redeemedAt: Date;
+  status: 'pending' | 'fulfilled' | 'failed';
+  code?: string;
+}
+
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private learningModules: Map<number, LearningModule>;
@@ -747,6 +776,124 @@ export class MemStorage implements IStorage {
     };
     this.assistantMessages.set(id, newMessage);
     return newMessage;
+  }
+
+  // Mock data for rewards
+  private rewards: Reward[] = [
+    {
+      id: 'r1',
+      title: 'Coffee Shop Gift Card',
+      brand: 'Starbucks',
+      value: '$5',
+      pointsRequired: 500,
+      imageUrl: 'https://logo.clearbit.com/starbucks.com',
+      category: 'dining'
+    },
+    {
+      id: 'r2',
+      title: 'Online Shopping Gift Card',
+      brand: 'Amazon',
+      value: '$10',
+      pointsRequired: 1000,
+      imageUrl: 'https://logo.clearbit.com/amazon.com',
+      category: 'shopping'
+    },
+    {
+      id: 'r3',
+      title: 'Music Streaming Gift Card',
+      brand: 'Spotify',
+      value: '$10',
+      pointsRequired: 1000,
+      imageUrl: 'https://logo.clearbit.com/spotify.com',
+      category: 'entertainment'
+    },
+    {
+      id: 'r4',
+      title: 'Movie Ticket Gift Card',
+      brand: 'AMC Theatres',
+      value: '$15',
+      pointsRequired: 1500,
+      imageUrl: 'https://logo.clearbit.com/amctheatres.com',
+      category: 'entertainment'
+    },
+    {
+      id: 'r5',
+      title: 'Fast Food Gift Card',
+      brand: 'McDonald\'s',
+      value: '$5',
+      pointsRequired: 500,
+      imageUrl: 'https://logo.clearbit.com/mcdonalds.com',
+      category: 'dining'
+    },
+    {
+      id: 'r6',
+      title: 'Electronics Store Gift Card',
+      brand: 'Best Buy',
+      value: '$25',
+      pointsRequired: 2500,
+      imageUrl: 'https://logo.clearbit.com/bestbuy.com',
+      category: 'shopping'
+    }
+  ];
+
+  private userPoints: UserPoints[] = [];
+  private rewardTransactions: RewardTransaction[] = [];
+
+  async getUserPoints(userId: string): Promise<UserPoints> {
+    let userPoints = this.userPoints.find(points => points.userId === userId);
+    
+    if (!userPoints) {
+      // Calculate points from user's progress
+      const userProgress = await this.getUserProgress(userId);
+      const completedModules = userProgress.filter(progress => progress.completed);
+      const lessonsCompleted = userProgress.reduce((total, progress) => total + progress.lessonsCompleted, 0);
+      
+      // Assign points: 50 per completed module + 10 per completed lesson
+      const earnedPoints = (completedModules.length * 50) + (lessonsCompleted * 10);
+      
+      userPoints = {
+        userId,
+        earned: earnedPoints,
+        lastUpdated: new Date()
+      };
+      
+      this.userPoints.push(userPoints);
+    }
+    
+    return userPoints;
+  }
+
+  async getAvailableRewards(): Promise<Reward[]> {
+    return [...this.rewards];
+  }
+
+  async getRewardById(rewardId: string): Promise<Reward | undefined> {
+    return this.rewards.find(reward => reward.id === rewardId);
+  }
+
+  async getUserRewardTransactions(userId: string): Promise<RewardTransaction[]> {
+    return this.rewardTransactions.filter(transaction => transaction.userId === userId);
+  }
+
+  async createRewardTransaction(userId: string, reward: Reward): Promise<RewardTransaction> {
+    // Generate a random code for the gift card
+    const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+    
+    const transaction: RewardTransaction = {
+      id: `tx_${Date.now()}`,
+      userId,
+      rewardId: reward.id,
+      rewardTitle: reward.title,
+      rewardValue: reward.value,
+      pointsSpent: reward.pointsRequired,
+      redeemedAt: new Date(),
+      status: 'fulfilled',
+      code
+    };
+    
+    this.rewardTransactions.push(transaction);
+    
+    return transaction;
   }
 }
 
