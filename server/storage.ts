@@ -23,6 +23,7 @@ import { mockModules } from "./data/modules";
 import { mockAchievements } from "./data/achievements";
 import { mockUser } from "./data/users";
 import { mockLessons } from "./data/lessons";
+import { mockForumCategories, mockForumTopics, mockForumPosts } from "./data/forum-seed";
 import pg from 'pg';
 const { Pool } = pg;
 import { drizzle } from 'drizzle-orm/node-postgres';
@@ -321,73 +322,62 @@ export class MemStorage implements IStorage {
     });
     
     // Add forum categories
-    const forumCategories = [
-      {
-        id: 1,
-        name: "UK Financial Basics",
-        description: "Discuss fundamentals of UK personal finance including ISAs, pensions, and taxes.",
-        slug: "uk-financial-basics",
-        icon: "pound-sterling",
-        color: "#4f46e5",
-        order: 1,
-        topicCount: 0,
+    mockForumCategories.forEach(categoryData => {
+      const category = {
+        id: categoryData.id || this.forumCategoryCurrentId++,
+        name: categoryData.name || "",
+        description: categoryData.description || "",
+        slug: categoryData.slug || "",
+        icon: categoryData.icon || null,
+        order: categoryData.order || 0,
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-      {
-        id: 2,
-        name: "Budgeting & Saving",
-        description: "Tips and strategies for effective budgeting and building savings in the UK.",
-        slug: "budgeting-saving",
-        icon: "piggy-bank",
-        color: "#16a34a",
-        order: 2,
-        topicCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 3,
-        name: "UK Investing",
-        description: "Discuss UK investment options, strategies, and markets.",
-        slug: "uk-investing",
-        icon: "trending-up",
-        color: "#ea580c",
-        order: 3,
-        topicCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 4,
-        name: "Student Finance",
-        description: "Information about UK student loans, university costs, and managing finances as a student.",
-        slug: "student-finance",
-        icon: "graduation-cap",
-        color: "#8b5cf6",
-        order: 4,
-        topicCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 5,
-        name: "Financial News & Updates",
-        description: "Latest UK financial news, policy changes, and economic updates.",
-        slug: "financial-news",
-        icon: "newspaper",
-        color: "#0ea5e9",
-        order: 5,
-        topicCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ];
-    
-    forumCategories.forEach(category => {
+      };
+      
       this.forumCategories.set(category.id, category);
       if (category.id >= this.forumCategoryCurrentId) {
         this.forumCategoryCurrentId = category.id + 1;
+      }
+    });
+    
+    // Add forum topics and posts
+    mockForumTopics.forEach(topicData => {
+      const topic = {
+        id: topicData.id || this.forumTopicCurrentId++,
+        title: topicData.title || "",
+        content: topicData.content || "",
+        slug: topicData.slug || "",
+        userId: topicData.userId || 1,
+        categoryId: topicData.categoryId || 1,
+        isPinned: topicData.isPinned || false,
+        isLocked: topicData.isLocked || false,
+        views: topicData.views || 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        lastPostAt: new Date()
+      };
+      
+      this.forumTopics.set(topic.id, topic);
+      if (topic.id >= this.forumTopicCurrentId) {
+        this.forumTopicCurrentId = topic.id + 1;
+      }
+    });
+    
+    // Add forum posts
+    mockForumPosts.forEach(postData => {
+      const post = {
+        id: postData.id || this.forumPostCurrentId++,
+        content: postData.content || "",
+        userId: postData.userId || 1,
+        topicId: postData.topicId || 1,
+        isEdited: postData.isEdited || false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      
+      this.forumPosts.set(post.id, post);
+      if (post.id >= this.forumPostCurrentId) {
+        this.forumPostCurrentId = post.id + 1;
       }
     });
     
