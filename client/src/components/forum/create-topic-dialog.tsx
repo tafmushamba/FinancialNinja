@@ -1,100 +1,73 @@
 import { useState } from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { PenLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { ForumCategory } from "./forum-types";
-
-const topicSchema = z.object({
-  title: z
-    .string()
-    .min(5, "Title must be at least 5 characters")
-    .max(100, "Title must be less than 100 characters"),
-  content: z
-    .string()
-    .min(20, "Content must be at least 20 characters")
-    .max(5000, "Content must be less than 5000 characters"),
-});
-
-type TopicFormValues = z.infer<typeof topicSchema>;
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { Plus } from "lucide-react";
 
 interface CreateTopicDialogProps {
   category: ForumCategory;
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
-export default function CreateTopicDialog({ 
-  category, 
-  onSuccess 
-}: CreateTopicDialogProps) {
-  const [open, setOpen] = useState(false);
+export default function CreateTopicDialog({ category, onSuccess }: CreateTopicDialogProps) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
-  
-  const form = useForm<TopicFormValues>({
-    resolver: zodResolver(topicSchema),
-    defaultValues: {
-      title: "",
-      content: "",
-    },
-  });
 
-  const isSubmitting = form.formState.isSubmitting;
-
-  async function onSubmit(values: TopicFormValues) {
-    try {
-      // This is just a placeholder since we don't have the API hooked up yet
-      console.log("Creating topic:", values, "in category:", category);
-      
-      // Simulate success
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!title.trim() || !content.trim()) {
       toast({
-        title: "Topic created!",
-        description: "Your topic has been created successfully.",
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      await apiRequest({
+        url: "/api/forum/topics",
+        method: "POST",
+        data: {
+          title,
+          content,
+          categoryId: category.id
+        }
       });
       
-      // Close dialog and reset form
-      setOpen(false);
-      form.reset();
+      setTitle("");
+      setContent("");
+      setIsOpen(false);
+      onSuccess();
       
-      // Call success callback if provided
-      if (onSuccess) {
-        onSuccess();
-      }
     } catch (error) {
       console.error("Error creating topic:", error);
       toast({
         title: "Error",
-        description: "Failed to create the topic. Please try again.",
-        variant: "destructive",
+        description: "Failed to create topic. Please try again.",
+        variant: "destructive"
       });
+    } finally {
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <PenLine className="h-4 w-4 mr-2" />
+        <Button className="flex items-center">
+          <Plus className="mr-2 h-4 w-4" />
           Create Topic
         </Button>
       </DialogTrigger>
@@ -102,51 +75,47 @@ export default function CreateTopicDialog({
         <DialogHeader>
           <DialogTitle>Create a new topic</DialogTitle>
           <DialogDescription>
-            Start a new discussion in the {category.name} category.
+            Start a new discussion in {category.name}
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Topic title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+        <form onSubmit={handleSubmit} className="space-y-4 py-4">
+          <div className="space-y-2">
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              placeholder="Enter a descriptive title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              disabled={isSubmitting}
+              required
             />
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Content</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Share your thoughts, questions, or insights..." 
-                      className="min-h-[150px]"
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="content">Content</Label>
+            <Textarea
+              id="content"
+              placeholder="Share your thoughts, questions or insights..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              disabled={isSubmitting}
+              className="min-h-[150px]"
+              required
             />
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Creating..." : "Create Topic"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Creating..." : "Create Topic"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

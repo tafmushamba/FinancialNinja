@@ -1,59 +1,66 @@
+import { ForumCategory } from "./forum-types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, FileText, MessageSquare } from "lucide-react";
-import { ForumCategory } from "./forum-types";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
+import { ReactNode } from "react";
 
 interface ForumCategoryCardProps {
   category: ForumCategory;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
+// Map of category icons based on the name or id
+const getCategoryIcon = (category: ForumCategory): ReactNode => {
+  // This would ideally be based on category.icon from the database
+  // For now, we'll use a simple switch based on name or id
+  const iconMap: Record<string, ReactNode> = {
+    // Add icons for specific categories
+    "UK Financial Basics": <span className="text-2xl">💰</span>,
+    "Investments & Savings": <span className="text-2xl">📈</span>,
+    "Debt & Credit": <span className="text-2xl">💳</span>,
+    "Taxes & UK Regulations": <span className="text-2xl">📋</span>,
+    "Retirement Planning": <span className="text-2xl">🏖️</span>,
+  };
+  
+  // Try to match by name, fallback to a default icon
+  return iconMap[category.name] || <span className="text-2xl">📚</span>;
+};
+
 export default function ForumCategoryCard({ category, onClick }: ForumCategoryCardProps) {
-  // If icon is a string that starts with "lucide:", extract the icon name
-  const iconName = category.icon?.startsWith("lucide:") 
-    ? category.icon.substring(7) 
-    : null;
-
-  // Color with fallback
-  const color = category.color || "#4f46e5";
-
+  const { id, name, description, topicCount = 0 } = category;
+  const icon = getCategoryIcon(category);
+  
   return (
     <Card 
-      className="transition-transform hover:scale-[1.01] cursor-pointer" 
+      className="hover:border-primary/50 transition-all cursor-pointer"
       onClick={onClick}
     >
-      <CardHeader className="pb-2 flex flex-row items-start justify-between">
-        <div className="flex items-start space-x-4">
-          <Avatar className="h-12 w-12" style={{ backgroundColor: color }}>
-            <AvatarFallback>
-              {iconName === "fileText" ? (
-                <FileText className="h-6 w-6 text-white" />
-              ) : iconName === "messageSquare" ? (
-                <MessageSquare className="h-6 w-6 text-white" />
-              ) : (
-                category.name.substring(0, 2).toUpperCase()
-              )}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <CardTitle>{category.name}</CardTitle>
-            <CardDescription className="mt-1">
-              {category.description}
-            </CardDescription>
-          </div>
+      <CardHeader className="flex flex-row items-center gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <CardTitle className="line-clamp-1">{name}</CardTitle>
+          <CardDescription className="line-clamp-2">{description}</CardDescription>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground">
           <Badge variant="outline" className="mr-2">
-            {category.topicCount || 0} Topics
+            {topicCount} {topicCount === 1 ? 'topic' : 'topics'}
           </Badge>
-          <span>Latest activity 2 hours ago</span>
+          {/* Would add more stats here like active users, posts count, etc. */}
         </div>
       </CardContent>
-      <CardFooter className="pb-3 pt-1 flex justify-end">
-        <ArrowRight className="h-5 w-5 text-primary" />
+      <CardFooter className="justify-between">
+        <span className="text-sm text-muted-foreground">
+          {/* Add last activity information here when available */}
+          Last activity: Today
+        </span>
+        <Button variant="ghost" size="sm" className="gap-1">
+          View <ChevronRight className="h-4 w-4" />
+        </Button>
       </CardFooter>
     </Card>
   );

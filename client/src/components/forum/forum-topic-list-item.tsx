@@ -1,75 +1,92 @@
+import { ForumTopic } from "./forum-types";
 import { Link } from "wouter";
 import { formatDistanceToNow } from "date-fns";
-import { MessageSquare, PinIcon, LockIcon, Eye } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CalendarDays, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { ForumTopic } from "./forum-types";
 
 interface ForumTopicListItemProps {
   topic: ForumTopic;
 }
 
 export default function ForumTopicListItem({ topic }: ForumTopicListItemProps) {
-  // Function to parse date strings to Date objects if needed
-  const parseDate = (dateValue: Date | string | null): Date | null => {
-    if (!dateValue) return null;
-    if (dateValue instanceof Date) return dateValue;
-    try {
-      return new Date(dateValue);
-    } catch {
-      return null;
-    }
-  };
+  const {
+    id,
+    title,
+    categoryId,
+    isPinned,
+    isLocked,
+    views = 0,
+    createdAt,
+    lastPostAt,
+    postCount = 0,
+    user
+  } = topic;
 
-  // Format dates for display
-  const formattedDate = (date: Date | string | null): string => {
-    const parsedDate = parseDate(date);
-    if (!parsedDate) return "Unknown date";
-    return formatDistanceToNow(parsedDate, { addSuffix: true });
+  // Format the dates
+  const formattedDate = createdAt
+    ? formatDistanceToNow(new Date(createdAt), { addSuffix: true })
+    : "";
+  
+  const lastPostDate = lastPostAt
+    ? formatDistanceToNow(new Date(lastPostAt), { addSuffix: true })
+    : formattedDate;
+
+  // Get the initials for the avatar fallback
+  const getUserInitials = () => {
+    if (!user || !user.username) return "UK";
+    const names = user.username.split(" ");
+    if (names.length === 1) return names[0].slice(0, 2).toUpperCase();
+    return (names[0][0] + names[1][0]).toUpperCase();
   };
 
   return (
-    <Link href={`/forum/topics/${topic.id}`}>
-      <Card className="overflow-hidden transition-all hover:border-primary/50 cursor-pointer">
-        <CardHeader className="pb-2">
-          <div className="flex items-start justify-between">
-            <div className="space-y-1">
-              <CardTitle className="flex items-center">
-                {topic.isPinned && <PinIcon className="mr-1 h-4 w-4 text-amber-500" />}
-                {topic.isLocked && <LockIcon className="mr-1 h-4 w-4 text-red-500" />}
-                <span>{topic.title}</span>
-              </CardTitle>
-              <CardDescription className="line-clamp-2">{topic.content}</CardDescription>
+    <Link href={`/forum/topics/${id}`}>
+      <div className="py-4 hover:bg-muted/30 px-2 rounded-md transition-colors cursor-pointer">
+        <div className="flex items-start gap-4">
+          <Avatar className="hidden sm:flex h-10 w-10">
+            <AvatarImage src={user?.avatar} alt={user?.username || "User"} />
+            <AvatarFallback>{getUserInitials()}</AvatarFallback>
+          </Avatar>
+          
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="font-medium line-clamp-1">{title}</h3>
+              {isPinned && <Badge variant="secondary">Pinned</Badge>}
+              {isLocked && <Badge variant="outline">Locked</Badge>}
+            </div>
+            
+            <div className="text-sm text-muted-foreground flex flex-wrap items-center gap-x-4 mt-1">
+              <span className="flex items-center gap-1">
+                <CalendarDays className="h-3 w-3" />
+                {formattedDate}
+              </span>
+              
+              <span>
+                By {user?.username || "Anonymous"}
+              </span>
+              
+              {postCount > 0 && (
+                <span className="flex items-center gap-1">
+                  <MessageCircle className="h-3 w-3" />
+                  {postCount} {postCount === 1 ? "reply" : "replies"}
+                </span>
+              )}
             </div>
           </div>
-        </CardHeader>
-
-        <CardContent className="pb-2">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="outline" className="flex items-center gap-1 px-2">
-              <Eye className="h-3 w-3" />
-              <span>{topic.views || 0}</span>
-            </Badge>
-            <Badge variant="outline" className="flex items-center gap-1 px-2">
-              <MessageSquare className="h-3 w-3" />
-              <span>{topic.postCount || 0}</span>
-            </Badge>
-          </div>
-        </CardContent>
-
-        <CardFooter className="pt-0 text-xs text-muted-foreground">
-          <div className="flex w-full flex-col justify-between space-y-1 sm:flex-row sm:space-y-0">
-            <div>
-              Posted by {topic.user?.username || "Anonymous"} {formattedDate(topic.createdAt)}
+          
+          <div className="hidden sm:block text-right text-sm">
+            <div className="text-muted-foreground">
+              {views} {views === 1 ? "view" : "views"}
             </div>
-            {topic.lastPostAt && (
-              <div>
-                Last reply {formattedDate(topic.lastPostAt)}
+            {lastPostAt && (
+              <div className="text-muted-foreground mt-1 text-xs">
+                Last post {lastPostDate}
               </div>
             )}
           </div>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     </Link>
   );
 }
