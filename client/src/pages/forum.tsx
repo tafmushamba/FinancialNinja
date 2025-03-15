@@ -115,16 +115,19 @@ export default function ForumPage() {
                   <MessageCircle className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
                   <h3 className="text-lg font-medium">No topics yet</h3>
                   <p className="text-muted-foreground mt-1">
-                    Be the first to start a discussion
+                    Be the first to start a discussion by selecting a category
                   </p>
                   <Button 
                     className="mt-4" 
-                    onClick={() => toast({
-                      title: "Coming soon!",
-                      description: "This feature is currently being developed."
-                    })}
+                    onClick={() => {
+                      // Switch to categories tab
+                      const categoriesTab = document.querySelector('[data-state="inactive"][value="categories"]');
+                      if (categoriesTab) {
+                        (categoriesTab as HTMLElement).click();
+                      }
+                    }}
                   >
-                    Create New Topic
+                    View Categories
                   </Button>
                 </div>
               )}

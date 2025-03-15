@@ -4,12 +4,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Plus, ArrowLeft, MessageCircle } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 import { ForumCategory, ForumTopic } from "../components/forum/forum-types";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import ForumHeader from "../components/forum/forum-header";
 import ForumTopicListItem from "../components/forum/forum-topic-list-item";
+import CreateTopicDialog from "../components/forum/create-topic-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageHeader from "@/components/layout/page-header";
 import { useAuth } from "@/context/AuthContext";
@@ -24,42 +25,42 @@ export default function ForumCategoryPage() {
   const [topics, setTopics] = useState<ForumTopic[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchTopics = async () => {
+    if (!match || !params?.categoryId) return;
+
+    try {
+      setLoading(true);
+      const response = await apiRequest<{ 
+        category: ForumCategory;
+        topics: ForumTopic[];
+      }>({
+        url: `/api/forum/categories/${params.categoryId}/topics`,
+        method: "GET"
+      });
+
+      setCategory(response.category);
+      setTopics(response.topics);
+    } catch (error) {
+      console.error("Error fetching category:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load category topics. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchCategory = async () => {
-      if (!match || !params?.categoryId) return;
-
-      try {
-        setLoading(true);
-        const response = await apiRequest<{ 
-          category: ForumCategory;
-          topics: ForumTopic[];
-        }>({
-          url: `/api/forum/categories/${params.categoryId}/topics`,
-          method: "GET"
-        });
-
-        setCategory(response.category);
-        setTopics(response.topics);
-      } catch (error) {
-        console.error("Error fetching category:", error);
-        toast({
-          title: "Error",
-          description: "Failed to load category topics. Please try again later.",
-          variant: "destructive"
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategory();
+    fetchTopics();
   }, [match, params, toast]);
 
   if (!match) {
     return null;
   }
 
-  const handleCreateTopic = () => {
+  const handleCreateTopicClick = () => {
     if (!isAuthenticated) {
       toast({
         title: "Authentication required",
@@ -68,12 +69,6 @@ export default function ForumCategoryPage() {
       });
       return;
     }
-
-    // Placeholder for create topic action
-    toast({
-      title: "Coming soon!",
-      description: "This feature is currently being developed."
-    });
   };
 
   return (
@@ -120,10 +115,16 @@ export default function ForumCategoryPage() {
                     : `${topics.length} topic${topics.length === 1 ? '' : 's'} in this category`}
                 </CardDescription>
               </div>
-              <Button onClick={handleCreateTopic}>
-                <Plus className="mr-2 h-4 w-4" />
-                New Topic
-              </Button>
+              {isAuthenticated ? (
+                <CreateTopicDialog 
+                  category={category} 
+                  onSuccess={fetchTopics}
+                />
+              ) : (
+                <Button onClick={handleCreateTopicClick}>
+                  New Topic
+                </Button>
+              )}
             </CardHeader>
             <CardContent>
               {topics.length > 0 ? (
@@ -139,9 +140,16 @@ export default function ForumCategoryPage() {
                   <p className="text-muted-foreground mt-1">
                     Be the first to start a discussion in this category
                   </p>
-                  <Button className="mt-4" onClick={handleCreateTopic}>
-                    Create New Topic
-                  </Button>
+                  {isAuthenticated ? (
+                    <CreateTopicDialog 
+                      category={category}
+                      onSuccess={fetchTopics}
+                    />
+                  ) : (
+                    <Button className="mt-4" onClick={handleCreateTopicClick}>
+                      Create New Topic
+                    </Button>
+                  )}
                 </div>
               )}
             </CardContent>
