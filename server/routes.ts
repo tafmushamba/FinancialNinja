@@ -18,7 +18,7 @@ import {
 
 export async function registerRoutes(app: Express, isAuthenticated?: (req: Request, res: Response, next: NextFunction) => void): Promise<Server> {
   // Get current user profile
-  app.get("/api/user/profile", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/user/profile", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user as User;
       
@@ -38,7 +38,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get user stats for dashboard
-  app.get("/api/user/stats", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/user/stats", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user as User;
       const userId = user.id;
@@ -65,7 +65,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get user points for rewards system
-  app.get("/api/user/points", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/user/points", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user as User;
       const userId = user.id;
@@ -89,7 +89,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get available rewards
-  app.get("/api/rewards/available", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/rewards/available", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const rewards = await storage.getAvailableRewards();
       res.json({ rewards });
@@ -146,7 +146,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get user's reward transaction history
-  app.get("/api/rewards/history", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/rewards/history", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user as User;
       const userId = user.id;
@@ -197,7 +197,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get all learning modules
-  app.get("/api/learning/all-modules", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/learning/all-modules", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user as User;
       const userId = user.id;
