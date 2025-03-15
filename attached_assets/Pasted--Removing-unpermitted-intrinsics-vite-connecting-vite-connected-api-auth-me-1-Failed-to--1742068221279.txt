@@ -1,0 +1,1024 @@
+ Removing unpermitted intrinsics
+ [vite] connecting...
+ [vite] connected.
+/api/auth/me:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)Understand this errorAI
+ Using mock user data for development
+overrideMethod @ installHook.js:1Understand this warningAI
+ useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+ API response: Object
+ Topics data: Array(3)
+ Is Array? true
+ Topics length: 3
+ Processing topic: Object
+ Processing topic: Object
+ Processing topic: Object
+ Topics with user data: Array(3)
+2 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: Object
+forum-category.tsx:45 Topics data: Array(3)
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:52 Processing topic: Object
+forum-category.tsx:64 Topics with user data: Array(3)
+2forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+forum-category.tsx:46 Is Array? true
+forum-category.tsx:47 Topics length: 3
+forum-category.tsx:52 Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+forum-category.tsx:52 Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+forum-category.tsx:64 Topics with user data: (3) [{…}, {…}, {…}]
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:76 useEffect triggered - fetching topics
+forum-category.tsx:39 API response: {topics: Array(3), category: {…}}
+forum-category.tsx:45 Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics
+ API response: {topics: Array(3), category: {…}}
+ Topics data: (3) [{…}, {…}, {…}]
+ Is Array? true
+ Topics length: 3
+ Processing topic: {id: 1, title: 'Getting started with UK current accounts', content: "I'm new to the UK banking system. Can someone expl…available and what to look for when choosing one?", slug: 'getting-started-with-uk-current-accounts', userId: 1, …}
+ Processing topic: {id: 2, title: 'Understanding UK credit scores', content: 'How exactly do credit scores work in the UK? What … affect them the most and how can I improve mine?', slug: 'understanding-uk-credit-scores', userId: 1, …}
+ Processing topic: {id: 3, title: 'Contactless payment limits in the UK', content: 'I noticed the contactless payment limit has increa…e there any security concerns with higher limits?', slug: 'contactless-payment-limits-in-the-uk', userId: 1, …}
+ Topics with user data: (3) [{…}, {…}, {…}]
+ useEffect triggered - fetching topics
+ useEffect triggered - fetching topics

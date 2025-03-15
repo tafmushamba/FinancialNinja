@@ -1,5 +1,5 @@
 import { ForumTopic } from "./forum-types";
-import { Link } from "wouter";
+import { useLocation } from "wouter";
 import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CalendarDays, MessageCircle } from "lucide-react";
@@ -52,53 +52,56 @@ export default function ForumTopicListItem({ topic }: ForumTopicListItemProps) {
     return (names[0][0] + names[1][0]).toUpperCase();
   };
 
+  const [, setLocation] = useLocation();
+
   return (
-    <Link href={`/forum/topics/${id}`}>
-      <div className="py-4 hover:bg-muted/30 px-2 rounded-md transition-colors cursor-pointer">
-        <div className="flex items-start gap-4">
-          <Avatar className="hidden sm:flex h-10 w-10">
-            <AvatarImage src={user?.avatar} alt={user?.username || "User"} />
-            <AvatarFallback>{getUserInitials()}</AvatarFallback>
-          </Avatar>
-          
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-medium line-clamp-1">{title}</h3>
-              {isPinned && <Badge variant="secondary">Pinned</Badge>}
-              {isLocked && <Badge variant="outline">Locked</Badge>}
-            </div>
-            
-            <div className="text-sm text-muted-foreground flex flex-wrap items-center gap-x-4 mt-1">
-              <span className="flex items-center gap-1">
-                <CalendarDays className="h-3 w-3" />
-                {formattedDate}
-              </span>
-              
-              <span>
-                By {user?.username || "Anonymous"}
-              </span>
-              
-              {postCount > 0 && (
-                <span className="flex items-center gap-1">
-                  <MessageCircle className="h-3 w-3" />
-                  {postCount} {postCount === 1 ? "reply" : "replies"}
-                </span>
-              )}
-            </div>
+    <div
+      onClick={() => setLocation(`/forum/topics/${id}`)}
+      className="py-4 hover:bg-muted/30 px-2 rounded-md transition-colors cursor-pointer"
+    >
+      <div className="flex items-start gap-4">
+        <Avatar className="hidden sm:flex h-10 w-10">
+          <AvatarImage src={user?.avatar} alt={user?.username || "User"} />
+          <AvatarFallback>{getUserInitials()}</AvatarFallback>
+        </Avatar>
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="font-medium line-clamp-1">{title}</h3>
+            {isPinned && <Badge variant="secondary">Pinned</Badge>}
+            {isLocked && <Badge variant="outline">Locked</Badge>}
           </div>
           
-          <div className="hidden sm:block text-right text-sm">
-            <div className="text-muted-foreground">
-              {views} {views === 1 ? "view" : "views"}
-            </div>
-            {lastPostAt && (
-              <div className="text-muted-foreground mt-1 text-xs">
-                Last post {lastPostDate}
-              </div>
+          <div className="text-sm text-muted-foreground flex flex-wrap items-center gap-x-4 mt-1">
+            <span className="flex items-center gap-1">
+              <CalendarDays className="h-3 w-3" />
+              {formattedDate}
+            </span>
+            
+            <span>
+              By {user?.username || "Anonymous"}
+            </span>
+            
+            {postCount > 0 && (
+              <span className="flex items-center gap-1">
+                <MessageCircle className="h-3 w-3" />
+                {postCount} {postCount === 1 ? "reply" : "replies"}
+              </span>
             )}
           </div>
         </div>
+        
+        <div className="hidden sm:block text-right text-sm">
+          <div className="text-muted-foreground">
+            {views} {views === 1 ? "view" : "views"}
+          </div>
+          {lastPostAt && (
+            <div className="text-muted-foreground mt-1 text-xs">
+              Last post {lastPostDate}
+            </div>
+          )}
+        </div>
       </div>
-    </Link>
+    </div>
   );
 }
