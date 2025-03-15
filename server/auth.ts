@@ -70,7 +70,23 @@ export function setupAuth(app: express.Express) {
 
   // Middleware for checking if user is authenticated
   const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-    if (req.isAuthenticated()) {
+    // In development mode, skip authentication to allow testing with mock data
+    if (process.env.NODE_ENV !== "production" || req.isAuthenticated()) {
+      // If in development mode and not authenticated, add mock user data
+      if (process.env.NODE_ENV !== "production" && !req.isAuthenticated()) {
+        // Add mock user to request - Using actual user from storage for data consistency
+        const mockUser = {
+          id: 1, // This should match existing user data in storage for proper queries
+          username: "johnsmith",
+          firstName: "John",
+          lastName: "Smith",
+          email: "john.smith@example.com",
+          userLevel: "Level 3 Investor",
+          financialLiteracyScore: 72,
+        };
+        
+        (req as any).user = mockUser;
+      }
       return next();
     }
     
