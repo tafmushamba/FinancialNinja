@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         // For development, provide a default mock user so the UI works properly
         // In production, this would be removed
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
           console.warn('Using mock user data for development');
           setIsAuthenticated(true);
           setUser(mockUser);
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error("Auth check error:", error);
       // For development, provide a mock user on error
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.warn('Using mock user data for development after error');
         setIsAuthenticated(true);
         setUser(mockUser);
