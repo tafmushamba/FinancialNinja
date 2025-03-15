@@ -5,14 +5,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, MessageCircle, Eye, Calendar, Lock } from "lucide-react";
-import { ForumCategory, ForumPost, ForumTopic } from "../components/forum/forum-types";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import ForumPostCard from "../components/forum/forum-post-card";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/context/AuthContext";
 import { formatDistanceToNow } from "date-fns";
+// Fix imports with proper paths
+import { ForumCategory, ForumPost, ForumTopic } from "@/components/forum/forum-types";
+import ForumPostCard from "@/components/forum/forum-post-card";
 import PageHeader from "@/components/layout/page-header";
 
 export default function ForumTopicPage() {
@@ -34,6 +35,8 @@ export default function ForumTopicPage() {
 
       try {
         setLoading(true);
+        console.log("Fetching topic data for ID:", params.topicId);
+        
         const response = await apiRequest<{ 
           topic: ForumTopic;
           category: Partial<ForumCategory> | null;
@@ -43,9 +46,16 @@ export default function ForumTopicPage() {
           method: "GET"
         });
 
+        console.log("Topic data received:", response);
+        
+        if (!response || !response.topic) {
+          console.error("Invalid response format:", response);
+          throw new Error("Invalid response format from server");
+        }
+
         setTopic(response.topic);
         setCategory(response.category);
-        setPosts(response.posts);
+        setPosts(response.posts || []);
       } catch (error) {
         console.error("Error fetching topic:", error);
         toast({
@@ -59,7 +69,8 @@ export default function ForumTopicPage() {
     };
 
     fetchTopic();
-  }, [match, params, toast]);
+    // Remove toast from dependencies to prevent too many re-renders
+  }, [match, params]);
 
   const handleSubmitReply = async () => {
     if (!isAuthenticated) {
