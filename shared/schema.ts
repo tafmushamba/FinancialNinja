@@ -412,3 +412,18 @@ export type QuizAnswer = typeof quizAnswers.$inferSelect;
 
 export type InsertAssistantMessage = z.infer<typeof insertAssistantMessageSchema>;
 export type AssistantMessage = typeof assistantMessages.$inferSelect;
+
+export type InsertForumCategory = z.infer<typeof insertForumCategorySchema>;
+export type ForumCategory = typeof forumCategories.$inferSelect;
+
+export type InsertForumTopic = z.infer<typeof insertForumTopicSchema>;
+export type ForumTopic = typeof forumTopics.$inferSelect;
+
+export type InsertForumPost = z.infer<typeof insertForumPostSchema>;
+export type ForumPost = typeof forumPosts.$inferSelect;
+
+export type InsertForumReaction = z.infer<typeof insertForumReactionSchema>;
+export type ForumReaction = typeof forumReactions.$inferSelect;
+
+export type InsertCertificate = z.infer<typeof insertCertificateSchema>;
+export type Certificate = typeof certificates.$inferSelect;

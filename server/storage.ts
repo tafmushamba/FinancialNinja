@@ -12,7 +12,12 @@ import {
   quizQuestions, type QuizQuestion, type InsertQuizQuestion,
   quizAttempts, type QuizAttempt, type InsertQuizAttempt,
   quizAnswers, type QuizAnswer, type InsertQuizAnswer,
-  assistantMessages, type AssistantMessage, type InsertAssistantMessage
+  assistantMessages, type AssistantMessage, type InsertAssistantMessage,
+  forumCategories, type ForumCategory, type InsertForumCategory,
+  forumTopics, type ForumTopic, type InsertForumTopic,
+  forumPosts, type ForumPost, type InsertForumPost,
+  forumReactions, type ForumReaction, type InsertForumReaction,
+  certificates, type Certificate, type InsertCertificate
 } from "@shared/schema";
 import { mockModules } from "./data/modules";
 import { mockAchievements } from "./data/achievements";
@@ -103,6 +108,39 @@ export interface IStorage {
   // Assistant message methods
   getAssistantMessages(userId: number): Promise<AssistantMessage[]>;
   createAssistantMessage(message: InsertAssistantMessage): Promise<AssistantMessage>;
+  
+  // Forum category methods
+  getForumCategories(): Promise<ForumCategory[]>;
+  getForumCategory(id: number): Promise<ForumCategory | undefined>;
+  createForumCategory(category: InsertForumCategory): Promise<ForumCategory>;
+  updateForumCategory(id: number, category: Partial<ForumCategory>): Promise<ForumCategory | undefined>;
+  
+  // Forum topic methods
+  getForumTopics(categoryId: number): Promise<ForumTopic[]>;
+  getRecentForumTopics(limit?: number): Promise<ForumTopic[]>;
+  getForumTopic(id: number): Promise<ForumTopic | undefined>;
+  getForumTopicBySlug(slug: string): Promise<ForumTopic | undefined>;
+  createForumTopic(topic: InsertForumTopic): Promise<ForumTopic>;
+  updateForumTopic(id: number, topic: Partial<ForumTopic>): Promise<ForumTopic | undefined>;
+  incrementTopicViews(id: number): Promise<ForumTopic | undefined>;
+  
+  // Forum post methods
+  getForumPosts(topicId: number): Promise<ForumPost[]>;
+  getForumPost(id: number): Promise<ForumPost | undefined>;
+  createForumPost(post: InsertForumPost): Promise<ForumPost>;
+  updateForumPost(id: number, post: Partial<ForumPost>): Promise<ForumPost | undefined>;
+  
+  // Forum reaction methods
+  getForumReactions(postId: number): Promise<ForumReaction[]>;
+  getUserForumReaction(postId: number, userId: number): Promise<ForumReaction | undefined>;
+  createForumReaction(reaction: InsertForumReaction): Promise<ForumReaction>;
+  deleteForumReaction(id: number): Promise<boolean>;
+  
+  // Certificate methods
+  getUserCertificates(userId: number): Promise<Certificate[]>;
+  getCertificate(id: number): Promise<Certificate | undefined>;
+  getCertificateByVerificationCode(code: string): Promise<Certificate | undefined>;
+  createCertificate(certificate: InsertCertificate): Promise<Certificate>;
 }
 
 // Add these interfaces for rewards
@@ -149,6 +187,11 @@ export class MemStorage implements IStorage {
   private quizAttempts: Map<number, QuizAttempt>;
   private quizAnswers: Map<number, QuizAnswer>;
   private assistantMessages: Map<number, AssistantMessage>;
+  private forumCategories: Map<number, ForumCategory>;
+  private forumTopics: Map<number, ForumTopic>;
+  private forumPosts: Map<number, ForumPost>;
+  private forumReactions: Map<number, ForumReaction>;
+  private certificates: Map<number, Certificate>;
   
   private userCurrentId: number;
   private learningModuleCurrentId: number;
@@ -164,6 +207,11 @@ export class MemStorage implements IStorage {
   private quizAttemptCurrentId: number;
   private quizAnswerCurrentId: number;
   private assistantMessageCurrentId: number;
+  private forumCategoryCurrentId: number;
+  private forumTopicCurrentId: number;
+  private forumPostCurrentId: number;
+  private forumReactionCurrentId: number;
+  private certificateCurrentId: number;
 
   constructor() {
     this.users = new Map();
@@ -180,6 +228,11 @@ export class MemStorage implements IStorage {
     this.quizAttempts = new Map();
     this.quizAnswers = new Map();
     this.assistantMessages = new Map();
+    this.forumCategories = new Map();
+    this.forumTopics = new Map();
+    this.forumPosts = new Map();
+    this.forumReactions = new Map();
+    this.certificates = new Map();
     
     this.userCurrentId = 1;
     this.learningModuleCurrentId = 1;
@@ -195,6 +248,11 @@ export class MemStorage implements IStorage {
     this.quizAttemptCurrentId = 1;
     this.quizAnswerCurrentId = 1;
     this.assistantMessageCurrentId = 1;
+    this.forumCategoryCurrentId = 1;
+    this.forumTopicCurrentId = 1;
+    this.forumPostCurrentId = 1;
+    this.forumReactionCurrentId = 1;
+    this.certificateCurrentId = 1;
     
     // Seed initial data
     this.seedData();
@@ -260,6 +318,77 @@ export class MemStorage implements IStorage {
       content: "Hi there! I'm your financial literacy assistant. What financial topic would you like to learn about today?",
       sender: "assistant",
       timestamp: new Date()
+    });
+    
+    // Add forum categories
+    const forumCategories = [
+      {
+        id: 1,
+        name: "UK Financial Basics",
+        description: "Discuss fundamentals of UK personal finance including ISAs, pensions, and taxes.",
+        slug: "uk-financial-basics",
+        icon: "pound-sterling",
+        color: "#4f46e5",
+        order: 1,
+        topicCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 2,
+        name: "Budgeting & Saving",
+        description: "Tips and strategies for effective budgeting and building savings in the UK.",
+        slug: "budgeting-saving",
+        icon: "piggy-bank",
+        color: "#16a34a",
+        order: 2,
+        topicCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 3,
+        name: "UK Investing",
+        description: "Discuss UK investment options, strategies, and markets.",
+        slug: "uk-investing",
+        icon: "trending-up",
+        color: "#ea580c",
+        order: 3,
+        topicCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 4,
+        name: "Student Finance",
+        description: "Information about UK student loans, university costs, and managing finances as a student.",
+        slug: "student-finance",
+        icon: "graduation-cap",
+        color: "#8b5cf6",
+        order: 4,
+        topicCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 5,
+        name: "Financial News & Updates",
+        description: "Latest UK financial news, policy changes, and economic updates.",
+        slug: "financial-news",
+        icon: "newspaper",
+        color: "#0ea5e9",
+        order: 5,
+        topicCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ];
+    
+    forumCategories.forEach(category => {
+      this.forumCategories.set(category.id, category);
+      if (category.id >= this.forumCategoryCurrentId) {
+        this.forumCategoryCurrentId = category.id + 1;
+      }
     });
     
     // Add a sample quiz for the first lesson
