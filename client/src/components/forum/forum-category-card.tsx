@@ -25,7 +25,7 @@ export default function ForumCategoryCard({ category, onClick }: ForumCategoryCa
               <CardTitle className="text-lg flex items-center">
                 <span 
                   className="w-6 h-6 rounded-full mr-2 flex items-center justify-center text-white"
-                  style={{ backgroundColor: category.color || '#888' }}
+                  style={{ backgroundColor: '#4f46e5' }}
                 >
                   <MessageCircle className="h-3.5 w-3.5" />
                 </span>

@@ -2,13 +2,13 @@ export interface ForumCategory {
   id: number;
   name: string;
   description: string;
-  icon: string;
-  color: string;
+  icon: string | null;
   slug: string;
   order: number;
   createdAt: string;
   updatedAt: string;
-  topicCount: number;
+  topicCount?: number;
+  color?: string;
 }
 
 export interface ForumTopic {
