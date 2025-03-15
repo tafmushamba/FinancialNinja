@@ -1061,14 +1061,24 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
         return res.status(404).json({ message: "Category not found" });
       }
       
+      // Add post count to topics
+      const topicsWithCounts = await Promise.all(
+        topics.map(async (topic) => {
+          const posts = await storage.getForumPosts(topic.id);
+          return {
+            ...topic,
+            postCount: posts.length
+          };
+        })
+      );
+      
       res.json({ 
-        topics,
+        topics: topicsWithCounts,
         category: {
           id: category.id,
           name: category.name,
           description: category.description,
-          icon: category.icon,
-          color: category.color
+          icon: category.icon
         }
       });
     } catch (error) {

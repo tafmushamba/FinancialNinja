@@ -38,6 +38,7 @@ export default function ForumCategoryPage() {
         method: "GET"
       });
 
+      console.log("API response:", response);
       setCategory(response.category);
       setTopics(response.topics);
     } catch (error) {
@@ -96,7 +97,7 @@ export default function ForumCategoryPage() {
             icon={
               <div 
                 className="h-10 w-10 rounded-md flex items-center justify-center text-white"
-                style={{ backgroundColor: category.color }}
+                style={{ backgroundColor: '#4f46e5' }}
               >
                 <MessageCircle className="h-6 w-6" />
               </div>
