@@ -23,6 +23,10 @@ import Rewards from "@/pages/rewards";
 import FinancialCalculators from "@/pages/financial-calculators";
 import LifeSimulation from "@/pages/life-simulation";
 import FinancialScenarios from "@/pages/financial-scenarios";
+import Forum from "@/pages/forum";
+import ForumCategory from "@/pages/forum-category";
+import ForumTopic from "@/pages/forum-topic";
+import Certificates from "@/pages/certificates";
 
 // Custom Redirect component for navigation
 const Redirect = ({ to }: { to: string }) => {
@@ -142,6 +146,36 @@ function Router() {
       <Route path="/financial-scenarios">
         <MainLayout>
           <FinancialScenarios />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/forum">
+        <MainLayout>
+          <Forum />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/forum/categories/:categoryId">
+        <MainLayout>
+          <ForumCategory />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/forum/topics/:topicId">
+        <MainLayout>
+          <ForumTopic />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/certificates">
+        <MainLayout>
+          <Certificates />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/certificates/:verificationCode">
+        <MainLayout>
+          <Certificates />
         </MainLayout>
       </Route>
       

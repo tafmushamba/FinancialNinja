@@ -34,7 +34,8 @@ export default function ForumCategoryPage() {
           category: ForumCategory;
           topics: ForumTopic[];
         }>({
-          url: `/api/forum/categories/${params.categoryId}/topics`
+          url: `/api/forum/categories/${params.categoryId}/topics`,
+          method: "GET"
         });
 
         setCategory(response.category);

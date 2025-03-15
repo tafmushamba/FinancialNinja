@@ -27,8 +27,14 @@ export default function ForumPage() {
       try {
         setLoading(true);
         const [categoriesResponse, recentTopicsResponse] = await Promise.all([
-          apiRequest<{ categories: ForumCategory[] }>({ url: "/api/forum/categories" }),
-          apiRequest<{ topics: ForumTopic[] }>({ url: "/api/forum/topics/recent?limit=5" })
+          apiRequest<{ categories: ForumCategory[] }>({ 
+            url: "/api/forum/categories",
+            method: "GET" 
+          }),
+          apiRequest<{ topics: ForumTopic[] }>({ 
+            url: "/api/forum/topics/recent?limit=5",
+            method: "GET" 
+          })
         ]);
         
         setCategories(categoriesResponse.categories);
