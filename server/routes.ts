@@ -161,7 +161,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get learning modules for dashboard
-  app.get("/api/learning/modules", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/learning/modules", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const user = req.user as User;
       const userId = user.id;

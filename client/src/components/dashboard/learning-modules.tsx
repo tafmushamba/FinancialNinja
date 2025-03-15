@@ -7,11 +7,16 @@ import TerminalText from '@/components/ui/terminal-text';
 import { formatTimeRemaining } from '@/lib/utils';
 
 const LearningModules: React.FC = () => {
-  const { data: modulesData, isLoading } = useQuery({
+  const { data: modulesData, isLoading, error } = useQuery({
     queryKey: ['/api/learning/modules'],
     queryFn: async () => {
       try {
-        const response = await fetch('/api/learning/modules');
+        const response = await fetch('/api/learning/modules', {
+          credentials: 'include' // Include cookies for auth
+        });
+        if (response.status === 401) {
+          throw new Error('Please log in to view learning modules');
+        }
         if (!response.ok) {
           throw new Error('Failed to fetch learning modules');
         }
@@ -71,7 +76,7 @@ const LearningModules: React.FC = () => {
           View all modules <i className="fas fa-arrow-right ml-1 text-xs group-hover:translate-x-1 transition-transform"></i>
         </Link>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {isLoading ? (
           <div className="col-span-3 bg-dark-800 rounded-md border border-dark-600 p-8 text-center">
@@ -82,12 +87,16 @@ const LearningModules: React.FC = () => {
               <div className="h-2 bg-dark-700 rounded w-3/4 mt-5"></div>
             </div>
           </div>
+        ) : error ? (
+          <div className="col-span-3 bg-dark-800 rounded-md border border-dark-600 p-8 text-center">
+            <p className="text-red-500">{error.message}</p>
+          </div>
         ) : (
           <>
             {modulesData?.modules?.map((module: any) => {
               // Use safe inline style for dynamic classes
               const accentColor = module.accentColor || 'neon-green';
-              
+
               return (
                 <Card 
                   key={module.id}
