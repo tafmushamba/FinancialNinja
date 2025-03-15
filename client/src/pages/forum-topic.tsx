@@ -39,7 +39,8 @@ export default function ForumTopicPage() {
           category: Partial<ForumCategory> | null;
           posts: ForumPost[];
         }>({
-          url: `/api/forum/topics/${params.topicId}`
+          url: `/api/forum/topics/${params.topicId}`,
+          method: "GET"
         });
 
         setTopic(response.topic);

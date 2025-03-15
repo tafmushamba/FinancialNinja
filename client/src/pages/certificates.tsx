@@ -74,7 +74,8 @@ export default function CertificatesPage() {
       try {
         setLoading(true);
         const response = await apiRequest<{ certificates: Certificate[] }>({
-          url: "/api/certificates"
+          url: "/api/certificates",
+          method: "GET"
         });
 
         setCertificates(response.certificates);
@@ -105,7 +106,8 @@ export default function CertificatesPage() {
         certificate?: VerifiedCertificate;
         message?: string;
       }>({
-        url: `/api/certificates/verify/${code}`
+        url: `/api/certificates/verify/${code}`,
+        method: "GET"
       });
 
       if (response.verified && response.certificate) {
