@@ -73,8 +73,10 @@ export default function ForumCategoryPage() {
   };
 
   useEffect(() => {
+    console.log("useEffect triggered - fetching topics");
     fetchTopics();
-  }, [match, params, toast]);
+    // Remove toast from dependencies to prevent too many re-renders
+  }, [match, params]);
 
   if (!match) {
     return null;

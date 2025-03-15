@@ -23,14 +23,26 @@ export default function ForumTopicListItem({ topic }: ForumTopicListItemProps) {
     user
   } = topic;
 
-  // Format the dates
-  const formattedDate = createdAt
-    ? formatDistanceToNow(new Date(createdAt), { addSuffix: true })
-    : "";
+  // Format the dates - with error handling
+  let formattedDate = "";
+  try {
+    formattedDate = createdAt
+      ? formatDistanceToNow(new Date(createdAt), { addSuffix: true })
+      : "";
+  } catch (error) {
+    console.error("Error formatting createdAt date:", error);
+    formattedDate = "Recently";
+  }
   
-  const lastPostDate = lastPostAt
-    ? formatDistanceToNow(new Date(lastPostAt), { addSuffix: true })
-    : formattedDate;
+  let lastPostDate = formattedDate;
+  try {
+    if (lastPostAt) {
+      lastPostDate = formatDistanceToNow(new Date(lastPostAt), { addSuffix: true });
+    }
+  } catch (error) {
+    console.error("Error formatting lastPostAt date:", error);
+    lastPostDate = "Recently";
+  }
 
   // Get the initials for the avatar fallback
   const getUserInitials = () => {
