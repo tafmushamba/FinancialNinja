@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { BudgetCalculator } from '@/components/calculators/budget-calculator';
 import { LoanInvestmentCalculator } from '@/components/calculators/loan-investment-calculator';
 import { RetirementCalculator } from '@/components/calculators/retirement-calculator';
+import { TaxCalculator } from '@/components/calculators/tax-calculator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calculator, PiggyBank, LineChart, CreditCard, Calendar } from 'lucide-react';
+import { ArrowLeft, Calculator, PiggyBank, LineChart, CreditCard, Calendar, Building } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 
@@ -51,18 +52,22 @@ export default function FinancialCalculators() {
           onValueChange={setActiveTab}
           className="w-full mb-16"
         >
-          <TabsList className="grid grid-cols-3 w-full max-w-md mb-8">
+          <TabsList className="grid grid-cols-4 w-full max-w-md mb-8">
             <TabsTrigger value="budget" className="flex items-center gap-2">
               <PiggyBank className="h-4 w-4" />
               <span>Budget</span>
             </TabsTrigger>
             <TabsTrigger value="loan-investment" className="flex items-center gap-2">
               <LineChart className="h-4 w-4" />
-              <span>Loan & Invest</span>
+              <span>Loan/Invest</span>
             </TabsTrigger>
             <TabsTrigger value="retirement" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
               <span>Retirement</span>
+            </TabsTrigger>
+            <TabsTrigger value="tax" className="flex items-center gap-2">
+              <Building className="h-4 w-4" />
+              <span>Tax</span>
             </TabsTrigger>
           </TabsList>
           
@@ -129,6 +134,26 @@ export default function FinancialCalculators() {
                   </div>
                   
                   <RetirementCalculator />
+                </div>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="tax" className="mt-0">
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg border p-8">
+                  <div className="mb-6 flex items-start">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
+                      <Building className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">UK Tax Calculator</h3>
+                      <p className="text-slate-600 dark:text-slate-400">
+                        Estimate your income tax, national insurance, student loan repayments, and take-home pay based on your salary and other income sources. See a detailed breakdown of your tax obligations.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <TaxCalculator />
                 </div>
               </div>
             </TabsContent>
