@@ -976,6 +976,300 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
       res.status(500).json({ message: "Internal server error", error: `${error}` });
     }
   });
+  
+  // Forum Routes
+  app.get("/api/forum/categories", async (req: Request, res: Response) => {
+    try {
+      const categories = await storage.getForumCategories();
+      res.json({ categories });
+    } catch (error) {
+      console.error("Error fetching forum categories:", error);
+      res.status(500).json({ message: "Failed to fetch forum categories" });
+    }
+  });
+  
+  app.get("/api/forum/categories/:categoryId/topics", async (req: Request, res: Response) => {
+    try {
+      const categoryId = parseInt(req.params.categoryId);
+      const topics = await storage.getForumTopics(categoryId);
+      const category = await storage.getForumCategory(categoryId);
+      
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+      
+      res.json({ 
+        topics,
+        category: {
+          id: category.id,
+          name: category.name,
+          description: category.description,
+          icon: category.icon,
+          color: category.color
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching forum topics:", error);
+      res.status(500).json({ message: "Failed to fetch forum topics" });
+    }
+  });
+  
+  app.get("/api/forum/topics/recent", async (req: Request, res: Response) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 5;
+      const topics = await storage.getRecentForumTopics(limit);
+      res.json({ topics });
+    } catch (error) {
+      console.error("Error fetching recent forum topics:", error);
+      res.status(500).json({ message: "Failed to fetch recent forum topics" });
+    }
+  });
+  
+  app.get("/api/forum/topics/:topicId", isAuthenticated!, async (req: Request, res: Response) => {
+    try {
+      const topicId = parseInt(req.params.topicId);
+      const topic = await storage.getForumTopic(topicId);
+      
+      if (!topic) {
+        return res.status(404).json({ message: "Topic not found" });
+      }
+      
+      // Increment view count
+      await storage.incrementTopicViews(topicId);
+      
+      // Get the category details
+      const category = await storage.getForumCategory(topic.categoryId);
+      
+      // Get the posts for this topic
+      const posts = await storage.getForumPosts(topicId);
+      
+      res.json({ 
+        topic,
+        category: category ? {
+          id: category.id,
+          name: category.name,
+          icon: category.icon,
+          color: category.color
+        } : null,
+        posts
+      });
+    } catch (error) {
+      console.error("Error fetching forum topic:", error);
+      res.status(500).json({ message: "Failed to fetch forum topic" });
+    }
+  });
+  
+  app.post("/api/forum/topics", isAuthenticated!, async (req: Request, res: Response) => {
+    try {
+      const { title, content, categoryId } = req.body;
+      
+      if (!title || !content || !categoryId) {
+        return res.status(400).json({ message: "Title, content, and category are required" });
+      }
+      
+      // Generate a slug from the title
+      const slug = title.toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove non-word chars
+        .replace(/\s+/g, '-')     // Replace spaces with dashes
+        .substring(0, 50);        // Limit length
+      
+      const topic = await storage.createForumTopic({
+        title,
+        content,
+        categoryId,
+        userId: req.user.id,
+        slug,
+        isPinned: false,
+        isLocked: false,
+        views: 0,
+        lastPostAt: new Date()
+      });
+      
+      res.status(201).json({ topic });
+    } catch (error) {
+      console.error("Error creating forum topic:", error);
+      res.status(500).json({ message: "Failed to create forum topic" });
+    }
+  });
+  
+  app.post("/api/forum/topics/:topicId/posts", isAuthenticated!, async (req: Request, res: Response) => {
+    try {
+      const topicId = parseInt(req.params.topicId);
+      const { content } = req.body;
+      
+      if (!content) {
+        return res.status(400).json({ message: "Content is required" });
+      }
+      
+      // Check if the topic exists and isn't locked
+      const topic = await storage.getForumTopic(topicId);
+      if (!topic) {
+        return res.status(404).json({ message: "Topic not found" });
+      }
+      
+      if (topic.isLocked) {
+        return res.status(403).json({ message: "This topic is locked and cannot receive new posts" });
+      }
+      
+      const post = await storage.createForumPost({
+        content,
+        topicId,
+        userId: req.user.id,
+        isEdited: false
+      });
+      
+      // Update the last post time on the topic
+      await storage.updateForumTopic(topicId, {
+        lastPostAt: new Date()
+      });
+      
+      res.status(201).json({ post });
+    } catch (error) {
+      console.error("Error creating forum post:", error);
+      res.status(500).json({ message: "Failed to create forum post" });
+    }
+  });
+  
+  app.post("/api/forum/posts/:postId/reactions", isAuthenticated!, async (req: Request, res: Response) => {
+    try {
+      const postId = parseInt(req.params.postId);
+      const { type } = req.body;
+      
+      if (!type) {
+        return res.status(400).json({ message: "Reaction type is required" });
+      }
+      
+      // Check if the user already reacted
+      const existingReaction = await storage.getUserForumReaction(postId, req.user.id);
+      
+      // If they already reacted with the same type, remove the reaction
+      if (existingReaction && existingReaction.type === type) {
+        await storage.deleteForumReaction(existingReaction.id);
+        return res.json({ 
+          message: "Reaction removed", 
+          removed: true 
+        });
+      }
+      
+      // Add the new reaction
+      const reaction = await storage.createForumReaction({
+        type,
+        postId,
+        userId: req.user.id
+      });
+      
+      res.status(201).json({ 
+        reaction, 
+        added: true
+      });
+    } catch (error) {
+      console.error("Error adding forum reaction:", error);
+      res.status(500).json({ message: "Failed to add forum reaction" });
+    }
+  });
+  
+  // Certificate Routes
+  app.get("/api/certificates", isAuthenticated!, async (req: Request, res: Response) => {
+    try {
+      const certificates = await storage.getUserCertificates(req.user.id);
+      res.json({ certificates });
+    } catch (error) {
+      console.error("Error fetching certificates:", error);
+      res.status(500).json({ message: "Failed to fetch certificates" });
+    }
+  });
+  
+  app.get("/api/certificates/:id", isAuthenticated!, async (req: Request, res: Response) => {
+    try {
+      const certificateId = parseInt(req.params.id);
+      const certificate = await storage.getCertificate(certificateId);
+      
+      if (!certificate) {
+        return res.status(404).json({ message: "Certificate not found" });
+      }
+      
+      // Only let users view their own certificates
+      if (certificate.userId !== req.user.id) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+      
+      res.json({ certificate });
+    } catch (error) {
+      console.error("Error fetching certificate:", error);
+      res.status(500).json({ message: "Failed to fetch certificate" });
+    }
+  });
+  
+  app.get("/api/certificates/verify/:code", async (req: Request, res: Response) => {
+    try {
+      const code = req.params.code;
+      const certificate = await storage.getCertificateByVerificationCode(code);
+      
+      if (!certificate) {
+        return res.status(404).json({ 
+          verified: false,
+          message: "Certificate not found" 
+        });
+      }
+      
+      // Get user and module info
+      const user = await storage.getUser(certificate.userId);
+      let module = null;
+      
+      if (certificate.moduleId) {
+        module = await storage.getLearningModule(certificate.moduleId);
+      }
+      
+      res.json({ 
+        verified: true,
+        certificate: {
+          ...certificate,
+          // Don't include the user's private info
+          user: user ? {
+            id: user.id,
+            username: user.username,
+            userLevel: user.userLevel
+          } : null,
+          module: module ? {
+            id: module.id,
+            title: module.title,
+            difficulty: module.difficulty
+          } : null
+        }
+      });
+    } catch (error) {
+      console.error("Error verifying certificate:", error);
+      res.status(500).json({ 
+        verified: false,
+        message: "Failed to verify certificate" 
+      });
+    }
+  });
+  
+  app.post("/api/certificates", isAuthenticated!, async (req: Request, res: Response) => {
+    try {
+      const { title, description, moduleId, imageUrl } = req.body;
+      
+      if (!title || !description) {
+        return res.status(400).json({ message: "Title and description are required" });
+      }
+      
+      const certificate = await storage.createCertificate({
+        title,
+        description,
+        moduleId: moduleId || null,
+        userId: req.user.id,
+        imageUrl: imageUrl || null,
+        issueDate: new Date(),
+        expiryDate: null  // Certificates don't expire by default
+      });
+      
+      res.status(201).json({ certificate });
+    } catch (error) {
+      console.error("Error creating certificate:", error);
+      res.status(500).json({ message: "Failed to create certificate" });
+    }
+  });
 
   // Add Mistral AI integration endpoint for Python module
   app.post("/api/mistral/generate", async (req: Request, res: Response) => {
