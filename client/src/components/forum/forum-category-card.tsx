@@ -17,7 +17,7 @@ export default function ForumCategoryCard({ category, onClick }: ForumCategoryCa
       <div className="flex">
         <div 
           className="w-2 h-full"
-          style={{ backgroundColor: category.color || '#888' }}
+          style={{ backgroundColor: '#4f46e5' }}
         />
         <div className="flex-1">
           <CardHeader className="flex flex-row items-start justify-between pb-2">
