@@ -38,7 +38,18 @@ export default function ForumPage() {
         ]);
         
         setCategories(categoriesResponse.categories);
-        setRecentTopics(recentTopicsResponse.topics);
+        
+        // Add missing user data to each topic before setting state
+        const topicsWithUser = recentTopicsResponse.topics.map(topic => ({
+          ...topic,
+          user: {
+            id: topic.userId,
+            username: "User " + topic.userId, // Default username
+            userLevel: "Regular" // Default level
+          }
+        }));
+        
+        setRecentTopics(topicsWithUser);
       } catch (error) {
         console.error("Error fetching forum data:", error);
         toast({
