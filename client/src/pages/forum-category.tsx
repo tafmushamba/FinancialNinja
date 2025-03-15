@@ -40,7 +40,20 @@ export default function ForumCategoryPage() {
       
       // Set the category and topics data
       setCategory(data.category || null);
-      setTopics(Array.isArray(data.topics) ? data.topics : []);
+      
+      // Add missing user data to each topic before setting state
+      const topicsWithUser = Array.isArray(data.topics) 
+        ? data.topics.map(topic => ({
+            ...topic,
+            user: {
+              id: topic.userId,
+              username: "User " + topic.userId, // Default username
+              userLevel: "Regular" // Default level
+            }
+          })) 
+        : [];
+      
+      setTopics(topicsWithUser);
       
     } catch (error) {
       console.error("Error fetching category:", error);
