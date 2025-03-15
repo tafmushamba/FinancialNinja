@@ -1,56 +1,73 @@
+// Forum types for TypeScript type safety
+
 export interface ForumCategory {
   id: number;
   name: string;
   description: string;
-  icon: string | null;
   slug: string;
   order: number;
-  createdAt: string;
-  updatedAt: string;
+  icon: string | null;
   topicCount?: number;
-  color?: string;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
 }
 
 export interface ForumTopic {
   id: number;
+  categoryId: number;
   title: string;
   content: string;
   slug: string;
   userId: number;
-  categoryId: number;
-  isPinned: boolean;
-  isLocked: boolean;
-  views: number;
-  createdAt: string;
-  updatedAt: string;
-  lastPostAt: string;
+  views: number | null;
   postCount?: number;
-  user?: {
-    id: number;
-    username: string;
-    userLevel: string;
+  isPinned?: boolean | null;
+  isLocked?: boolean | null;
+  lastPostAt?: Date | null;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+  username?: string;
+  category?: {
+    name: string;
+    slug: string;
   };
 }
 
 export interface ForumPost {
   id: number;
-  content: string;
-  userId: number;
   topicId: number;
-  isEdited: boolean;
-  createdAt: string;
-  updatedAt: string;
+  userId: number;
+  content: string;
+  isEdited?: boolean | null;
   reactionCount?: number;
-  user?: {
-    id: number;
-    username: string;
-    userLevel: string;
-  };
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+  username?: string;
+  userLevel?: string;
+  reactions?: ForumReaction[];
 }
 
 export interface ForumReaction {
   id: number;
-  type: string;
-  userId: number;
   postId: number;
+  userId: number;
+  reactionType: string;
+  createdAt?: Date | null;
+  username?: string;
+}
+
+export interface CreateTopicPayload {
+  title: string;
+  content: string;
+  categoryId: number;
+}
+
+export interface CreatePostPayload {
+  content: string;
+  topicId: number;
+}
+
+export interface ReactPostPayload {
+  postId: number;
+  reactionType: string;
 }

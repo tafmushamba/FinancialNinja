@@ -24,30 +24,28 @@ export default function ForumCategoryPage() {
   const [category, setCategory] = useState<ForumCategory | null>(null);
   const [topics, setTopics] = useState<ForumTopic[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchTopics = async () => {
     if (!match || !params?.categoryId) return;
 
     try {
       setLoading(true);
-      const response = await apiRequest<{ 
-        category: ForumCategory;
-        topics: ForumTopic[];
-      }>({
-        url: `/api/forum/categories/${params.categoryId}/topics`,
-        method: "GET"
-      });
-
-      console.log("API response:", response);
-      setCategory(response.category);
-      setTopics(response.topics);
+      setError(null);
+      
+      // Directly fetch data and log everything for debugging
+      const response = await fetch(`/api/forum/categories/${params.categoryId}/topics`);
+      const data = await response.json();
+      
+      console.log("API response:", data);
+      
+      // Set the category and topics data
+      setCategory(data.category || null);
+      setTopics(Array.isArray(data.topics) ? data.topics : []);
+      
     } catch (error) {
       console.error("Error fetching category:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load category topics. Please try again later.",
-        variant: "destructive"
-      });
+      setError("Failed to load topics. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -89,72 +87,42 @@ export default function ForumCategoryPage() {
           <Skeleton className="h-6 w-1/2 mb-8" />
           <Skeleton className="h-[400px] w-full" />
         </>
+      ) : error ? (
+        <div className="p-8 text-center">
+          <h2 className="text-lg font-semibold mb-2">Error Loading Data</h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <Button onClick={fetchTopics}>Try Again</Button>
+        </div>
       ) : category ? (
         <>
-          <PageHeader 
-            title={category.name} 
-            description={category.description}
-            icon={
-              <div 
-                className="h-10 w-10 rounded-md flex items-center justify-center text-white"
-                style={{ backgroundColor: '#4f46e5' }}
-              >
-                <MessageCircle className="h-6 w-6" />
-              </div>
-            }
-          />
+          <div className="p-4 border rounded mb-4">
+            <h1 className="text-xl font-bold mb-2">{category.name}</h1>
+            <p className="text-muted-foreground">{category.description}</p>
+          </div>
 
-          <ForumHeader />
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Topics</CardTitle>
-                <CardDescription>
-                  {topics.length === 0 
-                    ? "No topics yet in this category" 
-                    : `${topics.length} topic${topics.length === 1 ? '' : 's'} in this category`}
-                </CardDescription>
+          <div className="bg-background p-4 rounded-lg border">
+            <h2 className="text-lg font-semibold mb-4">Topics ({topics.length})</h2>
+            
+            {topics.length > 0 ? (
+              <div className="space-y-4">
+                {topics.map((topic) => (
+                  <div key={topic.id} className="p-3 border rounded">
+                    <h3 className="font-medium">{topic.title}</h3>
+                    <p className="text-sm text-muted-foreground truncate">{topic.content}</p>
+                    <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+                      <span>Views: {topic.views}</span>
+                      <span>Posts: {topic.postCount || 0}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-              {isAuthenticated ? (
-                <CreateTopicDialog 
-                  category={category} 
-                  onSuccess={fetchTopics}
-                />
-              ) : (
-                <Button onClick={handleCreateTopicClick}>
-                  New Topic
-                </Button>
-              )}
-            </CardHeader>
-            <CardContent>
-              {topics.length > 0 ? (
-                <div className="space-y-1 divide-y">
-                  {topics.map((topic) => (
-                    <ForumTopicListItem key={topic.id} topic={topic} showCategory={false} />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-10">
-                  <MessageCircle className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
-                  <h3 className="text-lg font-medium">No topics yet</h3>
-                  <p className="text-muted-foreground mt-1">
-                    Be the first to start a discussion in this category
-                  </p>
-                  {isAuthenticated ? (
-                    <CreateTopicDialog 
-                      category={category}
-                      onSuccess={fetchTopics}
-                    />
-                  ) : (
-                    <Button className="mt-4" onClick={handleCreateTopicClick}>
-                      Create New Topic
-                    </Button>
-                  )}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+            ) : (
+              <div className="text-center py-8">
+                <p>No topics in this category yet.</p>
+                <Button className="mt-4" onClick={handleCreateTopicClick}>Create Topic</Button>
+              </div>
+            )}
+          </div>
         </>
       ) : (
         <div className="flex flex-col items-center justify-center py-12">
