@@ -5,14 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, MessageCircle } from "lucide-react";
-import { ForumCategory, ForumTopic } from "../components/forum/forum-types";
+import { ForumCategory, ForumTopic } from "@/components/forum/forum-types";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import ForumHeader from "../components/forum/forum-header";
-import ForumTopicListItem from "../components/forum/forum-topic-list-item";
-import CreateTopicDialog from "../components/forum/create-topic-dialog";
+import ForumHeader from "@/components/forum/forum-header";
+import ForumTopicListItem from "@/components/forum/forum-topic-list-item";
+import CreateTopicDialog from "@/components/forum/create-topic-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import PageHeader from "@/components/layout/page-header";
 import { useAuth } from "@/context/AuthContext";
 
 export default function ForumCategoryPage() {
@@ -59,15 +58,13 @@ export default function ForumCategoryPage() {
     return null;
   }
 
-  const handleCreateTopicClick = () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to create a new topic",
-        variant: "default"
-      });
-      return;
-    }
+  const handleCreateTopicSuccess = () => {
+    // Refetch topics after creating new topic
+    fetchTopics();
+    toast({
+      title: "Success!",
+      description: "Your topic was created successfully.",
+    });
   };
 
   return (
@@ -95,34 +92,43 @@ export default function ForumCategoryPage() {
         </div>
       ) : category ? (
         <>
-          <div className="p-4 border rounded mb-4">
-            <h1 className="text-xl font-bold mb-2">{category.name}</h1>
-            <p className="text-muted-foreground">{category.description}</p>
-          </div>
+          <ForumHeader 
+            currentCategory={category} 
+            showSearch={false}
+          />
 
-          <div className="bg-background p-4 rounded-lg border">
-            <h2 className="text-lg font-semibold mb-4">Topics ({topics.length})</h2>
-            
-            {topics.length > 0 ? (
-              <div className="space-y-4">
-                {topics.map((topic) => (
-                  <div key={topic.id} className="p-3 border rounded">
-                    <h3 className="font-medium">{topic.title}</h3>
-                    <p className="text-sm text-muted-foreground truncate">{topic.content}</p>
-                    <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-                      <span>Views: {topic.views}</span>
-                      <span>Posts: {topic.postCount || 0}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <p>No topics in this category yet.</p>
-                <Button className="mt-4" onClick={handleCreateTopicClick}>Create Topic</Button>
-              </div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Topics ({topics.length})</h2>
+            {isAuthenticated && (
+              <CreateTopicDialog 
+                category={category} 
+                onSuccess={handleCreateTopicSuccess} 
+              />
             )}
           </div>
+          
+          {topics.length > 0 ? (
+            <div className="space-y-4">
+              {topics.map((topic) => (
+                <ForumTopicListItem key={topic.id} topic={topic} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center p-12 border rounded-lg bg-background">
+              <h3 className="font-medium text-lg mb-2">No topics in this category yet</h3>
+              <p className="text-muted-foreground mb-6">Be the first to start a discussion!</p>
+              {isAuthenticated ? (
+                <CreateTopicDialog 
+                  category={category} 
+                  onSuccess={handleCreateTopicSuccess} 
+                />
+              ) : (
+                <Button onClick={() => setLocation("/login")}>
+                  Log in to create a topic
+                </Button>
+              )}
+            </div>
+          )}
         </>
       ) : (
         <div className="flex flex-col items-center justify-center py-12">
