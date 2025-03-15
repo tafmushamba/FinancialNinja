@@ -41,18 +41,27 @@ export default function ForumCategoryPage() {
       // Set the category and topics data
       setCategory(data.category || null);
       
+      // Debug what's happening with topics data
+      console.log("Topics data:", data.topics);
+      console.log("Is Array?", Array.isArray(data.topics));
+      console.log("Topics length:", data.topics ? data.topics.length : 0);
+      
       // Add missing user data to each topic before setting state
       const topicsWithUser = Array.isArray(data.topics) 
-        ? data.topics.map(topic => ({
-            ...topic,
-            user: {
-              id: topic.userId,
-              username: "User " + topic.userId, // Default username
-              userLevel: "Regular" // Default level
-            }
-          })) 
+        ? data.topics.map(topic => {
+            console.log("Processing topic:", topic);
+            return {
+              ...topic,
+              user: {
+                id: topic.userId,
+                username: "User " + topic.userId, // Default username
+                userLevel: "Regular" // Default level
+              }
+            };
+          }) 
         : [];
       
+      console.log("Topics with user data:", topicsWithUser);
       setTopics(topicsWithUser);
       
     } catch (error) {
