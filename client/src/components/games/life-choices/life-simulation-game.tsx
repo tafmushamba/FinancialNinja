@@ -1128,12 +1128,9 @@ export function LifeSimulationGame() {
       <div className={`${currentLifeStage?.background} text-white p-6 rounded-t-lg`}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
           <div className="flex items-center mb-4 md:mb-0">
-            <Avatar className="h-12 w-12 mr-4">
-              <AvatarImage src={null} />
-              <AvatarFallback className="bg-white/20">
-                {currentLifeStage?.icon}
-              </AvatarFallback>
-            </Avatar>
+            <div className="h-12 w-12 mr-4 rounded-full bg-white/20 flex items-center justify-center">
+              {currentLifeStage?.icon}
+            </div>
             <div>
               <h2 className="text-2xl font-bold">{currentLifeStage?.title}</h2>
               <p className="text-sm opacity-80">{gameState.playerName}, Age {gameState.age}</p>

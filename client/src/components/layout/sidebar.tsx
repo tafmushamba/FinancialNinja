@@ -14,7 +14,8 @@ import {
   Code,
   BrainCircuit,
   Gift,
-  Calculator
+  Calculator,
+  LifeBuoy
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
@@ -61,8 +62,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
       color: string;
       
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas?.width || 300);
+        this.y = Math.random() * (canvas?.height || 300);
         this.size = Math.random() * 3 + 0.5;
         this.speedX = Math.random() * 1 - 0.5;
         this.speedY = Math.random() * 1 - 0.5;
@@ -76,11 +77,11 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
         this.y += this.speedY;
         
         // Edge detection with bounce
-        if (this.x > canvas.width || this.x < 0) {
+        if (this.x > (canvas?.width || 300) || this.x < 0) {
           this.speedX *= -1;
         }
         
-        if (this.y > canvas.height || this.y < 0) {
+        if (this.y > (canvas?.height || 300) || this.y < 0) {
           this.speedY *= -1;
         }
         
@@ -174,6 +175,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
     { icon: WalletCards, label: 'Finance Tracker', path: '/finance-tracker' },
     { icon: Calculator, label: 'Financial Calculators', path: '/financial-calculators' },
     { icon: Gamepad2, label: 'Financial Game', path: '/financial-game' },
+    { icon: BrainCircuit, label: 'Life Simulation', path: '/life-simulation' },
     { icon: Trophy, label: 'Achievements', path: '/achievements' },
     { icon: Gift, label: 'Rewards', path: '/rewards' },
     { icon: Bot, label: 'AI Assistant', path: '/ai-assistant' },
