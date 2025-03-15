@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useLocation, Link } from 'wouter';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { QuizInterface } from '@/components/quiz/quiz-interface';
+import { QuizInterfaceEnhanced } from '@/components/quiz/quiz-interface-enhanced';
 import { queryClient } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 
@@ -65,7 +65,7 @@ export default function QuizPage() {
         </Button>
       </div>
       
-      <QuizInterface 
+      <QuizInterfaceEnhanced 
         quizId={quizId} 
         onComplete={handleQuizComplete}
       />

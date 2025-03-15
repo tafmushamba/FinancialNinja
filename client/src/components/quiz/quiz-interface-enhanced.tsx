@@ -89,7 +89,7 @@ const QUIZ_ACHIEVEMENTS: Achievement[] = [
   }
 ];
 
-export function QuizInterface({ quizId, onComplete }: QuizProps) {
+export function QuizInterfaceEnhanced({ quizId, onComplete }: QuizProps) {
   // Quiz state
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [questions, setQuestions] = useState<QuestionWithOptions[]>([]);
@@ -177,7 +177,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
     }
     
     // Knowledge seeker achievement (complete all questions)
-    if (allQuestionsAnswered) {
+    if (questions.length > 0 && questions.every(q => answers[q.id] !== undefined)) {
       newAchievements.push(QUIZ_ACHIEVEMENTS[4]);
     }
     
@@ -186,7 +186,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
 
   // Setup timer for each question
   useEffect(() => {
-    if (currentQuestion && !isReviewing) {
+    if (questions[currentQuestionIndex] && !isReviewing) {
       // Reset timer when question changes
       setTimeRemaining(60);
       setQuestionStartTime(new Date());
@@ -215,7 +215,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
         clearInterval(timerRef.current);
       }
     };
-  }, [currentQuestionIndex, isReviewing, currentQuestion]);
+  }, [currentQuestionIndex, isReviewing, questions]);
 
   // Fetch quiz data
   useEffect(() => {
@@ -264,13 +264,15 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
     fetchQuiz();
   }, [quizId, toast]);
 
+  // Computed values
   const currentQuestion = questions[currentQuestionIndex];
   const totalQuestions = questions.length;
   const progress = (currentQuestionIndex / totalQuestions) * 100;
   const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
   const allQuestionsAnswered = questions.length > 0 && 
     questions.every(q => answers[q.id] !== undefined);
-    
+
+  // Handle an answer selection
   const handleAnswer = (questionId: number, optionId: string) => {
     // Stop the timer when an answer is selected
     if (timerRef.current) {
@@ -329,7 +331,8 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
       setShowFeedback(false);
     }, 1500);
   };
-
+  
+  // Navigation handlers
   const handleNext = () => {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
@@ -342,6 +345,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
     }
   };
 
+  // Submit the quiz
   const handleSubmit = async () => {
     if (!quiz || !startTime) return;
     
@@ -374,6 +378,16 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
 
       if (response && response.score !== undefined) {
         setAttemptResult(response);
+        
+        // Check achievements
+        const newAchievements = checkAchievements(
+          response.score, 
+          maxStreak, 
+          timeTaken,
+          previousAttempts
+        );
+        setEarnedAchievements(newAchievements);
+        
         if (onComplete) {
           onComplete(response.score, response.passed);
         }
@@ -409,8 +423,22 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
     setIsReviewing(false);
     setCurrentQuestionIndex(0);
     setStartTime(new Date());
+    setTotalPoints(0);
+    setCurrentStreak(0);
+    setMaxStreak(0);
+    setEarnedAchievements([]);
+  };
+  
+  // Change difficulty level
+  const handleDifficultyChange = (level: 'easy' | 'medium' | 'hard') => {
+    setDifficultyLevel(level);
+    toast({
+      title: `Difficulty set to ${level}`,
+      description: `Point multiplier: ${getDifficultyMultiplier(level)}x`,
+    });
   };
 
+  // Loading state
   if (!quiz || questions.length === 0) {
     return (
       <Card className="w-full max-w-3xl mx-auto mt-6">
@@ -432,6 +460,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
     );
   }
 
+  // Results screen
   if (attemptResult && !isReviewing) {
     return (
       <Card className="w-full max-w-3xl mx-auto mt-6">
@@ -441,7 +470,8 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
             You scored {attemptResult.score}% on this quiz
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        
+        <CardContent className="space-y-6">
           <div className="space-y-4">
             <Progress value={attemptResult.score} className="h-2" />
             
@@ -456,7 +486,39 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
               </AlertDescription>
             </Alert>
           </div>
+          
+          {/* Points summary */}
+          <div className="bg-muted/50 p-4 rounded-lg">
+            <h3 className="text-lg font-medium mb-2">Points Summary</h3>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div>Total Points Earned</div>
+              <div className="font-bold text-right">{totalPoints}</div>
+              <div>Longest Streak</div>
+              <div className="font-bold text-right">{maxStreak}</div>
+              <div>Difficulty Multiplier</div>
+              <div className="font-bold text-right">{getDifficultyMultiplier(difficultyLevel)}x</div>
+            </div>
+          </div>
+          
+          {/* Achievements */}
+          {earnedAchievements.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-lg font-medium">Achievements Unlocked</h3>
+              <div className="flex flex-wrap gap-2">
+                {earnedAchievements.map(achievement => (
+                  <div key={achievement.id} className="flex items-center p-2 bg-accent rounded-md">
+                    <div className="mr-2">{achievement.icon}</div>
+                    <div>
+                      <div className="font-medium text-sm">{achievement.title}</div>
+                      <div className="text-xs text-muted-foreground">{achievement.description}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </CardContent>
+        
         <CardFooter className="flex justify-between">
           <Button variant="outline" onClick={handleReview}>
             Review Answers
@@ -475,6 +537,7 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
     return null;
   }
 
+  // Quiz interface
   return (
     <Card className="w-full max-w-3xl mx-auto mt-6">
       <CardHeader>
@@ -485,9 +548,62 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
               Question {currentQuestionIndex + 1} of {totalQuestions}
             </CardDescription>
           </div>
-          <div className="text-sm text-muted-foreground">
-            Passing score: {quiz.passingScore}%
+          
+          <div className="flex items-center gap-3">
+            {/* Timer */}
+            <div className="flex items-center gap-1 text-amber-500">
+              <Clock className="w-4 h-4" />
+              <span className="text-sm font-medium">{timeRemaining}s</span>
+            </div>
+            
+            {/* Points */}
+            <div className="flex items-center gap-1 text-emerald-500">
+              <BarChart4 className="w-4 h-4" />
+              <span className="text-sm font-medium">{totalPoints}</span>
+            </div>
+            
+            {/* Streak */}
+            <div className="flex items-center gap-1 text-orange-500">
+              <Flame className="w-4 h-4" />
+              <span className="text-sm font-medium">{currentStreak}</span>
+            </div>
+            
+            {/* Difficulty */}
+            <Badge variant={
+              difficultyLevel === 'easy' ? 'outline' :
+              difficultyLevel === 'medium' ? 'secondary' : 'destructive'
+            }>
+              {difficultyLevel}
+            </Badge>
           </div>
+        </div>
+        
+        {/* Difficulty selection */}
+        <div className="flex justify-end gap-2 mt-2">
+          <Button
+            variant={difficultyLevel === 'easy' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => handleDifficultyChange('easy')}
+            className="h-7 px-2"
+          >
+            Easy
+          </Button>
+          <Button
+            variant={difficultyLevel === 'medium' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => handleDifficultyChange('medium')}
+            className="h-7 px-2"
+          >
+            Medium
+          </Button>
+          <Button
+            variant={difficultyLevel === 'hard' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => handleDifficultyChange('hard')}
+            className="h-7 px-2"
+          >
+            Hard
+          </Button>
         </div>
       </CardHeader>
       
@@ -495,16 +611,49 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
       
       <CardContent className="pt-6">
         <div className="space-y-6">
+          {/* Question text */}
           <div className="text-xl font-medium">{currentQuestion.text}</div>
           
+          {/* Point popup animation */}
+          <AnimatePresence>
+            {showFeedback && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
+              >
+                <div className="flex flex-col items-center p-4 bg-black/80 text-white rounded-lg">
+                  <div className="text-2xl font-bold">+{questionPoints} points</div>
+                  {pointsBreakdown[currentQuestion.id] && (
+                    <div className="text-sm opacity-80">
+                      <div>Base: {pointsBreakdown[currentQuestion.id].basePoints}</div>
+                      {pointsBreakdown[currentQuestion.id].timeBonus > 0 && (
+                        <div>Time Bonus: +{pointsBreakdown[currentQuestion.id].timeBonus}</div>
+                      )}
+                      {pointsBreakdown[currentQuestion.id].streakBonus > 0 && (
+                        <div>Streak Bonus: +{pointsBreakdown[currentQuestion.id].streakBonus}</div>
+                      )}
+                      <div>Multiplier: {pointsBreakdown[currentQuestion.id].difficultyMultiplier}x</div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          
+          {/* Options */}
           <RadioGroup 
             value={answers[currentQuestion.id] || ""}
             onValueChange={(value) => handleAnswer(currentQuestion.id, value)}
             className="space-y-3"
           >
             {currentQuestion.options.map((option) => (
-              <div 
-                key={option.id} 
+              <motion.div
+                key={option.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
                 className={`flex items-center space-x-2 rounded-md border p-3 ${
                   isReviewing && attemptResult ? 
                     option.isCorrect ? 'border-green-500 bg-green-50 dark:bg-green-950' :
@@ -527,35 +676,28 @@ export function QuizInterface({ quizId, onComplete }: QuizProps) {
                   {option.text}
                 </Label>
                 {isReviewing && option.isCorrect && (
-                  <div className="text-green-600 dark:text-green-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      className="h-5 w-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
+                  <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
                 )}
-              </div>
+                {isReviewing && !option.isCorrect && answers[currentQuestion.id] === option.id && (
+                  <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                )}
+              </motion.div>
             ))}
           </RadioGroup>
           
+          {/* Explanation during review */}
           {isReviewing && attemptResult && attemptResult.feedback[currentQuestion.id] && (
-            <div className="mt-4">
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              className="mt-4"
+            >
               <Separator className="my-4" />
               <div className="text-sm font-medium mb-2">Explanation:</div>
               <div className="text-sm text-muted-foreground">
                 {attemptResult.feedback[currentQuestion.id].explanation}
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
       </CardContent>
