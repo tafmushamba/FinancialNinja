@@ -22,6 +22,7 @@ import FinancialGame from "@/pages/financial-game";
 import Rewards from "@/pages/rewards";
 import FinancialCalculators from "@/pages/financial-calculators";
 import LifeSimulation from "@/pages/life-simulation";
+import FinancialScenarios from "@/pages/financial-scenarios";
 
 // Custom Redirect component for navigation
 const Redirect = ({ to }: { to: string }) => {
@@ -135,6 +136,12 @@ function Router() {
       <Route path="/life-simulation">
         <MainLayout>
           <LifeSimulation />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/financial-scenarios">
+        <MainLayout>
+          <FinancialScenarios />
         </MainLayout>
       </Route>
       
