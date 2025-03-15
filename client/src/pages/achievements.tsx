@@ -210,7 +210,7 @@ const Achievements: React.FC = () => {
                           </div>
                           <span>{categoryStats.special.earned} / {categoryStats.special.total}</span>
                         </div>
-                        <Progress value={(categoryStats.special.earned / categoryStats.special.total) * 100} className="h-2 bg-muted/30" indicatorClassName="bg-amber-500" />
+                        <Progress value={(categoryStats.special.earned / categoryStats.special.total) * 100} className="h-2" />
                       </div>
                     </div>
                   </div>
