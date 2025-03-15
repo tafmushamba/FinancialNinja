@@ -112,6 +112,26 @@ export default function FinancialCalculators() {
                 </div>
               </div>
             </TabsContent>
+            
+            <TabsContent value="retirement" className="mt-0">
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg border p-8">
+                  <div className="mb-6 flex items-start">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
+                      <Calendar className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">Retirement Calculator</h3>
+                      <p className="text-slate-600 dark:text-slate-400">
+                        Plan for your future by simulating retirement savings growth, estimating income needs, and visualizing how different factors affect your retirement readiness.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <RetirementCalculator />
+                </div>
+              </div>
+            </TabsContent>
           </motion.div>
         </Tabs>
         
