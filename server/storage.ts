@@ -906,6 +906,242 @@ export class MemStorage implements IStorage {
     this.assistantMessages.set(id, newMessage);
     return newMessage;
   }
+  
+  // Forum category methods
+  async getForumCategories(): Promise<ForumCategory[]> {
+    return Array.from(this.forumCategories.values());
+  }
+  
+  async getForumCategory(id: number): Promise<ForumCategory | undefined> {
+    return this.forumCategories.get(id);
+  }
+  
+  async createForumCategory(category: InsertForumCategory): Promise<ForumCategory> {
+    const id = this.forumCategoryCurrentId++;
+    const newCategory: ForumCategory = { 
+      ...category,
+      id,
+      topicCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.forumCategories.set(id, newCategory);
+    return newCategory;
+  }
+  
+  async updateForumCategory(id: number, categoryData: Partial<ForumCategory>): Promise<ForumCategory | undefined> {
+    const category = this.forumCategories.get(id);
+    if (!category) return undefined;
+    
+    const updatedCategory = { 
+      ...category,
+      ...categoryData,
+      updatedAt: new Date()
+    };
+    this.forumCategories.set(id, updatedCategory);
+    return updatedCategory;
+  }
+  
+  // Forum topic methods
+  async getForumTopics(categoryId: number): Promise<ForumTopic[]> {
+    return Array.from(this.forumTopics.values()).filter(
+      (topic) => topic.categoryId === categoryId
+    );
+  }
+  
+  async getRecentForumTopics(limit?: number): Promise<ForumTopic[]> {
+    const topics = Array.from(this.forumTopics.values())
+      .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+    
+    return limit ? topics.slice(0, limit) : topics;
+  }
+  
+  async getForumTopic(id: number): Promise<ForumTopic | undefined> {
+    return this.forumTopics.get(id);
+  }
+  
+  async getForumTopicBySlug(slug: string): Promise<ForumTopic | undefined> {
+    return Array.from(this.forumTopics.values()).find(
+      (topic) => topic.slug === slug
+    );
+  }
+  
+  async createForumTopic(topic: InsertForumTopic): Promise<ForumTopic> {
+    const id = this.forumTopicCurrentId++;
+    const newTopic: ForumTopic = { 
+      ...topic,
+      id,
+      views: 0,
+      postCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.forumTopics.set(id, newTopic);
+    
+    // Increment topic count on the category
+    const category = this.forumCategories.get(topic.categoryId);
+    if (category) {
+      category.topicCount += 1;
+      this.forumCategories.set(category.id, category);
+    }
+    
+    return newTopic;
+  }
+  
+  async updateForumTopic(id: number, topicData: Partial<ForumTopic>): Promise<ForumTopic | undefined> {
+    const topic = this.forumTopics.get(id);
+    if (!topic) return undefined;
+    
+    const updatedTopic = { 
+      ...topic,
+      ...topicData,
+      updatedAt: new Date()
+    };
+    this.forumTopics.set(id, updatedTopic);
+    return updatedTopic;
+  }
+  
+  async incrementTopicViews(id: number): Promise<ForumTopic | undefined> {
+    const topic = this.forumTopics.get(id);
+    if (!topic) return undefined;
+    
+    const updatedTopic = { 
+      ...topic,
+      views: topic.views + 1
+    };
+    this.forumTopics.set(id, updatedTopic);
+    return updatedTopic;
+  }
+  
+  // Forum post methods
+  async getForumPosts(topicId: number): Promise<ForumPost[]> {
+    return Array.from(this.forumPosts.values())
+      .filter(post => post.topicId === topicId)
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+  }
+  
+  async getForumPost(id: number): Promise<ForumPost | undefined> {
+    return this.forumPosts.get(id);
+  }
+  
+  async createForumPost(post: InsertForumPost): Promise<ForumPost> {
+    const id = this.forumPostCurrentId++;
+    const newPost: ForumPost = { 
+      ...post,
+      id,
+      reactionCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.forumPosts.set(id, newPost);
+    
+    // Increment post count on the topic
+    const topic = this.forumTopics.get(post.topicId);
+    if (topic) {
+      topic.postCount += 1;
+      topic.updatedAt = new Date(); // Update the last activity time
+      this.forumTopics.set(topic.id, topic);
+    }
+    
+    return newPost;
+  }
+  
+  async updateForumPost(id: number, postData: Partial<ForumPost>): Promise<ForumPost | undefined> {
+    const post = this.forumPosts.get(id);
+    if (!post) return undefined;
+    
+    const updatedPost = { 
+      ...post,
+      ...postData,
+      updatedAt: new Date()
+    };
+    this.forumPosts.set(id, updatedPost);
+    return updatedPost;
+  }
+  
+  // Forum reaction methods
+  async getForumReactions(postId: number): Promise<ForumReaction[]> {
+    return Array.from(this.forumReactions.values())
+      .filter(reaction => reaction.postId === postId);
+  }
+  
+  async getUserForumReaction(postId: number, userId: number): Promise<ForumReaction | undefined> {
+    return Array.from(this.forumReactions.values())
+      .find(reaction => reaction.postId === postId && reaction.userId === userId);
+  }
+  
+  async createForumReaction(reaction: InsertForumReaction): Promise<ForumReaction> {
+    // Check if the user already reacted to this post
+    const existingReaction = await this.getUserForumReaction(reaction.postId, reaction.userId);
+    if (existingReaction) {
+      return existingReaction;
+    }
+    
+    const id = this.forumReactionCurrentId++;
+    const newReaction: ForumReaction = { 
+      ...reaction,
+      id,
+      createdAt: new Date()
+    };
+    this.forumReactions.set(id, newReaction);
+    
+    // Increment reaction count on the post
+    const post = this.forumPosts.get(reaction.postId);
+    if (post) {
+      post.reactionCount += 1;
+      this.forumPosts.set(post.id, post);
+    }
+    
+    return newReaction;
+  }
+  
+  async deleteForumReaction(id: number): Promise<boolean> {
+    const reaction = this.forumReactions.get(id);
+    if (!reaction) return false;
+    
+    this.forumReactions.delete(id);
+    
+    // Decrement reaction count on the post
+    const post = this.forumPosts.get(reaction.postId);
+    if (post) {
+      post.reactionCount = Math.max(0, post.reactionCount - 1);
+      this.forumPosts.set(post.id, post);
+    }
+    
+    return true;
+  }
+  
+  // Certificate methods
+  async getUserCertificates(userId: number): Promise<Certificate[]> {
+    return Array.from(this.certificates.values())
+      .filter(certificate => certificate.userId === userId)
+      .sort((a, b) => b.issuedAt.getTime() - a.issuedAt.getTime());
+  }
+  
+  async getCertificate(id: number): Promise<Certificate | undefined> {
+    return this.certificates.get(id);
+  }
+  
+  async getCertificateByVerificationCode(code: string): Promise<Certificate | undefined> {
+    return Array.from(this.certificates.values())
+      .find(certificate => certificate.verificationCode === code);
+  }
+  
+  async createCertificate(certificate: InsertCertificate): Promise<Certificate> {
+    const id = this.certificateCurrentId++;
+    
+    // Generate a unique verification code
+    const verificationCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+    
+    const newCertificate: Certificate = { 
+      ...certificate,
+      id,
+      verificationCode,
+      issuedAt: new Date()
+    };
+    this.certificates.set(id, newCertificate);
+    return newCertificate;
+  }
 
   // Mock data for rewards
   private rewards: Reward[] = [
@@ -1274,6 +1510,63 @@ export class PostgresStorage implements IStorage {
     return memStorage.updateQuizQuestion(id, question);
   }
   
+  // Forum category methods
+  async getForumCategories(): Promise<ForumCategory[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumCategories();
+  }
+  
+  async getForumCategory(id: number): Promise<ForumCategory | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumCategory(id);
+  }
+  
+  async createForumCategory(category: InsertForumCategory): Promise<ForumCategory> {
+    const memStorage = new MemStorage();
+    return memStorage.createForumCategory(category);
+  }
+  
+  async updateForumCategory(id: number, category: Partial<ForumCategory>): Promise<ForumCategory | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateForumCategory(id, category);
+  }
+  
+  // Forum topic methods
+  async getForumTopics(categoryId: number): Promise<ForumTopic[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumTopics(categoryId);
+  }
+  
+  async getRecentForumTopics(limit?: number): Promise<ForumTopic[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getRecentForumTopics(limit);
+  }
+  
+  async getForumTopic(id: number): Promise<ForumTopic | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumTopic(id);
+  }
+  
+  async getForumTopicBySlug(slug: string): Promise<ForumTopic | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumTopicBySlug(slug);
+  }
+  
+  async createForumTopic(topic: InsertForumTopic): Promise<ForumTopic> {
+    const memStorage = new MemStorage();
+    return memStorage.createForumTopic(topic);
+  }
+  
+  async updateForumTopic(id: number, topic: Partial<ForumTopic>): Promise<ForumTopic | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateForumTopic(id, topic);
+  }
+  
+  async incrementTopicViews(id: number): Promise<ForumTopic | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.incrementTopicViews(id);
+  }
+  
   // Quiz attempt methods
   async getQuizAttempts(quizId: number, userId: number): Promise<QuizAttempt[]> {
     const memStorage = new MemStorage();
@@ -1320,6 +1613,69 @@ export class PostgresStorage implements IStorage {
   async createAssistantMessage(message: InsertAssistantMessage): Promise<AssistantMessage> {
     const memStorage = new MemStorage();
     return memStorage.createAssistantMessage(message);
+  }
+  
+  // Forum post methods
+  async getForumPosts(topicId: number): Promise<ForumPost[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumPosts(topicId);
+  }
+  
+  async getForumPost(id: number): Promise<ForumPost | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumPost(id);
+  }
+  
+  async createForumPost(post: InsertForumPost): Promise<ForumPost> {
+    const memStorage = new MemStorage();
+    return memStorage.createForumPost(post);
+  }
+  
+  async updateForumPost(id: number, post: Partial<ForumPost>): Promise<ForumPost | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.updateForumPost(id, post);
+  }
+  
+  // Forum reaction methods
+  async getForumReactions(postId: number): Promise<ForumReaction[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getForumReactions(postId);
+  }
+  
+  async getUserForumReaction(postId: number, userId: number): Promise<ForumReaction | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getUserForumReaction(postId, userId);
+  }
+  
+  async createForumReaction(reaction: InsertForumReaction): Promise<ForumReaction> {
+    const memStorage = new MemStorage();
+    return memStorage.createForumReaction(reaction);
+  }
+  
+  async deleteForumReaction(id: number): Promise<boolean> {
+    const memStorage = new MemStorage();
+    return memStorage.deleteForumReaction(id);
+  }
+  
+  // Certificate methods
+  async getUserCertificates(userId: number): Promise<Certificate[]> {
+    const memStorage = new MemStorage();
+    return memStorage.getUserCertificates(userId);
+  }
+  
+  async getCertificate(id: number): Promise<Certificate | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getCertificate(id);
+  }
+  
+  async getCertificateByVerificationCode(code: string): Promise<Certificate | undefined> {
+    const memStorage = new MemStorage();
+    return memStorage.getCertificateByVerificationCode(code);
+  }
+  
+  async createCertificate(certificate: InsertCertificate): Promise<Certificate> {
+    const memStorage = new MemStorage();
+    return memStorage.createCertificate(certificate);
   }
 }
 
