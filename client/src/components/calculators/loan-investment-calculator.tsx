@@ -519,7 +519,7 @@ export function LoanInvestmentCalculator() {
                     <div className="h-[300px] w-full">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart
-                          data={loanResults.payments.filter((_, i) => i % 12 === 0 || i === loanResults.payments.length - 1)}
+                          data={loanResults.payments.filter((_: any, i: number) => i % 12 === 0 || i === loanResults.payments.length - 1)}
                           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                         >
                           <CartesianGrid strokeDasharray="3 3" />

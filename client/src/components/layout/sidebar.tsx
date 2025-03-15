@@ -13,7 +13,8 @@ import {
   Settings,
   Code,
   BrainCircuit,
-  Gift
+  Gift,
+  Calculator
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
@@ -171,6 +172,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
     { icon: Home, label: 'Dashboard', path: '/' },
     { icon: GraduationCap, label: 'Learning Modules', path: '/learning-modules' },
     { icon: WalletCards, label: 'Finance Tracker', path: '/finance-tracker' },
+    { icon: Calculator, label: 'Financial Calculators', path: '/financial-calculators' },
     { icon: Gamepad2, label: 'Financial Game', path: '/financial-game' },
     { icon: Trophy, label: 'Achievements', path: '/achievements' },
     { icon: Gift, label: 'Rewards', path: '/rewards' },

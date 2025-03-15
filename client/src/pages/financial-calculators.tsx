@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { BudgetCalculator } from '@/components/calculators/budget-calculator';
 import { LoanInvestmentCalculator } from '@/components/calculators/loan-investment-calculator';
+import { RetirementCalculator } from '@/components/calculators/retirement-calculator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calculator, PiggyBank, LineChart, CreditCard } from 'lucide-react';
+import { ArrowLeft, Calculator, PiggyBank, LineChart, CreditCard, Calendar } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 
@@ -50,14 +51,18 @@ export default function FinancialCalculators() {
           onValueChange={setActiveTab}
           className="w-full mb-16"
         >
-          <TabsList className="grid grid-cols-2 w-full max-w-md mb-8">
+          <TabsList className="grid grid-cols-3 w-full max-w-md mb-8">
             <TabsTrigger value="budget" className="flex items-center gap-2">
               <PiggyBank className="h-4 w-4" />
-              <span>Budget Calculator</span>
+              <span>Budget</span>
             </TabsTrigger>
             <TabsTrigger value="loan-investment" className="flex items-center gap-2">
               <LineChart className="h-4 w-4" />
-              <span>Loan & Investment</span>
+              <span>Loan & Invest</span>
+            </TabsTrigger>
+            <TabsTrigger value="retirement" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span>Retirement</span>
             </TabsTrigger>
           </TabsList>
           
