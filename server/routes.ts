@@ -1098,7 +1098,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
     }
   });
   
-  app.get("/api/forum/topics/:topicId", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/forum/topics/:topicId", async (req: Request, res: Response) => {
     try {
       const topicId = parseInt(req.params.topicId);
       const topic = await storage.getForumTopic(topicId);
