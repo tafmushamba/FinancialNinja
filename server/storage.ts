@@ -881,9 +881,26 @@ export class MemStorage implements IStorage {
   
   // Assistant message methods
   async getAssistantMessages(userId: number): Promise<AssistantMessage[]> {
-    return Array.from(this.assistantMessages.values()).filter(
+    // Get user-specific messages
+    const userMessages = Array.from(this.assistantMessages.values()).filter(
       (message) => message.userId === userId
     );
+    
+    // If there are no messages for this user, add the default welcome message
+    if (userMessages.length === 0) {
+      const welcomeMessage = {
+        id: this.assistantMessageCurrentId++,
+        userId,
+        content: "Hi there! I'm your financial literacy assistant. What financial topic would you like to learn about today?",
+        sender: "assistant",
+        timestamp: new Date()
+      };
+      
+      this.assistantMessages.set(welcomeMessage.id, welcomeMessage);
+      return [welcomeMessage];
+    }
+    
+    return userMessages;
   }
   
   async createAssistantMessage(message: InsertAssistantMessage): Promise<AssistantMessage> {
@@ -1596,13 +1613,61 @@ export class PostgresStorage implements IStorage {
   
   // Assistant message methods
   async getAssistantMessages(userId: number): Promise<AssistantMessage[]> {
-    const memStorage = new MemStorage();
-    return memStorage.getAssistantMessages(userId);
+    try {
+      const messages = await this.db
+        .select()
+        .from(assistantMessages)
+        .where(eq(assistantMessages.userId, userId))
+        .execute();
+        
+      // If no messages found, return a default welcome message
+      if (messages.length === 0) {
+        const welcomeMessage: AssistantMessage = {
+          id: 1,
+          userId,
+          content: "Hi there! I'm your financial literacy assistant. What financial topic would you like to learn about today?",
+          sender: "assistant",
+          timestamp: new Date()
+        };
+        
+        // Insert the welcome message in the database
+        await this.createAssistantMessage({
+          userId,
+          content: welcomeMessage.content,
+          sender: welcomeMessage.sender
+        });
+        
+        return [welcomeMessage];
+      }
+      
+      return messages;
+    } catch (error) {
+      console.error("Error fetching assistant messages:", error);
+      // Fall back to memory storage if an error occurs
+      const memStorage = new MemStorage();
+      return memStorage.getAssistantMessages(userId);
+    }
   }
   
   async createAssistantMessage(message: InsertAssistantMessage): Promise<AssistantMessage> {
-    const memStorage = new MemStorage();
-    return memStorage.createAssistantMessage(message);
+    try {
+      const [newMessage] = await this.db
+        .insert(assistantMessages)
+        .values({
+          userId: message.userId,
+          content: message.content,
+          sender: message.sender,
+          timestamp: new Date()
+        })
+        .returning();
+        
+      return newMessage;
+    } catch (error) {
+      console.error("Error creating assistant message:", error);
+      // Fall back to memory storage if an error occurs
+      const memStorage = new MemStorage();
+      return memStorage.createAssistantMessage(message);
+    }
   }
   
   // Forum post methods

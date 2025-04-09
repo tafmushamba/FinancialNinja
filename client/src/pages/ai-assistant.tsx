@@ -5,40 +5,103 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
 
 export default function AiAssistant() {
+  const { toast } = useToast();
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hello! I\'m your AI financial assistant. How can I help you today?' }
-  ]);
-  const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const messagesEndRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  // Fetch messages from the API
+  const { data: chatData, isLoading: messagesLoading, refetch } = useQuery({
+    queryKey: ['/api/assistant/all-messages'],
+    queryFn: async () => {
+      try {
+        const response = await fetch('/api/assistant/all-messages');
+        if (!response.ok) {
+          throw new Error('Failed to fetch messages');
+        }
+        return response.json();
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+        return {
+          messages: [
+            { 
+              sender: 'assistant', 
+              content: 'Hello! I\'m your AI financial assistant. How can I help you today?',
+              timestamp: new Date().toLocaleTimeString()
+            }
+          ]
+        };
+      }
+    }
+  });
+  
+  // Send message mutation
+  const sendMessageMutation = useMutation({
+    mutationFn: async (text: string) => {
+      const response = await fetch('/api/assistant/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: text }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to send message');
+      }
+      
+      // Return the response data
+      return response.json();
+    },
+    onSuccess: (data) => {
+      // If the response includes messages, update them directly instead of refetching
+      if (data.messages && Array.isArray(data.messages)) {
+        // Replace queryClient data with the new messages
+        queryClient.setQueryData(['/api/assistant/all-messages'], {
+          messages: data.messages
+        });
+      } else {
+        // Otherwise refetch messages
+        refetch();
+      }
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to send message. Please try again.",
+        variant: "destructive"
+      });
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
 
-    // Add user message
-    setMessages(prev => [...prev, { role: 'user', content: message }]);
-    setLoading(true);
+    // Send the message
+    sendMessageMutation.mutate(message);
     setShowSuggestions(false);
-
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: `I'm simulating a response to "${message}". In a real implementation, this would call an API to get a proper AI response.` 
-      }]);
-      setLoading(false);
-      setMessage('');
-    }, 1000);
+    setMessage('');
   };
 
   // Scroll to bottom of messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [chatData]);
+
+  // Default messages if not loaded yet
+  const messages = chatData?.messages || [
+    { 
+      sender: 'assistant', 
+      content: 'Hello! I\'m your AI financial assistant. How can I help you today?',
+      timestamp: new Date().toLocaleTimeString()
+    }
+  ];
 
   return (
     <main className="container mx-auto p-4">
@@ -65,20 +128,23 @@ export default function AiAssistant() {
                 {messages.map((msg, i) => (
                   <div 
                     key={i} 
-                    className={`mb-4 flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                    className={`mb-4 flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div 
                       className={`max-w-[80%] rounded-lg p-3 ${
-                        msg.role === 'user' 
+                        msg.sender === 'user' 
                           ? 'bg-neon-green/20 text-white' 
                           : 'bg-dark-700 text-white'
                       }`}
                     >
                       {msg.content}
+                      {msg.timestamp && (
+                        <div className="text-xs text-gray-400 mt-1">{msg.timestamp}</div>
+                      )}
                     </div>
                   </div>
                 ))}
-                {loading && (
+                {sendMessageMutation.isPending && (
                   <div className="mb-4 flex justify-start">
                     <div className="max-w-[80%] rounded-lg p-3 bg-dark-700">
                       <div className="flex space-x-2">
@@ -100,12 +166,18 @@ export default function AiAssistant() {
                   placeholder="Ask me anything about finance..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  disabled={sendMessageMutation.isPending}
                 />
                 <Button 
                   type="submit"
                   className="bg-neon-green hover:bg-neon-green/80 text-black"
+                  disabled={sendMessageMutation.isPending}
                 >
-                  <i className="fas fa-paper-plane mr-2"></i>
+                  {sendMessageMutation.isPending ? (
+                    <i className="fas fa-circle-notch fa-spin mr-2"></i>
+                  ) : (
+                    <i className="fas fa-paper-plane mr-2"></i>
+                  )}
                   Send
                 </Button>
               </form>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/AuthContext';
+import { Link } from 'wouter';
 
 const WelcomeSection: React.FC = () => {
   const { user } = useAuth();
@@ -61,20 +62,24 @@ const WelcomeSection: React.FC = () => {
             </p>
           </div>
           <div className="flex space-x-3">
-            <Button 
-              variant="outline" 
-              className="bg-neon-green/20 hover:bg-neon-green/30 text-neon-green border-neon-green/30 shadow-md hover:shadow-neon-green/20 transition-all"
-            >
-              <i className="fas fa-robot mr-2"></i>
-              AI Assessment
-            </Button>
-            <Button 
-              variant="outline" 
-              className="bg-dark-700 hover:bg-dark-600 text-foreground border-dark-600 shadow-md transition-all"
-            >
-              <i className="fas fa-book mr-2"></i>
-              Start Learning
-            </Button>
+            <Link href="/ai-assistant">
+              <Button 
+                variant="outline" 
+                className="bg-neon-green/20 hover:bg-neon-green/30 text-neon-green border-neon-green/30 shadow-md hover:shadow-neon-green/20 transition-all"
+              >
+                <i className="fas fa-robot mr-2"></i>
+                AI Assistant
+              </Button>
+            </Link>
+            <Link href="/learning-modules">
+              <Button 
+                variant="outline" 
+                className="bg-dark-700 hover:bg-dark-600 text-foreground border-dark-600 shadow-md transition-all"
+              >
+                <i className="fas fa-book mr-2"></i>
+                Start Learning
+              </Button>
+            </Link>
           </div>
         </div>
 

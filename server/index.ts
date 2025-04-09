@@ -60,21 +60,21 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Try to serve the app on port 5000 first, then fall back to another port if needed
-  const primaryPort = 5000;
+  // Try to serve the app on port 3000 first, then fall back to another port if needed
+  const primaryPort = 3000;
   let port = primaryPort;
   
   const startServer = (portToUse: number) => {
     server.listen({
       port: portToUse,
-      host: "0.0.0.0",
-      reusePort: true,
+      host: "0.0.0.0"
+      // Removed reusePort option which was causing ENOTSUP error
     }, () => {
       log(`serving on port ${portToUse}`);
     }).on('error', (err: any) => {
       if (err.code === 'EADDRINUSE' && portToUse === primaryPort) {
-        log(`Port ${portToUse} is in use, trying port 5001...`);
-        startServer(5001);
+        log(`Port ${portToUse} is in use, trying port ${primaryPort + 1}...`);
+        startServer(primaryPort + 1);
       } else {
         log(`Error starting server: ${err.message}`);
         throw err;

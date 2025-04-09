@@ -689,32 +689,58 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
         return res.status(400).json({ message: "Message is required" });
       }
       
-      // Check if API key is configured
-      if (!process.env.MISTRAL_API_KEY) {
-        return res.status(403).json({ 
-          message: "Mistral AI API key is not configured",
-          needsApiKey: true
-        });
-      }
-      
       // Store user message
-      await storage.createAssistantMessage({
+      const userMessage = await storage.createAssistantMessage({
         userId,
         content: message,
         sender: "user"
       });
       
-      // Generate response using Mistral
-      const aiResponse = await generateFinancialInsight(message);
+      // Generate AI response (use OpenAI as fallback if Mistral is not configured)
+      let aiResponseText = "I'm simulating a response. In a real implementation, this would use AI to generate a proper response.";
+      
+      try {
+        const hasApiKey = process.env.MISTRAL_API_KEY || process.env.OPENAI_API_KEY;
+        
+        if (hasApiKey) {
+          // Try Mistral first, then OpenAI
+          if (process.env.MISTRAL_API_KEY) {
+            const { generateFinancialInsight } = await import('./services/mistral');
+            aiResponseText = await generateFinancialInsight(message);
+          } else if (process.env.OPENAI_API_KEY) {
+            const { generateFinancialInsight } = await import('./services/openai');
+            aiResponseText = await generateFinancialInsight(message);
+          }
+        }
+      } catch (aiError) {
+        console.error("Error generating AI response:", aiError);
+        aiResponseText = "I'm having trouble generating a response right now. Please try again later.";
+      }
       
       // Store AI response
       const assistantMessage = await storage.createAssistantMessage({
         userId,
-        content: aiResponse,
+        content: aiResponseText,
         sender: "assistant"
       });
       
-      res.json({ success: true, message: assistantMessage });
+      // Get updated messages list
+      const allMessages = await storage.getAssistantMessages(userId);
+      
+      // Format messages with timestamp
+      const messages = allMessages
+        .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+        .map(msg => ({
+          sender: msg.sender,
+          content: msg.content,
+          timestamp: msg.timestamp.toLocaleTimeString()
+        }));
+      
+      res.json({ 
+        success: true, 
+        message: assistantMessage,
+        messages 
+      });
     } catch (error) {
       console.error("Error sending message to assistant:", error);
       res.status(500).json({ message: "Internal server error" });
