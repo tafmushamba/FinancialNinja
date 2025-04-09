@@ -8,7 +8,7 @@ import ForumCategoryCard from '@/components/forum/forum-category-card';
 import { ForumCategory } from '@/components/forum/forum-types';
 
 export default function Forum() {
-  const { data, isLoading, error } = useQuery<{ categories: ForumCategory[] }>({
+  const { data, isLoading, error, isFetching } = useQuery<{ categories: ForumCategory[] }>({
     queryKey: ['forum-categories'],
     queryFn: async () => {
       const response = await fetch('/api/forum/categories');
@@ -16,10 +16,12 @@ export default function Forum() {
         throw new Error('Failed to fetch categories');
       }
       return response.json();
-    }
+    },
+    staleTime: 60000, // Cache data for 1 minute
+    refetchOnWindowFocus: false // Prevent refetch on window focus
   });
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div className="container mx-auto p-4 space-y-4">
         <ForumHeader />
