@@ -10,6 +10,8 @@ export const users = pgTable("users", {
   firstName: text("firstName"),
   lastName: text("lastName"),
   email: text("email"),
+  googleId: text("googleId").unique(),
+  profilePicture: text("profilePicture"),
   userLevel: text("userLevel").default("Level 1 Investor"),
   financialLiteracyScore: integer("financialLiteracyScore").default(0),
   createdAt: timestamp("createdAt").defaultNow(),
@@ -48,6 +50,7 @@ export const learningModules = pgTable("learning_modules", {
   accentColor: text("accentColor").notNull(),
   totalLessons: integer("totalLessons").notNull(),
   difficulty: text("difficulty").notNull(),
+  category: text("category").notNull(),
   duration: text("duration").notNull(),
   topics: json("topics").$type<string[]>().default([]),
   prerequisites: json("prerequisites").$type<number[]>().default([]),
@@ -265,6 +268,8 @@ export const insertUserSchema = createInsertSchema(users).pick({
   firstName: true,
   lastName: true,
   email: true,
+  googleId: true,
+  profilePicture: true,
 });
 
 export const insertLearningModuleSchema = createInsertSchema(learningModules).omit({

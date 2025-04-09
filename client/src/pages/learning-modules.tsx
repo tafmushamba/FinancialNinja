@@ -15,21 +15,33 @@ import { useLocation } from "wouter";
 
 const LearningModulesPage: React.FC = () => {
   const [, navigate] = useLocation();
-  const { data, isLoading } = useQuery({
-    queryKey: ['/api/learning/modules'],
+  const { data, isLoading } = useQuery<{ modules: any[] }>({
+    queryKey: ['/api/learning/all-modules'],
   });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [difficulty, setDifficulty] = useState("all");
   const [category, setCategory] = useState("all");
+  const [activeTab, setActiveTab] = useState("all");
 
   const modules = data?.modules || [];
 
   const filteredModules = modules.filter((module: any) => {
-    const matchesSearch = module.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        module.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDifficulty = difficulty === "all" || module.difficulty.toLowerCase() === difficulty.toLowerCase();
-    return matchesSearch && matchesDifficulty;
+    const matchesSearch = (
+      module.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      module.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const matchesDifficulty = difficulty === "all" || module.difficulty?.toLowerCase() === difficulty.toLowerCase();
+    const matchesCategory = category === "all" || module.category?.toLowerCase() === category.toLowerCase();
+    
+    let matchesTab = true;
+    if (activeTab === "in-progress") {
+      matchesTab = module.progress > 0 && module.progress < 100;
+    } else if (activeTab === "completed") {
+      matchesTab = module.progress === 100;
+    }
+
+    return matchesSearch && matchesDifficulty && matchesCategory && matchesTab;
   });
 
   return (
@@ -80,7 +92,7 @@ const LearningModulesPage: React.FC = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="all" className="mb-6">
+      <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="mb-6">
         <TabsList>
           <TabsTrigger value="all">All Modules</TabsTrigger>
           <TabsTrigger value="in-progress">In Progress</TabsTrigger>
