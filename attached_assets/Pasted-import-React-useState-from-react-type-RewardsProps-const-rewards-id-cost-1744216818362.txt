@@ -1,0 +1,248 @@
+import React, { useState } from 'react'
+
+type RewardsProps = {}
+
+const rewards = [
+  {
+    id: 'costa',
+    brand: 'Costa Coffee',
+    title: '£5 Costa Coffee Gift Card',
+    description: 'Enjoy a coffee break on us with this £5 Costa Coffee gift card.',
+    points: 500,
+    icon: '☕',
+    category: 'Dining'
+  },
+  {
+    id: 'tesco',
+    brand: 'Tesco',
+    title: '£10 Tesco Gift Card',
+    description: 'Use this £10 gift card at any Tesco store across the UK.',
+    points: 1000,
+    icon: '🛒',
+    category: 'Shopping'
+  },
+  {
+    id: 'vue',
+    brand: 'Vue Cinema',
+    title: 'Vue Cinema Ticket',
+    description: 'One standard ticket for any film at Vue Cinemas nationwide.',
+    points: 1200,
+    icon: '🎬',
+    category: 'Entertainment'
+  },
+  {
+    id: 'spotify',
+    brand: 'Spotify',
+    title: '1 Month Spotify Premium',
+    description: 'Enjoy ad-free music streaming for one month with Spotify Premium.',
+    points: 1500,
+    icon: '🎵',
+    category: 'Entertainment'
+  },
+  {
+    id: 'amazon',
+    brand: 'Amazon',
+    title: '£15 Amazon Gift Card',
+    description: 'Shop for anything on Amazon with this £15 gift card.',
+    points: 1500,
+    icon: '🛍️',
+    category: 'Shopping'
+  },
+  {
+    id: 'deliveroo',
+    brand: 'Deliveroo',
+    title: '£15 Deliveroo Voucher',
+    description: 'Order your favorite food with this £15 Deliveroo voucher.',
+    points: 1500,
+    icon: '🍔',
+    category: 'Dining'
+  },
+  {
+    id: 'appstore',
+    brand: 'App Store',
+    title: '£10 App Store & iTunes Gift Card',
+    description: 'Purchase apps, games, music, and more with this £10 gift card.',
+    points: 1000,
+    icon: '📱',
+    category: 'Entertainment'
+  },
+  {
+    id: 'marks',
+    brand: 'Marks & Spencer',
+    title: '£25 M&S Gift Card',
+    description: 'Shop for clothing, food, and homeware with this £25 M&S gift card.',
+    points: 2500,
+    icon: '🛍️',
+    category: 'Shopping'
+  }
+]
+
+const inProgressRewards = [
+  {
+    id: 'ba',
+    brand: 'British Airways',
+    title: '£50 British Airways Voucher',
+    description: 'Use this voucher towards your next flight with British Airways.',
+    points: 5000,
+    pointsNeeded: 2550,
+    icon: '✈️',
+    category: 'Travel'
+  },
+  {
+    id: 'playstation',
+    brand: 'PlayStation',
+    title: '£20 PlayStation Store Credit',
+    description: 'Purchase games, add-ons, and more for your PlayStation console.',
+    points: 2000,
+    pointsNeeded: 550,
+    icon: '🎮',
+    category: 'Entertainment'
+  }
+]
+
+const Rewards: React.FC<RewardsProps> = () => {
+  const [categoryFilter, setCategoryFilter] = useState('All Categories')
+  const [valueFilter, setValueFilter] = useState('All Values')
+  const [searchTerm, setSearchTerm] = useState('')
+  
+  const userPoints = 2450
+  
+  const categories = ['All Categories', 'Shopping', 'Dining', 'Entertainment', 'Travel']
+  const values = ['All Values', '£5', '£10', '£15', '£25']
+  
+  const filteredRewards = rewards.filter(reward => {
+    const matchesCategory = categoryFilter === 'All Categories' || reward.category === categoryFilter
+    const matchesValue = valueFilter === 'All Values' || reward.title.includes(valueFilter)
+    const matchesSearch = searchTerm === '' || 
+      reward.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      reward.brand.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    return matchesCategory && matchesValue && matchesSearch
+  })
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl font-bold">Rewards Marketplace</h2>
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-htb-card rounded-full flex items-center justify-center text-htb-green mr-2">JD</div>
+          <span>John Doe</span>
+        </div>
+      </div>
+      
+      {/* Points Display */}
+      <div className="bg-htb-card rounded-lg p-5 border border-htb-border flex justify-between items-center mb-8">
+        <div className="flex items-center">
+          <div className="w-12 h-12 bg-opacity-10 bg-htb-green rounded-full flex items-center justify-center text-htb-green text-xl mr-4">
+            🏆
+          </div>
+          <div>
+            <h3 className="text-sm mb-1">Your Points Balance</h3>
+            <div className="text-2xl font-bold text-htb-green">{userPoints}</div>
+          </div>
+        </div>
+        <button className="btn btn-outline">How to Earn More Points</button>
+      </div>
+      
+      {/* Filters */}
+      <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex items-center">
+          <div className="text-sm text-gray-400 mr-2">Category:</div>
+          <select 
+            className="bg-htb-card border border-htb-border text-white p-2 rounded"
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            {categories.map(category => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+        </div>
+        
+        <div className="flex items-center">
+          <div className="text-sm text-gray-400 mr-2">Value:</div>
+          <select 
+            className="bg-htb-card border border-htb-border text-white p-2 rounded"
+            value={valueFilter}
+            onChange={(e) => setValueFilter(e.target.value)}
+          >
+            {values.map(value => (
+              <option key={value} value={value}>{value}</option>
+            ))}
+          </select>
+        </div>
+        
+        <div className="flex-1 flex items-center bg-htb-card border border-htb-border rounded p-2">
+          <span className="text-gray-400 mr-2">🔍</span>
+          <input 
+            type="text" 
+            placeholder="Search rewards..." 
+            className="bg-transparent border-none text-white flex-1 focus:outline-none"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
+      
+      {/* Available Rewards */}
+      <div className="mb-10">
+        <h3 className="text-lg font-bold mb-5 flex items-center before:content-[''] before:w-1 before:h-5 before:bg-htb-green before:mr-2">
+          Available Rewards
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredRewards.map(reward => (
+            <div key={reward.id} className="card overflow-hidden">
+              <div className="h-36 bg-htb-darker flex items-center justify-center text-4xl relative">
+                <span>{reward.icon}</span>
+                <div className="absolute bottom-2 left-3 font-bold text-sm">{reward.brand}</div>
+              </div>
+              <div className="p-4">
+                <div className="font-bold mb-2">{reward.title}</div>
+                <div className="text-gray-400 text-sm mb-4">{reward.description}</div>
+                <div className="flex justify-between items-center">
+                  <div className="font-bold text-htb-green">{reward.points} points</div>
+                  <button 
+                    className={`btn text-sm ${
+                      userPoints >= reward.points ? 'btn-primary' : 'btn-disabled'
+                    }`}
+                  >
+                    {userPoints >= reward.points ? 'Redeem' : 'Not Enough Points'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Rewards in Progress */}
+      <div>
+        <h3 className="text-lg font-bold mb-5 flex items-center before:content-[''] before:w-1 before:h-5 before:bg-htb-green before:mr-2">
+          Rewards in Progress
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {inProgressRewards.map(reward => (
+            <div key={reward.id} className="card overflow-hidden">
+              <div className="h-36 bg-htb-darker flex items-center justify-center text-4xl relative">
+                <span>{reward.icon}</span>
+                <div className="absolute bottom-2 left-3 font-bold text-sm">{reward.brand}</div>
+              </div>
+              <div className="p-4">
+                <div className="font-bold mb-2">{reward.title}</div>
+                <div className="text-gray-400 text-sm mb-4">{reward.description}</div>
+                <div className="flex flex-col">
+                  <div className="font-bold text-htb-green mb-1">{reward.points} points</div>
+                  <div className="text-sm text-gray-400">{reward.pointsNeeded} more points needed</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Rewards
