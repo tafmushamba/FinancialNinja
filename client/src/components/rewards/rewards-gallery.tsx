@@ -8,7 +8,7 @@ const rewards = [
     title: '£5 Costa Coffee Gift Card',
     description: 'Enjoy a coffee break on us with this £5 Costa Coffee gift card.',
     points: 500,
-    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c6/Costa_Coffee_logo.svg/1200px-Costa_Coffee_logo.svg.png',
+    image: 'https://logos-world.net/wp-content/uploads/2021/08/Costa-Coffee-Logo.png',
     category: 'Dining'
   },
   {
@@ -26,7 +26,7 @@ const rewards = [
     title: 'Vue Cinema Ticket',
     description: 'One standard ticket for any film at Vue Cinemas nationwide.',
     points: 1200,
-    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/Vue_Cinemas_2017.svg/1200px-Vue_Cinemas_2017.svg.png',
+    image: 'https://logos-world.net/wp-content/uploads/2022/01/Vue-Symbol.png',
     category: 'Entertainment'
   },
   {
