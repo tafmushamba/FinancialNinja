@@ -117,7 +117,7 @@ export default function AiAssistant() {
             <CardHeader className="border-b border-dark-600 bg-dark-700">
               <div className="flex items-center">
                 <div className="h-12 w-12 mr-3">
-                  <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-12 w-12" />
+                  <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-12 w-12" />
                 </div>
                 <div>
                   <CardTitle className="text-foreground">MoneyMind Assistant</CardTitle>
@@ -145,7 +145,7 @@ export default function AiAssistant() {
                     >
                       {msg.sender === 'assistant' && (
                         <div className="flex items-center mb-2">
-                          <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-6 w-6 mr-2" />
+                          <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-6 w-6 mr-2" />
                           <span className="text-xs font-medium text-neon-green">MoneyMind Assistant</span>
                         </div>
                       )}
@@ -160,7 +160,7 @@ export default function AiAssistant() {
                   <div className="mb-4 flex justify-start">
                     <div className="max-w-[80%] rounded-lg p-3 bg-dark-700">
                       <div className="flex items-center mb-2">
-                        <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-6 w-6 mr-2" />
+                        <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-6 w-6 mr-2" />
                         <span className="text-xs font-medium text-neon-green">MoneyMind Assistant</span>
                       </div>
                       <div className="flex space-x-2">

@@ -137,9 +137,14 @@ function dispatch(action: Action) {
   })
 }
 
-type Toast = Omit<ToasterToast, "id">
+type ToastVariant = "default" | "destructive" | "success" | "warning" | "info";
 
-function toast({ ...props }: Toast) {
+type Toast = Omit<ToasterToast, "id"> & {
+  variant?: ToastVariant;
+  showIcon?: boolean;
+}
+
+function toast({ variant = "default", showIcon = true, ...props }: Toast) {
   const id = genId()
 
   const update = (props: ToasterToast) =>
@@ -153,6 +158,8 @@ function toast({ ...props }: Toast) {
     type: "ADD_TOAST",
     toast: {
       ...props,
+      variant,
+      showIcon,
       id,
       open: true,
       onOpenChange: (open) => {
@@ -167,6 +174,23 @@ function toast({ ...props }: Toast) {
     update,
   }
 }
+
+// Convenience methods for different toast types
+toast.success = (props: Omit<Toast, "variant">) => {
+  return toast({ ...props, variant: "success" });
+};
+
+toast.error = (props: Omit<Toast, "variant">) => {
+  return toast({ ...props, variant: "destructive" });
+};
+
+toast.warning = (props: Omit<Toast, "variant">) => {
+  return toast({ ...props, variant: "warning" });
+};
+
+toast.info = (props: Omit<Toast, "variant">) => {
+  return toast({ ...props, variant: "info" });
+};
 
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)

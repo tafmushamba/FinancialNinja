@@ -90,14 +90,14 @@ export default function Register() {
       <div className="relative z-10 w-full max-w-md md:max-w-lg px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">
-            Fin<span className="text-primary">Byte</span>
+            Money<span className="text-primary">Mind</span>
           </h1>
           <p className="text-muted-foreground">Your financial education companion</p>
         </div>
         
         <Card className="w-full backdrop-blur-sm bg-card/80 shadow-xl border border-border/30">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">Join FinByte</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Join Money Mind</CardTitle>
             <CardDescription className="text-center">
               Create your account to start your financial learning journey
             </CardDescription>

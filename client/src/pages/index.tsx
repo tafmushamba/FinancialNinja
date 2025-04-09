@@ -12,21 +12,21 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="text-center md:text-left">
-              <div className="inline-flex items-center bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-full px-4 py-1 text-sm font-medium mb-4">
+              <div className="inline-flex items-center bg-[#9FEF00]/10 dark:bg-[#9FEF00]/20 text-[#9FEF00] dark:text-[#9FEF00] rounded-full px-4 py-1 text-sm font-medium mb-4">
                 <Star className="w-4 h-4 mr-2 fill-current" />
                 <span>Start Your Financial Quest</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
                 Master Your Money,
                 <br />
-                <span className="text-blue-600 dark:text-blue-400">Unlock Your Future.</span>
+                <span className="text-[#9FEF00] dark:text-[#9FEF00]">Unlock Your Future.</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-xl mx-auto md:mx-0">
                 Fun, engaging lessons designed for UK youth. Learn budgeting, saving, and investing essentials to build financial confidence.
               </p>
               <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
                 <Link href="/register">
-                  <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                  <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-[#9FEF00] hover:bg-[#8FDF00] dark:bg-[#9FEF00] dark:hover:bg-[#8FDF00] text-black px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
                     Start Your Quest
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -36,10 +36,10 @@ export default function HomePage() {
 
             {/* Right Visual - Gamified Path Teaser */}
             <div className="relative flex justify-center items-center mt-10 md:mt-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 rounded-full blur-3xl opacity-50 -z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#9FEF00]/10 to-[#9FEF00]/20 dark:from-[#9FEF00]/20 dark:to-[#9FEF00]/10 rounded-full blur-3xl opacity-50 -z-10"></div>
               <div className="relative bg-white dark:bg-slate-800/50 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-slate-700 w-full max-w-md backdrop-blur-sm">
                 <div className="flex items-center mb-4">
-                  <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-16 w-16 mr-4" />
+                  <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-16 w-16 mr-4" />
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">Your Learning Path</h3>
                 </div>
                 <div className="space-y-4">
@@ -87,12 +87,12 @@ export default function HomePage() {
 
       {/* Features Section - Modernized */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Why Choose FinancialNinja?</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Why Choose Money Mind?</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {/* Feature 1: Interactive Lessons */}
           <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
-            <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-blue-100 dark:bg-blue-900">
-              <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-[#9FEF00]/20 dark:bg-[#9FEF00]/30">
+              <svg className="w-8 h-8 text-[#9FEF00] dark:text-[#9FEF00]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Interactive Lessons</h3>
             <p className="text-gray-600 dark:text-gray-300">Engaging modules with quizzes and real-world UK scenarios.</p>
@@ -100,8 +100,8 @@ export default function HomePage() {
 
           {/* Feature 2: Gamified Learning */}
           <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
-            <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-purple-100 dark:bg-purple-900">
-               <svg className="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+            <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-[#9FEF00]/20 dark:bg-[#9FEF00]/30">
+               <svg className="w-8 h-8 text-[#9FEF00] dark:text-[#9FEF00]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Gamified Experience</h3>
             <p className="text-gray-600 dark:text-gray-300">Earn points, unlock achievements, and track your progress.</p>
@@ -109,8 +109,8 @@ export default function HomePage() {
 
           {/* Feature 3: UK Focused Content */}
           <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
-            <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-green-100 dark:bg-green-900">
-               <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+            <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-[#9FEF00]/20 dark:bg-[#9FEF00]/30">
+               <svg className="w-8 h-8 text-[#9FEF00] dark:text-[#9FEF00]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">UK-Specific Content</h3>
             <p className="text-gray-600 dark:text-gray-300">Learn about ISAs, student finance, taxes, and more relevant topics.</p>
@@ -119,7 +119,7 @@ export default function HomePage() {
       </section>
 
       {/* Learning Paths Preview - Modernized & Gamified */}
-      <section className="bg-gradient-to-b from-white via-blue-50 to-white dark:from-black dark:via-slate-900/80 dark:to-black py-16 md:py-24">
+      <section className="bg-gradient-to-b from-white via-[#9FEF00]/5 to-white dark:from-black dark:via-[#9FEF00]/10 dark:to-black py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">Your Learning Adventure</h2>
@@ -149,25 +149,25 @@ export default function HomePage() {
               <div className="p-6">
                 <ul className="space-y-3">
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     Understanding money basics
                   </li>
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     Setting up your first budget
                   </li>
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     Saving for short-term goals
                   </li>
                 </ul>
                 <div className="mt-6 pt-4 border-t border-gray-100 dark:border-slate-700">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-gray-500 dark:text-gray-400">Progress</span>
-                    <span className="text-xs font-medium text-green-600 dark:text-green-400">Unlocked</span>
+                    <span className="text-xs font-medium text-[#9FEF00] dark:text-[#9FEF00]">Unlocked</span>
                   </div>
                   <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 mt-1">
-                    <div className="bg-green-500 dark:bg-green-400 h-2 rounded-full" style={{ width: '100%' }}></div>
+                    <div className="bg-[#9FEF00] dark:bg-[#9FEF00] h-2 rounded-full" style={{ width: '100%' }}></div>
                   </div>
                 </div>
               </div>
@@ -178,24 +178,24 @@ export default function HomePage() {
               <div className="p-6 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/50 dark:to-cyan-900/50 border-b border-blue-200 dark:border-blue-700">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-xl font-semibold text-blue-800 dark:text-blue-200">Intermediate</h3>
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-200 dark:bg-blue-800">
-                    <BarChart className="w-6 h-6 text-blue-600 dark:text-blue-300" />
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#9FEF00]/20 dark:bg-[#9FEF00]/30">
+                    <BarChart className="w-6 h-6 text-[#9FEF00] dark:text-[#9FEF00]" />
                   </span>
                 </div>
-                <p className="text-sm text-blue-700 dark:text-blue-300">Deepen your knowledge with more complex financial concepts.</p>
+                <p className="text-sm text-[#9FEF00] dark:text-[#9FEF00]">Deepen your knowledge with more complex financial concepts.</p>
               </div>
               <div className="p-6">
                 <ul className="space-y-3">
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     Advanced budgeting techniques
                   </li>
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     UK banking and financial products
                   </li>
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     Introduction to investing
                   </li>
                 </ul>
@@ -205,7 +205,7 @@ export default function HomePage() {
                     <span className="text-xs font-medium text-blue-600 dark:text-blue-400">60% Complete</span>
                   </div>
                   <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 mt-1">
-                    <div className="bg-blue-500 dark:bg-blue-400 h-2 rounded-full" style={{ width: '60%' }}></div>
+                    <div className="bg-[#9FEF00] dark:bg-[#9FEF00] h-2 rounded-full" style={{ width: '60%' }}></div>
                   </div>
                 </div>
               </div>
@@ -213,37 +213,37 @@ export default function HomePage() {
 
             {/* Level 3: Advanced */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 overflow-hidden transform transition duration-300 hover:shadow-2xl hover:-translate-y-1">
-              <div className="p-6 bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:from-purple-900/50 dark:to-fuchsia-900/50 border-b border-purple-200 dark:border-purple-700">
+              <div className="p-6 bg-gradient-to-r from-[#9FEF00]/5 to-[#9FEF00]/10 dark:from-[#9FEF00]/20 dark:to-[#9FEF00]/10 border-b border-[#9FEF00]/30 dark:border-[#9FEF00]/30">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xl font-semibold text-purple-800 dark:text-purple-200">Advanced</h3>
-                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-purple-200 dark:bg-purple-800">
-                    <Trophy className="w-6 h-6 text-purple-600 dark:text-purple-300" />
+                  <h3 className="text-xl font-semibold text-[#9FEF00] dark:text-[#9FEF00]">Advanced</h3>
+                  <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#9FEF00]/20 dark:bg-[#9FEF00]/30">
+                    <Trophy className="w-6 h-6 text-[#9FEF00] dark:text-[#9FEF00]" />
                   </span>
                 </div>
-                <p className="text-sm text-purple-700 dark:text-purple-300">Master complex financial strategies and long-term planning.</p>
+                <p className="text-sm text-[#9FEF00] dark:text-[#9FEF00]">Master complex financial strategies and long-term planning.</p>
               </div>
               <div className="p-6">
                 <ul className="space-y-3">
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     Advanced investment strategies
                   </li>
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     Retirement planning
                   </li>
                   <li className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                    <Check className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" />
+                    <Check className="h-5 w-5 text-[#9FEF00] mr-2 flex-shrink-0" />
                     UK tax optimization
                   </li>
                 </ul>
                 <div className="mt-6 pt-4 border-t border-gray-100 dark:border-slate-700">
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-gray-500 dark:text-gray-400">Progress</span>
-                    <span className="text-xs font-medium text-purple-600 dark:text-purple-400">25% Complete</span>
+                    <span className="text-xs font-medium text-[#9FEF00] dark:text-[#9FEF00]">25% Complete</span>
                   </div>
                   <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2 mt-1">
-                    <div className="bg-purple-500 dark:bg-purple-400 h-2 rounded-full" style={{ width: '25%' }}></div>
+                    <div className="bg-[#9FEF00] dark:bg-[#9FEF00] h-2 rounded-full" style={{ width: '25%' }}></div>
                   </div>
                 </div>
               </div>
@@ -253,23 +253,23 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section - Modernized */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 rounded-2xl p-8 md:p-12 text-center my-16 container mx-auto px-4 shadow-xl">
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#9FEF00] to-[#8FDF00] dark:from-[#9FEF00] dark:to-[#8FDF00] rounded-2xl p-8 md:p-12 text-center my-16 container mx-auto px-4 shadow-xl">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full opacity-10 -translate-x-1/3 -translate-y-1/3 blur-2xl"></div>
         <div className="absolute bottom-0 right-0 w-32 h-32 bg-white rounded-full opacity-10 translate-x-1/3 translate-y-1/3 blur-2xl"></div>
         
         <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Become a Financial Ninja?</h2>
-          <p className="text-blue-100 mb-8 max-w-2xl mx-auto text-lg">Join thousands of UK youth who are taking control of their financial future with our interactive, gamified learning platform.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-black mb-4">Ready to Master Your Money Mind?</h2>
+          <p className="text-black dark:text-black mb-8 max-w-2xl mx-auto text-lg">Join thousands of UK youth who are taking control of their financial future with our interactive, gamified learning platform.</p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <Link href="/register">
-              <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-white hover:bg-gray-100 text-blue-600 px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+              <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-black hover:bg-gray-900 text-[#9FEF00] px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
                 Start Your Journey
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Link href="/login">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-semibold border-white text-white hover:bg-white/10 px-8 py-3 transition duration-300">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-semibold border-black text-black hover:bg-black/10 px-8 py-3 transition duration-300">
                 Sign In
               </Button>
             </Link>

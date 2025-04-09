@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { ChevronRight, MoreHorizontal } from "lucide-react"
+import { ChevronRight, MoreHorizontal, Home, Terminal } from "lucide-react"
+import { Link } from "wouter"
 
 import { cn } from "@/lib/utils"
 
@@ -19,7 +20,7 @@ const BreadcrumbList = React.forwardRef<
   <ol
     ref={ref}
     className={cn(
-      "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
+      "flex flex-wrap items-center gap-1.5 break-words text-sm text-white/70 sm:gap-2.5 font-mono",
       className
     )}
     {...props}
@@ -43,16 +44,25 @@ const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
   React.ComponentPropsWithoutRef<"a"> & {
     asChild?: boolean
+    isHome?: boolean
   }
->(({ asChild, className, ...props }, ref) => {
+>(({ asChild, className, isHome, ...props }, ref) => {
   const Comp = asChild ? Slot : "a"
 
   return (
     <Comp
       ref={ref}
-      className={cn("transition-colors hover:text-foreground", className)}
+      className={cn(
+        "transition-colors hover:text-[#9FEF00] relative group",
+        className
+      )}
       {...props}
-    />
+    >
+      {isHome ? (
+        <Home className="h-3.5 w-3.5 mr-1 inline-block" />
+      ) : props.children}
+      <span className="absolute -bottom-0.5 left-0 right-0 h-[1px] bg-[#9FEF00]/0 group-hover:bg-[#9FEF00]/50 transition-colors" />
+    </Comp>
   )
 })
 BreadcrumbLink.displayName = "BreadcrumbLink"
@@ -66,9 +76,12 @@ const BreadcrumbPage = React.forwardRef<
     role="link"
     aria-disabled="true"
     aria-current="page"
-    className={cn("font-normal text-foreground", className)}
+    className={cn("font-medium text-[#9FEF00] flex items-center", className)}
     {...props}
-  />
+  >
+    <Terminal className="h-3.5 w-3.5 mr-1.5 text-[#9FEF00]" />
+    {props.children}
+  </span>
 ))
 BreadcrumbPage.displayName = "BreadcrumbPage"
 
@@ -80,7 +93,7 @@ const BreadcrumbSeparator = ({
   <li
     role="presentation"
     aria-hidden="true"
-    className={cn("[&>svg]:w-3.5 [&>svg]:h-3.5", className)}
+    className={cn("[&>svg]:w-3.5 [&>svg]:h-3.5 text-white/40", className)}
     {...props}
   >
     {children ?? <ChevronRight />}
@@ -104,6 +117,50 @@ const BreadcrumbEllipsis = ({
 )
 BreadcrumbEllipsis.displayName = "BreadcrumbElipssis"
 
+// Convenience component for creating breadcrumbs with our app's routes
+interface BreadcrumbsProps {
+  items: Array<{
+    label: string;
+    href?: string;
+  }>;
+  className?: string;
+}
+
+const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
+  return (
+    <Breadcrumb className={className}>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild isHome>
+            <Link href="/">Home</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        
+        {items.map((item, index) => {
+          const isLastItem = index === items.length - 1;
+          
+          return (
+            <React.Fragment key={item.label}>
+              <BreadcrumbItem>
+                {!isLastItem && item.href ? (
+                  <BreadcrumbLink asChild>
+                    <Link href={item.href}>{item.label}</Link>
+                  </BreadcrumbLink>
+                ) : (
+                  <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                )}
+              </BreadcrumbItem>
+              
+              {!isLastItem && <BreadcrumbSeparator />}
+            </React.Fragment>
+          );
+        })}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+};
+
 export {
   Breadcrumb,
   BreadcrumbList,
@@ -112,4 +169,5 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
+  Breadcrumbs,
 }

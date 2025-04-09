@@ -228,7 +228,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
         {/* Logo */}
         <Link href="/" className="p-4 flex items-center justify-center lg:justify-start border-b border-[#9FEF00]/20 hover:bg-[#9FEF00]/5 transition-colors duration-200 cursor-pointer">
           <div className="w-10 h-10 flex items-center justify-center">
-            <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-10 w-10" />
+            <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-10 w-10" />
           </div>
           <motion.h1 
             initial={{ opacity: 0 }}

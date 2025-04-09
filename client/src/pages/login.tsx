@@ -84,7 +84,7 @@ export default function Login() {
       <div className="relative z-10 w-full max-w-md px-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">
-            Fin<span className="text-primary">Byte</span>
+            Money<span className="text-primary">Mind</span>
           </h1>
           <p className="text-muted-foreground">Your financial education companion</p>
         </div>
