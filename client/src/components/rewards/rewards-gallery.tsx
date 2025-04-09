@@ -8,7 +8,7 @@ const rewards = [
     title: '£5 Costa Coffee Gift Card',
     description: 'Enjoy a coffee break on us with this £5 Costa Coffee gift card.',
     points: 500,
-    image: 'https://www.costa.co.uk/static/favicon/costa/apple-touch-icon.png',
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c6/Costa_Coffee_logo.svg/1200px-Costa_Coffee_logo.svg.png',
     category: 'Dining'
   },
   {
@@ -17,7 +17,7 @@ const rewards = [
     title: '£10 Tesco Gift Card',
     description: 'Use this £10 gift card at any Tesco store across the UK.',
     points: 1000,
-    image: 'https://www.tesco.com/groceries/assets/icons/apple-touch-icon.png',
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Tesco_Logo.svg/1200px-Tesco_Logo.svg.png',
     category: 'Shopping'
   },
   {
@@ -26,7 +26,7 @@ const rewards = [
     title: 'Vue Cinema Ticket',
     description: 'One standard ticket for any film at Vue Cinemas nationwide.',
     points: 1200,
-    image: 'https://www.myvue.com/dist/img/vue/vue-logo.svg',
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/Vue_Cinemas_2017.svg/1200px-Vue_Cinemas_2017.svg.png',
     category: 'Entertainment'
   },
   {
