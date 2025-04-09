@@ -305,7 +305,7 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
   });
   
   // Get lessons for a specific module
-  app.get("/api/learning/modules/:moduleId/lessons", isAuthenticated!, async (req: Request, res: Response) => {
+  app.get("/api/learning/modules/:moduleId/lessons", isAuthenticated, async (req: Request, res: Response) => {
     try {
       const moduleId = parseInt(req.params.moduleId, 10);
       if (isNaN(moduleId)) {
