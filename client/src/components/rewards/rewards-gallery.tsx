@@ -8,7 +8,7 @@ const rewards = [
     title: '£5 Costa Coffee Gift Card',
     description: 'Enjoy a coffee break on us with this £5 Costa Coffee gift card.',
     points: 500,
-    icon: '☕',
+    image: 'https://www.costa.co.uk/static/favicon/costa/apple-touch-icon.png',
     category: 'Dining'
   },
   {
@@ -17,7 +17,7 @@ const rewards = [
     title: '£10 Tesco Gift Card',
     description: 'Use this £10 gift card at any Tesco store across the UK.',
     points: 1000,
-    icon: '🛒',
+    image: 'https://www.tesco.com/groceries/assets/icons/apple-touch-icon.png',
     category: 'Shopping'
   },
   {
@@ -26,7 +26,7 @@ const rewards = [
     title: 'Vue Cinema Ticket',
     description: 'One standard ticket for any film at Vue Cinemas nationwide.',
     points: 1200,
-    icon: '🎬',
+    image: 'https://www.myvue.com/dist/img/vue/vue-logo.svg',
     category: 'Entertainment'
   },
   {
@@ -35,7 +35,7 @@ const rewards = [
     title: '1 Month Spotify Premium',
     description: 'Enjoy ad-free music streaming for one month with Spotify Premium.',
     points: 1500,
-    icon: '🎵',
+    image: 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png',
     category: 'Entertainment'
   },
   {
@@ -44,7 +44,7 @@ const rewards = [
     title: '£15 Amazon Gift Card',
     description: 'Shop for anything on Amazon with this £15 gift card.',
     points: 1500,
-    icon: '🛍️',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1200px-Amazon_logo.svg.png',
     category: 'Shopping'
   }
 ];
@@ -62,7 +62,7 @@ export const RewardsGallery = () => {
           )}
         >
           <div className="flex items-start justify-between mb-4">
-            <div className="text-4xl">{reward.icon}</div>
+            <img src={reward.image} alt={reward.brand} className="h-12 w-auto object-contain" />
             <div className="text-neon-green font-mono">{reward.points} pts</div>
           </div>
 
