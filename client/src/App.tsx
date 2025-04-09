@@ -193,7 +193,9 @@ function Router() {
       </Route>
 
       <Route path="/">
-        <HomePage /> 
+        <MainLayout>
+          <HomePage />
+        </MainLayout>
       </Route>
       
       <Route>
