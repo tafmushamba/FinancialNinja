@@ -1,0 +1,79 @@
+import React from 'react';
+import { useGamification } from '../context/GamificationContext';
+
+type AchievementsProps = {}
+
+const Achievements: React.FC<AchievementsProps> = () => {
+  const { achievements, earnedAchievements, hasAchievement } = useGamification();
+  
+  // Group achievements by category
+  const achievementCategories = {
+    'Learning': ['first-steps', 'budget-master', 'savings-savvy', 'investor', 'credit-wise', 'tax-expert', 'debt-free', 'financial-graduate'],
+    'Performance': ['perfect-score', 'streak-week']
+  };
+  
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl font-bold">Achievements</h2>
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-htb-card rounded-full flex items-center justify-center text-htb-green mr-2">JD</div>
+          <span>John Doe</span>
+        </div>
+      </div>
+      
+      <div className="mb-6">
+        <div className="text-lg font-bold mb-2">Your Progress</div>
+        <div className="text-gray-400 mb-4">
+          You've earned {earnedAchievements.length} out of {achievements.length} achievements
+        </div>
+        <div className="h-2 bg-opacity-10 bg-white rounded overflow-hidden">
+          <div 
+            className="h-full bg-htb-green rounded" 
+            style={{ width: `${(earnedAchievements.length / achievements.length) * 100}%` }}
+          ></div>
+        </div>
+      </div>
+      
+      {Object.entries(achievementCategories).map(([category, achievementIds]) => (
+        <div key={category} className="mb-10">
+          <h3 className="text-lg font-bold mb-5 flex items-center before:content-[''] before:w-1 before:h-5 before:bg-htb-green before:mr-2">
+            {category} Achievements
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {achievementIds.map(id => {
+              const achievement = achievements.find(a => a.id === id);
+              if (!achievement) return null;
+              
+              const isEarned = hasAchievement(id);
+              
+              return (
+                <div 
+                  key={id} 
+                  className={`card overflow-hidden ${!isEarned ? 'opacity-60' : ''}`}
+                >
+                  <div className="h-24 bg-htb-darker flex items-center justify-center text-4xl">
+                    {achievement.icon}
+                  </div>
+                  <div className="p-4">
+                    <div className="font-bold mb-2 flex items-center">
+                      {achievement.name}
+                      {isEarned && <span className="ml-2 text-htb-green">✓</span>}
+                    </div>
+                    <div className="text-gray-400 text-sm mb-2">{achievement.description}</div>
+                    {achievement.points && (
+                      <div className="text-sm text-htb-green">+{achievement.points} points</div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Achievements;
