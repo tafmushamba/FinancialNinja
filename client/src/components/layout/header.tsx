@@ -24,7 +24,7 @@ import { Link } from 'wouter';
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface HeaderProps {
   title?: string;
@@ -139,6 +139,9 @@ const Header: React.FC<HeaderProps> = ({
               "hover:bg-[#9FEF00]/20 transition-all border border-[#9FEF00]/30 shadow-[0_0_10px_rgba(159,239,0,0.2)] ml-2"
             )}>
               <Avatar className="h-8 w-8">
+                {user?.profilePicture && (
+                  <AvatarImage src={user.profilePicture} alt={user.username || 'User profile'} />
+                )}
                 <AvatarFallback className="bg-black text-[#9FEF00] text-sm font-mono">
                   {getUserInitials()}
                 </AvatarFallback>

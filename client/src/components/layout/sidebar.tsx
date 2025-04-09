@@ -18,7 +18,7 @@ import {
   LifeBuoy,
   MessageCircle
 } from 'lucide-react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface SidebarProps {
   collapsed?: boolean;
@@ -308,6 +308,9 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
         <div className="p-4 border-t border-[#9FEF00]/20 bg-black/50 backdrop-blur-sm relative z-10">
           <div className="flex items-center">
             <Avatar className="h-8 w-8 border border-[#9FEF00]/30 shadow-[0_0_10px_rgba(159,239,0,0.2)]">
+              {user?.profilePicture && (
+                <AvatarImage src={user.profilePicture} alt={user.username || 'User profile'} />
+              )}
               <AvatarFallback className="bg-[#9FEF00]/10 text-[#9FEF00] text-sm font-medium">
                 {getUserInitials()}
               </AvatarFallback>

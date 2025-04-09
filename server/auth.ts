@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { storage } from "./storage";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import session from "express-session";
 import bcrypt from "bcryptjs";
 import { User } from "../shared/schema";
@@ -48,6 +49,75 @@ export function setupAuth(app: express.Express) {
         return done(error);
       }
     })
+  );
+
+  // Configure Google Strategy
+  const googleClientId = process.env.GOOGLE_CLIENT_ID || '';
+  const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
+  const googleCallbackURL = process.env.NODE_ENV === "production"
+    ? "https://your-production-domain.com/api/auth/google/callback"
+    : "http://localhost:3000/api/auth/google/callback";
+
+  console.log("--- Google OAuth Configuration ---");
+  console.log("Client ID:", googleClientId ? "Loaded" : "MISSING!");
+  // Avoid logging the actual secret
+  console.log("Client Secret:", googleClientSecret ? "Loaded" : "MISSING!"); 
+  console.log("Callback URL:", googleCallbackURL);
+  console.log("----------------------------------");
+
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: googleClientId,
+        clientSecret: googleClientSecret,
+        callbackURL: googleCallbackURL,
+        scope: ["profile", "email"],
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          // Check if user exists by Google ID
+          let user = await storage.getUserByGoogleId(profile.id);
+          
+          if (!user) {
+            // Check if user exists with the same email
+            const email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
+            if (email) {
+              user = await storage.getUserByEmail(email);
+            }
+            
+            if (user) {
+              // Update existing user with Google ID
+              user = await storage.updateUserGoogleId(user.id, profile.id);
+            } else {
+              // Create new user from Google profile
+              const firstName = profile.name?.givenName || profile.displayName.split(' ')[0];
+              const lastName = profile.name?.familyName || '';
+              
+              // Use Google display name as username
+              const username = profile.displayName || (email ? email.split('@')[0] : `user_${Math.floor(Math.random() * 10000)}`);
+              
+              // Get profile picture if available
+              const profilePicture = profile.photos && profile.photos.length > 0 ? profile.photos[0].value : null;
+              
+              user = await storage.createUser({
+                username: username,
+                email: email || null,
+                firstName: firstName || null,
+                lastName: lastName || null,
+                googleId: profile.id,
+                profilePicture: profilePicture,
+                // No password for Google auth users
+                password: await bcrypt.hash(Math.random().toString(36).slice(-10), 10)
+              });
+            }
+          }
+          
+          return done(null, user);
+        } catch (error) {
+          return done(error as Error);
+        }
+      }
+    )
   );
 
   // Serialize user information to store in session
@@ -97,6 +167,21 @@ export function setupAuth(app: express.Express) {
 }
 
 function registerAuthRoutes(app: express.Express) {
+  // Google Auth routes
+  app.get(
+    "/api/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  );
+
+  app.get(
+    "/api/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    (req, res) => {
+      // Successful authentication, redirect to dashboard
+      res.redirect("/dashboard");
+    }
+  );
+
   // Registration route
   app.post("/api/auth/register", async (req: Request, res: Response) => {
     try {

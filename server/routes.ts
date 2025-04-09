@@ -285,14 +285,15 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
             description: module.description,
             icon: module.icon,
             accentColor: module.accentColor,
-            status,
+            category: module.category, // Ensure category is included
+            difficulty: module.difficulty, // Ensure difficulty is included
             progress: progress?.percentageComplete || 0,
             lessonsCompleted: progress?.lessonsCompleted || 0,
             totalLessons: module.totalLessons,
-            timeRemaining: module.id === 1 ? 20 : module.id === 2 ? 45 : 60, // Minutes remaining
-            duration: module.duration,
-            difficulty: module.difficulty,
-            topics: module.topics
+            completed: isCompleted,
+            // Add other fields as needed by the frontend card
+            duration: module.duration, 
+            topics: module.topics || [], // Add topics if needed by ModuleCard
           };
         })
       );
