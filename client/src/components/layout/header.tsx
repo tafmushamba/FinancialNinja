@@ -26,6 +26,13 @@ import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
+// Added Mascot component
+const Mascot = ({ size = "md" }) => {
+  // Replace this with your actual mascot component
+  return <span className={`text-[#9FEF00] text-${size}`}>🤖</span>;
+};
+
+
 interface HeaderProps {
   title?: string;
   toggleSidebar?: () => void;
@@ -47,13 +54,13 @@ const Header: React.FC<HeaderProps> = ({
 
   const getUserInitials = () => {
     if (!user) return 'U';
-    
+
     if (user.firstName && user.lastName) {
       return `${user.firstName[0]}${user.lastName[0]}`;
     } else if (user.username) {
       return user.username[0].toUpperCase();
     }
-    
+
     return 'U';
   };
 
@@ -89,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           <Menu size={20} />
         </button>
-        
+
         <button 
           onClick={toggleSidebar} 
           className="hidden md:flex mr-4 p-2 rounded-full hover:bg-[#9FEF00]/10 text-white hover:text-[#9FEF00] transition-colors duration-200"
@@ -97,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           {isSidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
         </button>
-        
+
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -105,32 +112,33 @@ const Header: React.FC<HeaderProps> = ({
           className="flex items-center"
         >
           <Link to="/" className="flex items-center">
-            <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-8 w-8 mr-2" />
+<Mascot size="lg" />
+            <BrainCircuit className="h-5 w-5 text-[#9FEF00] mr-2" />
             <h2 className="text-xl font-mono font-bold text-white">
               Money<span className="text-[#9FEF00]">Mind</span>
             </h2>
           </Link>
         </motion.div>
       </div>
-      
+
       <div className="flex items-center space-x-2 relative z-10">
         {/* Notification button with glow effect */}
         <button className="p-2 rounded-full hover:bg-[#9FEF00]/10 text-white/70 hover:text-[#9FEF00] transition-colors duration-200 relative group">
           <Bell size={18} />
           <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-[#9FEF00] shadow-[0_0_5px_#9FEF00] animate-pulse"></span>
         </button>
-        
+
         {/* Search button */}
         <button className="p-2 rounded-full hover:bg-[#9FEF00]/10 text-white/70 hover:text-[#9FEF00] transition-colors duration-200">
           <Search size={18} />
         </button>
-        
+
         {/* System status indicator */}
         <div className="hidden md:flex items-center mr-2 px-2 py-1 bg-black/40 border border-[#9FEF00]/20 rounded text-xs text-white/70">
           <Server size={12} className="text-[#9FEF00] mr-1" />
           <span className="font-mono">SYSTEM <span className="text-[#9FEF00]">ONLINE</span></span>
         </div>
-        
+
         {/* User dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -4,9 +4,25 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/AuthContext';
 import { Link } from 'wouter';
 
+const Mascot = ({ size = 'sm' }: { size?: 'sm' | 'md' | 'lg' }) => {
+  return (
+    <svg
+      width={size === 'sm' ? 24 : size === 'md' ? 48 : 72}
+      height={size === 'sm' ? 24 : size === 'md' ? 48 : 72}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Replace with actual mascot SVG */}
+      <circle cx="12" cy="12" r="10" fill="blue" />
+    </svg>
+  );
+};
+
+
 const WelcomeSection: React.FC = () => {
   const { user } = useAuth();
-  
+
   const { data: userData, isLoading } = useQuery({
     queryKey: ['/api/user/profile'],
     queryFn: async () => {
@@ -49,11 +65,14 @@ const WelcomeSection: React.FC = () => {
             <div className="inline-block px-2 py-1 bg-dark-700 rounded-sm font-mono text-xs text-neon-green mb-2 shadow-inner">
               <i className="fas fa-terminal mr-1"></i> Welcome
             </div>
-            <h1 className="text-2xl font-mono font-bold text-foreground">
-              {isLoading && !user ? 'Loading...' : (
-                <>Welcome back, <span className="text-neon-green neon-text animate-pulse-slow">{displayName}</span></>
-              )}
-            </h1>
+            <div className="flex items-center gap-3">
+              <Mascot size="md" />
+              <h1 className="text-2xl font-mono font-bold text-foreground">
+                {isLoading && !user ? 'Loading...' : (
+                  <>Welcome back, <span className="text-neon-green neon-text animate-pulse-slow">{displayName}</span></>
+                )}
+              </h1>
+            </div>
             <p className="text-muted-foreground mt-2 text-sm md:text-base">
               {isLoading && !user ? 'Loading stats...' : (
                 <>You've completed <span className="text-neon-green font-bold">{lessonsCompleted} lessons</span> this week. 
