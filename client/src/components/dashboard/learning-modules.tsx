@@ -5,7 +5,14 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
-import { fetchModules } from '@/lib/api';
+import { fetchModules, type Module } from '@/lib/api';
+
+// Extend the Module interface to include category and image
+interface ExtendedModule extends Module {
+  category?: string;
+  progress: number;
+  image?: string;
+}
 
 const LearningModules: React.FC = () => {
   const [filter, setFilter] = useState('All');
@@ -14,7 +21,11 @@ const LearningModules: React.FC = () => {
     queryFn: fetchModules
   });
 
-  const modules = data?.modules || [];
+  const modules = (data?.modules || []).map(module => ({
+    ...module,
+    category: module.topics?.[0] || 'General',  // Use the first topic as category if not defined
+    progress: module.progress || 0  // Ensure progress is always defined
+  })) as ExtendedModule[];
   const categories = ['All', 'Basics', 'Savings', 'Investing', 'Credit', 'Taxes', 'Debt'];
 
   const filteredModules = filter === 'All' 
@@ -63,7 +74,10 @@ const LearningModules: React.FC = () => {
             <Card className="overflow-hidden hover:border-neon-green/40 transition-all duration-300 cursor-pointer group">
               <div 
                 className="h-48 bg-cover bg-center relative"
-                style={{ backgroundImage: `url(${module.image})` }}
+                style={{
+                  backgroundImage: module.image ? `url(${module.image})` : undefined,
+                  backgroundColor: !module.image && module.accentColor ? `var(--${module.accentColor})` : 'var(--primary)'
+                }}
               >
                 <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-all duration-300">
                   <div className="absolute top-4 left-4 flex items-center space-x-2">
@@ -71,8 +85,8 @@ const LearningModules: React.FC = () => {
                       {module.category}
                     </Badge>
                   </div>
-                  <div className="absolute bottom-4 left-4 text-4xl">
-                    {module.icon}
+                  <div className="absolute bottom-4 left-4 text-4xl text-white">
+                    <i className={module.icon || 'fas fa-book'}></i>
                   </div>
                 </div>
               </div>

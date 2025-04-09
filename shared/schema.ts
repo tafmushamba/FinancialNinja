@@ -52,6 +52,7 @@ export const learningModules = pgTable("learning_modules", {
   topics: json("topics").$type<string[]>().default([]),
   prerequisites: json("prerequisites").$type<number[]>().default([]),
   order: integer("order").notNull(),
+  image: text("image"),
   createdAt: timestamp("createdAt").defaultNow(),
   updatedAt: timestamp("updatedAt").defaultNow(),
 });

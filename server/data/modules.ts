@@ -1,5 +1,7 @@
 import { LearningModule } from "@shared/schema";
 
+// No need to extend the type since we've added image to the schema
+
 export const mockModules: LearningModule[] = [
   {
     id: 1,
@@ -14,7 +16,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [],
     order: 1,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/investment.jpg"
   },
   {
     id: 2,
@@ -29,7 +32,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [],
     order: 2,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/budget.jpg"
   },
   {
     id: 3,
@@ -44,7 +48,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [1], // Requires Investment Basics
     order: 5,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/investment.jpg"
   },
   {
     id: 4,
@@ -59,7 +64,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [1, 2], // Requires Investment Basics and Budgeting Fundamentals
     order: 8,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/retirement.jpg"
   },
   {
     id: 5,
@@ -74,7 +80,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [],
     order: 6,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/credit.jpg"
   },
   {
     id: 6,
@@ -89,7 +96,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [2], // Requires Budgeting Fundamentals
     order: 7,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/tax.jpg"
   },
   {
     id: 7,
@@ -104,7 +112,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [1, 5], // Requires Investment Basics and Credit Management
     order: 9,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/realestate.jpg"
   },
   {
     id: 8,
@@ -119,7 +128,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [],
     order: 3,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/budget.jpg"
   },
   {
     id: 9,
@@ -134,7 +144,8 @@ export const mockModules: LearningModule[] = [
     prerequisites: [5], // Requires Credit Management
     order: 4,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/credit.jpg"
   },
   {
     id: 10,
@@ -149,6 +160,7 @@ export const mockModules: LearningModule[] = [
     prerequisites: [],
     order: 10,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    image: "/images/budget.jpg"
   }
 ];

@@ -80,14 +80,14 @@ export default function FinancialCalculators() {
           >
             <TabsContent value="budget" className="mt-0">
               <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg border p-8">
+                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
                   <div className="mb-6 flex items-start">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
                       <PiggyBank className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold mb-2">Budget Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-400">
+                      <p className="text-slate-600 dark:text-slate-300">
                         Create a personalised budget by allocating your income across different spending categories. Visualize your spending and get recommendations for improving your financial health.
                       </p>
                     </div>
@@ -100,14 +100,14 @@ export default function FinancialCalculators() {
             
             <TabsContent value="loan-investment" className="mt-0">
               <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg border p-8">
+                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
                   <div className="mb-6 flex items-start">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
                       <CreditCard className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold mb-2">Loan & Investment Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-400">
+                      <p className="text-slate-600 dark:text-slate-300">
                         Calculate loan repayments, interest costs, and simulate investment growth over time. Compare different scenarios to make informed financial decisions.
                       </p>
                     </div>
@@ -120,14 +120,14 @@ export default function FinancialCalculators() {
             
             <TabsContent value="retirement" className="mt-0">
               <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg border p-8">
+                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
                   <div className="mb-6 flex items-start">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
                       <Calendar className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold mb-2">Retirement Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-400">
+                      <p className="text-slate-600 dark:text-slate-300">
                         Plan for your future by simulating retirement savings growth, estimating income needs, and visualizing how different factors affect your retirement readiness.
                       </p>
                     </div>
@@ -140,14 +140,14 @@ export default function FinancialCalculators() {
             
             <TabsContent value="tax" className="mt-0">
               <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg border p-8">
+                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
                   <div className="mb-6 flex items-start">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
                       <Building className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold mb-2">UK Tax Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-400">
+                      <p className="text-slate-600 dark:text-slate-300">
                         Estimate your income tax, national insurance, student loan repayments, and take-home pay based on your salary and other income sources. See a detailed breakdown of your tax obligations.
                       </p>
                     </div>
@@ -169,34 +169,34 @@ export default function FinancialCalculators() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             <div className="space-y-2">
               <h4 className="font-medium">Make Informed Decisions</h4>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
                 Understand the long-term impact of financial choices before you make them. See how different scenarios affect your financial future.
               </p>
             </div>
             
             <div className="space-y-2">
               <h4 className="font-medium">Plan for Goals</h4>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
                 Whether saving for a house deposit, planning for retirement, or managing debt, calculators help you create realistic plans.
               </p>
             </div>
             
             <div className="space-y-2">
               <h4 className="font-medium">Visualize Your Finances</h4>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
                 Interactive charts and visuals help you understand complex financial concepts and see patterns in your financial behavior.
               </p>
             </div>
             
             <div className="space-y-2">
               <h4 className="font-medium">UK Financial Context</h4>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
                 Our calculators are tailored for the UK market, including ISAs, UK tax rates, and other UK-specific financial products.
               </p>
             </div>
           </div>
           
-          <p className="text-sm text-slate-500 mt-4 italic">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-4 italic">
             Note: These calculators are for educational purposes only and should not be considered financial advice. Always consult with a qualified financial advisor for personalized recommendations.
           </p>
         </div>

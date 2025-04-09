@@ -13,6 +13,7 @@ export interface Module {
   status?: 'locked' | 'in-progress' | 'completed';
   prerequisites?: number[];
   progress?: number;
+  image?: string;
 }
 
 export interface Lesson {
