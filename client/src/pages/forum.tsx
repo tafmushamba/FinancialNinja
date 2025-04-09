@@ -1,15 +1,15 @@
+
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'wouter';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import ForumHeader from '@/components/forum/forum-header';
 import ForumCategoryCard from '@/components/forum/forum-category-card';
-import { Category } from '@/components/forum/forum-types';
+import { ForumCategory } from '@/components/forum/forum-types';
 
 export default function Forum() {
-  const { data: categories, isLoading, error } = useQuery<Category[]>({
+  const { data, isLoading, error } = useQuery<{ categories: ForumCategory[] }>({
     queryKey: ['forum-categories'],
     queryFn: async () => {
       const response = await fetch('/api/forum/categories');
@@ -59,7 +59,7 @@ export default function Forum() {
     <div className="container mx-auto p-4 space-y-4">
       <ForumHeader />
       <div className="grid gap-4 md:grid-cols-2">
-        {categories?.map((category) => (
+        {data?.categories?.map((category) => (
           <ForumCategoryCard key={category.id} category={category} />
         ))}
       </div>
