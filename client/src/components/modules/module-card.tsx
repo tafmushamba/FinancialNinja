@@ -17,13 +17,13 @@ interface ModuleCardProps {
 }
 
 const MODULE_IMAGES: Record<number, string> = {
-  1: "/client/public/images/investment.jpg",
-  2: "/client/public/images/budget.jpg",
-  3: "/client/public/images/retirement.jpg",
-  4: "/client/public/images/retirement.jpg",
-  5: "/client/public/images/credit.jpg",
-  6: "/client/public/images/tax.jpg",
-  7: "/client/public/images/realestate.jpg",
+  1: "/images/investment.jpg",
+  2: "/images/budget.jpg",
+  3: "/images/retirement.jpg",
+  4: "/images/retirement.jpg",
+  5: "/images/credit.jpg",
+  6: "/images/tax.jpg",
+  7: "/images/realestate.jpg",
 };
 
 export function ModuleCard({
