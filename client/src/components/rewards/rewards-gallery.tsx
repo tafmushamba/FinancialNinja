@@ -12,7 +12,7 @@ const rewards = [
     points: 500,
     icon: '☕',
     category: 'Dining',
-    image: '/images/rewards/costa.png'
+    image: 'https://logos-world.net/wp-content/uploads/2021/08/Costa-Coffee-Logo.png'
   },
   {
     id: 'tesco',
@@ -22,7 +22,7 @@ const rewards = [
     points: 1000,
     icon: '🛒',
     category: 'Shopping',
-    image: '/images/rewards/tesco.png'
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Tesco_Logo.svg/1200px-Tesco_Logo.svg.png'
   },
   {
     id: 'vue',
@@ -32,7 +32,7 @@ const rewards = [
     points: 1200,
     icon: '🎬',
     category: 'Entertainment',
-    image: '/images/rewards/vue.png'
+    image: 'https://logos-world.net/wp-content/uploads/2022/01/Vue-Symbol.png'
   },
   {
     id: 'spotify',
@@ -42,7 +42,7 @@ const rewards = [
     points: 1500,
     icon: '🎵',
     category: 'Entertainment',
-    image: '/images/rewards/spotify.png'
+    image: 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png'
   },
   {
     id: 'amazon',
@@ -52,7 +52,7 @@ const rewards = [
     points: 1500,
     icon: '🛍️',
     category: 'Shopping',
-    image: '/images/rewards/amazon.png'
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1200px-Amazon_logo.svg.png'
   },
   {
     id: 'deliveroo',
@@ -62,7 +62,7 @@ const rewards = [
     points: 1500,
     icon: '🍔',
     category: 'Dining',
-    image: '/images/rewards/deliveroo.png'
+    image: 'https://logos-download.com/wp-content/uploads/2016/07/Deliveroo_logo_blue_bird.png'
   },
   {
     id: 'appstore',
