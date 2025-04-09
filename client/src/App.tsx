@@ -27,6 +27,7 @@ import Forum from "@/pages/forum";
 import ForumCategory from "@/pages/forum-category";
 import ForumTopic from "@/pages/forum-topic";
 import Certificates from "@/pages/certificates";
+import HomePage from "@/pages/index";
 
 // Custom Redirect component for navigation
 const Redirect = ({ to }: { to: string }) => {
@@ -185,10 +186,14 @@ function Router() {
         </MainLayout>
       </Route>
       
-      <Route path="/">
+      <Route path="/dashboard">
         <MainLayout>
           <Dashboard />
         </MainLayout>
+      </Route>
+
+      <Route path="/">
+        <HomePage /> 
       </Route>
       
       <Route>

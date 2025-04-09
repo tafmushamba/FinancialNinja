@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
@@ -171,7 +171,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
   }, []);
 
   const navItems = [
-    { icon: Home, label: 'Dashboard', path: '/' },
+    { icon: Home, label: 'Dashboard', path: '/dashboard' },
     { icon: GraduationCap, label: 'Learning Modules', path: '/learning-modules' },
     { icon: WalletCards, label: 'Finance Tracker', path: '/finance-tracker' },
     { icon: Calculator, label: 'Financial Calculators', path: '/financial-calculators' },
@@ -226,9 +226,9 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
 
       <div className="h-full flex flex-col relative z-20">
         {/* Logo */}
-        <div className="p-4 flex items-center justify-center lg:justify-start border-b border-[#9FEF00]/20">
-          <div className="w-9 h-9 flex items-center justify-center rounded-md bg-[#9FEF00]/10 text-[#9FEF00]">
-            <BrainCircuit className="h-5 w-5" />
+        <Link href="/" className="p-4 flex items-center justify-center lg:justify-start border-b border-[#9FEF00]/20 hover:bg-[#9FEF00]/5 transition-colors duration-200 cursor-pointer">
+          <div className="w-10 h-10 flex items-center justify-center">
+            <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-10 w-10" />
           </div>
           <motion.h1 
             initial={{ opacity: 0 }}
@@ -238,7 +238,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
           >
             Money<span className="text-[#9FEF00]">Mind</span>
           </motion.h1>
-        </div>
+        </Link>
         
         {/* Navigation */}
         <motion.nav 

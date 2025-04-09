@@ -116,9 +116,9 @@ export default function AiAssistant() {
           <Card className="bg-dark-800 border-dark-600">
             <CardHeader className="border-b border-dark-600 bg-dark-700">
               <div className="flex items-center">
-                <Avatar className="h-10 w-10 mr-3 bg-neon-green/20">
-                  <i className="fas fa-robot text-neon-green"></i>
-                </Avatar>
+                <div className="h-12 w-12 mr-3">
+                  <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-12 w-12" />
+                </div>
                 <div>
                   <CardTitle className="text-foreground">MoneyMind Assistant</CardTitle>
                   <p className="text-xs text-muted-foreground">Powered by AI</p>
@@ -143,6 +143,12 @@ export default function AiAssistant() {
                           : 'bg-dark-700 text-white'
                       }`}
                     >
+                      {msg.sender === 'assistant' && (
+                        <div className="flex items-center mb-2">
+                          <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-6 w-6 mr-2" />
+                          <span className="text-xs font-medium text-neon-green">MoneyMind Assistant</span>
+                        </div>
+                      )}
                       {msg.content}
                       {msg.timestamp && (
                         <div className="text-xs text-gray-400 mt-1">{msg.timestamp}</div>
@@ -153,6 +159,10 @@ export default function AiAssistant() {
                 {sendMessageMutation.isPending && (
                   <div className="mb-4 flex justify-start">
                     <div className="max-w-[80%] rounded-lg p-3 bg-dark-700">
+                      <div className="flex items-center mb-2">
+                        <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-6 w-6 mr-2" />
+                        <span className="text-xs font-medium text-neon-green">MoneyMind Assistant</span>
+                      </div>
                       <div className="flex space-x-2">
                         <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce"></div>
                         <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0.2s' }}></div>

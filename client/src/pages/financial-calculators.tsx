@@ -37,7 +37,7 @@ export default function FinancialCalculators() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center gap-3">
-              <Calculator className="h-8 w-8 text-primary" />
+              <img src="/images/mascot.svg" alt="FinancialNinja Mascot" className="h-10 w-10" />
               Financial Calculators
             </h1>
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
