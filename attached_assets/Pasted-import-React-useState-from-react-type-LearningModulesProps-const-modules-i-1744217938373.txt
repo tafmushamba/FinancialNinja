@@ -1,0 +1,131 @@
+import React, { useState } from 'react'
+
+type LearningModulesProps = {}
+
+const modules = [
+  {
+    id: 'budgeting',
+    title: 'UK Budgeting Basics',
+    icon: '💷',
+    description: 'Learn how to create and manage a budget tailored to UK living costs and financial practices.',
+    progress: 65,
+    category: 'Basics'
+  },
+  {
+    id: 'savings',
+    title: 'ISAs & Premium Bonds',
+    icon: '🏦',
+    description: 'Understand UK-specific savings products like ISAs and Premium Bonds and how to use them effectively.',
+    progress: 30,
+    category: 'Savings'
+  },
+  {
+    id: 'investing',
+    title: 'UK Investment Options',
+    icon: '📈',
+    description: 'Explore investment opportunities available in the UK market, from stocks to property.',
+    progress: 0,
+    category: 'Investing'
+  },
+  {
+    id: 'credit',
+    title: 'Understanding UK Credit',
+    icon: '💳',
+    description: 'Learn about UK credit scores, borrowing responsibly, and managing credit cards.',
+    progress: 0,
+    category: 'Credit'
+  },
+  {
+    id: 'taxes',
+    title: 'UK Tax System',
+    icon: '📝',
+    description: 'Introduction to the UK tax system including income tax, National Insurance, Council Tax, and VAT.',
+    progress: 0,
+    category: 'Taxes'
+  },
+  {
+    id: 'debt',
+    title: 'Debt Management',
+    icon: '🔄',
+    description: 'How to manage and repay debts, avoid excessive borrowing, and understand UK-specific debt solutions.',
+    progress: 0,
+    category: 'Debt'
+  }
+]
+
+const LearningModules: React.FC<LearningModulesProps> = () => {
+  const [filter, setFilter] = useState('All')
+  const categories = ['All', 'Basics', 'Savings', 'Investing', 'Credit', 'Taxes', 'Debt']
+  
+  const filteredModules = filter === 'All' 
+    ? modules 
+    : modules.filter(module => module.category === filter)
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl font-bold">Learning Modules</h2>
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-htb-card rounded-full flex items-center justify-center text-htb-green mr-2">JD</div>
+          <span>John Doe</span>
+        </div>
+      </div>
+      
+      {/* Filter */}
+      <div className="mb-8">
+        <div className="flex flex-wrap gap-2">
+          {categories.map(category => (
+            <button 
+              key={category}
+              className={`px-4 py-2 rounded-md text-sm ${
+                filter === category 
+                  ? 'bg-htb-green text-htb-darker' 
+                  : 'bg-htb-card text-gray-300 hover:bg-opacity-80'
+              }`}
+              onClick={() => setFilter(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Modules Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredModules.map(module => (
+          <div key={module.id} className="card overflow-hidden">
+            <div className="h-36 bg-htb-darker flex items-center justify-center text-4xl">
+              {module.icon}
+            </div>
+            <div className="p-4">
+              <div className="font-bold mb-2">{module.title}</div>
+              <div className="text-gray-400 text-sm mb-4">{module.description}</div>
+              
+              {module.progress > 0 && (
+                <div className="mb-3">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-htb-green">{module.progress}% Complete</span>
+                  </div>
+                  <div className="h-1.5 bg-opacity-10 bg-white rounded overflow-hidden">
+                    <div 
+                      className="h-full bg-htb-green rounded" 
+                      style={{ width: `${module.progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+              
+              <div className="flex justify-end">
+                <button className="btn btn-outline text-sm">
+                  {module.progress > 0 ? 'Continue' : 'Start'}
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default LearningModules
