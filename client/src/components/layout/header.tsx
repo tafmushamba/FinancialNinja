@@ -104,10 +104,12 @@ const Header: React.FC<HeaderProps> = ({
           transition={{ delay: 0.2 }}
           className="flex items-center"
         >
-          <BrainCircuit className="h-5 w-5 text-[#9FEF00] mr-2" />
-          <h2 className="text-xl font-mono font-bold text-white">
-            <span className="text-[#9FEF00]">&gt;</span> {title}<span className="text-[#9FEF00] animate-pulse">_</span>
-          </h2>
+          <Link href="/" className="flex items-center">
+            <BrainCircuit className="h-5 w-5 text-[#9FEF00] mr-2" />
+            <h2 className="text-xl font-mono font-bold text-white">
+              Money<span className="text-[#9FEF00]">Mind</span>
+            </h2>
+          </Link>
         </motion.div>
       </div>
       
