@@ -12,7 +12,7 @@ export default function AiAssistant() {
   const { toast } = useToast();
   const [message, setMessage] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(true);
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Fetch messages from the API
   const { data: chatData, isLoading: messagesLoading, refetch } = useQuery({
@@ -23,7 +23,9 @@ export default function AiAssistant() {
         if (!response.ok) {
           throw new Error('Failed to fetch messages');
         }
-        return response.json();
+        const data = await response.json();
+        // Server returns { success, message, messages } format
+        return data;
       } catch (error) {
         console.error('Error fetching messages:', error);
         return {
@@ -65,7 +67,9 @@ export default function AiAssistant() {
         queryClient.setQueryData(['/api/assistant/all-messages'], {
           messages: data.messages
         });
+        console.log('Updated messages:', data.messages);
       } else {
+        console.log('No messages in response, refetching');
         // Otherwise refetch messages
         refetch();
       }
@@ -91,7 +95,9 @@ export default function AiAssistant() {
 
   // Scroll to bottom of messages
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [chatData]);
 
   // Default messages if not loaded yet
@@ -125,7 +131,7 @@ export default function AiAssistant() {
 
             <CardContent className="p-0">
               <div className="h-96 overflow-y-auto p-4 bg-dark-900">
-                {messages.map((msg, i) => (
+                {messages.map((msg: { sender: string; content: string; timestamp?: string }, i: number) => (
                   <div 
                     key={i} 
                     className={`mb-4 flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}

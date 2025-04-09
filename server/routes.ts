@@ -1401,6 +1401,66 @@ export async function registerRoutes(app: Express, isAuthenticated?: (req: Reque
     }
   });
 
+  // AI Assistant endpoints
+  // Store messages in memory for now (in a real app, these would be stored in a database)
+  let assistantMessages: Array<{sender: string, content: string, timestamp: string}> = [
+    {
+      sender: 'assistant',
+      content: 'Hello! I\'m your AI financial assistant. How can I help you today?',
+      timestamp: new Date().toLocaleTimeString()
+    }
+  ];
+
+  // Get all messages for the AI assistant
+  app.get("/api/assistant/all-messages", async (req: Request, res: Response) => {
+    try {
+      res.json({ messages: assistantMessages });
+    } catch (error) {
+      console.error("Error fetching assistant messages:", error);
+      res.status(500).json({ message: "Failed to fetch messages" });
+    }
+  });
+
+  // Send a message to the AI assistant
+  app.post("/api/assistant/message", async (req: Request, res: Response) => {
+    try {
+      const { message } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ message: "Message is required" });
+      }
+      
+      // Add user message to the conversation
+      const userMessage = {
+        sender: 'user',
+        content: message,
+        timestamp: new Date().toLocaleTimeString()
+      };
+      
+      assistantMessages.push(userMessage);
+      
+      // Generate AI response using Mistral
+      const aiResponse = await generateFinancialInsight(message);
+      
+      // Add AI response to the conversation
+      const assistantResponse = {
+        sender: 'assistant',
+        content: aiResponse,
+        timestamp: new Date().toLocaleTimeString()
+      };
+      
+      assistantMessages.push(assistantResponse);
+      
+      // Return updated messages - only return the messages array as expected by the frontend
+      res.json({ messages: assistantMessages });
+    } catch (error: any) {
+      console.error("Error sending message to assistant:", error);
+      res.status(500).json({ 
+        message: "Failed to process your message: " + (error?.message || "Unknown error")
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
