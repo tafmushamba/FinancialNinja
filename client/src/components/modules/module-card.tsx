@@ -17,13 +17,13 @@ interface ModuleCardProps {
 }
 
 const MODULE_IMAGES: Record<number, string> = {
-  1: "/images/investment.jpg",
-  2: "/images/budget.jpg",
-  3: "/images/retirement.jpg",
-  4: "/images/retirement.jpg",
-  5: "/images/credit.jpg",
-  6: "/images/tax.jpg",
-  7: "/images/realestate.jpg",
+  1: "images/investment.jpg",
+  2: "images/budget.jpg",
+  3: "images/retirement.jpg",
+  4: "images/retirement.jpg",
+  5: "images/credit.jpg",
+  6: "images/tax.jpg",
+  7: "images/realestate.jpg",
 };
 
 export function ModuleCard({
@@ -45,11 +45,9 @@ export function ModuleCard({
       className={`module-card block rounded-lg p-6 h-full glow-border card-highlight glass-card`}
     >
       <div 
-        className="absolute inset-0 rounded-lg opacity-40 z-0" 
+        className="absolute inset-0 rounded-lg opacity-40 z-0 bg-cover bg-center" 
         style={{ 
           backgroundImage: `url(${bgImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           filter: 'blur(1px)'
         }}
       ></div>
