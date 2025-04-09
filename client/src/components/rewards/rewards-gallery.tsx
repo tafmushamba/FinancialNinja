@@ -1,189 +1,82 @@
-import React, { useState } from 'react';
-import { RewardsCard } from './rewards-card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
+import React from 'react';
+import { cn } from "@/lib/utils";
 
-interface Reward {
-  id: string;
-  title: string;
-  brand: string;
-  value: string;
-  pointsRequired: number;
-  imageUrl: string;
-  category: string;
-}
+const rewards = [
+  {
+    id: 'costa',
+    brand: 'Costa Coffee',
+    title: '£5 Costa Coffee Gift Card',
+    description: 'Enjoy a coffee break on us with this £5 Costa Coffee gift card.',
+    points: 500,
+    icon: '☕',
+    category: 'Dining'
+  },
+  {
+    id: 'tesco',
+    brand: 'Tesco',
+    title: '£10 Tesco Gift Card',
+    description: 'Use this £10 gift card at any Tesco store across the UK.',
+    points: 1000,
+    icon: '🛒',
+    category: 'Shopping'
+  },
+  {
+    id: 'vue',
+    brand: 'Vue Cinema',
+    title: 'Vue Cinema Ticket',
+    description: 'One standard ticket for any film at Vue Cinemas nationwide.',
+    points: 1200,
+    icon: '🎬',
+    category: 'Entertainment'
+  },
+  {
+    id: 'spotify',
+    brand: 'Spotify',
+    title: '1 Month Spotify Premium',
+    description: 'Enjoy ad-free music streaming for one month with Spotify Premium.',
+    points: 1500,
+    icon: '🎵',
+    category: 'Entertainment'
+  },
+  {
+    id: 'amazon',
+    brand: 'Amazon',
+    title: '£15 Amazon Gift Card',
+    description: 'Shop for anything on Amazon with this £15 gift card.',
+    points: 1500,
+    icon: '🛍️',
+    category: 'Shopping'
+  }
+];
 
-interface RewardsGalleryProps {
-  rewards: Reward[];
-  currentPoints: number;
-  onRedeemReward: (rewardId: string) => Promise<boolean>;
-}
-
-export function RewardsGallery({ rewards, currentPoints, onRedeemReward }: RewardsGalleryProps) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [valueFilter, setValueFilter] = useState('all');
-  const { toast } = useToast();
-
-  const handleRedeem = async (rewardId: string) => {
-    try {
-      const success = await onRedeemReward(rewardId);
-      if (success) {
-        toast({
-          title: 'Reward Redeemed!',
-          description: 'Your gift card will be sent to your email shortly.',
-          variant: 'default',
-        });
-      } else {
-        toast({
-          title: 'Redemption Failed',
-          description: 'There was an issue redeeming your reward. Please try again.',
-          variant: 'destructive',
-        });
-      }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'An unexpected error occurred. Please try again later.',
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const filteredRewards = rewards.filter((reward) => {
-    const matchesSearch = reward.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          reward.brand.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === 'all' || reward.category === categoryFilter;
-    const matchesValue = valueFilter === 'all' || reward.value === valueFilter;
-    
-    return matchesSearch && matchesCategory && matchesValue;
-  });
-
-  const redeemableRewards = filteredRewards.filter(reward => currentPoints >= reward.pointsRequired);
-  const inProgressRewards = filteredRewards.filter(reward => currentPoints < reward.pointsRequired);
-
+export const RewardsGallery = () => {
   return (
-    <div>
-      <div className="mb-6 grid gap-4 md:grid-cols-3">
-        <div>
-          <Input
-            placeholder="Search rewards..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full"
-          />
-        </div>
-        <div>
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="shopping">Shopping</SelectItem>
-              <SelectItem value="dining">Dining</SelectItem>
-              <SelectItem value="entertainment">Entertainment</SelectItem>
-              <SelectItem value="travel">Travel</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Select value={valueFilter} onValueChange={setValueFilter}>
-            <SelectTrigger>
-              <SelectValue placeholder="Filter by value" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Values</SelectItem>
-              <SelectItem value="$5">$5</SelectItem>
-              <SelectItem value="$10">$10</SelectItem>
-              <SelectItem value="$15">$15</SelectItem>
-              <SelectItem value="$25">$25</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-      
-      <Tabs defaultValue="all" className="mb-6">
-        <TabsList>
-          <TabsTrigger value="all">All Rewards</TabsTrigger>
-          <TabsTrigger value="redeemable">Redeemable Now</TabsTrigger>
-          <TabsTrigger value="in-progress">In Progress</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="all" className="mt-4">
-          {filteredRewards.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              No rewards found matching your criteria.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredRewards.map((reward) => (
-                <RewardsCard
-                  key={reward.id}
-                  title={reward.title}
-                  brand={reward.brand}
-                  pointsRequired={reward.pointsRequired}
-                  currentPoints={currentPoints}
-                  imageUrl={reward.imageUrl}
-                  value={reward.value}
-                  isRedeemable={currentPoints >= reward.pointsRequired}
-                  onRedeem={() => handleRedeem(reward.id)}
-                />
-              ))}
-            </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+      {rewards.map((reward) => (
+        <div
+          key={reward.id}
+          className={cn(
+            "glass-card p-6 rounded-lg transition-all duration-300",
+            "hover:transform hover:-translate-y-1",
+            "border border-dark-600 glow-border"
           )}
-        </TabsContent>
-        
-        <TabsContent value="redeemable" className="mt-4">
-          {redeemableRewards.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              You don't have enough points to redeem any rewards yet. Keep learning!
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {redeemableRewards.map((reward) => (
-                <RewardsCard
-                  key={reward.id}
-                  title={reward.title}
-                  brand={reward.brand}
-                  pointsRequired={reward.pointsRequired}
-                  currentPoints={currentPoints}
-                  imageUrl={reward.imageUrl}
-                  value={reward.value}
-                  isRedeemable={true}
-                  onRedeem={() => handleRedeem(reward.id)}
-                />
-              ))}
-            </div>
-          )}
-        </TabsContent>
-        
-        <TabsContent value="in-progress" className="mt-4">
-          {inProgressRewards.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              You've earned enough points for all available rewards!
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {inProgressRewards.map((reward) => (
-                <RewardsCard
-                  key={reward.id}
-                  title={reward.title}
-                  brand={reward.brand}
-                  pointsRequired={reward.pointsRequired}
-                  currentPoints={currentPoints}
-                  imageUrl={reward.imageUrl}
-                  value={reward.value}
-                  isRedeemable={false}
-                  onRedeem={() => handleRedeem(reward.id)}
-                />
-              ))}
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div className="text-4xl">{reward.icon}</div>
+            <div className="text-neon-green font-mono">{reward.points} pts</div>
+          </div>
+
+          <h3 className="text-xl font-bold mb-2 text-foreground">{reward.title}</h3>
+          <p className="text-sm text-muted-foreground mb-4">{reward.description}</p>
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-neon-cyan">{reward.brand}</span>
+            <button className="px-4 py-2 bg-dark-600 text-neon-green rounded hover:bg-dark-500 transition-colors">
+              Redeem
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
-} 
+};
