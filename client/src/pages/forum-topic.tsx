@@ -35,27 +35,37 @@ export default function ForumTopicPage() {
 
       try {
         setLoading(true);
-        console.log("Fetching topic data for ID:", params.topicId);
         
-        const response = await apiRequest<{ 
-          topic: ForumTopic;
-          category: Partial<ForumCategory> | null;
-          posts: ForumPost[];
-        }>({
-          url: `/api/forum/topics/${params.topicId}`,
-          method: "GET"
-        });
-
-        console.log("Topic data received:", response);
+        // Make a direct fetch request instead of using apiRequest
+        const response = await fetch(`/api/forum/topics/${params.topicId}`);
         
-        if (!response || !response.topic) {
-          console.error("Invalid response format:", response);
+        if (!response.ok) {
+          throw new Error(`Server responded with status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!data || !data.topic) {
           throw new Error("Invalid response format from server");
         }
 
-        setTopic(response.topic);
-        setCategory(response.category);
-        setPosts(response.posts || []);
+        // Set topic and category data
+        setTopic(data.topic);
+        setCategory(data.category);
+        
+        // Add user data to each post before setting state
+        const postsWithUser = Array.isArray(data.posts) 
+          ? data.posts.map((post: { userId: number; [key: string]: any }) => ({
+              ...post,
+              user: {
+                id: post.userId,
+                username: `User ${post.userId}`, // Default username
+                userLevel: "Regular" // Default level
+              }
+            }))
+          : [];
+        
+        setPosts(postsWithUser);
       } catch (error) {
         console.error("Error fetching topic:", error);
         toast({
@@ -69,8 +79,7 @@ export default function ForumTopicPage() {
     };
 
     fetchTopic();
-    // Remove toast from dependencies to prevent too many re-renders
-  }, [match, params]);
+  }, [match, params?.topicId]);
 
   const handleSubmitReply = async () => {
     if (!isAuthenticated) {
@@ -86,13 +95,32 @@ export default function ForumTopicPage() {
 
     try {
       setSubmitting(true);
-      const response = await apiRequest<{ post: ForumPost }>({
-        url: `/api/forum/topics/${topic.id}/posts`,
+      
+      const response = await fetch(`/api/forum/topics/${topic.id}/posts`, {
         method: "POST",
-        data: { content: newPostContent }
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: newPostContent })
       });
+      
+      if (!response.ok) {
+        throw new Error(`Server responded with status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Add user data to the new post
+      const newPost = {
+        ...data.post,
+        user: {
+          id: user?.id || 1,
+          username: user?.username || `User ${user?.id || 1}`,
+          userLevel: "Regular"
+        }
+      };
 
-      setPosts(prev => [...prev, response.post]);
+      setPosts(prev => [...prev, newPost]);
       setNewPostContent("");
       toast({
         title: "Success",
@@ -166,7 +194,7 @@ export default function ForumTopicPage() {
                 className="text-sm"
                 style={{ backgroundColor: category.color || '#888', color: 'white' }}
               >
-                {category.name}
+                {category.name || 'Unknown Category'}
               </Badge>
             </div>
           )}
