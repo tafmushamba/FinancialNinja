@@ -1,3 +1,43 @@
+
+/* Difficulty Indicators */
+.difficulty-indicator {
+  display: flex;
+  gap: 2px;
+}
+
+.difficulty-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.difficulty-indicator.beginner span {
+  background-color: #22c55e;
+}
+
+.difficulty-indicator.intermediate span {
+  background-color: #f59e0b;
+}
+
+.difficulty-indicator.advanced span {
+  background-color: #ef4444;
+}
+
+.uk-flag-element {
+  position: relative;
+  overflow: hidden;
+}
+
+.uk-flag-element::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #012169 33%, #C8102E 33%, #C8102E 66%, #012169 66%);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
