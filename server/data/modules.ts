@@ -99,6 +99,7 @@ export const mockModules: LearningModule[] = [
     topics: ["Income Tax", "National Insurance", "Council Tax", "VAT", "Tax-Efficient Saving"],
     prerequisites: [2], // Requires Budgeting Fundamentals
     order: 7,
+    quizId: 6,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/tax.jpg"
@@ -115,6 +116,7 @@ export const mockModules: LearningModule[] = [
     topics: ["UK Mortgages", "House Buying Process", "Property Costs", "Help to Buy", "Renting vs Buying"],
     prerequisites: [1, 5], // Requires Investment Basics and Credit Management
     order: 9,
+    quizId: 7,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/realestate.jpg"
@@ -131,6 +133,7 @@ export const mockModules: LearningModule[] = [
     topics: ["Emergency Funds", "Savings Accounts", "ISAs", "Premium Bonds", "Saving Habits"],
     prerequisites: [],
     order: 3,
+    quizId: 8,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/budget.jpg"
@@ -147,6 +150,7 @@ export const mockModules: LearningModule[] = [
     topics: ["Debt Repayment Strategies", "UK Debt Solutions", "Interest Management", "Debt Consolidation", "Avoiding Debt Traps"],
     prerequisites: [5], // Requires Credit Management
     order: 4,
+    quizId: 9,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/credit.jpg"
@@ -163,6 +167,7 @@ export const mockModules: LearningModule[] = [
     topics: ["Student Finance", "First Job Finances", "Money Management", "Building Credit", "Renting"],
     prerequisites: [],
     order: 10,
+    quizId: 10,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/budget.jpg"
