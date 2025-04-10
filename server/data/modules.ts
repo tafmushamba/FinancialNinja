@@ -15,6 +15,7 @@ export const mockModules: LearningModule[] = [
     topics: ["ISAs", "Stocks & Shares", "UK Funds", "Risk Management", "Compound Interest"],
     prerequisites: [],
     order: 1,
+    quizId: 1,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/investment.jpg"
