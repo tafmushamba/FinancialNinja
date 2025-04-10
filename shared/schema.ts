@@ -56,6 +56,7 @@ export const learningModules = pgTable("learning_modules", {
   prerequisites: json("prerequisites").$type<number[]>().default([]),
   order: integer("order").notNull(),
   image: text("image"),
+  quizId: integer("quizId"), // Added quizId
   createdAt: timestamp("createdAt").defaultNow(),
   updatedAt: timestamp("updatedAt").defaultNow(),
 });
@@ -276,6 +277,7 @@ export const insertLearningModuleSchema = createInsertSchema(learningModules).om
   id: true,
   createdAt: true,
   updatedAt: true,
+  quizId: true, // Added quizId to omit list
 });
 
 export const insertLessonSchema = createInsertSchema(lessons).omit({
