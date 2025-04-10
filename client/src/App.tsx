@@ -28,6 +28,7 @@ import ForumCategory from "@/pages/forum-category";
 import ForumTopic from "@/pages/forum-topic";
 import Certificates from "@/pages/certificates";
 import HomePage from "@/pages/index";
+import DesignSystem from "@/pages/design-system";
 
 // Custom Redirect component for navigation
 const Redirect = ({ to }: { to: string }) => {
@@ -58,16 +59,29 @@ const ProtectedRoute = ({ component: Component, ...rest }: any) => {
 
 function Router() {
   const { isAuthenticated, loading } = useAuth();
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
 
+  // Only redirect to login if not already on login/register/home page and not authenticated
   useEffect(() => {
     if (isAuthenticated === false && !loading) {
-      const currentPath = window.location.pathname;
-      if (currentPath !== '/login' && currentPath !== '/register') {
+      // Public routes that don't require authentication
+      const publicRoutes = ['/', '/login', '/register'];
+      
+      // Only redirect if not on a public route
+      if (!publicRoutes.includes(location)) {
+        // Store the current location to redirect back after login
+        sessionStorage.setItem('redirectAfterLogin', location);
         navigate('/login');
       }
+    } else if (isAuthenticated === true && !loading) {
+      // Check if there's a stored redirect location after login
+      const redirectPath = sessionStorage.getItem('redirectAfterLogin');
+      if (location === '/login' && redirectPath) {
+        sessionStorage.removeItem('redirectAfterLogin');
+        navigate(redirectPath);
+      }
     }
-  }, [isAuthenticated, loading, navigate]);
+  }, [isAuthenticated, loading, navigate, location]);
 
   if (loading) {
     return <div className="flex h-screen items-center justify-center">Loading...</div>;
@@ -191,9 +205,15 @@ function Router() {
           <Dashboard />
         </MainLayout>
       </Route>
+      
+      <Route path="/design-system">
+        <MainLayout>
+          <DesignSystem />
+        </MainLayout>
+      </Route>
 
       <Route path="/">
-        <HomePage /> 
+        <HomePage />
       </Route>
       
       <Route>

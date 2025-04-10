@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, BarChart, PiggyBank, TrendingUp, Star, ArrowRight, Check, Trophy, Zap } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function HomePage() {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-white dark:from-slate-900 dark:via-slate-950 dark:to-black">
       {/* Hero Section - Modernized */}
@@ -25,12 +27,28 @@ export default function HomePage() {
                 Fun, engaging lessons designed for UK youth. Learn budgeting, saving, and investing essentials to build financial confidence.
               </p>
               <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
-                <Link href="/register">
-                  <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-[#9FEF00] hover:bg-[#8FDF00] dark:bg-[#9FEF00] dark:hover:bg-[#8FDF00] text-black px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                    Start Your Quest
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
+                {!isAuthenticated ? (
+                  <>
+                    <Link href="/register">
+                      <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-[#9FEF00] hover:bg-[#8FDF00] dark:bg-[#9FEF00] dark:hover:bg-[#8FDF00] text-black px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                        Start Your Quest
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                    <Link href="/login">
+                      <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-semibold border-[#9FEF00] text-[#9FEF00] hover:bg-[#9FEF00]/10 px-8 py-3 transition duration-300">
+                        Sign In
+                      </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <Link href="/dashboard">
+                    <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-[#9FEF00] hover:bg-[#8FDF00] dark:bg-[#9FEF00] dark:hover:bg-[#8FDF00] text-black px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                      Continue to Dashboard
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
 
@@ -262,17 +280,28 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-black mb-4">Ready to Master Your Money Mind?</h2>
           <p className="text-black dark:text-black mb-8 max-w-2xl mx-auto text-lg">Join thousands of UK youth who are taking control of their financial future with our interactive, gamified learning platform.</p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Link href="/register">
-              <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-black hover:bg-gray-900 text-[#9FEF00] px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                Start Your Journey
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-semibold border-black text-black hover:bg-black/10 px-8 py-3 transition duration-300">
-                Sign In
-              </Button>
-            </Link>
+            {!isAuthenticated ? (
+              <>
+                <Link href="/register">
+                  <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-black hover:bg-gray-900 text-[#9FEF00] px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                    Start Your Journey
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="/login">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto text-base font-semibold border-black text-black hover:bg-black/10 px-8 py-3 transition duration-300">
+                    Sign In
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Link href="/dashboard">
+                <Button size="lg" className="w-full sm:w-auto text-base font-semibold bg-black hover:bg-gray-900 text-[#9FEF00] px-8 py-3 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                  Go to Dashboard
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </section>

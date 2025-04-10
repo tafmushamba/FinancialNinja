@@ -45,7 +45,7 @@ const StatsOverview: React.FC = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Financial Literacy Score */}
-        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-green/20 transition-shadow hover:border-neon-green/30 overflow-hidden glow-border">
+        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-green/20 transition-all duration-300 hover:border-neon-green/30 overflow-hidden glow-border transform hover:scale-[1.02] cursor-pointer">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -58,7 +58,7 @@ const StatsOverview: React.FC = () => {
                 value={financialLiteracyScore} 
                 size={64}
                 strokeWidth={6}
-                className="animate-pulse-slow"
+                className="animate-pulse-slow transition-all duration-300 group-hover:scale-110"
               />
             </div>
             <div className="mt-4">
@@ -78,7 +78,7 @@ const StatsOverview: React.FC = () => {
         </Card>
         
         {/* Completed Modules */}
-        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-cyan/20 transition-shadow hover:border-neon-cyan/30 overflow-hidden glow-border">
+        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 hover:border-neon-cyan/30 overflow-hidden glow-border transform hover:scale-[1.02] cursor-pointer">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -87,7 +87,7 @@ const StatsOverview: React.FC = () => {
                   {modulesCompleted}<span className="text-sm text-muted-foreground">/{totalModules}</span>
                 </p>
               </div>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-cyan bg-opacity-20 text-neon-cyan">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-cyan bg-opacity-20 text-neon-cyan transition-all duration-300 group-hover:scale-110 group-hover:bg-opacity-30">
                 <i className="fas fa-book-open"></i>
               </div>
             </div>
@@ -106,14 +106,14 @@ const StatsOverview: React.FC = () => {
         </Card>
         
         {/* Badges Earned */}
-        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-purple/20 transition-shadow hover:border-neon-purple/30 overflow-hidden glow-border">
+        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-purple/20 transition-all duration-300 hover:border-neon-purple/30 overflow-hidden glow-border transform hover:scale-[1.02] cursor-pointer">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-muted-foreground text-sm font-medium">Badges Earned</p>
                 <p className="text-2xl font-bold text-foreground mt-1">{badgesEarned}</p>
               </div>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-purple bg-opacity-20 text-neon-purple animate-pulse-slow">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-purple bg-opacity-20 text-neon-purple animate-pulse-slow transition-all duration-300 group-hover:scale-110 group-hover:bg-opacity-30">
                 <i className="fas fa-medal"></i>
               </div>
             </div>

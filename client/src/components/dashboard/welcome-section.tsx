@@ -43,7 +43,7 @@ const WelcomeSection: React.FC = () => {
 
   return (
     <section className="mb-8 animate-fadeIn">
-      <div className="bg-dark-800 border border-dark-600 rounded-md p-6 shadow-lg hover:shadow-neon-green/20 transition-shadow hover:border-neon-green/30 overflow-hidden glow-border">
+      <div className="bg-dark-800 border border-dark-600 rounded-md p-6 shadow-lg hover:shadow-neon-green/20 transition-all duration-300 hover:border-neon-green/30 overflow-hidden glow-border group">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
           <div className="mb-4 md:mb-0">
             <div className="inline-block px-2 py-1 bg-dark-700 rounded-sm font-mono text-xs text-neon-green mb-2 shadow-inner">
@@ -65,7 +65,7 @@ const WelcomeSection: React.FC = () => {
             <Link href="/ai-assistant">
               <Button 
                 variant="outline" 
-                className="bg-neon-green/20 hover:bg-neon-green/30 text-neon-green border-neon-green/30 shadow-md hover:shadow-neon-green/20 transition-all"
+                className="bg-neon-green/20 hover:bg-neon-green/30 text-neon-green border-neon-green/30 shadow-md hover:shadow-neon-green/20 transition-all duration-300 transform hover:scale-105"
               >
                 <i className="fas fa-robot mr-2"></i>
                 AI Assistant
@@ -74,7 +74,7 @@ const WelcomeSection: React.FC = () => {
             <Link href="/learning-modules">
               <Button 
                 variant="outline" 
-                className="bg-dark-700 hover:bg-dark-600 text-foreground border-dark-600 shadow-md transition-all"
+                className="bg-dark-700 hover:bg-dark-600 text-foreground border-dark-600 shadow-md transition-all duration-300 transform hover:scale-105 hover:border-neon-green/30"
               >
                 <i className="fas fa-book mr-2"></i>
                 Start Learning
@@ -84,29 +84,29 @@ const WelcomeSection: React.FC = () => {
         </div>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start">
-            <div className="w-6 h-6 rounded-full bg-neon-green/20 flex items-center justify-center mr-2">
+          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
+            <div className="w-6 h-6 rounded-full bg-neon-green/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-green/30 group-hover:scale-110">
               <i className="fas fa-trophy text-xs text-neon-green"></i>
             </div>
             <span className="text-xs text-muted-foreground">Level 1 Investor</span>
           </div>
 
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start">
-            <div className="w-6 h-6 rounded-full bg-neon-cyan/20 flex items-center justify-center mr-2">
+          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
+            <div className="w-6 h-6 rounded-full bg-neon-cyan/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-cyan/30 group-hover:scale-110">
               <i className="fas fa-star text-xs text-neon-cyan"></i>
             </div>
             <span className="text-xs text-muted-foreground">125 Points Total</span>
           </div>
 
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start">
-            <div className="w-6 h-6 rounded-full bg-neon-purple/20 flex items-center justify-center mr-2">
+          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
+            <div className="w-6 h-6 rounded-full bg-neon-purple/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-purple/30 group-hover:scale-110">
               <i className="fas fa-calendar-check text-xs text-neon-purple"></i>
             </div>
             <span className="text-xs text-muted-foreground">5 Day Streak</span>
           </div>
 
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start">
-            <div className="w-6 h-6 rounded-full bg-neon-red/20 flex items-center justify-center mr-2">
+          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
+            <div className="w-6 h-6 rounded-full bg-neon-red/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-red/30 group-hover:scale-110">
               <i className="fas fa-medal text-xs text-neon-red"></i>
             </div>
             <span className="text-xs text-muted-foreground">3 Badges Earned</span>

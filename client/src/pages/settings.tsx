@@ -21,7 +21,12 @@ export default function Settings() {
     lastName: '',
     email: '',
     username: '',
+    profilePicture: '',
   });
+  
+  // Profile picture upload state
+  const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
+  const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(null);
   
   // Preferences state
   const [preferences, setPreferences] = useState({
@@ -71,10 +76,10 @@ export default function Settings() {
         console.error('Error fetching user profile:', error);
         // Use user context data as fallback
         return {
-          firstName: user?.firstName || 'taf',
-          lastName: user?.lastName || 'Mushamba',
-          email: user?.email || 'taf@example.com',
-          username: user?.username || 'taf_m',
+          firstName: user?.firstName || '',
+          lastName: user?.lastName || '',
+          email: user?.email || '',
+          username: user?.username || '',
           preferences: {
             darkMode: true,
             animations: true,
@@ -100,10 +105,11 @@ export default function Settings() {
   useEffect(() => {
     if (user) {
       setProfile({
-        firstName: user.firstName || 'taf',
-        lastName: user.lastName || 'Mushamba',
-        email: user.email || 'taf@example.com',
-        username: user.username || 'taf_m'
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        email: user.email || '',
+        username: user.username || '',
+        profilePicture: user.profilePicture || ''
       });
     }
   }, [user]);
@@ -115,7 +121,8 @@ export default function Settings() {
         firstName: userData.firstName || '',
         lastName: userData.lastName || '',
         email: userData.email || '',
-        username: userData.username || ''
+        username: userData.username || '',
+        profilePicture: userData.profilePicture || ''
       });
       
       if (userData.preferences) {
@@ -135,12 +142,53 @@ export default function Settings() {
     }
   }, [userData]);
   
+  // Define types for the mutation data
+  type ProfileData = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    profilePicture?: string;
+  };
+  
+  type PreferencesData = {
+    darkMode: boolean;
+    animations: boolean;
+    soundEffects: boolean;
+    learningDifficulty: string;
+  };
+  
+  type NotificationsData = {
+    email: boolean;
+    push: boolean;
+    learningReminders: boolean;
+    budgetAlerts: boolean;
+  };
+  
+  type SecurityData = {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    twoFactorAuth: boolean;
+  };
+
   // Update profile mutation
   const updateProfileMutation = useMutation({
-    mutationFn: async (profileData) => {
-      // Simulate API request
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return { success: true };
+    mutationFn: async (profileData: ProfileData) => {
+      // Send PUT request to update profile without file
+      const response = await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+      
+      return await response.json();
     },
     onSuccess: () => {
       toast({
@@ -160,7 +208,7 @@ export default function Settings() {
   
   // Update preferences mutation
   const updatePreferencesMutation = useMutation({
-    mutationFn: async (preferencesData) => {
+    mutationFn: async (preferencesData: PreferencesData) => {
       // Simulate API request
       await new Promise(resolve => setTimeout(resolve, 1000));
       return { success: true };
@@ -183,7 +231,7 @@ export default function Settings() {
   
   // Update notifications mutation
   const updateNotificationsMutation = useMutation({
-    mutationFn: async (notificationsData) => {
+    mutationFn: async (notificationsData: NotificationsData) => {
       // Simulate API request
       await new Promise(resolve => setTimeout(resolve, 1000));
       return { success: true };
@@ -206,7 +254,7 @@ export default function Settings() {
   
   // Update security mutation
   const updateSecurityMutation = useMutation({
-    mutationFn: async (securityData) => {
+    mutationFn: async (securityData: SecurityData) => {
       // Simulate API request
       await new Promise(resolve => setTimeout(resolve, 1000));
       return { success: true };
@@ -236,7 +284,7 @@ export default function Settings() {
   });
   
   // Handle profile form submit
-  const handleProfileSubmit = (e) => {
+  const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate email
@@ -245,23 +293,103 @@ export default function Settings() {
       return;
     }
     
-    updateProfileMutation.mutate(profile);
+    // Create FormData if there's a profile picture to upload
+    if (profilePictureFile) {
+      const formData = new FormData();
+      formData.append('profilePicture', profilePictureFile);
+      formData.append('firstName', profile.firstName);
+      formData.append('lastName', profile.lastName);
+      formData.append('email', profile.email);
+      formData.append('username', profile.username);
+      
+      // Upload with FormData
+      fetch('/api/user/profile', {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to update profile');
+        return response.json();
+      })
+      .then(data => {
+        toast({
+          title: 'Profile Updated',
+          description: 'Your profile information has been updated successfully.',
+        });
+        // Clear the file and preview states after successful upload
+        setProfilePictureFile(null);
+        setProfilePicturePreview(null);
+        
+        // Update local state with the new profile picture URL if available
+        if (data.user && data.user.profilePicture) {
+          setProfile(prev => ({
+            ...prev,
+            profilePicture: data.user.profilePicture
+          }));
+        }
+      })
+      .catch(error => {
+        console.error('Error updating profile:', error);
+        toast({
+          title: 'Update Failed',
+          description: 'There was an error updating your profile. Please try again.',
+          variant: 'destructive',
+        });
+      });
+    } else {
+      // Regular update without file upload
+      updateProfileMutation.mutate(profile as ProfileData);
+    }
+  };
+  
+  // Helper function to format profile picture URL
+  const getProfilePictureUrl = (picturePath: string | null | undefined): string => {
+    if (!picturePath) return '';
+    
+    // If it's already a full URL (starts with http or data:), return as is
+    if (picturePath.startsWith('http') || picturePath.startsWith('data:')) {
+      return picturePath;
+    }
+    
+    // If it starts with /uploads, it's already a path
+    if (picturePath.startsWith('/uploads')) {
+      return picturePath;
+    }
+    
+    // Otherwise, assume it's just a filename and construct the path
+    return `/uploads/profile/${picturePath}`;
+  };
+  
+  // Handle profile picture change
+  const handleProfilePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setProfilePictureFile(file);
+      
+      // Create a preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Set the preview URL
+        setProfilePicturePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
   
   // Handle preferences form submit
-  const handlePreferencesSubmit = (e) => {
+  const handlePreferencesSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updatePreferencesMutation.mutate(preferences);
   };
   
   // Handle notifications form submit
-  const handleNotificationsSubmit = (e) => {
+  const handleNotificationsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateNotificationsMutation.mutate(notifications);
   };
   
   // Handle security form submit
-  const handleSecuritySubmit = (e) => {
+  const handleSecuritySubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Reset errors
@@ -297,15 +425,15 @@ export default function Settings() {
   };
   
   // Handle switch toggles
-  const handlePreferenceToggle = (key, value) => {
+  const handlePreferenceToggle = (key: string, value: boolean) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
   };
   
-  const handleNotificationToggle = (key, value) => {
+  const handleNotificationToggle = (key: string, value: boolean) => {
     setNotifications(prev => ({ ...prev, [key]: value }));
   };
   
-  const handleSecurityToggle = (key, value) => {
+  const handleSecurityToggle = (key: string, value: boolean) => {
     setSecurity(prev => ({ ...prev, [key]: value }));
   };
 
@@ -385,27 +513,70 @@ export default function Settings() {
                   <CardContent>
                     <form onSubmit={handleProfileSubmit} className="space-y-4">
                       <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6">
-                        <div className="w-20 h-20 rounded-lg bg-[#9FEF00]/10 border border-[#9FEF00]/20 flex items-center justify-center">
-                          <span className="text-[#9FEF00] text-2xl font-bold">
-                            {profile.firstName && profile.lastName 
-                              ? `${profile.firstName[0]}${profile.lastName[0]}`.toUpperCase() 
-                              : 'TM'}
-                          </span>
+                        <div className="relative group w-20 h-20 rounded-lg bg-[#9FEF00]/10 border border-[#9FEF00]/20 flex items-center justify-center overflow-hidden">
+                          {profilePicturePreview ? (
+                            <img 
+                              src={profilePicturePreview} 
+                              alt="Profile Preview" 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : profile.profilePicture && profile.profilePicture.length > 0 ? (
+                            <img 
+                              src={getProfilePictureUrl(profile.profilePicture)} 
+                              alt="Profile" 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : user?.profilePicture && user.profilePicture.length > 0 ? (
+                            <img 
+                              src={getProfilePictureUrl(user.profilePicture)} 
+                              alt="Profile" 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-[#9FEF00] text-2xl font-bold">
+                              {profile.firstName && profile.lastName 
+                                ? `${profile.firstName[0]}${profile.lastName[0]}`.toUpperCase() 
+                                : user?.firstName && user?.lastName 
+                                ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase() 
+                                : 'FN'}
+                            </span>
+                          )}
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                            <label htmlFor="profile-picture" className="cursor-pointer text-xs text-white text-center px-2">
+                              Change Photo
+                              <input 
+                                id="profile-picture" 
+                                type="file" 
+                                accept="image/*" 
+                                className="hidden" 
+                                onChange={handleProfilePictureChange}
+                              />
+                            </label>
+                          </div>
                         </div>
                         <div>
                           <h3 className="text-lg font-medium text-white">
-                            {isLoading ? 'Loading...' : `${profile.firstName} ${profile.lastName}`}
+                            {isLoading ? 'Loading...' : profile.firstName && profile.lastName ? `${profile.firstName} ${profile.lastName}` : user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'Your Name'}
                           </h3>
                           <p className="text-white/60 text-sm font-mono">
-                            Level 1 Investor
+                            {user?.userLevel ? `Level ${user.userLevel} Investor` : 'Level 1 Investor'}
                           </p>
-                          <Button 
-                            type="button"
-                            variant="outline" 
-                            className="mt-2 text-sm bg-black/50 border-[#9FEF00]/30 text-white hover:bg-[#9FEF00]/10 hover:text-[#9FEF00]"
-                          >
-                            Change Avatar
-                          </Button>
+                          <label htmlFor="profile-picture">
+                            <Button 
+                              type="button"
+                              variant="outline" 
+                              className="mt-2 text-sm bg-black/50 border-[#9FEF00]/30 text-white hover:bg-[#9FEF00]/10 hover:text-[#9FEF00]"
+                            >
+                              Change Avatar
+                            </Button>
+                            <input 
+                              id="profile-picture" 
+                              type="file" 
+                              accept="image/*" 
+                              className="hidden" 
+                              onChange={handleProfilePictureChange}
+                            />
+                          </label>
                         </div>
                       </div>
                       

@@ -16,7 +16,8 @@ import {
   Gift,
   Calculator,
   LifeBuoy,
-  MessageCircle
+  MessageCircle,
+  Palette
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -181,6 +182,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false }) => {
     { icon: Trophy, label: 'Achievements', path: '/achievements' },
     { icon: Gift, label: 'Rewards', path: '/rewards' },
     { icon: Bot, label: 'AI Assistant', path: '/ai-assistant' },
+    { icon: Palette, label: 'Design System', path: '/design-system' },
     { icon: Settings, label: 'Settings', path: '/settings' }
   ];
 
