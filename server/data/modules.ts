@@ -32,6 +32,7 @@ export const mockModules: LearningModule[] = [
     topics: ["Income Tracking", "UK Expenses", "Saving Goals", "Budget Methods", "Financial Planning"],
     prerequisites: [],
     order: 2,
+    quizId: 2,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/budget.jpg"
@@ -48,6 +49,7 @@ export const mockModules: LearningModule[] = [
     topics: ["UK Insurance", "Emergency Funds", "Diversification", "Risk Assessment", "Financial Protection"],
     prerequisites: [1], // Requires Investment Basics
     order: 5,
+    quizId: 3,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/investment.jpg"
@@ -80,6 +82,7 @@ export const mockModules: LearningModule[] = [
     topics: ["UK Credit Scores", "Credit Reports", "Credit Cards", "Loans", "Borrowing Responsibly"],
     prerequisites: [],
     order: 6,
+    quizId: 5,
     createdAt: new Date(),
     updatedAt: new Date(),
     image: "/images/credit.jpg"
