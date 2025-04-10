@@ -52,7 +52,7 @@ export default function FinancialGame() {
   };
 
   const handleBack = () => {
-    navigate('/');
+    navigate('/dashboard');
   };
 
   if (!gameStarted) {

@@ -14,7 +14,7 @@ export default function FinancialCalculators() {
   const [activeTab, setActiveTab] = useState('budget');
   
   const handleBack = () => {
-    navigate('/');
+    navigate('/dashboard');
   };
   
   return (

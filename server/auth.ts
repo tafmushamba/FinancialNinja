@@ -140,18 +140,28 @@ export function setupAuth(app: express.Express) {
 
   // Middleware for checking if user is authenticated
   const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-    // In development mode, skip authentication to allow testing with mock data
-    if (process.env.NODE_ENV !== "production" || req.isAuthenticated()) {
-      // If in development mode and not authenticated, add mock user data
-      if (process.env.NODE_ENV !== "production" && !req.isAuthenticated()) {
-        // Add mock user to request - Using actual user from storage for data consistency
+    // Check if user is authenticated through normal means
+    if (req.isAuthenticated()) {
+      // User is properly authenticated, proceed
+      return next();
+    }
+    
+    // In development mode, allow testing with mock data if not authenticated
+    if (process.env.NODE_ENV !== "production") {
+      // Check if we have a session with Google auth data
+      const session = req.session as any;
+      if (session && session.passport && session.passport.user) {
+        // Use the session data
+        (req as any).user = session.passport.user;
+      } else {
+        // No session data, use mock user as fallback
         const mockUser = {
           id: 1, // This should match existing user data in storage for proper queries
-          username: "johnsmith",
-          firstName: "John",
-          lastName: "Smith",
-          email: "john.smith@example.com",
-          userLevel: "Level 3 Investor",
+          username: "taf_m",
+          firstName: "taf",
+          lastName: "Mushamba",
+          email: "taf@example.com",
+          userLevel: "Level 1 Investor",
           financialLiteracyScore: 72,
         };
         

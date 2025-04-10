@@ -27,6 +27,7 @@ export const users = pgTable("users", {
       learningReminders: boolean;
       budgetAlerts: boolean;
     };
+    twoFactorAuth?: boolean;
   }>().default({
     darkMode: true,
     animations: true,
@@ -37,7 +38,8 @@ export const users = pgTable("users", {
       push: true,
       learningReminders: true,
       budgetAlerts: true
-    }
+    },
+    twoFactorAuth: false
   }),
 });
 

@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkAuthStatus = async () => {
     try {
+      // First check if we have a session cookie
       const response = await apiRequest({
         url: "/api/auth/me",
         method: "GET",
@@ -51,30 +52,50 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
       
       if (response && response.user) {
+        // Store user data in sessionStorage for persistence during navigation
+        sessionStorage.setItem('authUser', JSON.stringify(response.user));
         setIsAuthenticated(true);
         setUser(response.user);
       } else {
-        // For development, provide a default mock user so the UI works properly
-        // In production, this would be removed
+        // Check if we have stored user data in sessionStorage
+        const storedUser = sessionStorage.getItem('authUser');
+        
+        if (storedUser) {
+          // Use the stored user data
+          setIsAuthenticated(true);
+          setUser(JSON.parse(storedUser));
+        } else {
+          // For development, provide a default mock user so the UI works properly
+          // In production, this would be removed
+          if (import.meta.env.DEV) {
+            console.warn('Using mock user data for development');
+            setIsAuthenticated(true);
+            setUser(mockUser);
+          } else {
+            setIsAuthenticated(false);
+            setUser(null);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Auth check error:", error);
+      // Check if we have stored user data in sessionStorage
+      const storedUser = sessionStorage.getItem('authUser');
+      
+      if (storedUser) {
+        // Use the stored user data even if the API call failed
+        setIsAuthenticated(true);
+        setUser(JSON.parse(storedUser));
+      } else {
+        // For development, provide a mock user on error
         if (import.meta.env.DEV) {
-          console.warn('Using mock user data for development');
+          console.warn('Using mock user data for development after error');
           setIsAuthenticated(true);
           setUser(mockUser);
         } else {
           setIsAuthenticated(false);
           setUser(null);
         }
-      }
-    } catch (error) {
-      console.error("Auth check error:", error);
-      // For development, provide a mock user on error
-      if (import.meta.env.DEV) {
-        console.warn('Using mock user data for development after error');
-        setIsAuthenticated(true);
-        setUser(mockUser);
-      } else {
-        setIsAuthenticated(false);
-        setUser(null);
       }
     } finally {
       setLoading(false);
@@ -86,6 +107,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = (userData: any) => {
+    // Store user data in sessionStorage for persistence
+    sessionStorage.setItem('authUser', JSON.stringify(userData));
     setIsAuthenticated(true);
     setUser(userData);
   };
@@ -99,6 +122,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
+      // Clear session storage on logout
+      sessionStorage.removeItem('authUser');
+      sessionStorage.removeItem('redirectAfterLogin');
       setIsAuthenticated(false);
       setUser(null);
       navigate("/login");
