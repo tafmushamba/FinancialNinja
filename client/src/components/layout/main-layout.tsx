@@ -65,7 +65,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, hideHeader = false })
       {/* Sidebar - hidden on mobile and special pages */}
       {!isSpecialPage && (
         <aside className={cn(
-          "hidden md:block transition-all duration-300 ease-in-out h-screen",
+          "hidden md:block transition-all duration-300 ease-in-out h-screen fixed top-0 left-0 z-30",
           isSidebarOpen ? "w-64" : "w-20"
         )}>
           <Sidebar collapsed={!isSidebarOpen} />
@@ -73,7 +73,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, hideHeader = false })
       )}
       
       {/* Main content area */}
-      <div className="flex flex-col flex-1 w-full">
+      <div className={cn(
+        "flex flex-col flex-1 w-full",
+        !isSpecialPage ? (isSidebarOpen ? "md:ml-64" : "md:ml-20") : ""
+      )}>
         {/* Top header - hidden on special pages or when hideHeader is true */}
         {!isSpecialPage && !hideHeader && (
           <Header 
@@ -96,7 +99,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, hideHeader = false })
           transition={{ duration: 0.5 }}
           className={cn(
             "flex-1 overflow-y-auto",
-            isSpecialPage ? "p-0 pb-0" : "p-4 md:p-6 pb-20 md:pb-10"
+            isSpecialPage ? "p-0 pb-0" : "p-4 md:p-6 pb-20 md:pb-10",
+            !isSpecialPage && !hideHeader ? "mt-16" : ""
           )}
         >
           {children}

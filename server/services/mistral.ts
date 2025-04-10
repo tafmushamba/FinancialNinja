@@ -1,14 +1,15 @@
 import { Mistral } from "@mistralai/mistralai";
 
-// Initialize Mistral client with API key
-// When developing with Mistral AI, you'll need a valid API key
-const client = new Mistral({
-  apiKey: process.env.MISTRAL_API_KEY || "dummy_key"
-});
-
 // Default model - Using Mistral's most capable model
 // Current available models include: "open-mistral-7b", "open-mixtral-8x7b", "mistral-small-latest", "mistral-medium-latest", "mistral-large-latest"
 const DEFAULT_MODEL = "mistral-medium-latest";
+
+// Function to get a fresh Mistral client instance with the current API key
+function getMistralClient() {
+  return new Mistral({
+    apiKey: process.env.MISTRAL_API_KEY || "dummy_key"
+  });
+}
 
 /**
  * Generates personalized financial insights based on user query
@@ -20,6 +21,9 @@ export async function generateFinancialInsight(userQuery: string): Promise<strin
   // If we have a real API key, use the Mistral API
   if (hasRealApiKey) {
     try {
+      // Get a fresh client instance with the latest API key
+      const client = getMistralClient();
+      
       // Define a system message that establishes the assistant as a financial expert
       const systemMessage = `
         You are a financial literacy assistant for a platform called FinByte.
@@ -98,6 +102,9 @@ export async function analyzeFinancialData(
   savingsGoal: number
 ): Promise<{ insights: string[], recommendations: string[] }> {
   try {
+    // Get a fresh client instance with the latest API key
+    const client = getMistralClient();
+    
     const financialData = {
       expenses,
       income,
@@ -167,6 +174,9 @@ export async function createLearningPlan(
   financialGoals: string[]
 ): Promise<{ topics: string[], resources: string[], timeframe: string }> {
   try {
+    // Get a fresh client instance with the latest API key
+    const client = getMistralClient();
+    
     const userData = {
       currentKnowledge,
       financialGoals
