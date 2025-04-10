@@ -112,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({
           className="flex items-center"
         >
           <Link to="/" className="flex items-center">
-<Mascot size="lg" />
+            <Mascot size="lg" />
             <BrainCircuit className="h-5 w-5 text-[#9FEF00] mr-2" />
             <h2 className="text-xl font-mono font-bold text-white">
               Money<span className="text-[#9FEF00]">Mind</span>
