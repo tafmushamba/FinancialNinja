@@ -31,7 +31,7 @@ const rewards: Reward[] = [
     pointsRequired: 500,
     icon: '☕',
     category: 'Dining',
-    image: 'https://cdn.icon-icons.com/icons2/3913/PNG/512/costa_coffee_logo_icon_248775.png'
+    image: '/images/rewards/costa.png'
   },
   {
     id: 'tesco',
@@ -51,7 +51,7 @@ const rewards: Reward[] = [
     pointsRequired: 1200,
     icon: '🎬',
     category: 'Entertainment',
-    image: 'https://cdn.icon-icons.com/icons2/3914/PNG/512/vue_logo_icon_248841.png'
+    image: '/images/rewards/vue.png'
   },
   {
     id: 'spotify',
