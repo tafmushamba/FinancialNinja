@@ -15,12 +15,10 @@ export default function LifeSimulationPage() {
     >
       <div className="container mx-auto py-6 max-w-5xl">
         <div className="flex items-center justify-between mb-6">
-          <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="gap-1">
-              <ArrowLeft className="h-4 w-4" />
-              <span>Back to Dashboard</span>
-            </Button>
-          </Link>
+          <Button variant="ghost" size="sm" className="gap-1 cursor-pointer text-neon-green hover:bg-neon-green/10 z-50" style={{ pointerEvents: 'auto' }} onClick={() => window.location.href = '/dashboard'}>
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Dashboard</span>
+          </Button>
         </div>
         
         <div className="mb-6">

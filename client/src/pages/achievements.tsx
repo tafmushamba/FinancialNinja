@@ -7,7 +7,7 @@ import { Trophy, Medal, Award, GraduationCap, Calculator, Star } from 'lucide-re
 import { BadgeSystem, BadgeGrid, BadgeDetail, badgeCollection } from '@/components/badges/badge-system';
 
 const Achievements: React.FC = () => {
-  const [selectedBadge, setSelectedBadge] = useState(null);
+  const [selectedBadge, setSelectedBadge] = useState<any>(null);
   const { data: achievementsData } = useQuery({
     queryKey: ['/api/user/achievements'],
   });

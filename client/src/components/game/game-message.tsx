@@ -30,6 +30,22 @@ export function GameMessage({ message, isLoading }: GameMessageProps) {
   }
 
   if (!message) return null;
+  
+  // Fix for truncated text - if message starts with 'elcome', add 'W' at the beginning
+  let displayMessage = message;
+  if (message.startsWith('elcome')) {
+    displayMessage = 'W' + message;
+  }
+  
+  // Also check for any other common truncations
+  if (message.match(/^[a-z]/) && message.length > 5) {
+    // Check if the message starts with a lowercase letter (potential truncation)
+    const firstWord = message.split(' ')[0];
+    if (firstWord.length > 3 && !['the', 'and', 'for', 'with', 'your', 'you'].includes(firstWord.toLowerCase())) {
+      // Capitalize the first letter as a fallback fix
+      displayMessage = message.charAt(0).toUpperCase() + message.slice(1);
+    }
+  }
 
   return (
     <motion.div
@@ -44,7 +60,7 @@ export function GameMessage({ message, isLoading }: GameMessageProps) {
               <MessageCircle className="h-5 w-5 text-primary" />
             </div>
             <div className="prose prose-sm dark:prose-invert max-w-none">
-              <ReactMarkdown>{message}</ReactMarkdown>
+              <ReactMarkdown>{displayMessage}</ReactMarkdown>
             </div>
           </div>
         </CardContent>
