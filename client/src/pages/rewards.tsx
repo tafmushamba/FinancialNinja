@@ -5,9 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Gift, Award, Sparkles } from 'lucide-react';
 import { fetchRewards, redeemReward } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
 
 const RewardsPage: React.FC = () => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   
   const { data: userData, isLoading: userLoading } = useQuery({
     queryKey: ['/api/user/points'],
@@ -23,7 +25,19 @@ const RewardsPage: React.FC = () => {
       // Invalidate and refetch user points and rewards
       queryClient.invalidateQueries({ queryKey: ['/api/user/points'] });
       queryClient.invalidateQueries({ queryKey: ['/api/rewards/available'] });
+      toast({
+        title: "Success",
+        description: "Reward redeemed successfully!",
+        variant: "default"
+      });
     },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to redeem reward. Please try again.",
+        variant: "destructive"
+      });
+    }
   });
   
   const handleRedeemReward = async (rewardId: string) => {
@@ -36,8 +50,8 @@ const RewardsPage: React.FC = () => {
     }
   };
   
-  const userPoints = userData?.points || 0;
-  const rewards = rewardsData?.rewards || [];
+  const userPoints = (userData as any)?.points || 0;
+  const rewards = (rewardsData as any)?.rewards || [];
   
   // Calculate next reward milestone
   const sortedRewards = [...rewards].sort((a, b) => a.pointsRequired - b.pointsRequired);
@@ -89,7 +103,26 @@ const RewardsPage: React.FC = () => {
                   )}
                 </div>
                 
-                <Progress value={milestoneProgress} className="h-2 mb-4" />
+                <div className="relative h-2 mb-4 bg-gray-200 rounded-full overflow-hidden">
+                  <Progress value={milestoneProgress} className="h-2" />
+                  {sortedRewards.map((reward, index) => {
+                    const position = (reward.pointsRequired / (nextMilestonePoints || reward.pointsRequired)) * 100;
+                    if (position <= 100) {
+                      return (
+                        <div 
+                          key={index} 
+                          className="absolute top-0 h-full w-0.5 bg-amber-500 opacity-50"
+                          style={{ left: `${position}%` }}
+                        >
+                          <div className="absolute top-3 text-xs text-amber-500 transform -translate-x-1/2 whitespace-nowrap">
+                            {reward.pointsRequired}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
                 
                 <div className="bg-muted/40 rounded-lg p-4 text-sm">
                   <div className="flex items-start">
@@ -116,6 +149,7 @@ const RewardsPage: React.FC = () => {
           rewards={rewards}
           currentPoints={userPoints}
           onRedeemReward={handleRedeemReward}
+          className="animate-fadeIn"
         />
       )}
     </div>

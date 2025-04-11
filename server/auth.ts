@@ -12,11 +12,13 @@ export function setupAuth(app: express.Express) {
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "financial-literacy-secret",
-      resave: false,
-      saveUninitialized: false,
+      resave: true,
+      saveUninitialized: true,
       cookie: {
-        secure: process.env.NODE_ENV === "production",
+        // Only use secure cookies in production with HTTPS
+        secure: false, // Set to false to allow cookies over HTTP in development
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        httpOnly: true,
       },
     })
   );
@@ -54,9 +56,7 @@ export function setupAuth(app: express.Express) {
   // Configure Google Strategy
   const googleClientId = process.env.GOOGLE_CLIENT_ID || '';
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
-  const googleCallbackURL = process.env.NODE_ENV === "production"
-    ? "https://your-production-domain.com/api/auth/google/callback"
-    : "http://localhost:3000/api/auth/google/callback";
+  const googleCallbackURL = "http://localhost:3000/api/auth/google/callback";
 
   console.log("--- Google OAuth Configuration ---");
   console.log("Client ID:", googleClientId ? "Loaded" : "MISSING!");
@@ -75,21 +75,31 @@ export function setupAuth(app: express.Express) {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
+          console.log("Google OAuth callback received", { 
+            profileId: profile.id,
+            email: profile.emails && profile.emails[0] ? profile.emails[0].value : null,
+            displayName: profile.displayName
+          });
+          
           // Check if user exists by Google ID
           let user = await storage.getUserByGoogleId(profile.id);
+          console.log("User by Google ID:", user ? "Found" : "Not found");
           
           if (!user) {
             // Check if user exists with the same email
             const email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
             if (email) {
               user = await storage.getUserByEmail(email);
+              console.log("User by email:", user ? "Found" : "Not found");
             }
             
             if (user) {
               // Update existing user with Google ID
+              console.log("Updating existing user with Google ID");
               user = await storage.updateUserGoogleId(user.id, profile.id);
             } else {
               // Create new user from Google profile
+              console.log("Creating new user from Google profile");
               const firstName = profile.name?.givenName || profile.displayName.split(' ')[0];
               const lastName = profile.name?.familyName || '';
               
@@ -185,10 +195,32 @@ function registerAuthRoutes(app: express.Express) {
 
   app.get(
     "/api/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login" }),
-    (req, res) => {
-      // Successful authentication, redirect to dashboard
-      res.redirect("/dashboard");
+    (req, res, next) => {
+      console.log("Google callback received, starting authentication");
+      passport.authenticate("google", (err: any, user: User | undefined, info: any) => {
+        console.log("Google auth result:", { error: !!err, userFound: !!user, info });
+        
+        if (err) {
+          console.error("Google auth error:", err);
+          return next(err);
+        }
+        
+        if (!user) {
+          console.log("Authentication failed, redirecting to login");
+          return res.redirect("/login?error=auth_failed");
+        }
+        
+        req.login(user, (loginErr) => {
+          if (loginErr) {
+            console.error("Login error after Google auth:", loginErr);
+            return next(loginErr);
+          }
+          
+          console.log("User successfully authenticated and logged in", { userId: user.id });
+          // Successful authentication, redirect to dashboard
+          return res.redirect("/dashboard");
+        });
+      })(req, res, next);
     }
   );
 

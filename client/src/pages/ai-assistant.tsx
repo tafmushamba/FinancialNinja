@@ -109,23 +109,55 @@ export default function AiAssistant() {
     }
   ];
 
+  // Function to clear chat history
+  const clearChatHistory = () => {
+    queryClient.setQueryData(['/api/assistant/all-messages'], {
+      messages: [
+        { 
+          sender: 'assistant', 
+          content: 'Hello! I\'m your AI financial assistant. How can I help you today?',
+          timestamp: new Date().toLocaleTimeString()
+        }
+      ]
+    });
+    setShowSuggestions(true);
+  };
+
+  // Function to format message content with basic markdown-like styling
+  const formatMessageContent = (content: string) => {
+    // Bold text with **text**
+    let formattedContent = content.replace(/\*\*(.*?)\*\*/g, (match, group1) => `<strong>${group1}</strong>`);
+    // Italic text with *text*
+    formattedContent = formattedContent.replace(/\*(.*?)\*/g, (match, group1) => `<em>${group1}</em>`);
+    // List items with - item
+    formattedContent = formattedContent.replace(/- (.*?)(?:\n|$)/g, (match, group1) => `<li>${group1}</li>`);
+    // Wrap lists in <ul> tags if there are list items
+    if (formattedContent.includes('<li>')) {
+      formattedContent = formattedContent.replace(/(<li>.*?<\/li>)+/g, (match) => `<ul>${match}</ul>`);
+    }
+    return formattedContent;
+  };
+
   return (
     <main className="container mx-auto p-4">
       <div className="max-w-4xl mx-auto">
         <section className="mb-6">
           <Card className="bg-dark-800 border-dark-600">
             <CardHeader className="border-b border-dark-600 bg-dark-700">
-              <div className="flex items-center">
-                <div className="h-12 w-12 mr-3">
-                  <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-12 w-12" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="h-12 w-12 mr-3">
+                    <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-12 w-12" />
+                  </div>
+                  <CardTitle className="text-xl text-neon-green">MoneyMind Assistant</CardTitle>
                 </div>
-                <div>
-                  <CardTitle className="text-foreground">MoneyMind Assistant</CardTitle>
-                  <p className="text-xs text-muted-foreground">Powered by AI</p>
-                </div>
-                <Badge className="ml-auto bg-green-500/20 text-green-500 border border-green-500/30">
-                  <i className="fas fa-circle text-xs mr-1"></i> Online
-                </Badge>
+                <Button 
+                  variant="outline" 
+                  className="text-xs bg-dark-700 border-dark-600 hover:bg-dark-600 hover:text-white"
+                  onClick={clearChatHistory}
+                >
+                  Clear History
+                </Button>
               </div>
             </CardHeader>
 
@@ -134,22 +166,24 @@ export default function AiAssistant() {
                 {messages.map((msg: { sender: string; content: string; timestamp?: string }, i: number) => (
                   <div 
                     key={i} 
-                    className={`mb-4 flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                    className={`mb-4 flex justify-${msg.sender === 'user' ? 'end' : 'start'} animate-fadeIn`}
                   >
                     <div 
-                      className={`max-w-[80%] rounded-lg p-3 ${
-                        msg.sender === 'user' 
-                          ? 'bg-neon-green/20 text-white' 
-                          : 'bg-dark-700 text-white'
-                      }`}
+                      className={`max-w-[80%] rounded-lg p-3 ${msg.sender === 'user' ? 'bg-neon-green text-black' : 'bg-dark-700'} relative`}
                     >
-                      {msg.sender === 'assistant' && (
-                        <div className="flex items-center mb-2">
+                      <div className="flex items-center mb-2">
+                        {msg.sender === 'user' ? (
+                          <div className="flex items-center justify-center h-6 w-6 rounded-full bg-black bg-opacity-30 mr-2">
+                            <i className="fas fa-user text-xs"></i>
+                          </div>
+                        ) : (
                           <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-6 w-6 mr-2" />
-                          <span className="text-xs font-medium text-neon-green">MoneyMind Assistant</span>
-                        </div>
-                      )}
-                      {msg.content}
+                        )}
+                        <span className={`text-xs font-medium ${msg.sender === 'user' ? 'text-black' : 'text-neon-green'}`}> 
+                          {msg.sender === 'user' ? 'You' : 'MoneyMind Assistant'}
+                        </span>
+                      </div>
+                      <div className="text-sm message-content" dangerouslySetInnerHTML={{ __html: formatMessageContent(msg.content) }} />
                       {msg.timestamp && (
                         <div className="text-xs text-gray-400 mt-1">{msg.timestamp}</div>
                       )}
@@ -158,15 +192,15 @@ export default function AiAssistant() {
                 ))}
                 {sendMessageMutation.isPending && (
                   <div className="mb-4 flex justify-start">
-                    <div className="max-w-[80%] rounded-lg p-3 bg-dark-700">
+                    <div className="max-w-[80%] rounded-lg p-3 bg-dark-700 relative">
                       <div className="flex items-center mb-2">
                         <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-6 w-6 mr-2" />
                         <span className="text-xs font-medium text-neon-green">MoneyMind Assistant</span>
                       </div>
-                      <div className="flex space-x-2">
-                        <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce"></div>
-                        <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                        <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                      <div className="flex space-x-2 items-center justify-center h-6">
+                        <div className="h-2 w-2 rounded-full bg-neon-green animate-bounce"></div>
+                        <div className="h-2 w-2 rounded-full bg-neon-green animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="h-2 w-2 rounded-full bg-neon-green animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                       </div>
                     </div>
                   </div>

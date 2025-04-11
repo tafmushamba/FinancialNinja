@@ -109,7 +109,8 @@ export function BudgetCalculator() {
   // Recalculate remaining percentage whenever categories change
   useEffect(() => {
     const totalAllocated = categories.reduce((sum, category) => sum + category.value, 0);
-    setRemainingPercentage(100 - totalAllocated);
+    const newRemainingPercentage = 100 - totalAllocated;
+    setRemainingPercentage(newRemainingPercentage);
     
     // Calculate budget health
     const savingsCategory = categories.find(cat => cat.id === 'savings');
@@ -117,14 +118,14 @@ export function BudgetCalculator() {
     const housingCategory = categories.find(cat => cat.id === 'housing');
     const housingPercentage = housingCategory ? housingCategory.value : 0;
     
-    if (savingsPercentage >= 20 && housingPercentage <= 30 && remainingPercentage >= 0) {
+    if (savingsPercentage >= 20 && housingPercentage <= 30 && newRemainingPercentage >= 0) {
       setBudgetHealth('good');
-    } else if (savingsPercentage >= 10 && housingPercentage <= 40 && remainingPercentage >= 0) {
+    } else if (savingsPercentage >= 10 && housingPercentage <= 40 && newRemainingPercentage >= 0) {
       setBudgetHealth('average');
     } else {
       setBudgetHealth('poor');
     }
-  }, [categories, remainingPercentage]);
+  }, [categories]);
   
   // Handle slider change
   const handleCategoryChange = (categoryId: string, newValue: number[]) => {
@@ -166,7 +167,7 @@ export function BudgetCalculator() {
     if (remainingPercentage !== 0) {
       toast({
         title: "Budget Incomplete",
-        description: `Your allocations must total exactly 100%. You have ${Math.abs(remainingPercentage)}% ${remainingPercentage > 0 ? 'unallocated' : 'over-allocated'}.`,
+        description: `Your allocations must total exactly 100%. You have ${Math.abs(remainingPercentage)}% ${remainingPercentage > 0 ? 'unallocated' : 'over-allocated'}. Adjust your categories to reach 100%.`,
         variant: "destructive"
       });
       return;
@@ -181,15 +182,15 @@ export function BudgetCalculator() {
     switch (budgetHealth) {
       case 'good':
         toastTitle = "Excellent Budget!";
-        toastDescription = "Your budget is well-balanced with good savings rate.";
+        toastDescription = "Your budget is well-balanced with a good savings rate. Keep up the great work!";
         break;
       case 'average':
         toastTitle = "Decent Budget";
-        toastDescription = "Your budget is reasonable, but consider increasing your savings.";
+        toastDescription = "Your budget is reasonable, but consider increasing your savings for better financial health.";
         break;
       case 'poor':
         toastTitle = "Budget Needs Improvement";
-        toastDescription = "Consider reducing some expenses to increase your savings.";
+        toastDescription = "Consider reducing some expenses to increase your savings and improve your budget health.";
         break;
     }
     

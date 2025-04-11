@@ -82,17 +82,19 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario, de
         </div>
         
         {/* Decision Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {mappedOptions.map((option, index) => (
             <motion.div
               key={option.value}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <Card 
-                className={`cursor-pointer transition-all hover:shadow-md hover:border-primary/50 ${
-                  selectedOption === option.value ? 'border-2 border-primary' : ''
+                className={`cursor-pointer transition-all hover:shadow-lg hover:border-primary/70 $ {
+                  selectedOption === option.value ? 'border-2 border-primary bg-primary/10' : ''
                 } ${disabled ? 'opacity-60 pointer-events-none' : ''}`}
                 onClick={() => !disabled && onSelect(option.value)}
               >
@@ -727,17 +729,19 @@ export function DecisionCards({ onSelect, selectedOption, disabled, scenario, de
       </div>
       
       {/* Decision Options */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {options.map((option, index) => (
           <motion.div
             key={option.value}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
             <Card 
-              className={`cursor-pointer transition-all hover:shadow-md hover:border-primary/50 ${
-                selectedOption === option.value ? 'border-2 border-primary' : ''
+              className={`cursor-pointer transition-all hover:shadow-lg hover:border-primary/70 $ {
+                selectedOption === option.value ? 'border-2 border-primary bg-primary/10' : ''
               } ${disabled ? 'opacity-60 pointer-events-none' : ''}`}
               onClick={() => !disabled && onSelect(option.value)}
             >

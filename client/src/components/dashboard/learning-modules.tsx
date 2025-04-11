@@ -71,27 +71,34 @@ const LearningModules: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredModules.map(module => (
           <Link key={module.id} href={`/learning-modules/${module.id}`}>
-            <Card className="overflow-hidden hover:border-neon-green/40 hover:shadow-lg hover:shadow-neon-green/20 transition-all duration-300 cursor-pointer group transform hover:scale-[1.02]">
+            {/* Add slight shadow, lift on hover, improve border transition */}
+            <Card className="overflow-hidden border border-dark-600 hover:border-neon-green/50 shadow-md hover:shadow-lg hover:shadow-neon-green/20 transition-all duration-300 cursor-pointer group transform hover:-translate-y-1 hover:scale-[1.03]">
               <div 
                 className="h-48 bg-cover bg-center relative overflow-hidden"
                 style={{
-                  backgroundImage: module.image ? `url(${module.image})` : undefined,
-                  backgroundColor: !module.image && module.accentColor ? `var(--${module.accentColor})` : 'var(--primary)'
+                  backgroundImage: module.image ? `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6)), url(${module.image})` : undefined, // Added gradient overlay
+                  backgroundColor: !module.image && module.accentColor ? `var(--${module.accentColor})` : 'var(--primary)',
+                  backgroundBlendMode: module.image ? 'multiply' : 'normal' // Blend gradient with image
                 }}
               >
-                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-all duration-300 backdrop-blur-[1px] group-hover:backdrop-blur-none">
-                  <div className="absolute top-4 left-4 flex items-center space-x-2">
-                    <Badge variant="outline" className="bg-black/50 backdrop-blur-sm border-none group-hover:bg-neon-green/20 group-hover:text-neon-green transition-all duration-300">
+                {/* Add gradient background if no image for better contrast */}
+                {!module.image && (
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"></div>
+                )}
+                <div className="absolute inset-0 flex flex-col justify-between p-4"> {/* Adjusted padding */} 
+                  <div className="flex items-start justify-between"> {/* Top content container */}
+                    <Badge variant="secondary" className="bg-black/60 backdrop-blur-sm border-none text-xs text-gray-300 group-hover:bg-neon-green/80 group-hover:text-black font-semibold transition-all duration-300"> {/* Improved badge styling */}
                       {module.category}
                     </Badge>
+                    <div className="text-3xl text-white/80 group-hover:text-neon-green group-hover:scale-110 transform transition-all duration-300 opacity-70 group-hover:opacity-100"> {/* Moved icon to top right, adjusted styling */}
+                      <i className={module.icon || 'fas fa-book'}></i>
+                    </div>
                   </div>
-                  <div className="absolute bottom-4 left-4 text-4xl text-white group-hover:text-neon-green group-hover:scale-110 transform transition-all duration-300">
-                    <i className={module.icon || 'fas fa-book'}></i>
-                  </div>
+                  {/* Removed icon from bottom left */}
                 </div>
               </div>
 
-              <div className="p-4 relative">
+              <div className="p-4 bg-dark-700"> {/* Ensure consistent background */} 
                 <h3 className="font-bold mb-2 group-hover:text-neon-green transition-colors duration-300">
                   {module.title}
                 </h3>

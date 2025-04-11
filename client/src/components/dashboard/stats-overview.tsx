@@ -43,107 +43,117 @@ const StatsOverview: React.FC = () => {
         <TerminalText>$ Financial Progress Overview</TerminalText>
       </h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Financial Literacy Score */}
-        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-green/20 transition-all duration-300 hover:border-neon-green/30 overflow-hidden glow-border transform hover:scale-[1.02] cursor-pointer">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm font-medium">Financial Literacy Score</p>
-                <p className="text-2xl font-bold text-foreground mt-1">
-                  {financialLiteracyScore}<span className="text-sm text-muted-foreground">/100</span>
-                </p>
-              </div>
-              <ProgressCircle 
-                value={financialLiteracyScore} 
-                size={64}
-                strokeWidth={6}
-                className="animate-pulse-slow transition-all duration-300 group-hover:scale-110"
-              />
-            </div>
-            <div className="mt-4">
-              <div className="text-xs text-muted-foreground">Last assessment: {lastAssessment}</div>
-              {scoreImprovement > 0 && (
-                <div className="text-xs text-neon-green mt-1 flex items-center">
-                  <i className="fas fa-arrow-up mr-1"></i>+{scoreImprovement} points since last month
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+          <Card className="h-40 bg-dark-800 border border-dark-600"><CardContent className="p-6"></CardContent></Card>
+          <Card className="h-40 bg-dark-800 border border-dark-600"><CardContent className="p-6"></CardContent></Card>
+          <Card className="h-40 bg-dark-800 border border-dark-600"><CardContent className="p-6"></CardContent></Card>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Financial Literacy Score */}
+          <Card className="bg-dark-800 border border-dark-600 shadow-md hover:shadow-lg hover:shadow-neon-green/20 transition-all duration-300 hover:border-neon-green/50 overflow-hidden group transform hover:-translate-y-1 hover:scale-[1.02] cursor-pointer">
+            <CardContent className="p-6 sm:p-8">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-muted-foreground text-xs sm:text-sm font-medium">Financial Literacy Score</p>
+                  <p className="text-xl sm:text-2xl font-bold text-foreground mt-2">
+                    {financialLiteracyScore}<span className="text-sm text-muted-foreground">/100</span>
+                  </p>
                 </div>
-              )}
-              {scoreImprovement < 0 && (
-                <div className="text-xs text-neon-red mt-1 flex items-center">
-                  <i className="fas fa-arrow-down mr-1"></i>{scoreImprovement} points since last month
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-        
-        {/* Completed Modules */}
-        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 hover:border-neon-cyan/30 overflow-hidden glow-border transform hover:scale-[1.02] cursor-pointer">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+                <ProgressCircle 
+                  value={financialLiteracyScore} 
+                  size={55}
+                  strokeWidth={6}
+                  className="transition-all duration-300 group-hover:scale-110 text-neon-green"
+                  showText={true}
+                />
+              </div>
               <div>
-                <p className="text-muted-foreground text-sm font-medium">Modules Completed</p>
-                <p className="text-2xl font-bold text-foreground mt-1">
-                  {modulesCompleted}<span className="text-sm text-muted-foreground">/{totalModules}</span>
-                </p>
-              </div>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-cyan bg-opacity-20 text-neon-cyan transition-all duration-300 group-hover:scale-110 group-hover:bg-opacity-30">
-                <i className="fas fa-book-open"></i>
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="w-full bg-dark-600 rounded-full h-2 overflow-hidden">
-                <div 
-                  className="bg-neon-cyan h-2 rounded-full transition-all duration-1000" 
-                  style={{ width: `${modulesPercentage}%` }}
-                ></div>
-              </div>
-              <div className="text-xs text-muted-foreground mt-1 flex items-center">
-                <span className="text-neon-cyan mr-1">{modulesPercentage}%</span> of curriculum completed
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        {/* Badges Earned */}
-        <Card className="bg-dark-800 border border-dark-600 shadow-lg hover:shadow-neon-purple/20 transition-all duration-300 hover:border-neon-purple/30 overflow-hidden glow-border transform hover:scale-[1.02] cursor-pointer">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm font-medium">Badges Earned</p>
-                <p className="text-2xl font-bold text-foreground mt-1">{badgesEarned}</p>
-              </div>
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-neon-purple bg-opacity-20 text-neon-purple animate-pulse-slow transition-all duration-300 group-hover:scale-110 group-hover:bg-opacity-30">
-                <i className="fas fa-medal"></i>
-              </div>
-            </div>
-            <div className="mt-4 flex">
-              <div className="flex -space-x-2">
-                {isLoading ? (
-                  <div className="text-xs text-muted-foreground">Loading badges...</div>
-                ) : (
-                  <>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-green bg-opacity-20 border border-dark-700 shadow-sm shadow-neon-green/20">
-                      <i className="fas fa-chart-pie text-xs text-neon-green"></i>
-                    </div>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-cyan bg-opacity-20 border border-dark-700 shadow-sm shadow-neon-cyan/20">
-                      <i className="fas fa-piggy-bank text-xs text-neon-cyan"></i>
-                    </div>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-neon-purple bg-opacity-20 border border-dark-700 shadow-sm shadow-neon-purple/20">
-                      <i className="fas fa-coins text-xs text-neon-purple"></i>
-                    </div>
-                    {badgesEarned > 3 && (
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-dark-600 border border-dark-700 text-foreground">
-                        <span className="text-xs">+{badgesEarned - 3}</span>
-                      </div>
-                    )}
-                  </>
+                <div className="text-xs text-muted-foreground mt-2">Last assessment: {lastAssessment}</div>
+                {scoreImprovement > 0 && (
+                  <div className="text-xs text-neon-green mt-2 flex items-center">
+                    <i className="fas fa-arrow-up mr-1"></i>+{scoreImprovement} points since last month
+                  </div>
+                )}
+                {scoreImprovement < 0 && (
+                  <div className="text-xs text-neon-red mt-2 flex items-center">
+                    <i className="fas fa-arrow-down mr-1"></i>{scoreImprovement} points since last month
+                  </div>
                 )}
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+          
+          {/* Completed Modules */}
+          <Card className="bg-dark-800 border border-dark-600 shadow-md hover:shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 hover:border-neon-cyan/50 overflow-hidden group transform hover:-translate-y-1 hover:scale-[1.02] cursor-pointer">
+            <CardContent className="p-6 sm:p-8">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-muted-foreground text-xs sm:text-sm font-medium">Modules Completed</p>
+                  <p className="text-xl sm:text-2xl font-bold text-foreground mt-2">
+                    {modulesCompleted}<span className="text-sm text-muted-foreground">/{totalModules}</span>
+                  </p>
+                </div>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-neon-cyan/20 text-neon-cyan transition-all duration-300 group-hover:scale-110 group-hover:bg-neon-cyan/30">
+                  <i className="fas fa-book-open text-xl"></i>
+                </div>
+              </div>
+              <div>
+                <div className="w-full bg-dark-600 rounded-full h-2 overflow-hidden mt-2">
+                  <div 
+                    className="bg-neon-cyan h-2 rounded-full transition-all duration-1000" 
+                    style={{ width: `${modulesPercentage}%` }}
+                  ></div>
+                </div>
+                <div className="text-xs text-muted-foreground mt-2 flex items-center">
+                  <span className="text-neon-cyan mr-1">{modulesPercentage}%</span> of curriculum completed
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Badges Earned */}
+          <Card className="bg-dark-800 border border-dark-600 shadow-md hover:shadow-lg hover:shadow-neon-purple/20 transition-all duration-300 hover:border-neon-purple/50 overflow-hidden group transform hover:-translate-y-1 hover:scale-[1.02] cursor-pointer">
+            <CardContent className="p-6 sm:p-8">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-muted-foreground text-xs sm:text-sm font-medium">Badges Earned</p>
+                  <p className="text-xl sm:text-2xl font-bold text-foreground mt-2">{badgesEarned}</p>
+                </div>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-neon-purple/20 text-neon-purple transition-all duration-300 group-hover:scale-110 group-hover:bg-neon-purple/30">
+                  <i className="fas fa-medal text-xl"></i>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2 mt-2">
+                {[...Array(Math.min(badgesEarned, 4))].map((_, i) => {
+                  const colors = ['neon-green', 'neon-cyan', 'neon-purple', 'neon-red'];
+                  const icons = ['fa-chart-pie', 'fa-piggy-bank', 'fa-coins', 'fa-shield-alt'];
+                  return (
+                    <div 
+                      key={i}
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-${colors[i % colors.length]}/10 border border-dark-600 shadow-sm tooltip-container relative group/badge`}
+                    >
+                      <i className={`fas ${icons[i % icons.length]} text-xs text-${colors[i % colors.length]}`}></i>
+                      <span className="tooltip hidden group-hover/badge:block bg-dark-900 text-white text-xs px-2 py-1 rounded absolute -top-7 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                        Badge {i+1}
+                      </span>
+                    </div>
+                  )
+                })}
+                {badgesEarned > 4 && (
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-dark-600 border border-dark-700 text-foreground">
+                    <span className="text-xs">+{badgesEarned - 4}</span>
+                  </div>
+                )}
+                {badgesEarned === 0 && (
+                  <span className="text-xs text-muted-foreground mt-2">No badges earned yet.</span>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </section>
   );
 };
