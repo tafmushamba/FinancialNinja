@@ -31,7 +31,7 @@ const rewards: Reward[] = [
     pointsRequired: 500,
     icon: '☕',
     category: 'Dining',
-    image: '/images/rewards/costa.png'
+    image: '/images/rewards/costa-coffee.png'
   },
   {
     id: 'tesco',
@@ -51,7 +51,7 @@ const rewards: Reward[] = [
     pointsRequired: 1200,
     icon: '🎬',
     category: 'Entertainment',
-    image: '/images/rewards/vue.png'
+    image: '/images/rewards/vue-cinema.png'
   },
   {
     id: 'spotify',
@@ -101,7 +101,7 @@ const rewards: Reward[] = [
     pointsRequired: 2500,
     icon: '🛍️',
     category: 'Shopping',
-    image: 'https://cdn.icon-icons.com/icons2/3914/PNG/512/marks_and_spencer_logo_icon_248827.png'
+    image: '/images/rewards/marks-spencer.png'
   }
 ];
 
