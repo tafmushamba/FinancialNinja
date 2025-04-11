@@ -31,7 +31,7 @@ const rewards: Reward[] = [
     pointsRequired: 500,
     icon: '☕',
     category: 'Dining',
-    image: '/images/rewards/costa-coffee.png'
+    image: 'https://raw.githubusercontent.com/rewards-images/costa-coffee.png'
   },
   {
     id: 'tesco',
@@ -41,7 +41,7 @@ const rewards: Reward[] = [
     pointsRequired: 1000,
     icon: '🛒',
     category: 'Shopping',
-    image: '/images/rewards/tesco.png'
+    image: 'https://companieslogo.com/img/orig/TSCO.L-3e707fc4.png'
   },
   {
     id: 'vue',
@@ -51,7 +51,7 @@ const rewards: Reward[] = [
     pointsRequired: 1200,
     icon: '🎬',
     category: 'Entertainment',
-    image: '/images/rewards/vue-cinema.png'
+    image: 'https://www.myvue.com/-/media/vue/vue-logo.svg'
   },
   {
     id: 'spotify',
@@ -61,7 +61,7 @@ const rewards: Reward[] = [
     pointsRequired: 1500,
     icon: '🎵',
     category: 'Entertainment',
-    image: '/images/rewards/spotify.png'
+    image: 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png'
   },
   {
     id: 'amazon',
@@ -71,7 +71,7 @@ const rewards: Reward[] = [
     pointsRequired: 1500,
     icon: '🛍️',
     category: 'Shopping',
-    image: '/images/rewards/amazon.png'
+    image: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg'
   },
   {
     id: 'deliveroo',
@@ -81,7 +81,7 @@ const rewards: Reward[] = [
     pointsRequired: 1500,
     icon: '🍔',
     category: 'Dining',
-    image: '/images/rewards/deliveroo-food.png'
+    image: 'https://logos-world.net/wp-content/uploads/2021/02/Deliveroo-Symbol.png'
   },
   {
     id: 'appstore',
@@ -91,7 +91,7 @@ const rewards: Reward[] = [
     pointsRequired: 1000,
     icon: '📱',
     category: 'Entertainment',
-    image: '/images/rewards/appstore.png'
+    image: 'https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg'
   },
   {
     id: 'marks',
@@ -101,7 +101,7 @@ const rewards: Reward[] = [
     pointsRequired: 2500,
     icon: '🛍️',
     category: 'Shopping',
-    image: '/images/rewards/marks-spencer.png'
+    image: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Marks_and_Spencer_logo.svg'
   }
 ];
 
