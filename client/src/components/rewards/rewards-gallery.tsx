@@ -31,7 +31,7 @@ const rewards: Reward[] = [
     pointsRequired: 500,
     icon: '☕',
     category: 'Dining',
-    image: 'https://companieslogo.com/img/orig/COST_BIG.D-18c84in.png?t=1648651024'
+    image: 'https://cdn.icon-icons.com/icons2/3913/PNG/512/costa_coffee_logo_icon_248775.png'
   },
   {
     id: 'tesco',
@@ -51,7 +51,7 @@ const rewards: Reward[] = [
     pointsRequired: 1200,
     icon: '🎬',
     category: 'Entertainment',
-    image: 'https://companieslogo.com/img/orig/CINE.L_BIG-3ea72589.png?t=1648234524'
+    image: 'https://cdn.icon-icons.com/icons2/3914/PNG/512/vue_logo_icon_248841.png'
   },
   {
     id: 'spotify',
@@ -101,7 +101,7 @@ const rewards: Reward[] = [
     pointsRequired: 2500,
     icon: '🛍️',
     category: 'Shopping',
-    image: 'https://companieslogo.com/img/orig/MKS.L_BIG-3204cc00.png?t=1648151470'
+    image: 'https://cdn.icon-icons.com/icons2/3914/PNG/512/marks_and_spencer_logo_icon_248827.png'
   }
 ];
 
