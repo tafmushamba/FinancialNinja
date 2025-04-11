@@ -21,16 +21,47 @@ const LearningModules: React.FC = () => {
     queryFn: fetchModules
   });
 
-  const modules = (data?.modules || []).map(module => ({
-    ...module,
-    category: module.topics?.[0] || 'General',  // Use the first topic as category if not defined
-    progress: module.progress || 0  // Ensure progress is always defined
-  })) as ExtendedModule[];
+  const modules = (data?.modules || []).map(module => {
+    // Normalize category names to match our filter categories
+    let normalizedCategory = 'Basics'; // Default
+    if (module.topics && module.topics.length > 0) {
+      const firstTopic = module.topics[0].toLowerCase();
+      if (firstTopic.includes('saving')) normalizedCategory = 'Savings';
+      else if (firstTopic.includes('invest')) normalizedCategory = 'Investing';
+      else if (firstTopic.includes('credit')) normalizedCategory = 'Credit';
+      else if (firstTopic.includes('tax')) normalizedCategory = 'Taxes';
+      else if (firstTopic.includes('debt')) normalizedCategory = 'Debt';
+      else normalizedCategory = 'Basics';
+    }
+    return {
+      ...module,
+      // Make sure category exactly matches one of our filter buttons
+      category: normalizedCategory,
+      progress: module.progress || 0  // Ensure progress is always defined
+    };
+  }) as ExtendedModule[];
+  
+  // Log module categories and topics for debugging
+  console.log('Modules with categories and topics:', modules.map(m => ({ 
+    title: m.title, 
+    category: m.category, 
+    topics: m.topics 
+  })));
+  
   const categories = ['All', 'Basics', 'Savings', 'Investing', 'Credit', 'Taxes', 'Debt'];
 
   const filteredModules = filter === 'All' 
     ? modules 
-    : modules.filter(module => module.category === filter);
+    : modules.filter(module => {
+      // Case-insensitive comparison to make filtering more robust
+      // Check both category and topics array for matches
+      // Use 'includes' for partial matches rather than exact equality
+      const filterLower = filter.toLowerCase();
+      const categoryMatch = module.category?.toLowerCase().includes(filterLower) || false;
+      const topicMatch = module.topics?.some(topic => topic.toLowerCase().includes(filterLower)) || false;
+      console.log(`Filtering - Module: ${module.title}, Category: ${module.category}, Topics: ${JSON.stringify(module.topics)}, Filter: ${filter}, Category Match: ${categoryMatch}, Topic Match: ${topicMatch}`);
+      return categoryMatch || topicMatch;
+    });
 
   if (isLoading) {
     return (
@@ -50,6 +81,49 @@ const LearningModules: React.FC = () => {
     );
   }
 
+  if (filter !== 'All' && filteredModules.length === 0) {
+    return (
+      <div className="animate-fadeIn">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+          <h2 className="text-2xl font-bold font-mono">Learning Modules</h2>
+          <div className="flex flex-wrap gap-2">
+            {categories.map(category => (
+              <Button
+                key={category}
+                variant={filter === category ? "default" : "outline"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log(`Clicked filter: ${category}`);
+                  setFilter(category);
+                  console.log(`Filter set to: ${category}`);
+                }}
+                className={`text-sm cursor-pointer z-10 rounded-full px-4 py-1 transition-all duration-300 ${filter === category ? 'bg-neon-green text-black hover:bg-neon-green/90' : 'border-neon-green/30 text-neon-green hover:bg-neon-green/10'}`}
+                style={{ pointerEvents: 'auto' }}
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+        </div>
+        <div className="text-center py-8 border border-neon-green/30 rounded-lg bg-dark-800">
+          <p className="text-white/70">No modules found for the selected filter: <strong>{filter}</strong></p>
+          <p className="text-white/50 mt-2">Try selecting a different filter or view All modules.</p>
+          <Button 
+            variant="outline" 
+            onClick={(e) => {
+              e.preventDefault();
+              setFilter('All');
+              console.log('Reset filter to All');
+            }}
+            className="mt-4 text-neon-green border-neon-green/30 hover:bg-neon-green/10"
+          >
+            View All Modules
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="animate-fadeIn">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
@@ -59,8 +133,14 @@ const LearningModules: React.FC = () => {
             <Button
               key={category}
               variant={filter === category ? "default" : "outline"}
-              onClick={() => setFilter(category)}
-              className="text-sm"
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(`Clicked filter: ${category}`);
+                setFilter(category);
+                console.log(`Filter set to: ${category}`);
+              }}
+              className={`text-sm cursor-pointer z-10 rounded-full px-4 py-1 transition-all duration-300 ${filter === category ? 'bg-neon-green text-black hover:bg-neon-green/90' : 'border-neon-green/30 text-neon-green hover:bg-neon-green/10'}`}
+              style={{ pointerEvents: 'auto' }}
             >
               {category}
             </Button>

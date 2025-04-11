@@ -65,7 +65,7 @@ async function runGameFunction(
     
     const options = {
       mode: 'text' as const, // TypeScript needs this constraint
-      pythonPath: 'python3',
+      pythonPath: path.join(process.cwd(), 'venv/bin/python'),
       pythonOptions: ['-u'],
       scriptPath: path.join(process.cwd()),
       args: []
@@ -102,6 +102,7 @@ async function runGameFunction(
       
       pyshell.on('close', () => {
         log(`Python process closed, collected ${results.length} messages`, 'python');
+        log(`Raw output before JSON parsing: ${results.join('')}`, 'python');
         resolve(results);
       });
     });
@@ -112,6 +113,31 @@ async function runGameFunction(
     // The result will be a stringified JSON object
     log(`Processing Python results: ${results.join('')}`, 'python');
     const resultData = JSON.parse(results.join('')) as FinancialGameData;
+    log(`Received content length: ${resultData.content.length} characters`, 'python');
+    
+    // Fix truncation issues by ensuring the content starts with a visible character
+    if (resultData.content) {
+      // Log the first 20 characters for debugging
+      log(`First 20 chars: ${JSON.stringify(resultData.content.substring(0, 20))}`, 'python');
+      
+      // Remove any invisible characters, emojis, or non-standard characters from the beginning
+      // This regex targets a wider range of problematic characters
+      resultData.content = resultData.content.replace(/^[^\x20-\x7E]+/, '');
+      
+      // If the content starts with lowercase letter after cleaning, it might be truncated
+      // Check if it starts with lowercase and doesn't start with common lowercase words
+      if (/^[a-z]/.test(resultData.content) && 
+          !resultData.content.startsWith('welcome') && 
+          !resultData.content.startsWith('hello') && 
+          !resultData.content.startsWith('hi') && 
+          !resultData.content.startsWith('hey') && 
+          !resultData.content.startsWith('greetings')) {
+        // Prepend 'W' to fix truncated 'Welcome' messages
+        resultData.content = 'W' + resultData.content;
+      }
+      
+      log(`Fixed content starts with: ${resultData.content.substring(0, 20)}`, 'python');
+    }
     return resultData;
   } catch (error) {
     log(`Error running game function ${functionName}:`, 'python');

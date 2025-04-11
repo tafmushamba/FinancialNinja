@@ -28,19 +28,29 @@ export default function ForumHeader({ currentCategory, showSearch = true }: Foru
       {showSearch && (
         <div className="flex-1 w-full">
           <motion.div
-            className="relative"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
+            className="relative"
           >
-            <form onSubmit={handleSearch} className="w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <form onSubmit={handleSearch} className="w-full flex gap-2">
               <Input
-                placeholder="Search forum topics..."
+                type="search"
+                placeholder="Search forum..."
+                className="w-full bg-background/50 border-background/20 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-primary/50"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 rounded-md border-border focus-visible:ring-primary/50"
+                style={{ pointerEvents: 'auto' }}
               />
+              <Button 
+                type="submit" 
+                size="sm" 
+                variant="outline"
+                className="cursor-pointer text-neon-green hover:bg-neon-green/10 z-10"
+                style={{ pointerEvents: 'auto' }}
+              >
+                Search
+              </Button>
             </form>
           </motion.div>
         </div>

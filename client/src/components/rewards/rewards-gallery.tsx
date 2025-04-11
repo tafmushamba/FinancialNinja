@@ -120,28 +120,19 @@ export const RewardsGallery: React.FC<RewardsGalleryProps> = ({ currentPoints, o
   return (
     <div className={`p-6 ${className || ''}`}> 
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold">Rewards Marketplace</h2>
-        <div className="flex items-center">
-          <span className="mr-1">{currentPoints}</span>
-          <span className="text-sm text-muted-foreground">points available</span>
+        <h2 className="text-2xl font-bold">Available Rewards</h2>
+        <div className="flex gap-2 flex-wrap">
+          {['All Rewards', 'Gift Cards', 'Merchandise', 'Subscriptions', 'Experiences'].map(category => (
+            <button
+              key={category}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors z-10 ${selectedCategory === category ? 'bg-htb-green text-black' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
+              style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </button>
+          ))}
         </div>
-      </div>
-
-      <div className="flex gap-2 mb-6">
-        {['All Rewards', 'Dining', 'Shopping', 'Entertainment'].map(category => (
-          <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={cn(
-              "px-4 py-2 rounded-md text-sm",
-              selectedCategory === category 
-                ? "bg-htb-green text-black" 
-                : "bg-htb-card hover:bg-opacity-80"
-            )}
-          >
-            {category}
-          </button>
-        ))}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

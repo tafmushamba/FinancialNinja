@@ -494,24 +494,27 @@ export const BadgeGrid: React.FC<BadgeGridProps> = ({ badges, onBadgeClick, filt
       {/* Filtering and Sorting Options */}
       {filtering && (
         <div className="flex flex-col sm:flex-row justify-between gap-3 mb-4">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-6">
             <UIBadge 
               variant={filter === 'all' ? "default" : "outline"}
-              className="cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700"
+              className={`cursor-pointer text-primary-500 hover:bg-primary-100 dark:hover:bg-primary-900/30 z-10`}
+              style={{ pointerEvents: 'auto' }}
               onClick={() => setFilter('all')}
             >
               All Badges
             </UIBadge>
             <UIBadge 
               variant={filter === 'unlocked' ? "default" : "outline"}
-              className="cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700"
+              className={`cursor-pointer text-green-500 hover:bg-green-100 dark:hover:bg-green-900/30 z-10`}
+              style={{ pointerEvents: 'auto' }}
               onClick={() => setFilter('unlocked')}
             >
               Unlocked
             </UIBadge>
             <UIBadge 
               variant={filter === 'locked' ? "default" : "outline"}
-              className="cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700"
+              className={`cursor-pointer text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-900/30 z-10`}
+              style={{ pointerEvents: 'auto' }}
               onClick={() => setFilter('locked')}
             >
               Locked
@@ -520,7 +523,8 @@ export const BadgeGrid: React.FC<BadgeGridProps> = ({ badges, onBadgeClick, filt
               <UIBadge 
                 key={key}
                 variant={filter === key ? "default" : "outline"}
-                className="cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700"
+                className={`cursor-pointer text-${category.color || 'primary'}-500 hover:bg-${category.color || 'primary'}-100 dark:hover:bg-${category.color || 'primary'}-900/30 z-10`}
+                style={{ pointerEvents: 'auto' }}
                 onClick={() => setFilter(key)}
               >
                 {category.name}
@@ -530,7 +534,8 @@ export const BadgeGrid: React.FC<BadgeGridProps> = ({ badges, onBadgeClick, filt
           
           <div className="flex gap-2">
             <select 
-              className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-slate-800 text-sm p-1.5"
+              className="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-slate-800 text-sm p-1.5 cursor-pointer z-10"
+              style={{ pointerEvents: 'auto' }}
               value={sort}
               onChange={(e) => setSort(e.target.value)}
             >
@@ -545,18 +550,39 @@ export const BadgeGrid: React.FC<BadgeGridProps> = ({ badges, onBadgeClick, filt
       
       {/* Badge Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {sortedBadges.map((badge) => (
+        {sortedBadges.map((badge, index) => (
           <motion.div
             key={badge.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.3, delay: index * 0.05 }}
+            className="relative group cursor-pointer"
+            onClick={() => onBadgeClick && onBadgeClick(badge)}
+            style={{ pointerEvents: 'auto' }}
           >
-            <BadgeCard 
-              badge={badge} 
-              onClick={() => onBadgeClick && onBadgeClick(badge)}
-            />
+            <div className={`absolute inset-0 bg-gradient-to-br ${getBadgeGradient(badge)} opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-300`}></div>
+            <Card
+              className={`relative overflow-hidden h-full border ${badge.unlocked ? 'border-primary/40' : 'border-slate-700/40'} hover:border-primary/60 transition-all duration-300 bg-slate-900/60 group-hover:shadow-xl group-hover:shadow-primary/10 rounded-2xl`}
+            >
+              <CardContent className="p-5 flex flex-col items-center justify-center relative z-10">
+                <div className={`w-14 h-14 mb-3 rounded-3xl flex items-center justify-center shadow-md ${badge.unlocked ? getBadgeGradient(badge) : 'bg-slate-700/60'}`}>
+                  {badge.icon && <span className="text-2xl">{badge.icon}</span>}
+                </div>
+                <h3 className={`text-base font-semibold text-center mb-1 ${badge.unlocked ? 'text-primary-400' : 'text-slate-500'} group-hover:text-primary-300 transition-colors`}>{badge.name}</h3>
+                <p className="text-xs text-slate-400 text-center line-clamp-2 mb-2">{badge.description}</p>
+                {badge.unlocked && badge.dateEarned && (
+                  <p className="text-[10px] text-primary-400/70">Unlocked {badge.dateEarned.toLocaleDateString()}</p>
+                )}
+                {!badge.unlocked && badge.progress !== undefined && (
+                  <div className="w-full h-1 bg-slate-700/80 rounded-full overflow-hidden mt-1.5 w-3/4">
+                    <div
+                      className="h-full bg-primary-500/40"
+                      style={{ width: `${badge.progress}%` }}
+                    />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </motion.div>
         ))}
       </div>
@@ -582,7 +608,7 @@ export const BadgeDetail: React.FC<BadgeDetailProps> = ({ badge, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Badge Header with Background */}
-        <div className={`p-6 relative bg-gradient-to-br ${rarityColors[badge.rarity]} text-white`}>
+        <div className={`p-6 relative bg-gradient-to-br ${getBadgeGradient(badge)} text-white`}>
           <button 
             onClick={onClose}
             className="absolute top-4 right-4 text-white/80 hover:text-white"
@@ -681,3 +707,20 @@ export const BadgeSystem: React.FC = () => {
     </div>
   );
 };
+
+function getBadgeGradient(badge: Badge) {
+  switch (badge.rarity) {
+    case 'common':
+      return 'from-cyan-400 to-blue-500';
+    case 'uncommon':
+      return 'from-green-400 to-emerald-500';
+    case 'rare':
+      return 'from-blue-400 to-indigo-500';
+    case 'epic':
+      return 'from-purple-400 to-fuchsia-500';
+    case 'legendary':
+      return 'from-amber-400 to-orange-500';
+    default:
+      return 'from-cyan-400 to-blue-500';
+  }
+}

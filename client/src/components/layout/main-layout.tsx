@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import Sidebar from "./sidebar";
-import Header from "./header";
-import MobileNav from "./mobile-nav";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import Header from "./header";
+import Sidebar from "./sidebar";
+import MobileNav from "./mobile-nav";
+import { AnimatedBackground } from "../ui/animated-background";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -94,15 +95,16 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, hideHeader = false })
           
           {/* Main page content */}
           <motion.main 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
             className={cn(
-              "flex-1 overflow-y-auto",
+              "relative flex-1 overflow-auto transition-all duration-300",
               isSpecialPage ? "p-0 pb-0" : "p-4 md:p-6 pb-20 md:pb-10",
               !isSpecialPage && !hideHeader ? "" : ""
             )}
           >
+            <AnimatedBackground type="cosmic" className="z-0" />
             {children}
           </motion.main>
         </div>
