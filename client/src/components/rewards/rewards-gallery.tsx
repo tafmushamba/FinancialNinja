@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useGamification } from '@/context/GamificationContext';
 import { cn } from "@/lib/utils";
@@ -41,7 +42,7 @@ const rewards: Reward[] = [
     pointsRequired: 1000,
     icon: '🛒',
     category: 'Shopping',
-    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Tesco_Logo.svg/1200px-Tesco_Logo.svg.png'
+    image: '/images/rewards/tesco.png'
   },
   {
     id: 'vue',
@@ -61,7 +62,7 @@ const rewards: Reward[] = [
     pointsRequired: 1500,
     icon: '🎵',
     category: 'Entertainment',
-    image: 'https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png'
+    image: '/images/rewards/spotify.png'
   },
   {
     id: 'amazon',
@@ -71,7 +72,7 @@ const rewards: Reward[] = [
     pointsRequired: 1500,
     icon: '🛍️',
     category: 'Shopping',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1200px-Amazon_logo.svg.png'
+    image: '/images/rewards/amazon.png'
   },
   {
     id: 'deliveroo',
@@ -91,7 +92,7 @@ const rewards: Reward[] = [
     pointsRequired: 1000,
     icon: '📱',
     category: 'Entertainment',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1200px-Download_on_the_App_Store_Badge.svg.png'
+    image: '/images/rewards/appstore.png'
   },
   {
     id: 'marks',
@@ -101,13 +102,11 @@ const rewards: Reward[] = [
     pointsRequired: 2500,
     icon: '🛍️',
     category: 'Shopping',
-    image: '/images/rewards/marks-spencer.png'
+    image: '/images/rewards/marks.png'
   }
 ];
 
-const categories = ['All Rewards', 'Dining', 'Shopping', 'Entertainment'];
-
-export const RewardsGallery: React.FC<RewardsGalleryProps> = ({ rewards, currentPoints, onRedeemReward, className }) => {
+export const RewardsGallery: React.FC<RewardsGalleryProps> = ({ currentPoints, onRedeemReward, className }) => {
   const [selectedCategory, setSelectedCategory] = React.useState('All Rewards');
 
   const filteredRewards = selectedCategory === 'All Rewards' 
@@ -130,7 +129,7 @@ export const RewardsGallery: React.FC<RewardsGalleryProps> = ({ rewards, current
       </div>
 
       <div className="flex gap-2 mb-6">
-        {categories.map(category => (
+        {['All Rewards', 'Dining', 'Shopping', 'Entertainment'].map(category => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
