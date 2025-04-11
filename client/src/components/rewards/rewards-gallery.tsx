@@ -31,7 +31,7 @@ const rewards: Reward[] = [
     pointsRequired: 500,
     icon: '☕',
     category: 'Dining',
-    image: '/images/rewards/costa-coffee.png'
+    image: '/images/rewards/costa.png'
   },
   {
     id: 'tesco',
@@ -41,7 +41,7 @@ const rewards: Reward[] = [
     pointsRequired: 1000,
     icon: '🛒',
     category: 'Shopping',
-    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Tesco_Logo.svg/1200px-Tesco_Logo.svg.png'
+    image: '/images/rewards/tesco.png'
   },
   {
     id: 'vue',
@@ -51,7 +51,7 @@ const rewards: Reward[] = [
     pointsRequired: 1200,
     icon: '🎬',
     category: 'Entertainment',
-    image: '/images/rewards/vue-cinema.png'
+    image: '/images/rewards/vue.png'
   },
   {
     id: 'spotify',
@@ -101,7 +101,7 @@ const rewards: Reward[] = [
     pointsRequired: 2500,
     icon: '🛍️',
     category: 'Shopping',
-    image: '/images/rewards/marks-spencer.png'
+    image: '/images/rewards/marks.png'
   }
 ];
 
