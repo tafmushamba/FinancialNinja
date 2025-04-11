@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
+import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend, LineChart, Line } from 'recharts';
 import { ChartBarIcon, ArrowUpDown, LineChart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { formatCurrency } from '@/lib/utils';
@@ -13,6 +13,13 @@ interface FinancialStatsVisualizationProps {
   debt: number;
   savingsRatio?: number;
   debtToIncomeRatio?: number;
+  financialHistory?: {
+    round: number;
+    income: number;
+    expenses: number;
+    savings: number;
+    debt: number;
+  }[];
 }
 
 export function FinancialStatsVisualization({
@@ -21,7 +28,8 @@ export function FinancialStatsVisualization({
   savings,
   debt,
   savingsRatio = 0,
-  debtToIncomeRatio = 0
+  debtToIncomeRatio = 0,
+  financialHistory = []
 }: FinancialStatsVisualizationProps) {
   // Calculate monthly balance
   const monthlyBalance = income - expenses;
@@ -66,10 +74,11 @@ export function FinancialStatsVisualization({
         </CardHeader>
         <CardContent className="pt-0">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid grid-cols-3 mb-4">
+            <TabsList className="grid grid-cols-4 mb-4">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="budget">Budget</TabsTrigger>
               <TabsTrigger value="ratios">Debt vs Savings</TabsTrigger>
+              <TabsTrigger value="trends">Trends</TabsTrigger>
             </TabsList>
             
             <TabsContent value="overview">
@@ -149,6 +158,27 @@ export function FinancialStatsVisualization({
                 {savings > debt 
                   ? 'Great job! Your savings exceed your debt.' 
                   : 'Your debt is higher than your savings. Focus on reducing debt while maintaining emergency savings.'}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="trends">
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={financialHistory} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="round" label={{ value: 'Round', position: 'insideBottom', offset: -5 }} />
+                    <YAxis tickFormatter={currencyFormatter} label={{ value: 'Amount (£)', angle: -90, position: 'insideLeft' }} />
+                    <Tooltip formatter={(value) => currencyFormatter(value as number)} />
+                    <Legend />
+                    <Line type="monotone" dataKey="income" stroke="#10b981" name="Income" />
+                    <Line type="monotone" dataKey="expenses" stroke="#ef4444" name="Expenses" />
+                    <Line type="monotone" dataKey="savings" stroke="#f59e0b" name="Savings" />
+                    <Line type="monotone" dataKey="debt" stroke="#3b82f6" name="Debt" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="text-center mt-2 text-sm text-muted-foreground">
+                Track how your financial metrics change over each round of the game.
               </div>
             </TabsContent>
           </Tabs>

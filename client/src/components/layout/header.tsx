@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="bg-black/80 backdrop-blur-md border-b border-[#9FEF00]/20 py-3 px-4 flex justify-between items-center fixed top-0 right-0 z-20 w-full md:w-[calc(100%-var(--sidebar-width))] relative overflow-hidden"
+      className="bg-black/80 backdrop-blur-md border-b border-[#9FEF00]/20 py-3 px-4 flex justify-between items-center fixed top-0 right-0 z-20 w-full relative overflow-hidden"
       style={{
         '--sidebar-width': isSidebarOpen ? '16rem' : '5rem'
       } as React.CSSProperties}

@@ -28,6 +28,11 @@ import {
 
 // Loan Calculator Functions
 const calculateMonthlyPayment = (principal: number, annualRate: number, years: number): number => {
+  // Ensure all values are valid numbers
+  if (isNaN(principal) || isNaN(annualRate) || isNaN(years) || principal <= 0 || years <= 0) {
+    return 0;
+  }
+  
   const monthlyRate = annualRate / 100 / 12;
   const numberOfPayments = years * 12;
   
@@ -41,6 +46,16 @@ const calculateMonthlyPayment = (principal: number, annualRate: number, years: n
 };
 
 const calculateLoanBreakdown = (principal: number, annualRate: number, years: number) => {
+  // Ensure all values are valid numbers
+  if (isNaN(principal) || isNaN(annualRate) || isNaN(years) || principal <= 0 || years <= 0) {
+    return {
+      monthlyPayment: 0,
+      totalPayment: 0,
+      totalInterest: 0,
+      payments: []
+    };
+  }
+  
   const monthlyPayment = calculateMonthlyPayment(principal, annualRate, years);
   const numberOfPayments = years * 12;
   const payments = [];
@@ -82,6 +97,26 @@ const calculateInvestmentGrowth = (
   isISA: boolean = false,
   taxRate: number = 20
 ) => {
+  // Ensure all values are valid numbers
+  if (
+    isNaN(initialAmount) || 
+    isNaN(monthlyContribution) || 
+    isNaN(annualReturnRate) || 
+    isNaN(years) || 
+    isNaN(taxRate) ||
+    initialAmount < 0 || 
+    monthlyContribution < 0 || 
+    years <= 0
+  ) {
+    return {
+      finalBalance: 0,
+      totalContributions: 0,
+      totalGains: 0,
+      totalTaxPaid: 0,
+      growthPoints: []
+    };
+  }
+  
   const monthlyReturnRate = annualReturnRate / 100 / 12;
   const months = years * 12;
   const growthPoints = [];
@@ -157,7 +192,54 @@ export function LoanInvestmentCalculator() {
   
   // Handle loan calculation
   const calculateLoan = () => {
-    const result = calculateLoanBreakdown(loanAmount, loanInterestRate, loanTerm);
+    console.log('Calculating loan with amount:', loanAmount, 'interest rate:', loanInterestRate, 'term:', loanTerm);
+    
+    // Ensure values are valid numbers (handle NaN or undefined)
+    const amount = isNaN(loanAmount) ? 0 : loanAmount;
+    const rate = isNaN(loanInterestRate) ? 0 : loanInterestRate;
+    const term = isNaN(loanTerm) ? 0 : loanTerm;
+    
+    // Validate inputs
+    if (amount <= 0) {
+      toast({
+        title: "Invalid Loan Amount",
+        description: "Please enter a valid loan amount greater than zero.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (rate < 0) {
+      toast({
+        title: "Invalid Interest Rate",
+        description: "Please enter a valid interest rate (0% or higher).",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (term <= 0) {
+      toast({
+        title: "Invalid Loan Term",
+        description: "Please enter a valid loan term greater than zero.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    const result = calculateLoanBreakdown(amount, rate, term);
+    console.log('Loan calculation result:', result);
+    
+    // Check if calculation was successful
+    if (result.monthlyPayment <= 0) {
+      toast({
+        title: "Calculation Error",
+        description: "There was an error calculating your loan. Please check your inputs.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setLoanResults(result);
     
     toast({
@@ -169,15 +251,82 @@ export function LoanInvestmentCalculator() {
   
   // Handle investment calculation
   const calculateInvestment = () => {
+    console.log('Calculating investment with initial:', initialInvestment, 'monthly:', monthlyContribution, 'rate:', investmentReturnRate, 'term:', investmentTerm, 'type:', investmentType);
+    
+    // Ensure values are valid numbers (handle NaN or undefined)
+    const initial = isNaN(initialInvestment) ? 0 : initialInvestment;
+    const monthly = isNaN(monthlyContribution) ? 0 : monthlyContribution;
+    const rate = isNaN(investmentReturnRate) ? 0 : investmentReturnRate;
+    const term = isNaN(investmentTerm) ? 0 : investmentTerm;
+    const tax = isNaN(taxRate) ? 20 : taxRate;
+    
+    // Validate inputs
+    if (initial < 0) {
+      toast({
+        title: "Invalid Initial Investment",
+        description: "Please enter a valid initial investment amount (0 or higher).",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (monthly < 0) {
+      toast({
+        title: "Invalid Monthly Contribution",
+        description: "Please enter a valid monthly contribution amount (0 or higher).",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (rate < 0) {
+      toast({
+        title: "Invalid Return Rate",
+        description: "Please enter a valid return rate (0% or higher).",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (term <= 0) {
+      toast({
+        title: "Invalid Investment Term",
+        description: "Please enter a valid investment term greater than zero.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (investmentType === 'general' && (tax < 0 || tax > 100)) {
+      toast({
+        title: "Invalid Tax Rate",
+        description: "Please enter a valid tax rate between 0% and 100%.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     const isISA = investmentType === 'isa' || investmentType === 'pension';
     const result = calculateInvestmentGrowth(
-      initialInvestment,
-      monthlyContribution,
-      investmentReturnRate,
-      investmentTerm,
+      initial,
+      monthly,
+      rate,
+      term,
       isISA,
-      taxRate
+      tax
     );
+    console.log('Investment calculation result:', result);
+    
+    // Check if calculation was successful
+    if (!result.growthPoints || result.growthPoints.length === 0) {
+      toast({
+        title: "Calculation Error",
+        description: "There was an error calculating your investment. Please check your inputs.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setInvestmentResults(result);
     
     toast({
@@ -241,14 +390,29 @@ export function LoanInvestmentCalculator() {
     setInvestmentResults(null);
   };
   
+  // Handle tab change
+  const handleTabChange = (value: string) => {
+    setActiveTab(value as CalculatorTab);
+    // Reset results when switching tabs
+    if (value === 'loan') {
+      setInvestmentResults(null);
+    } else {
+      setLoanResults(null);
+    }
+  };
+  
   // Update defaults when loan type changes
   useEffect(() => {
-    resetLoanForm();
+    if (loanType) {
+      resetLoanForm();
+    }
   }, [loanType]);
   
   // Update defaults when investment type changes
   useEffect(() => {
-    resetInvestmentForm();
+    if (investmentType) {
+      resetInvestmentForm();
+    }
   }, [investmentType]);
   
   // Format currency for display
@@ -282,6 +446,192 @@ export function LoanInvestmentCalculator() {
     }
   };
   
+  // Improve input handlers
+  const handleLoanAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setLoanAmount(0);
+      return;
+    }
+    
+    const value = parseFloat(rawValue);
+    if (!isNaN(value)) {
+      setLoanAmount(value);
+    }
+  };
+
+  const handleLoanInterestRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setLoanInterestRate(0);
+      return;
+    }
+    
+    const value = parseFloat(rawValue);
+    if (!isNaN(value) && value >= 0) {
+      setLoanInterestRate(value);
+    }
+  };
+
+  const handleLoanTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setLoanTerm(1);
+      return;
+    }
+    
+    const value = parseInt(rawValue);
+    if (!isNaN(value) && value > 0) {
+      setLoanTerm(value);
+    }
+  };
+
+  const handleInitialInvestmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setInitialInvestment(0);
+      return;
+    }
+    
+    const value = parseFloat(rawValue);
+    if (!isNaN(value) && value >= 0) {
+      setInitialInvestment(value);
+    }
+  };
+
+  const handleMonthlyContributionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setMonthlyContribution(0);
+      return;
+    }
+    
+    const value = parseFloat(rawValue);
+    if (!isNaN(value) && value >= 0) {
+      setMonthlyContribution(value);
+    }
+  };
+
+  const handleInvestmentReturnRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setInvestmentReturnRate(0);
+      return;
+    }
+    
+    const value = parseFloat(rawValue);
+    if (!isNaN(value) && value >= 0) {
+      setInvestmentReturnRate(value);
+    }
+  };
+
+  const handleInvestmentTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setInvestmentTerm(1);
+      return;
+    }
+    
+    const value = parseInt(rawValue);
+    if (!isNaN(value) && value > 0) {
+      setInvestmentTerm(value);
+    }
+  };
+
+  const handleTaxRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue === '') {
+      setTaxRate(0);
+      return;
+    }
+    
+    const value = parseFloat(rawValue);
+    if (!isNaN(value) && value >= 0 && value <= 100) {
+      setTaxRate(value);
+    }
+  };
+  
+  // Slider value change handlers
+  const handleLoanAmountSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setLoanAmount(value[0]);
+      }
+    } catch (error) {
+      console.error('Error in loan amount slider:', error);
+    }
+  };
+
+  const handleLoanInterestRateSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setLoanInterestRate(value[0]);
+      }
+    } catch (error) {
+      console.error('Error in loan interest rate slider:', error);
+    }
+  };
+
+  const handleLoanTermSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setLoanTerm(Math.round(value[0])); // Ensure it's an integer
+      }
+    } catch (error) {
+      console.error('Error in loan term slider:', error);
+    }
+  };
+
+  const handleInitialInvestmentSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setInitialInvestment(value[0]);
+      }
+    } catch (error) {
+      console.error('Error in initial investment slider:', error);
+    }
+  };
+
+  const handleMonthlyContributionSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setMonthlyContribution(value[0]);
+      }
+    } catch (error) {
+      console.error('Error in monthly contribution slider:', error);
+    }
+  };
+
+  const handleInvestmentReturnRateSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setInvestmentReturnRate(value[0]);
+      }
+    } catch (error) {
+      console.error('Error in investment return rate slider:', error);
+    }
+  };
+
+  const handleInvestmentTermSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setInvestmentTerm(Math.round(value[0])); // Ensure it's an integer
+      }
+    } catch (error) {
+      console.error('Error in investment term slider:', error);
+    }
+  };
+
+  const handleTaxRateSliderChange = (value: number[]) => {
+    try {
+      if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'number' && !isNaN(value[0])) {
+        setTaxRate(value[0]);
+      }
+    } catch (error) {
+      console.error('Error in tax rate slider:', error);
+    }
+  };
+  
   return (
     <Card className="w-full shadow-lg">
       <CardHeader className="bg-slate-50 dark:bg-slate-900">
@@ -297,7 +647,7 @@ export function LoanInvestmentCalculator() {
       <Tabs 
         defaultValue="loan" 
         value={activeTab}
-        onValueChange={(value) => setActiveTab(value as CalculatorTab)}
+        onValueChange={handleTabChange}
         className="w-full"
       >
         <div className="px-6 pt-2">
@@ -374,7 +724,7 @@ export function LoanInvestmentCalculator() {
                         id="loanAmount"
                         type="number"
                         value={loanAmount}
-                        onChange={(e) => setLoanAmount(Number(e.target.value))}
+                        onChange={handleLoanAmountChange}
                         className="pl-10"
                         min={0}
                       />
@@ -386,7 +736,7 @@ export function LoanInvestmentCalculator() {
                     min={loanType === 'mortgage' ? 50000 : 1000}
                     max={loanType === 'mortgage' ? 500000 : 50000}
                     step={loanType === 'mortgage' ? 5000 : 500}
-                    onValueChange={(value) => setLoanAmount(value[0])}
+                    onValueChange={handleLoanAmountSliderChange}
                   />
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>{formatCurrency(loanType === 'mortgage' ? 50000 : 1000)}</span>
@@ -408,7 +758,7 @@ export function LoanInvestmentCalculator() {
                         id="interestRate"
                         type="number"
                         value={loanInterestRate}
-                        onChange={(e) => setLoanInterestRate(Number(e.target.value))}
+                        onChange={handleLoanInterestRateChange}
                         min={0}
                         max={30}
                         step={0.1}
@@ -421,7 +771,7 @@ export function LoanInvestmentCalculator() {
                     min={0}
                     max={15}
                     step={0.1}
-                    onValueChange={(value) => setLoanInterestRate(value[0])}
+                    onValueChange={handleLoanInterestRateSliderChange}
                   />
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>0%</span>
@@ -443,7 +793,7 @@ export function LoanInvestmentCalculator() {
                         id="loanTerm"
                         type="number"
                         value={loanTerm}
-                        onChange={(e) => setLoanTerm(Number(e.target.value))}
+                        onChange={handleLoanTermChange}
                         min={1}
                         max={35}
                       />
@@ -455,7 +805,7 @@ export function LoanInvestmentCalculator() {
                     min={1}
                     max={loanType === 'mortgage' || loanType === 'student' ? 35 : 10}
                     step={1}
-                    onValueChange={(value) => setLoanTerm(value[0])}
+                    onValueChange={handleLoanTermSliderChange}
                   />
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>1 year</span>
@@ -619,7 +969,7 @@ export function LoanInvestmentCalculator() {
                         id="initialInvestment"
                         type="number"
                         value={initialInvestment}
-                        onChange={(e) => setInitialInvestment(Number(e.target.value))}
+                        onChange={handleInitialInvestmentChange}
                         className="pl-10"
                         min={0}
                       />
@@ -631,7 +981,7 @@ export function LoanInvestmentCalculator() {
                     min={0}
                     max={50000}
                     step={500}
-                    onValueChange={(value) => setInitialInvestment(value[0])}
+                    onValueChange={handleInitialInvestmentSliderChange}
                   />
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>£0</span>
@@ -654,7 +1004,7 @@ export function LoanInvestmentCalculator() {
                         id="monthlyContribution"
                         type="number"
                         value={monthlyContribution}
-                        onChange={(e) => setMonthlyContribution(Number(e.target.value))}
+                        onChange={handleMonthlyContributionChange}
                         className="pl-10"
                         min={0}
                       />
@@ -666,7 +1016,7 @@ export function LoanInvestmentCalculator() {
                     min={0}
                     max={1000}
                     step={25}
-                    onValueChange={(value) => setMonthlyContribution(value[0])}
+                    onValueChange={handleMonthlyContributionSliderChange}
                   />
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>£0</span>
@@ -688,7 +1038,7 @@ export function LoanInvestmentCalculator() {
                         id="investmentReturnRate"
                         type="number"
                         value={investmentReturnRate}
-                        onChange={(e) => setInvestmentReturnRate(Number(e.target.value))}
+                        onChange={handleInvestmentReturnRateChange}
                         min={0}
                         max={30}
                         step={0.1}
@@ -701,7 +1051,7 @@ export function LoanInvestmentCalculator() {
                     min={0}
                     max={12}
                     step={0.1}
-                    onValueChange={(value) => setInvestmentReturnRate(value[0])}
+                    onValueChange={handleInvestmentReturnRateSliderChange}
                   />
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>0%</span>
@@ -723,7 +1073,7 @@ export function LoanInvestmentCalculator() {
                         id="investmentTerm"
                         type="number"
                         value={investmentTerm}
-                        onChange={(e) => setInvestmentTerm(Number(e.target.value))}
+                        onChange={handleInvestmentTermChange}
                         min={1}
                         max={50}
                       />
@@ -735,7 +1085,7 @@ export function LoanInvestmentCalculator() {
                     min={1}
                     max={50}
                     step={1}
-                    onValueChange={(value) => setInvestmentTerm(value[0])}
+                    onValueChange={handleInvestmentTermSliderChange}
                   />
                   <div className="flex justify-between text-xs text-slate-500">
                     <span>1 year</span>
@@ -758,7 +1108,7 @@ export function LoanInvestmentCalculator() {
                           id="taxRate"
                           type="number"
                           value={taxRate}
-                          onChange={(e) => setTaxRate(Number(e.target.value))}
+                          onChange={handleTaxRateChange}
                           min={0}
                           max={40}
                           step={1}
@@ -771,7 +1121,7 @@ export function LoanInvestmentCalculator() {
                       min={0}
                       max={40}
                       step={1}
-                      onValueChange={(value) => setTaxRate(value[0])}
+                      onValueChange={handleTaxRateSliderChange}
                     />
                     <div className="flex justify-between text-xs text-slate-500">
                       <span>0%</span>

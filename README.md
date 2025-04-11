@@ -138,6 +138,20 @@ The application is fully responsive and optimized for:
 - Tablet (768px - 1199px)
 - Mobile (320px - 767px)
 
+## 🚀 Running the Application
+
+To start both the backend and frontend servers with the frontend running on port 3000 (similar to `next dev -p 3000`), use the following command from the root directory:
+
+```bash
+npm run dev:all
+```
+
+This will launch:
+- The backend server on port 3001
+- The frontend client on port 3000
+
+You can then access the application in your browser at `http://localhost:3000`.
+
 ## 🚀 Getting Started
 
 ### Prerequisites

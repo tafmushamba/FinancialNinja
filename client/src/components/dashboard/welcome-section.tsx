@@ -83,33 +83,41 @@ const WelcomeSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
-            <div className="w-6 h-6 rounded-full bg-neon-green/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-green/30 group-hover:scale-110">
-              <i className="fas fa-trophy text-xs text-neon-green"></i>
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {/* Stat Box 1: Level */}
+          <div className="bg-dark-700 rounded-md p-3 border border-dark-600 shadow-inner flex flex-col items-center text-center transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/30 cursor-pointer group transform hover:-translate-y-1">
+            <div className="w-8 h-8 rounded-full bg-neon-green/20 flex items-center justify-center mb-2 transition-all duration-300 group-hover:bg-neon-green/30 group-hover:scale-110">
+              <i className="fas fa-trophy text-sm text-neon-green"></i>
             </div>
-            <span className="text-xs text-muted-foreground">Level 1 Investor</span>
+            <span className="text-sm font-medium text-foreground">Level 1</span>
+            <span className="text-xs text-muted-foreground">Investor</span>
           </div>
 
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
-            <div className="w-6 h-6 rounded-full bg-neon-cyan/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-cyan/30 group-hover:scale-110">
-              <i className="fas fa-star text-xs text-neon-cyan"></i>
+          {/* Stat Box 2: Points */}
+          <div className="bg-dark-700 rounded-md p-3 border border-dark-600 shadow-inner flex flex-col items-center text-center transition-all duration-300 hover:bg-dark-600 hover:border-neon-cyan/30 cursor-pointer group transform hover:-translate-y-1">
+            <div className="w-8 h-8 rounded-full bg-neon-cyan/20 flex items-center justify-center mb-2 transition-all duration-300 group-hover:bg-neon-cyan/30 group-hover:scale-110">
+              <i className="fas fa-star text-sm text-neon-cyan"></i>
             </div>
-            <span className="text-xs text-muted-foreground">125 Points Total</span>
+            <span className="text-sm font-medium text-foreground">125</span>
+            <span className="text-xs text-muted-foreground">Total Points</span>
           </div>
 
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
-            <div className="w-6 h-6 rounded-full bg-neon-purple/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-purple/30 group-hover:scale-110">
-              <i className="fas fa-calendar-check text-xs text-neon-purple"></i>
+          {/* Stat Box 3: Streak */}
+          <div className="bg-dark-700 rounded-md p-3 border border-dark-600 shadow-inner flex flex-col items-center text-center transition-all duration-300 hover:bg-dark-600 hover:border-neon-purple/30 cursor-pointer group transform hover:-translate-y-1">
+            <div className="w-8 h-8 rounded-full bg-neon-purple/20 flex items-center justify-center mb-2 transition-all duration-300 group-hover:bg-neon-purple/30 group-hover:scale-110">
+              <i className="fas fa-calendar-check text-sm text-neon-purple"></i>
             </div>
-            <span className="text-xs text-muted-foreground">5 Day Streak</span>
+            <span className="text-sm font-medium text-foreground">5 Day</span>
+            <span className="text-xs text-muted-foreground">Streak</span>
           </div>
 
-          <div className="bg-dark-700 rounded-sm p-2 border border-dark-600 shadow-inner flex items-center justify-center md:justify-start transition-all duration-300 hover:bg-dark-600 hover:border-neon-green/20 cursor-pointer transform hover:scale-[1.03]">
-            <div className="w-6 h-6 rounded-full bg-neon-red/20 flex items-center justify-center mr-2 transition-all duration-300 group-hover:bg-neon-red/30 group-hover:scale-110">
-              <i className="fas fa-medal text-xs text-neon-red"></i>
+          {/* Stat Box 4: Badges */}
+          <div className="bg-dark-700 rounded-md p-3 border border-dark-600 shadow-inner flex flex-col items-center text-center transition-all duration-300 hover:bg-dark-600 hover:border-neon-red/30 cursor-pointer group transform hover:-translate-y-1">
+            <div className="w-8 h-8 rounded-full bg-neon-red/20 flex items-center justify-center mb-2 transition-all duration-300 group-hover:bg-neon-red/30 group-hover:scale-110">
+              <i className="fas fa-medal text-sm text-neon-red"></i>
             </div>
-            <span className="text-xs text-muted-foreground">3 Badges Earned</span>
+            <span className="text-sm font-medium text-foreground">3</span>
+            <span className="text-xs text-muted-foreground">Badges Earned</span>
           </div>
         </div>
       </div>

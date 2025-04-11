@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calculator, PiggyBank, LineChart, CreditCard, Calendar, Building } from 'lucide-react';
 import { useLocation } from 'wouter';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function FinancialCalculators() {
   const [, navigate] = useLocation();
@@ -17,15 +17,35 @@ export default function FinancialCalculators() {
     navigate('/dashboard');
   };
   
+  // Animation variants for the page content
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    in: { opacity: 1, y: 0 },
+    out: { opacity: 0, y: -20 },
+  };
+
+  const pageTransition = {
+    type: 'tween',
+    ease: 'anticipate',
+    duration: 0.5,
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-slate-50 dark:from-background dark:to-slate-900/50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
+    <motion.div 
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+      className="min-h-screen bg-gradient-to-b from-background to-slate-50 dark:from-background dark:to-slate-900/50"
+    >
+      <div className="container mx-auto px-4 py-12">
+        <div className="mb-10">
           <Button
             variant="ghost"
             size="sm"
             onClick={handleBack}
-            className="mb-4 gap-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="mb-6 gap-2 text-sm text-muted-foreground hover:bg-accent/10 hover:text-accent"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
@@ -34,14 +54,14 @@ export default function FinancialCalculators() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center gap-3">
-              <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-10 w-10" />
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3 flex items-center gap-3">
+              <img src="/images/mascot.svg" alt="Money Mind Mascot" className="h-10 w-10 md:h-12 md:w-12" />
               Financial Calculators
             </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
-              Interactive tools to help you plan your finances, simulate different scenarios, and make informed financial decisions.
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl"> 
+              Interactive tools to plan, simulate scenarios, and make informed financial decisions.
             </p>
           </motion.div>
         </div>
@@ -52,116 +72,107 @@ export default function FinancialCalculators() {
           onValueChange={setActiveTab}
           className="w-full mb-16"
         >
-          <TabsList className="grid grid-cols-4 w-full max-w-md mb-8">
-            <TabsTrigger value="budget" className="flex items-center gap-2">
-              <PiggyBank className="h-4 w-4" />
-              <span>Budget</span>
-            </TabsTrigger>
-            <TabsTrigger value="loan-investment" className="flex items-center gap-2">
-              <LineChart className="h-4 w-4" />
-              <span>Loan/Invest</span>
-            </TabsTrigger>
-            <TabsTrigger value="retirement" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              <span>Retirement</span>
-            </TabsTrigger>
-            <TabsTrigger value="tax" className="flex items-center gap-2">
-              <Building className="h-4 w-4" />
-              <span>Tax</span>
-            </TabsTrigger>
-          </TabsList>
+          <div className="flex justify-center mb-10"> 
+            <TabsList className="inline-flex h-auto items-center justify-center rounded-full bg-muted p-1 text-muted-foreground"> 
+              <TabsTrigger value="budget" className="inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm">
+                <PiggyBank className="h-4 w-4 mr-2" />
+                Budget
+              </TabsTrigger>
+              <TabsTrigger value="loan-investment" className="inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm">
+                <LineChart className="h-4 w-4 mr-2" />
+                Loan/Invest
+              </TabsTrigger>
+              <TabsTrigger value="retirement" className="inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm">
+                <Calendar className="h-4 w-4 mr-2" />
+                Retirement
+              </TabsTrigger>
+              <TabsTrigger value="tax" className="inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm">
+                <Building className="h-4 w-4 mr-2" />
+                Tax
+              </TabsTrigger>
+            </TabsList>
+          </div>
           
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="max-w-4xl mx-auto"
           >
             <TabsContent value="budget" className="mt-0">
-              <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
-                  <div className="mb-6 flex items-start">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
-                      <PiggyBank className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-2">Budget Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-300">
-                        Create a personalised budget by allocating your income across different spending categories. Visualize your spending and get recommendations for improving your financial health.
-                      </p>
-                    </div>
+              <div className="glass rounded-lg shadow-lg p-8 border border-border/20"> 
+                <div className="mb-6 flex items-center gap-4"> 
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <PiggyBank className="h-6 w-6 text-primary" />
                   </div>
-                  
-                  <BudgetCalculator />
+                  <div className="flex-grow"> 
+                    <h3 className="text-2xl font-bold mb-1">Budget Calculator</h3>
+                    <p className="text-slate-600 dark:text-slate-300 text-sm">
+                      Allocate income, track spending, visualize expenses. Create a plan.
+                    </p>
+                  </div>
                 </div>
+                <BudgetCalculator />
               </div>
             </TabsContent>
             
             <TabsContent value="loan-investment" className="mt-0">
-              <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
-                  <div className="mb-6 flex items-start">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
-                      <CreditCard className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-2">Loan & Investment Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-300">
-                        Calculate loan repayments, interest costs, and simulate investment growth over time. Compare different scenarios to make informed financial decisions.
-                      </p>
-                    </div>
+              <div className="glass rounded-lg shadow-lg p-8 border border-border/20">
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <LineChart className="h-6 w-6 text-primary" />
                   </div>
-                  
-                  <LoanInvestmentCalculator />
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold mb-1">Loan & Investment Calculator</h3>
+                    <p className="text-slate-600 dark:text-slate-300 text-sm">
+                      Analyze repayments, compare rates, project growth. Understand compounding.
+                    </p>
+                  </div>
                 </div>
+                <LoanInvestmentCalculator />
               </div>
             </TabsContent>
-            
+             
             <TabsContent value="retirement" className="mt-0">
-              <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
-                  <div className="mb-6 flex items-start">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
-                      <Calendar className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-2">Retirement Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-300">
-                        Plan for your future by simulating retirement savings growth, estimating income needs, and visualizing how different factors affect your retirement readiness.
-                      </p>
-                    </div>
+              <div className="glass rounded-lg shadow-lg p-8 border border-border/20">
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Calendar className="h-6 w-6 text-primary" />
                   </div>
-                  
-                  <RetirementCalculator />
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold mb-1">Retirement Calculator</h3>
+                    <p className="text-slate-600 dark:text-slate-300 text-sm">
+                      Simulate savings growth, estimate income needs, visualize factors.
+                    </p>
+                  </div>
                 </div>
+                <RetirementCalculator />
               </div>
             </TabsContent>
-            
+             
             <TabsContent value="tax" className="mt-0">
-              <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg border p-8">
-                  <div className="mb-6 flex items-start">
-                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mr-4 shrink-0">
-                      <Building className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-2">UK Tax Calculator</h3>
-                      <p className="text-slate-600 dark:text-slate-300">
-                        Estimate your income tax, national insurance, student loan repayments, and take-home pay based on your salary and other income sources. See a detailed breakdown of your tax obligations.
-                      </p>
-                    </div>
+              <div className="glass rounded-lg shadow-lg p-8 border border-border/20">
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Building className="h-6 w-6 text-primary" />
                   </div>
-                  
-                  <TaxCalculator />
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold mb-1">UK Tax Calculator</h3>
+                    <p className="text-slate-600 dark:text-slate-300 text-sm">
+                      Estimate income tax, NI, student loan, take-home pay. See breakdown.
+                    </p>
+                  </div>
                 </div>
+                <TaxCalculator />
               </div>
             </TabsContent>
           </motion.div>
         </Tabs>
         
-        <div className="max-w-4xl mx-auto bg-slate-100 dark:bg-slate-800/50 rounded-lg p-6 border mt-8">
-          <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+        <div className="max-w-4xl mx-auto glass rounded-lg p-6 md:p-8 border border-border/20 mt-12"> 
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Calculator className="h-5 w-5 text-primary" />
             Why Use Financial Calculators?
           </h3>
@@ -201,6 +212,6 @@ export default function FinancialCalculators() {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

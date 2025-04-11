@@ -53,6 +53,13 @@ interface GameState {
   roundCount: number;
   nextStep: 'continue' | 'conclude';
   decisionOptions?: DecisionOption[];
+  financialHistory?: {
+    round: number;
+    income: number;
+    expenses: number;
+    savings: number;
+    debt: number;
+  }[];
 }
 
 export function FinancialGameSimulation({ career }: FinancialGameSimulationProps) {
@@ -74,7 +81,8 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
     isLoading: false,
     roundCount: 0,
     nextStep: 'continue',
-    decisionOptions: []
+    decisionOptions: [],
+    financialHistory: []
   });
 
   // Financial decisions available to the player
@@ -187,10 +195,23 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
 
     const nextStep = gameState.roundCount >= 4 ? 'conclude' : 'continue';
 
+    // Update financial history before making a new decision
+    const updatedHistory = [
+      ...(gameState.financialHistory || []),
+      {
+        round: gameState.roundCount,
+        income: gameState.income,
+        expenses: gameState.expenses,
+        savings: gameState.savings,
+        debt: gameState.debt
+      }
+    ];
+
     setGameState(prev => ({ 
       ...prev, 
       isLoading: true,
-      nextStep
+      nextStep,
+      financialHistory: updatedHistory
     }));
 
     try {
@@ -299,7 +320,8 @@ export function FinancialGameSimulation({ career }: FinancialGameSimulationProps
       isLoading: false,
       roundCount: 0,
       nextStep: 'continue',
-      decisionOptions: []
+      decisionOptions: [],
+      financialHistory: []
     });
   };
 
