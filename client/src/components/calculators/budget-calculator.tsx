@@ -1,167 +1,117 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
-import { motion } from 'framer-motion';
-import { PoundSterling, Home, ShoppingBag, Car, Bus, Coffee, Film, Utensils, Smartphone, 
-  Wifi, Umbrella, Gift, DollarSign, PiggyBank, ArrowRight, RefreshCw, Info, LucideIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { PoundSterling, Home, ShoppingBag, Car, Bus, Coffee, Film, Utensils, Smartphone, Wifi, Umbrella, Gift, DollarSign, PiggyBank, ArrowRight, RefreshCw, Info, LucideIcon, CheckCircle, AlertTriangle, XCircle, ChevronUp, ChevronDown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 
-// Define budget categories with UK-specific names
+// Define types for budget categories
 interface BudgetCategory {
   id: string;
   name: string;
-  icon: React.ReactNode;
-  color: string;
-  recommended: number; // Recommended percentage for this category
   description: string;
   value: number;
+  recommended: number;
+  color?: string;
+  icon?: string;
 }
 
+// Initial categories
 const INITIAL_CATEGORIES: BudgetCategory[] = [
-  { 
-    id: 'housing', 
-    name: 'Housing & Utilities', 
-    icon: <Home className="h-4 w-4" />, 
-    color: '#2563EB', 
-    recommended: 35,
-    description: 'Rent/mortgage, council tax, water, electricity, gas, etc.',
-    value: 35
-  },
-  { 
-    id: 'groceries', 
-    name: 'Groceries', 
-    icon: <ShoppingBag className="h-4 w-4" />, 
-    color: '#16A34A', 
-    recommended: 15,
-    description: 'Food, household supplies, etc.',
-    value: 15 
-  },
-  { 
-    id: 'transport', 
-    name: 'Transport', 
-    icon: <Bus className="h-4 w-4" />, 
-    color: '#CA8A04', 
-    recommended: 10,
-    description: 'Public transport, fuel, car maintenance, insurance, etc.',
-    value: 10 
-  },
-  { 
-    id: 'entertainment', 
-    name: 'Entertainment', 
-    icon: <Film className="h-4 w-4" />, 
-    color: '#DC2626', 
-    recommended: 10,
-    description: 'Eating out, cinema, hobbies, subscriptions, etc.',
-    value: 10 
-  },
-  { 
-    id: 'communication', 
-    name: 'Communication', 
-    icon: <Smartphone className="h-4 w-4" />, 
-    color: '#7C3AED', 
-    recommended: 5,
-    description: 'Mobile phone, internet, etc.',
-    value: 5 
-  },
-  { 
-    id: 'insurance', 
-    name: 'Insurance', 
-    icon: <Umbrella className="h-4 w-4" />, 
-    color: '#0891B2', 
-    recommended: 5,
-    description: 'Health insurance, life insurance, contents insurance, etc.',
-    value: 5 
-  },
-  { 
-    id: 'personal', 
-    name: 'Personal', 
-    icon: <Gift className="h-4 w-4" />, 
-    color: '#DB2777', 
-    recommended: 5,
-    description: 'Clothing, personal care, etc.',
-    value: 5 
-  },
-  { 
-    id: 'savings', 
-    name: 'Savings & Investments', 
-    icon: <PiggyBank className="h-4 w-4" />, 
-    color: '#4F46E5', 
-    recommended: 15,
-    description: 'Emergency fund, ISAs, pension contributions, etc.',
-    value: 15 
-  }
+  { id: "housing", name: "Housing", description: "Rent, mortgage, utilities, repairs", value: 35, recommended: 30, color: "#3b82f6", icon: "🏠" },
+  { id: "transport", name: "Transportation", description: "Car payment, insurance, fuel, transit", value: 15, recommended: 15, color: "#10b981", icon: "🚗" },
+  { id: "food", name: "Food", description: "Groceries, dining out, meal delivery", value: 15, recommended: 15, color: "#f59e0b", icon: "🍔" },
+  { id: "savings", name: "Savings", description: "Emergency fund, investments, retirement", value: 10, recommended: 20, color: "#8b5cf6", icon: "💰" },
+  { id: "debt", name: "Debt Repayment", description: "Credit cards, loans, other debts", value: 10, recommended: 10, color: "#ef4444", icon: "💳" },
+  { id: "personal", name: "Personal", description: "Clothing, entertainment, hobbies", value: 10, recommended: 5, color: "#f97316", icon: "👕" },
+  { id: "other", name: "Other", description: "Miscellaneous, gifts, donations", value: 5, recommended: 5, color: "#6b7280", icon: "🎁" },
 ];
 
+// BudgetCalculator component
 export function BudgetCalculator() {
-  const { toast } = useToast();
-  const [income, setIncome] = useState<number>(2500); // Default monthly income in GBP
+  const [income, setIncome] = useState<number>(2500); // Default monthly income
   const [categories, setCategories] = useState<BudgetCategory[]>(INITIAL_CATEGORIES);
-  const [remainingPercentage, setRemainingPercentage] = useState<number>(0);
-  const [budgetHealth, setBudgetHealth] = useState<'poor' | 'average' | 'good'>('average');
   const [showResults, setShowResults] = useState<boolean>(false);
   const [showRecommendations, setShowRecommendations] = useState<boolean>(false);
-  
-  // Recalculate remaining percentage whenever categories change
-  useEffect(() => {
+  const { toast } = useToast();
+
+  // Calculate remaining percentage and budget health
+  const { remainingPercentage, budgetHealth, getBudgetHealthColor, chartData } = useMemo(() => {
     const totalAllocated = categories.reduce((sum, category) => sum + category.value, 0);
-    const newRemainingPercentage = 100 - totalAllocated;
-    setRemainingPercentage(newRemainingPercentage);
+    const remaining = 100 - totalAllocated;
+    const savingsRate = categories.find(c => c.id === 'savings')?.value || 0;
+    const debtRate = categories.find(c => c.id === 'debt')?.value || 0;
+    const housingRate = categories.find(c => c.id === 'housing')?.value || 0;
     
-    // Calculate budget health
-    const savingsCategory = categories.find(cat => cat.id === 'savings');
-    const savingsPercentage = savingsCategory ? savingsCategory.value : 0;
-    const housingCategory = categories.find(cat => cat.id === 'housing');
-    const housingPercentage = housingCategory ? housingCategory.value : 0;
+    let health: 'good' | 'average' | 'poor' = 'poor';
+    let colorClass = 'border-red-500/20 bg-red-500/5 text-red-500';
     
-    if (savingsPercentage >= 20 && housingPercentage <= 30 && newRemainingPercentage >= 0) {
-      setBudgetHealth('good');
-    } else if (savingsPercentage >= 10 && housingPercentage <= 40 && newRemainingPercentage >= 0) {
-      setBudgetHealth('average');
-    } else {
-      setBudgetHealth('poor');
-    }
-  }, [categories]);
-  
-  // Handle slider change
-  const handleCategoryChange = (categoryId: string, newValue: number[]) => {
-    const updatedCategories = categories.map(category => {
-      if (category.id === categoryId) {
-        return { ...category, value: newValue[0] };
+    if (remaining === 0) {
+      if (savingsRate >= 15 && debtRate >= 10 && housingRate <= 35) {
+        health = 'good';
+        colorClass = 'border-green-500/20 bg-green-500/5 text-green-500';
+      } else if (savingsRate >= 10 && housingRate <= 40) {
+        health = 'average';
+        colorClass = 'border-amber-500/20 bg-amber-500/5 text-amber-500';
       }
-      return category;
-    });
-    
-    setCategories(updatedCategories);
-  };
-  
-  // Handle income change
-  const handleIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newIncome = Number(e.target.value);
-    if (!isNaN(newIncome) && newIncome >= 0) {
-      setIncome(newIncome);
     }
-  };
-  
-  // Reset to recommended allocations
-  const resetToRecommended = () => {
-    const recommendedCategories = categories.map(category => ({
-      ...category,
-      value: category.recommended
+    
+    // Prepare chart data
+    const data = categories.map(category => ({
+      name: category.name,
+      value: category.value,
+      color: category.color,
+      amount: (category.value / 100) * income
     }));
     
-    setCategories(recommendedCategories);
+    return { 
+      remainingPercentage: remaining, 
+      budgetHealth: health, 
+      getBudgetHealthColor: () => colorClass,
+      chartData: data
+    };
+  }, [categories, income]);
+
+  // Handle income change
+  const handleIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setIncome(value >= 0 ? value : 0);
+  };
+
+  // Handle category value change
+  const handleCategoryChange = (categoryId: string, value: number[]) => {
+    const newValue = value[0] !== undefined ? Math.max(0, Math.min(100, Math.round(value[0]))) : 0;
+    setCategories(prev => 
+      prev.map(cat => 
+        cat.id === categoryId ? { ...cat, value: newValue } : cat
+      )
+    );
+    setShowResults(false);
+  };
+
+  // Reset to recommended values
+  const resetToRecommended = () => {
+    setCategories(prev => 
+      prev.map(cat => ({ ...cat, value: cat.recommended }))
+    );
+    setShowResults(false);
     toast({
-      title: "Budget Reset",
-      description: "Your budget has been reset to recommended allocations.",
+      title: "Reset to Recommended",
+      description: "Budget allocations have been reset to recommended values.",
       variant: "default"
     });
   };
-  
+
+  // Toggle recommendations visibility
+  const toggleRecommendations = () => {
+    setShowRecommendations(!showRecommendations);
+  };
+
   // Calculate budget
   const calculateBudget = () => {
     if (remainingPercentage !== 0) {
@@ -200,62 +150,32 @@ export function BudgetCalculator() {
       variant: budgetHealth === 'poor' ? "destructive" : (budgetHealth === 'average' ? "default" : "default")
     });
   };
-  
-  // Prepare data for chart
-  const chartData = categories.map(category => ({
-    name: category.name,
-    value: category.value,
-    color: category.color,
-    amount: (category.value / 100) * income
-  }));
-  
-  // Get budget health color
-  const getBudgetHealthColor = () => {
-    switch (budgetHealth) {
-      case 'good': return 'bg-green-100 text-green-800 hover:bg-green-200';
-      case 'average': return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200';
-      case 'poor': return 'bg-red-100 text-red-800 hover:bg-red-200';
-      default: return 'bg-gray-100 text-gray-800 hover:bg-gray-200';
-    }
-  };
-  
-  // Generate budget recommendations
+
+  // Get budget recommendations
   const getBudgetRecommendations = () => {
-    const recommendations = [];
+    const savingsRate = categories.find(c => c.id === 'savings')?.value || 0;
+    const housingRate = categories.find(c => c.id === 'housing')?.value || 0;
+    const debtRate = categories.find(c => c.id === 'debt')?.value || 0;
+    const recommendations: string[] = [];
     
-    // Check savings rate
-    const savingsCategory = categories.find(cat => cat.id === 'savings');
-    if (savingsCategory && savingsCategory.value < 15) {
-      recommendations.push("Consider increasing your savings rate to at least 15-20% of your income for long-term financial health.");
+    if (savingsRate < 15) {
+      recommendations.push("Aim to save at least 15-20% of your income for financial security and future goals.");
     }
-    
-    // Check housing costs
-    const housingCategory = categories.find(cat => cat.id === 'housing');
-    if (housingCategory && housingCategory.value > 40) {
-      recommendations.push("Your housing costs are high. The recommended percentage is 30-35% of your income.");
+    if (housingRate > 35) {
+      recommendations.push("Housing costs should ideally be under 30-35% of income. Consider ways to reduce this if possible.");
     }
-    
-    // Check entertainment spending
-    const entertainmentCategory = categories.find(cat => cat.id === 'entertainment');
-    if (entertainmentCategory && entertainmentCategory.value > 15) {
-      recommendations.push("Your entertainment spending is higher than recommended. Consider reducing it to 10-15% of your income.");
+    if (debtRate < 10 && debtRate > 0) {
+      recommendations.push("Try to allocate at least 10% to debt repayment to pay it off faster and save on interest.");
     }
-    
-    // Add a general recommendation if none specific
-    if (recommendations.length === 0) {
-      recommendations.push("Your budget looks well-balanced! Continue to monitor and adjust as your financial situation changes.");
-    }
+    recommendations.push("Review discretionary spending (personal, entertainment) to find potential savings.");
+    recommendations.push("Consider the 50/30/20 rule: 50% needs, 30% wants, 20% savings/debt repayment.");
     
     return recommendations;
   };
   
-  const toggleRecommendations = () => {
-    setShowRecommendations(!showRecommendations);
-  };
-  
   return (
     <Card className="w-full shadow-lg border-2">
-      <CardHeader className="bg-slate-50 dark:bg-slate-900">
+      <CardHeader className="p-6">
         <div className="flex justify-between items-center">
           <div>
             <CardTitle className="text-xl font-semibold flex items-center">
@@ -467,4 +387,17 @@ export function BudgetCalculator() {
       )}
     </Card>
   );
+}
+
+function getBudgetHealthMessage(budgetHealth: string): string {
+  switch (budgetHealth) {
+    case 'good':
+      return "Your budget is well-balanced with a good savings rate. Keep up the great work!";
+    case 'average':
+      return "Your budget is reasonable, but consider increasing your savings for better financial health.";
+    case 'poor':
+      return "Consider reducing some expenses to increase your savings and improve your budget health.";
+    default:
+      return "";
+  }
 }

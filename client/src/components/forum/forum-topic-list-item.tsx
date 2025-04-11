@@ -4,6 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CalendarDays, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 
 interface ForumTopicListItemProps {
   topic: ForumTopic;
@@ -52,36 +53,48 @@ export default function ForumTopicListItem({ topic }: ForumTopicListItemProps) {
     return (names[0][0] + names[1][0]).toUpperCase();
   };
 
-  const [, setLocation] = useLocation();
+  const [_, setLocation] = useLocation();
 
   return (
-    <div
-      onClick={() => setLocation(`/forum/topics/${id}`)}
-      className="py-4 hover:bg-muted/30 px-2 rounded-md transition-colors cursor-pointer"
+    <motion.div 
+      className="border-b border-border last:border-b-0 hover:bg-accent/50"
+      whileHover={{ x: 4 }}
+      transition={{ duration: 0.2 }}
+      onClick={() => setLocation(`/forum/topics/${categoryId}/${id}`)}
     >
-      <div className="flex items-start gap-4">
-        <Avatar className="hidden sm:flex h-10 w-10">
-          <AvatarImage src={user?.avatar} alt={user?.username || "User"} />
-          <AvatarFallback>{getUserInitials()}</AvatarFallback>
-        </Avatar>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-3 cursor-pointer">
+        <div className="flex flex-1 items-center gap-3 overflow-hidden">
+          <Avatar className="w-10 h-10 rounded-full border-2 border-background shrink-0">
+            {user?.avatar ? (
+              <AvatarImage src={user.avatar} alt={user?.username || "User"} />
+            ) : (
+              <AvatarFallback>{getUserInitials()}</AvatarFallback>
+            )}
+          </Avatar>
+          
+          <div className="flex flex-col min-w-0 flex-1">
+            <div className="font-medium leading-tight truncate hover:text-primary transition-colors">{title}</div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mt-0.5 flex-wrap">
+              <span className="truncate">{user?.username || "Unknown User"}</span>
+              {isPinned && <Badge variant="secondary" className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">Pinned</Badge>}
+              {isLocked && <Badge variant="destructive">Locked</Badge>}
+            </div>
+          </div>
+        </div>
         
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="font-medium line-clamp-1">{title}</h3>
-            {isPinned && <Badge variant="secondary">Pinned</Badge>}
-            {isLocked && <Badge variant="outline">Locked</Badge>}
+        <div className="flex sm:w-auto items-center gap-4 text-sm whitespace-nowrap justify-end flex-0.5 sm:flex-0.7">
+          <div className="hidden sm:flex items-center gap-1 text-muted-foreground w-24">
+            <CalendarDays className="h-3 w-3" />
+            {formattedDate}
           </div>
           
-          <div className="text-sm text-muted-foreground flex flex-wrap items-center gap-x-4 mt-1">
-            <span className="flex items-center gap-1">
-              <CalendarDays className="h-3 w-3" />
-              {formattedDate}
-            </span>
-            
-            <span>
-              By {user?.username || "Anonymous"}
-            </span>
-            
+          <div className="hidden md:flex flex-col items-end text-muted-foreground w-24">
+            {lastPostAt && (
+              <span className="text-xs">{lastPostDate}</span>
+            )}
+          </div>
+          
+          <div className="flex items-center justify-end w-24 gap-1 text-muted-foreground">
             {postCount > 0 && (
               <span className="flex items-center gap-1">
                 <MessageCircle className="h-3 w-3" />
@@ -90,18 +103,7 @@ export default function ForumTopicListItem({ topic }: ForumTopicListItemProps) {
             )}
           </div>
         </div>
-        
-        <div className="hidden sm:block text-right text-sm">
-          <div className="text-muted-foreground">
-            {views} {views === 1 ? "view" : "views"}
-          </div>
-          {lastPostAt && (
-            <div className="text-muted-foreground mt-1 text-xs">
-              Last post {lastPostDate}
-            </div>
-          )}
-        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

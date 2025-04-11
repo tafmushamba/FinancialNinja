@@ -58,53 +58,54 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, hideHeader = false })
   const isSpecialPage = location === '/financial-game' || location === '/life-simulation';
 
   return (
-    <div className={cn(
-      "flex min-h-screen bg-background text-foreground overflow-hidden",
-      isSpecialPage ? "bg-gradient-to-br from-blue-950 to-purple-950" : ""
-    )}>
-      {/* Sidebar - hidden on mobile and special pages */}
-      {!isSpecialPage && (
-        <aside className={cn(
-          "hidden md:block transition-all duration-300 ease-in-out h-screen fixed top-0 left-0 z-30",
-          isSidebarOpen ? "w-64" : "w-20"
+    <div className="flex min-h-screen flex-col">
+      <div className="flex flex-1">
+        {/* Sidebar - hidden on mobile and special pages */}
+        {!isSpecialPage && (
+          <aside className={cn(
+            "hidden md:block transition-all duration-300 ease-in-out h-screen fixed top-0 left-0 z-30",
+            isSidebarOpen ? "w-64" : "w-20"
+          )}>
+            <Sidebar collapsed={!isSidebarOpen} />
+          </aside>
+        )}
+        
+        {/* Main Content */}
+        <div className={cn(
+          "flex-1 transition-all duration-300",
+          !isSpecialPage ? (isSidebarOpen ? "md:ml-64" : "md:ml-20") : ""
         )}>
-          <Sidebar collapsed={!isSidebarOpen} />
-        </aside>
-      )}
-      
-      {/* Main content area */}
-      <div className={cn(
-        "flex flex-col flex-1 w-full",
-        !isSpecialPage ? (isSidebarOpen ? "md:ml-64" : "md:ml-20") : ""
-      )}>
-        {/* Top header - hidden on special pages or when hideHeader is true */}
-        {!isSpecialPage && !hideHeader && (
-          <Header 
-            title={getPageTitle()}
-            toggleSidebar={toggleSidebar} 
-            isSidebarOpen={isSidebarOpen}
-            toggleMobileMenu={toggleMobileMenu}
-          />
-        )}
-        
-        {/* Mobile navigation overlay - only rendered when menu is open and not on special pages */}
-        {!isSpecialPage && isMobileMenuOpen && (
-          <MobileNav isOpen={isMobileMenuOpen} toggleMenu={toggleMobileMenu} />
-        )}
-        
-        {/* Main page content */}
-        <motion.main 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className={cn(
-            "flex-1 overflow-y-auto",
-            isSpecialPage ? "p-0 pb-0" : "p-4 md:p-6 pb-20 md:pb-10",
-            !isSpecialPage && !hideHeader ? "mt-16" : ""
+          {/* Top header - hidden on special pages or when hideHeader is true */}
+          {!isSpecialPage && !hideHeader && (
+            <header className="sticky top-0 z-30 bg-background/50 backdrop-blur supports-[backdrop-filter]:bg-background/50 border-b border-border/30 px-4 md:px-6 h-16 flex items-center justify-between shadow-xs">
+              <Header 
+                title={getPageTitle()}
+                toggleSidebar={toggleSidebar} 
+                isSidebarOpen={isSidebarOpen}
+                toggleMobileMenu={toggleMobileMenu}
+              />
+            </header>
           )}
-        >
-          {children}
-        </motion.main>
+          
+          {/* Mobile navigation overlay - only rendered when menu is open and not on special pages */}
+          {!isSpecialPage && isMobileMenuOpen && (
+            <MobileNav isOpen={isMobileMenuOpen} toggleMenu={toggleMobileMenu} />
+          )}
+          
+          {/* Main page content */}
+          <motion.main 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className={cn(
+              "flex-1 overflow-y-auto",
+              isSpecialPage ? "p-0 pb-0" : "p-4 md:p-6 pb-20 md:pb-10",
+              !isSpecialPage && !hideHeader ? "" : ""
+            )}
+          >
+            {children}
+          </motion.main>
+        </div>
       </div>
       
       {/* Decorative elements */}

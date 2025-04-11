@@ -41,16 +41,6 @@ export default function FinancialCalculators() {
     >
       <div className="container mx-auto px-4 py-12">
         <div className="mb-10">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleBack}
-            className="mb-6 gap-2 text-sm text-muted-foreground hover:bg-accent/10 hover:text-accent"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
-          </Button>
-          
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
