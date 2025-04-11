@@ -31,7 +31,7 @@ const rewards: Reward[] = [
     pointsRequired: 500,
     icon: '☕',
     category: 'Dining',
-    image: 'https://logos-download.com/wp-content/uploads/2016/06/Costa_Coffee_logo.png'
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/8/88/Costa_Coffee_logo.svg/1200px-Costa_Coffee_logo.svg.png'
   },
   {
     id: 'tesco',
@@ -41,7 +41,7 @@ const rewards: Reward[] = [
     pointsRequired: 1000,
     icon: '🛒',
     category: 'Shopping',
-    image: 'https://logos-download.com/wp-content/uploads/2016/03/Tesco_Logo.png'
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Tesco_Logo.svg/1200px-Tesco_Logo.svg.png'
   },
   {
     id: 'vue',
@@ -51,7 +51,7 @@ const rewards: Reward[] = [
     pointsRequired: 1200,
     icon: '🎬',
     category: 'Entertainment',
-    image: 'https://logos-download.com/wp-content/uploads/2016/09/Vue_logo_logotype.png'
+    image: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/Vue_logo.svg/1200px-Vue_logo.svg.png'
   },
   {
     id: 'spotify',
