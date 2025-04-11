@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useGamification } from '@/context/GamificationContext';
 import { cn } from "@/lib/utils";
