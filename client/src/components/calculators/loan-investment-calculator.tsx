@@ -633,15 +633,19 @@ export function LoanInvestmentCalculator() {
   };
   
   return (
-    <Card className="w-full shadow-lg">
-      <CardHeader className="bg-slate-50 dark:bg-slate-900">
-        <CardTitle className="text-xl font-semibold flex items-center">
-          <Calculator className="mr-2 h-5 w-5 text-primary" />
-          Financial Calculator
-        </CardTitle>
-        <CardDescription>
-          Calculate loan repayments and investment growth over time
-        </CardDescription>
+    <Card className="w-full shadow-lg border-2">
+      <CardHeader className="p-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <CardTitle className="text-xl font-semibold flex items-center">
+              <Calculator className="mr-2 h-5 w-5 text-primary" />
+              Financial Calculator
+            </CardTitle>
+            <CardDescription>
+              Calculate loan repayments and investment growth over time
+            </CardDescription>
+          </div>
+        </div>
       </CardHeader>
       
       <Tabs 

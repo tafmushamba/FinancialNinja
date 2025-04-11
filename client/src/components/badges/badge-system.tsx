@@ -346,7 +346,7 @@ interface BadgeCardProps {
 export const BadgeCard: React.FC<BadgeCardProps> = ({ badge, showDetails = false, onClick }) => {
   return (
     <Card 
-      className={`overflow-hidden transition-all duration-300 hover:shadow-lg ${badge.unlocked ? 'bg-white dark:bg-slate-800' : 'bg-gray-100 dark:bg-slate-900/50 opacity-70'}`}
+      className={`overflow-hidden transition-all duration-300 hover:shadow-lg ${badge.unlocked ? '' : 'bg-gray-100 dark:bg-slate-900/50 opacity-70'}`}
       onClick={onClick}
     >
       <CardContent className="p-4">
@@ -466,7 +466,7 @@ export const BadgeGrid: React.FC<BadgeGridProps> = ({ badges, onBadgeClick, filt
   return (
     <div className="space-y-6">
       {/* Badge Progress Overview */}
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-4">
+      <div className="rounded-lg shadow p-4 border border-border/30">
         <h2 className="text-xl font-semibold mb-3">Your Badge Collection</h2>
         <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
           <span>Progress</span>
