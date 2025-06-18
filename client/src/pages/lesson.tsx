@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatTimeRemaining } from '@/lib/utils';
+import { formatTimeRemaining, getAccentColorClass } from '@/lib/utils';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
@@ -16,7 +16,7 @@ const LessonPage: React.FC = () => {
   const [, setLocation] = useLocation();
   const [darkThemeStylesLoaded, setDarkThemeStylesLoaded] = useState(false);
 
-  const { data: lessonData, isLoading } = useQuery({
+  const { data: lessonData, isLoading } = useQuery<any>({
     queryKey: [`/api/learning/lessons/${lessonId}`],
     enabled: !!lessonId,
   });
@@ -146,7 +146,7 @@ const LessonPage: React.FC = () => {
     );
   }
 
-  if (!lessonData) {
+  if (!lessonData || !lessonData.lesson) {
     return (
       <div className="container mx-auto py-8 px-4 text-center">
         <p>Lesson not found</p>
@@ -170,11 +170,11 @@ const LessonPage: React.FC = () => {
         <ChevronLeft className="mr-2 h-4 w-4" /> Back to module
       </Button>
 
-      <Card className={`mb-6 bg-dark-800 border-${accentColor}`}>
+      <Card className={`mb-6 bg-dark-800 ${getAccentColorClass(accentColor, 'border')}`}>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className={`text-${accentColor} text-2xl`}>{lesson.title}</CardTitle>
+              <CardTitle className={`text-2xl ${getAccentColorClass(accentColor, 'text')}`}>{lesson.title}</CardTitle>
               <p className="text-gray-400 mt-1">Module: {module.title}</p>
             </div>
             <div className="flex items-center text-gray-400">
@@ -202,7 +202,14 @@ const LessonPage: React.FC = () => {
                 lessonId: lesson.id
               }
             })}
-            className={`border-${accentColor} bg-${accentColor} text-black hover:bg-${accentColor}/90`}
+            className="text-black cursor-pointer transition-colors"
+            style={{
+              backgroundColor: accentColor === 'neon-green' ? '#00ff41' : 
+                            accentColor === 'neon-cyan' ? '#00e5ff' : 
+                            accentColor === 'neon-purple' ? '#a742f5' : 
+                            accentColor === 'neon-pink' ? '#ff3e3e' : 
+                            accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41'
+            }}
             size="lg"
           >
             Take Quiz
@@ -218,7 +225,19 @@ const LessonPage: React.FC = () => {
           <Button 
             variant="outline"
             onClick={() => navigateToLesson(navigation.prev.id)}
-            className={`border-${accentColor} text-${accentColor} hover:bg-${accentColor} hover:text-black`}
+            className="border border-input bg-background cursor-pointer transition-colors"
+            style={{
+              color: accentColor === 'neon-green' ? '#00ff41' : 
+                    accentColor === 'neon-cyan' ? '#00e5ff' : 
+                    accentColor === 'neon-purple' ? '#a742f5' : 
+                    accentColor === 'neon-pink' ? '#ff3e3e' : 
+                    accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41',
+              borderColor: accentColor === 'neon-green' ? '#00ff41' : 
+                          accentColor === 'neon-cyan' ? '#00e5ff' : 
+                          accentColor === 'neon-purple' ? '#a742f5' : 
+                          accentColor === 'neon-pink' ? '#ff3e3e' : 
+                          accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41'
+            }}
           >
             <ChevronLeft className="mr-2 h-4 w-4" />
             Previous: {navigation.prev.title}
@@ -231,7 +250,19 @@ const LessonPage: React.FC = () => {
           <Button 
             variant="outline"
             onClick={() => navigateToLesson(navigation.next.id)}
-            className={`border-${accentColor} text-${accentColor} hover:bg-${accentColor} hover:text-black`}
+            className="border border-input bg-background cursor-pointer transition-colors"
+            style={{
+              color: accentColor === 'neon-green' ? '#00ff41' : 
+                    accentColor === 'neon-cyan' ? '#00e5ff' : 
+                    accentColor === 'neon-purple' ? '#a742f5' : 
+                    accentColor === 'neon-pink' ? '#ff3e3e' : 
+                    accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41',
+              borderColor: accentColor === 'neon-green' ? '#00ff41' : 
+                          accentColor === 'neon-cyan' ? '#00e5ff' : 
+                          accentColor === 'neon-purple' ? '#a742f5' : 
+                          accentColor === 'neon-pink' ? '#ff3e3e' : 
+                          accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41'
+            }}
           >
             Next: {navigation.next.title}
             <ChevronRight className="ml-2 h-4 w-4" />
@@ -240,7 +271,19 @@ const LessonPage: React.FC = () => {
           <Button 
             variant="outline"
             onClick={handleGoBack}
-            className={`border-${accentColor} text-${accentColor} hover:bg-${accentColor} hover:text-black`}
+            className="border border-input bg-background cursor-pointer transition-colors"
+            style={{
+              color: accentColor === 'neon-green' ? '#00ff41' : 
+                    accentColor === 'neon-cyan' ? '#00e5ff' : 
+                    accentColor === 'neon-purple' ? '#a742f5' : 
+                    accentColor === 'neon-pink' ? '#ff3e3e' : 
+                    accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41',
+              borderColor: accentColor === 'neon-green' ? '#00ff41' : 
+                          accentColor === 'neon-cyan' ? '#00e5ff' : 
+                          accentColor === 'neon-purple' ? '#a742f5' : 
+                          accentColor === 'neon-pink' ? '#ff3e3e' : 
+                          accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41'
+            }}
           >
             Complete Module
             <ChevronRight className="ml-2 h-4 w-4" />

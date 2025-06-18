@@ -4,14 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatTimeRemaining } from '@/lib/utils';
+import { formatTimeRemaining, getAccentColorClass } from '@/lib/utils';
 import { ChevronLeft, ChevronRight, Clock, BookOpen } from 'lucide-react';
 
 const ModuleDetailPage: React.FC = () => {
   const { moduleId } = useParams();
   const [, setLocation] = wouterUseLocation();
 
-  const { data: moduleData, isLoading } = useQuery({
+  const { data: moduleData, isLoading } = useQuery<any>({
     queryKey: [`/api/learning/modules/${moduleId}/lessons`],
     enabled: !!moduleId,
   });
@@ -84,9 +84,9 @@ const ModuleDetailPage: React.FC = () => {
         <ChevronLeft className="mr-2 h-4 w-4" /> Back to all modules
       </Button>
 
-      <Card className={`mb-6 bg-dark-800 border-${accentColor}`}>
+      <Card className={`mb-6 bg-dark-800 ${getAccentColorClass(accentColor, 'border')}`}>
         <CardHeader>
-          <CardTitle className={`text-${accentColor} text-2xl`}>{moduleTitle}</CardTitle>
+          <CardTitle className={`text-2xl ${getAccentColorClass(accentColor, 'text')}`}>{moduleTitle}</CardTitle>
           <CardDescription className="text-gray-400">{moduleDescription}</CardDescription>
         </CardHeader>
       </Card>
@@ -95,7 +95,7 @@ const ModuleDetailPage: React.FC = () => {
 
       <div className="space-y-4">
         {lessons.map((lesson: any, index: number) => (
-          <Card key={lesson.id} className={`bg-dark-800 hover:bg-dark-700 transition-colors border-dark-600 hover:border-${accentColor}`}>
+          <Card key={lesson.id} className={`bg-dark-800 hover:bg-dark-700 transition-colors border-dark-600 ${getAccentColorClass(accentColor, 'hover-border')}`}>
             <CardContent className="p-4">
               <div className="flex justify-between items-center">
                 <div className="space-y-1">
@@ -109,7 +109,14 @@ const ModuleDetailPage: React.FC = () => {
                 </div>
                 <Button 
                   onClick={() => navigateToLesson(lesson.id)}
-                  className={`bg-${accentColor} hover:bg-${accentColor}/80 text-black`}
+                  className="text-black cursor-pointer transition-colors"
+                  style={{
+                    backgroundColor: accentColor === 'neon-green' ? '#00ff41' : 
+                                  accentColor === 'neon-cyan' ? '#00e5ff' : 
+                                  accentColor === 'neon-purple' ? '#a742f5' : 
+                                  accentColor === 'neon-pink' ? '#ff3e3e' : 
+                                  accentColor === 'neon-yellow' ? '#ffbb00' : '#00ff41'
+                  }}
                   size="sm"
                 >
                   <BookOpen className="h-4 w-4 mr-2" />
